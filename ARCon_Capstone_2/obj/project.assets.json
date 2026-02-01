@@ -6897,11 +6897,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj",
+      "projectUniqueName": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj",
       "projectName": "ARCon_Capstone_2",
-      "projectPath": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj",
+      "projectPath": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj",
       "packagesPath": "C:\\Users\\marvinpc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\obj\\",
+      "outputPath": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
