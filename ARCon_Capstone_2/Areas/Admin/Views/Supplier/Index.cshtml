@@ -1,0 +1,209 @@
+﻿<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Suppliers</h4>
+
+        <div class="row mb-3">
+            <div class="col-auto">
+        <input id="supplierSearchInput"
+               class="form-control"
+                   style="width: 620px;"
+               placeholder="Search suppliers..."
+               onkeyup="if(event.key==='Enter') applySupplierSearch()">
+            </div>
+        </div>
+    <button class="btn btn-primary" onclick="openCreateSupplierModal()">
+        + New Supplier
+    </button>
+</div>
+
+<!--Rows of suppliers-->
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th onclick="sortSuppliers('supplier_name')">Supplier Name</th>
+            <th onclick="sortSuppliers('supplier_rep')">Rep Name</th>
+            <th onclick="sortSuppliers('rep_contact_no')">Rep Contact</th>
+            <th onclick="sortSuppliers('rep_email')">Rep Email</th>
+            <th onclick="sortSuppliers('dti_business_number')">DTI No</th>
+            <th onclick="sortSuppliers('city')">City</th>
+            <th onclick="sortSuppliers('province')">Province</th>
+            <th onclick="sortSuppliers('created_at')">Created At</th>
+            <th onclick="sortSuppliers('updated_at')">Updated At</th>
+            <th onclick="sortSuppliers('status')">Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="supplierTableBody">
+        <!-- injected by JS -->
+    </tbody>
+</table>
+
+<!-- SUPPLIER MODAL -->
+<div class="modal fade" id="supplierModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="supplierModalTitle">Create Supplier</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <!-- TAB NAV -->
+                <ul class="nav nav-tabs mb-3" id="supplierTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active"
+                                id="business-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#businessTab"
+                                type="button"
+                                role="tab">
+                            Business Info
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="address-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#addressTab"
+                                type="button"
+                                role="tab">
+                            Address
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- TAB CONTENT -->
+                <div class="tab-content">
+
+                    <!-- ================= BUSINESS INFO TAB ================= -->
+                    <div class="tab-pane fade show active" id="businessTab" role="tabpanel">
+
+                        <h6 class="border-bottom pb-1 mb-3">Basic Information</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Supplier Name</label>
+                                <input id="supplierName" class="form-control">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Official Website</label>
+                                <input id="officialWebsite" class="form-control">
+                            </div>
+                        </div>
+
+                        <h6 class="border-bottom pb-1 mt-4 mb-3">Proprietor Details</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Proprietor Name</label>
+                                <input id="proprietorName" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Contact No</label>
+                                <input id="proprietorContactNo" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Landline</label>
+                                <input id="landlineNo" class="form-control">
+                            </div>
+                        </div>
+
+                        <h6 class="border-bottom pb-1 mt-4 mb-3">Business Registration</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">DTI Business No</label>
+                                <input id="dtiBusinessNumber" class="form-control">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">TIN No</label>
+                                <input id="tinNumber" class="form-control">
+                            </div>
+                        </div>
+
+                        <h6 class="border-bottom pb-1 mt-4 mb-3">Supplier Representative</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Representative Name</label>
+                                <input id="supplierRep" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Email</label>
+                                <input id="repEmail" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Contact No</label>
+                                <input id="repContactNo" class="form-control">
+                            </div>
+                        </div>
+
+                        <h6 class="border-bottom pb-1 mt-4 mb-3">Notes</h6>
+                        <textarea id="notes" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <!-- ================= ADDRESS TAB ================= -->
+                    <div class="tab-pane fade" id="addressTab" role="tabpanel">
+
+                        <h6 class="border-bottom pb-1 mb-3">Business Address</h6>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">House / Unit</label>
+                                <input id="houseUnit" class="form-control">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Street</label>
+                                <input id="streetName" class="form-control">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Barangay</label>
+                                <input id="barangay" class="form-control">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">City</label>
+                                <input id="city" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Province</label>
+                                <input id="province" class="form-control">
+                            </div>
+
+                            <div class="col-md-8">
+                                <label class="form-label">Landmark</label>
+                                <input id="landmark" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="supplierSaveBtn"class="btn btn-primary" onclick="submitSupplier()">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<nav class="mt-3">
+    <ul id="pagination" class="pagination pagination-sm mb-0">
+        <!-- injected by JS -->
+    </ul>
+</nav>
+
+
+<script src="~/js/suppliers.js"></script>

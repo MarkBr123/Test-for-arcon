@@ -1,0 +1,243 @@
+﻿/* =====================================================
+   BASE / GLOBAL
+===================================================== */
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #f8f9fa;
+    font-family: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.45;
+}
+
+/* Bootstrap focus override */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem #ffffff, 0 0 0 0.2rem #258cfb;
+}
+
+/* =====================================================
+   LAYOUT
+===================================================== */
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+.content {
+    margin-left: 260px;
+    width: 100%;
+}
+
+/* =====================================================
+   TOP NAVBAR
+===================================================== */
+.top-navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+}
+
+/* =====================================================
+   FORMS
+===================================================== */
+.form-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.form-control,
+.form-select {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+}
+
+    .form-control::placeholder {
+        font-size: 0.75rem;
+        color: #adb5bd;
+    }
+
+.form-check-label {
+    font-size: 0.75rem;
+}
+
+/* Validation */
+.input-error,
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+    .input-error:focus,
+    .is-invalid:focus {
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+
+/* =====================================================
+   TABLES (CONSISTENT & COMPACT)
+===================================================== */
+.table {
+    font-size: 0.8rem;
+}
+
+    .table thead th {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #6c757d;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        padding: 8px 10px;
+    }
+
+    .table tbody td {
+        padding: 8px 10px;
+        vertical-align: middle;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+.btn {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.btn-sm {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+}
+
+/* =====================================================
+   TAG PILLS
+===================================================== */
+.tag-pill {
+    max-width: 220px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    background-color: #e9f5ff;
+    color: #0d6efd;
+    font-size: 0.7rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+}
+
+/* =====================================================
+   SECTION TITLES
+===================================================== */
+.product-section-title {
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+    color: #6c757d;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 991px) {
+    .content {
+        margin-left: 220px;
+    }
+}
+
+
+/* Sidebar */
+.sidebar {
+    width: 210px;
+    background: #212529;
+    color: #fff;
+    padding-top: 20px;
+    position: fixed;
+    height: 100vh;
+}
+
+.logo-placeholder {
+    height: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #0d6efd;
+}
+
+.list-group-item {
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-weight: 450;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+    .list-group-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #0d6efd;
+    }
+
+/* Submenu */
+.submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #212529;
+    min-width: 220px;
+    display: none;
+    flex-direction: column;
+    border-left: 2px solid #0d6efd;
+    z-index: 100;
+}
+
+    .submenu a {
+        color: #ccc;
+        padding: 10px 15px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .submenu a:hover {
+            color: #0d6efd;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+.has-submenu:hover > .submenu {
+    display: flex;
+}
+
+

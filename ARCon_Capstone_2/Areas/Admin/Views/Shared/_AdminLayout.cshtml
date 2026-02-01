@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Airconi Trading Admin</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+
+</head>
+
+<body>
+
+    <div class="admin-wrapper">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo-placeholder">
+                <img src="https://i.ibb.co/dwMnVwsy/viber-image-2025-02-26-11-52-20-846.png"" width="160" height="160" alt="Logo">
+                <!-- HOME -->
+                <!-- SALES & PROMOTIONS -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="Home">
+                    <i class="bi bi-tags-fill"></i> Home
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-receipt"></i>My Ecommerce Page</a>
+                    </div>
+                </div>
+
+                <!-- SALES & PROMOTIONS -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="View Sales and Promotions">
+                    <i class="bi bi-tags-fill"></i> Sales & Promotions
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-receipt"></i> Sales Invoices</a>
+                        <a href="#"><i class="bi bi-graph-up"></i> View Sales Report</a>
+                        <a href="#"><i class="bi bi-megaphone"></i> View Promotions</a>
+                        <a href="#"><i class="bi bi-file-earmark-post"></i> Post Promotion Report</a>
+                    </div>
+                </div>
+
+                <!-- USERS & ROLES -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="Manage Users and Roles">
+                    <i class="bi bi-people-fill"></i> Users & Roles
+                    <div class="submenu">
+                        <a href="https://localhost:7224/admin/adminusers"><i class="bi bi-person-badge"></i> Admin Users</a>
+                        <a href="#"><i class="bi bi-person"></i> Customers</a>
+                        <a href="#"><i class="bi bi-shield-lock"></i> Roles</a>
+                    </div>
+                </div>
+
+                <!-- CUSTOMER ORDERS -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="Manage Customer Orders">
+                    <i class="bi bi-cart4"></i> Customer Orders
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-hourglass-split"></i> Pending</a>
+                        <a href="#"><i class="bi bi-truck"></i> To Pack</a>
+                        <a href="#"><i class="bi bi-truck"></i> To Ship</a>
+                        <a href="#"><i class="bi bi-send"></i> In Transit</a>
+                        <a href="#"><i class="bi bi-check2-circle"></i> Delivered</a>
+                        <a href="#"><i class="bi bi-send"></i> Cancelled</a>
+                        <a href="#"><i class="bi bi-bell"></i> Orders Notification</a>
+                    </div>
+                </div>
+
+                <!-- PRODUCT INVENTORY -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="Manage Product Inventory">
+                    <i class="bi bi-box-seam"></i> Product Inventory
+                    <div class="submenu">
+                        <a href="https://localhost:7224/admin/products"><i class="bi bi-box"></i> Products</a>
+                        <a href="#"><i class="bi bi-box"></i> Inventory</a>
+                        <a href="#"><i class="bi bi-plus-square"></i> Purchase Orders</a>
+                        <a href="#"><i class="bi bi-plus-square"></i> Supplier Returns</a>
+                        <a href="#"><i class="bi bi-bell-fill"></i> Inventory Notification</a>
+                    </div>
+                </div>
+
+                <!-- SERVICES -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="Manage Services">
+                    <i class="bi bi-tools"></i> Services
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-clipboard-check"></i> Service Request Queue</a>
+                        <a href="#"><i class="bi bi-calendar3"></i> Services Calendar</a>
+                        <a href="#"><i class="bi bi-clipboard"></i> Pending</a>
+                        <a href="#"><i class="bi bi-gear"></i> In-Progress</a>
+                        <a href="#"><i class="bi bi-pause-circle"></i> On Hold</a>
+                        <a href="#"><i class="bi bi-arrow-repeat"></i> Re-processed</a>
+                        <a href="#"><i class="bi bi-check-circle"></i> Completed Services</a>
+                        <a href="#"><i class="bi bi-x-circle"></i> Cancelled Services</a>
+                        <a href="#"><i class="bi bi-bell"></i> Service Notifications</a>
+                    </div>
+                </div>
+
+                <!-- TECHNICIAN SCHEDULING -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="View Technician Scheduling">
+                    <i class="bi bi-person-gear"></i> Technician Scheduling
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-calendar-week"></i> Technician Roster</a>
+                        <a href="#"><i class="bi bi-bell"></i> Technician Notification</a>
+                    </div>
+                </div>
+
+                <!-- WARRANTIES -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="Manage Warranties">
+                    <i class="bi bi-shield-check"></i> Warranties
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-box-seam"></i> Product Warranties</a>
+                        <a href="#"><i class="bi bi-wrench"></i> Service Warranties</a>
+                        <a href="#"><i class="bi bi-bell"></i> Notifications</a>
+                    </div>
+                </div>
+
+                <!-- CSM -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="Customer Service Management">
+                    <i class="bi bi-chat-left-dots-fill"></i> CSM
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-envelope"></i> All Messages</a>
+                        <a href="#"><i class="bi bi-person-check"></i> Registered Customers</a>
+                        <a href="#"><i class="bi bi-person-x"></i> Unregistered Customers</a>
+                        <a href="#"><i class="bi bi-person-workspace"></i> Employees</a>
+                    </div>
+                </div>
+
+                <!-- MISCELLANEOUS -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="Miscellaneous Settings">
+                    <i class="bi bi-sliders"></i> Miscellaneous
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-cpu"></i> Form Factors</a>
+                        <a href="#"><i class="bi bi-cpu-fill"></i> Technology Types</a>
+                        <a href="#"><i class="bi bi-plus-square"></i> Service's List</a>
+                        <a href="#"><i class="bi bi-plus-square"></i> Manufacturers</a>
+                        <a href="https://localhost:7224/admin/supplier"><i class="bi bi-plus-square"></i> Suppliers</a>
+                    </div>
+                </div>
+
+                <!-- About -->
+                <div class="list-group-item has-submenu" data-bs-toggle="tooltip" title="About This Website">
+                    <i class="bi bi-sliders"></i> About
+                    <div class="submenu">
+                        <a href="#"><i class="bi bi-cpu"></i>About this Website</a>
+                        <a href="#"><i class="bi bi-cpu"></i>Contact Airconi Trading</a>
+                        <a href="#"><i class="bi bi-plus-square"></i> Aiconi Stores</a>
+                        <a href="#"><i class="bi bi-plus-square"></i> Store Policy</a>
+                        <a href="#"><i class="bi bi-plus-square"></i> Privacy Policy</a>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="content">
+
+            <!-- TOP NAVBAR -->
+            <nav class="navbar top-navbar d-flex justify-content-end gap-3">
+
+                <!-- Notifications -->
+                <div class="dropdown">
+                    <a class="btn btn-light position-relative" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
+                            3
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Orders</a></li>
+                        <li><a class="dropdown-item" href="#">Inventory</a></li>
+                        <li><a class="dropdown-item" href="#">Service Request</a></li>
+                        <li><a class="dropdown-item" href="#">Chats</a></li>
+                    </ul>
+                </div>
+
+                <!-- User -->
+                <div class="dropdown">
+                    <a class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">View Work Schedule</a></li>
+                        <li><a class="dropdown-item" href="#">Change Password</a></li>
+                    </ul>
+                </div>
+
+                <!-- Logout -->
+                <div class="dropdown">
+                    <a class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item text-danger" href="#">
+                                Confirm Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
+
+            <!-- PAGE CONTENT -->
+            <div class="p-4">
+                @RenderBody()
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
