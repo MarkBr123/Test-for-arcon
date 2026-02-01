@@ -1,0 +1,213 @@
+﻿@{
+    var mode = ViewBag.Mode ?? "CREATE";   // CREATE | EDIT | SUMMARY
+    var poId = ViewBag.PoId;
+}
+
+<form id="purchaseOrderForm">
+
+    <!-- MODE + ID (context for JS) -->
+    <input type="hidden" id="poMode" value="@mode" />
+    <input type="hidden" id="poId" value="@poId" />
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-3 px-3">
+        <h5 class="mb-0 fw-semibold">
+            <span id="pageTitleText">Purchase Order</span>
+            <span id="poNumberBadge"
+                  class="text-muted fw-normal ms-2"></span>
+        </h5>
+
+        <a href="/Admin/PurchaseOrders"
+           class="btn btn-outline-secondary btn-sm">
+            ← Back to Purchase Orders
+        </a>
+    </div>
+
+
+
+
+        <small class="fw-semibold text-muted">
+            Generate a formal document that records and submits a request to buy
+            specific goods or services from a supplier under defined terms
+            (items, quantities, prices, delivery, and payment)
+        </small>
+    </div>
+
+    <!-- PURCHASE ORDER DETAILS -->
+    <div class="card mb-3">
+        <div class="card-header fw-semibold">
+            Purchase Order Details
+        </div>
+
+        <div class="card-body row g-3">
+
+            <div class="col-md-4">
+                <label class="form-label">Supplier</label>
+                <select id="supplierSelect" class="form-select">
+                    <option value="">Select supplier</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Payment Type</label>
+                <select id="paymentType" class="form-select">
+                    <option value="">Select payment type</option>
+                    <option value="CASH">Cash</option>
+                    <option value="CREDIT">Credit</option>
+                    <option value="INSTALLMENT">Installment</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Deliver to Branch</label>
+                <select id="branchSelect" class="form-select">
+                    <option value="">Select branch</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Expected Delivery</label>
+                <input type="date"
+                       id="expectedDelivery"
+                       class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Freight Cost</label>
+                <input type="number"
+                       id="freightCost"
+                       class="form-control"
+                       value="0"
+                       min="0"
+                       step="0.01">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Total Amount</label>
+                <input id="totalAmount"
+                       class="form-control"
+                       readonly>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PURCHASE ORDER ARTICLES -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">Purchase Order Articles</span>
+
+            <button type="button"
+                    id="addPoArticleBtn"
+                    class="btn btn-sm btn-outline-primary"
+                    onclick="openAddArticleModal()">
+                + PO Article
+            </button>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-sm align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>SKU</th>
+                        <th>Manufacturer</th>
+                        <th>Product Model</th>
+                        <th>Product Series</th>
+                        <th>Part Number A</th>
+                        <th>Total Gross Weight</th>
+                        <th>Form Factor</th>
+                        <th>Qty</th>
+                        <th>Unit Price</th>
+                        <th>Line Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="poItemsBody">
+                    <!-- injected by JS -->
+                </tbody>
+            </table>
+
+            <div class="text-end">
+
+                <!-- CREATE -->
+                <button type="button"
+                        id="createBtn"
+                        class="btn btn-primary"
+                        onclick="createPoClick()">
+                    Next &gt;
+                </button>
+
+                <!-- UPDATE -->
+                <button type="button"
+                        id="updateBtn"
+                        class="btn btn-success d-none"
+                        onclick="updatePoClick()">
+                    Save Changes
+                </button>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</form>
+
+<!-- ADD ARTICLE MODAL -->
+<div class="modal fade" id="addArticleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Add PO Article</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <input id="productSearchInput"
+                       class="form-control mb-2"
+                       placeholder="Search product...">
+
+                <div id="productResults"
+                     class="list-group mb-3">
+                    <!-- injected by JS -->
+                </div>
+
+                <hr>
+
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <input id="qtyInput"
+                               type="number"
+                               class="form-control"
+                               placeholder="Quantity">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input id="priceInput"
+                               type="number"
+                               class="form-control"
+                               placeholder="Unit Price">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-primary"
+                        onclick="addSelectedProduct()">
+                    Add
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- PAGE SCRIPT -->
+<script src="~/js/purchase-order-form.js"></script>

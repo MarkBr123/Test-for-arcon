@@ -36,6 +36,9 @@ public partial class arcon_store_branch
     [Precision(9, 6)]
     public decimal? location_long { get; set; }
 
+    [StringLength(100)]
+    public string? address { get; set; }
+
     [InverseProperty("arcon_store_branches")]
     public virtual ICollection<checkout> checkouts { get; set; } = new List<checkout>();
 
@@ -43,6 +46,10 @@ public partial class arcon_store_branch
     [InverseProperty("arcon_store_branches")]
     public virtual admin_user? contact_adminNavigation { get; set; }
 
-    [InverseProperty("arcon_branch_addressNavigation")]
+    [InverseProperty("arcon_store_branch")]
     public virtual ICollection<purchase_order> purchase_orders { get; set; } = new List<purchase_order>();
+
+    //[InverseProperty("arcon_branch_addressNavigation")]
+    //public virtual ICollection<purchase_order> purchase_orders { get; set; } = new List<purchase_order>();
 }
+

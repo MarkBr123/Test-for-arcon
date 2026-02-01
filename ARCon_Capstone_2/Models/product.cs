@@ -79,6 +79,8 @@ public partial class product
 
     public int? form_factor_id { get; set; }
 
+    public int? reorder_level { get; set; }
+
     [InverseProperty("product")]
     public virtual ICollection<cart_item> cart_items { get; set; } = new List<cart_item>();
 

@@ -1,0 +1,77 @@
+﻿<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Inventory</h4>
+
+    <!-- SEARCH -->
+    <div class="row mb-3">
+        <div class="col-auto">
+            <input type="text"
+                   id="inventorySearch"
+                   class="form-control form-control-sm"
+                   placeholder="Search inventory for SKU, model, manufacturer....."
+                   style="width: 620px;"
+                   oninput="searchInventory()" />
+        </div>
+
+    </div>
+    <div class="btn-group">
+        <a href="/admin/inventory/receive-po" class="btn btn-primary">
+            + PO Delivery
+        </a>
+        <a href="/inventory/receive-replacement" class="btn btn-outline-primary">
+            + Replacement Delivery
+        </a>
+    </div>
+</div>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <div id="inventorySummary"
+         class="text-muted small">
+    </div>
+</div>
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th style="width:40px;"></th>
+
+            <th onclick="changeSort('sku')" class="sortable">SKU</th>
+            <th onclick="changeSort('manufacturer')" class="sortable">Manufacturer</th>
+            <th onclick="changeSort('productModel')" class="sortable">Product</th>
+            <th onclick="changeSort('productSeries')" class="sortable">Series</th>
+            <th onclick="changeSort('formfactor')" class="sortable">Form Factor</th>
+
+            <th onclick="changeSort('stockStatus')" class="sortable">
+                Stock Status
+            </th>
+
+            <th onclick="changeSort('totalStock')" class="sortable">
+                Current Stock
+            </th>
+
+            <th class="text-center">
+                Reorder Level
+            </th>
+
+            <th onclick="changeSort('createDate')" class="sortable">
+                Created Date
+            </th>
+        </tr>
+    </thead>
+
+    <tbody id="inventoryBody">
+        <!-- rows rendered by JS -->
+    </tbody>
+</table>
+
+<nav aria-label="Inventory Pagination" class="mt-3">
+    <ul id="inventoryPagination" class="pagination justify-content-center">
+        <!-- pagination injected by JS -->
+    </ul>
+</nav>
+
+
+<!-- PAGE SCRIPT -->
+<script src="~/js/inventory-index.js"></script>
+
+
+
+

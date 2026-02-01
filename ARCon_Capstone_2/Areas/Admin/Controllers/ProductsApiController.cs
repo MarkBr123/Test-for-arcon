@@ -150,6 +150,7 @@ public class ProductsApiController : ControllerBase
                 gross_weight_a = dto.GrossWeightA,
                 gross_weight_b = dto.GrossWeightB,
                 total_gross_weight = totalgrossweight,
+                reorder_level = dto.ReorderLevel,
 
                 status = "ACTIVE",
                 created_at = DateTime.UtcNow
@@ -237,7 +238,7 @@ public class ProductsApiController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAll(int page = 1,
-    int pageSize = 3, string sortBy = "date", string sortDir = "desc", string? search = null)
+    int pageSize = 24, string sortBy = "date", string sortDir = "desc", string? search = null)
     {
         var query = _context.products
             .Where(p => p.status.ToUpper() != "ARCHIVED")
@@ -440,6 +441,7 @@ public class ProductsApiController : ControllerBase
             gross_Weight_A = product.gross_weight_a,
             gross_Weight_B = product.gross_weight_b,
             total_Gross_Weight = product.total_gross_weight,
+            reorder_level = product.reorder_level,
             //details query from multiple tables (Joined)
             specifications = specifications,
             tags = tags,
@@ -518,6 +520,7 @@ public class ProductsApiController : ControllerBase
         product.gross_weight_b = dto.Gross_Weight_B;
         product.total_gross_weight = Math.Round((dto.Gross_Weight_A ?? 0m) + (dto.Gross_Weight_B ?? 0m), 2, MidpointRounding.AwayFromZero);
         product.updated_at = DateTime.UtcNow;
+        product.reorder_level = dto.ReorderLevel;
 
         await _context.SaveChangesAsync();
         return Ok();
@@ -546,7 +549,8 @@ public class ProductsApiController : ControllerBase
                 x.outright_replacement_days,
                 x.gross_weight_a,
                 x.gross_weight_b,
-                x.total_gross_weight
+                x.total_gross_weight,
+                x.reorder_level,
             })
             .FirstOrDefaultAsync();
 
@@ -605,8 +609,46 @@ public class ProductsApiController : ControllerBase
 
 
 
+    //API to search products (to be used in PO)
+    [HttpGet("po-search")]
+    public async Task<IActionResult> SearchProducts(string search = "")
+    {
+        var query = _context.products
+            .Include(p => p.manufacturer)
+            .Include(p => p.form_factor)
+            .Where(p => p.status != "ARCHIVED")
+            .AsQueryable();
 
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            search = search.Trim();
 
+            query = query.Where(p =>
+                EF.Functions.ILike(p.sku ?? "", $"%{search}%") ||
+                EF.Functions.ILike(p.product_model ?? "", $"%{search}%") ||
+                EF.Functions.ILike(p.product_series ?? "", $"%{search}%") ||
+                EF.Functions.ILike(p.manufacturer.manufacturer_name ?? "", $"%{search}%") ||
+                EF.Functions.ILike(p.form_factor.form_factor1 ?? "", $"%{search}%")
+            );
+        }
+
+        var products = await query
+            .Take(20)
+            .Select(p => new
+            {
+                p.id,
+                p.sku,
+                manufacturer = p.manufacturer.manufacturer_name,
+                form_factor = p.form_factor.form_factor1,
+                p.product_model,
+                p.product_series,
+                p.part_number_a,
+                p.total_gross_weight
+            })
+            .ToListAsync();
+
+        return Ok(products);
+    }
 
 
 }

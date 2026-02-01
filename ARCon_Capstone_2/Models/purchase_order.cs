@@ -13,6 +13,8 @@ public partial class purchase_order
     [Key]
     public int id { get; set; }
 
+    public int revision { get; set; }   
+
     public int supplier_id { get; set; }
 
     [StringLength(50)]
@@ -37,9 +39,13 @@ public partial class purchase_order
 
     public DateTime? updated_at { get; set; }
 
+    [StringLength(30)]
+    public string status { get; set; } = null!;
+
     [ForeignKey("arcon_branch_address")]
     [InverseProperty("purchase_orders")]
-    public virtual arcon_store_branch? arcon_branch_addressNavigation { get; set; }
+    public virtual arcon_store_branch arcon_store_branch { get; set; } = null!;
+    //public virtual arcon_store_branch? arcon_branch_addressNavigation { get; set; }
 
     [ForeignKey("created_by")]
     [InverseProperty("purchase_orders")]

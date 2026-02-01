@@ -17,6 +17,8 @@
         public int? Outright_Replacement_Days { get; set; }
         public decimal? Gross_Weight_A { get; set; }
         public decimal? Gross_Weight_B { get; set; }
-        
+
+        public int ReorderLevel { get; set; }
+
     }
 }

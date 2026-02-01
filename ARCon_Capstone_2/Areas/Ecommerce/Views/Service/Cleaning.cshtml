@@ -1,0 +1,108 @@
+﻿@page
+@model ARCon_Capstone_2.Views.Home.Services.CleaningModel
+@{
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Cleaning.css" asp-append-version="true" />
+}
+
+<section class="service-container">
+    <form class="service-form">
+        <div class="form-left">
+            <h2>Cleaning</h2>
+
+            <label>Aircon Type</label>
+            <select id="airconType">
+                <option value="">Select...</option>
+                <option>Window Type</option>
+                <option>Split Type</option>
+                <option>Centralized</option>
+            </select>
+
+            <label>Brand</label>
+            <select id="brand">
+                <option value="">Select...</option>
+                <option>Samsung</option>
+                <option>LG</option>
+                <option>Panasonic</option>
+            </select>
+
+            <div class="units-warranty">
+                <div>
+                    <label>No. of Units</label>
+                    <div class="counter-box">
+                        <button type="button" class="minus">−</button>
+                        <input id="units" type="number" value="1" min="1">
+                        <button type="button" class="plus">+</button>
+                    </div>
+                </div>
+
+
+                <div>
+                    <label>Warranty Status</label>
+                    <div class="warranty">
+                        <button type="button" class="warranty-btn active" data-status="In-Warranty">In-Warranty</button>
+                        <button type="button" class="warranty-btn" data-status="Out-of-Warranty">Out-of-Warranty</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="additional">
+                <h3>Any additional request?</h3>
+                <label><input type="checkbox" value="Long ladder needed for unit above 10ft/3m"> Long ladder needed for unit above 10ft/3m</label>
+                <label><input type="checkbox" value="Freon re-charge may be needed"> Freon re-charge may be needed (additional charge)</label>
+            </div>
+        </div>
+
+        <div class="form-right">
+            <h2>Upload image/video (Optional)</h2>
+
+            <div class="upload-box" id="uploadBox">
+                <input type="file" id="mediaUpload" accept="image/*,video/*" multiple hidden>
+                <p>Drag & Drop or <span>Select File</span></p>
+                <div id="preview"></div>
+            </div>
+
+
+            <div id="preview"></div>
+
+            <div class="price">
+                <span>Price starts at</span>
+                <strong>₱ x,xxx</strong>
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="back-btn" onclick="history.back()">Back</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+
+    </form>
+</section>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const minus = document.querySelector(".minus");
+        const plus = document.querySelector(".plus");
+        const input = document.getElementById("units");
+
+        minus.addEventListener("click", () => {
+            if (input.value > 1) input.value--;
+        });
+
+        plus.addEventListener("click", () => {
+            input.value++;
+        });
+
+        // Warranty toggle
+        document.querySelectorAll(".warranty-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".warranty-btn")
+                    .forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+            });
+        });
+
+    });
+</script>

@@ -1,0 +1,170 @@
+﻿@page
+@model ARCon_Capstone_2.Views.Home.ProductModel
+@{
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Product.css" asp-append-version="true" />
+}
+
+<div class="section2">
+    <section class="hero">
+        <div class="container">
+            <div class="product-main">
+                <div class="left-column">
+                    <img src="~/ImageSources/Product/LG.webp" alt="Product Image" class="main-img">
+
+                    <div class="thumbnails">
+                        <img src="~/ImageSources/Product/LG.webp" alt="ac">
+                        <img src="~/ImageSources/Product/LG.webp" alt="ac">
+                        <img src="~/ImageSources/Product/LG.webp" alt="ac">
+
+                        <div class="buttons">
+                            <button class="ar" id="viewAR">View in AR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <h1>Fujidenzo sample</h1>
+                    <p class="subtext">Inverter, 2.0hp, other product specs</p>
+                    <p class="rating">★★★★★ <span> | 0 star based on reviews</span></p>
+                    <p class="price">₱1,000</p>
+
+                    <div class="buttons">
+                        <button class="add" id="openModal">Add to Cart</button>
+                        <button class="buy">Buy Now</button>
+                    </div>
+
+                    <div class="specs">
+                        <strong>Specs:</strong>
+                        <span>Other HP</span>
+                        <span>1.0</span>
+                        <span>2.0</span>
+                        <span>2.5</span>
+                        <span>3.0</span>
+                        <span>3.5</span>
+                    </div>
+
+                    <div class="dropdowns">
+                        <label>Installation Service</label>
+                        <select>
+                            <option>option 1</option>
+                            <option>option 2</option>
+                        </select>
+
+                        <label>Additional Service upon installation</label>
+                        <select>
+                            <option>option 1</option>
+                            <option>option 2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-details">
+                <h2>Product Features</h2>
+
+                <div class="feature-block">
+                    <strong>Model Name:</strong> Fujidenzo sample product
+                </div>
+
+                <div class="grid-features">
+                    <div><strong>Aircon Type:</strong> Window</div>
+                    <div><strong>Gross Weight (kg):</strong> 58</div>
+                    <div><strong>Cooling Capacity (HP):</strong> 2.0HP</div>
+                    <div><strong>Height (cm):</strong> 120</div>
+                    <div><strong>Length (cm):</strong> 70.8</div>
+                    <div><strong>Net Weight (kg):</strong> 53.5</div>
+                    <div><strong>Width (cm):</strong> 56</div>
+                    <div><strong>Warranty:</strong> 1 year parts, 2 years labor</div>
+                </div>
+
+                <div class="feature-block">
+                    <strong>Features:</strong>
+                    <ul>
+                        <li>Multi-Stage Air Filtration System</li>
+                        <li>Wi-Fi Controlled</li>
+                        <li>Full DC Inverter</li>
+                    </ul>
+                </div>
+
+                <div class="feature-block">
+                    <strong>Box Contents:</strong>
+                    <ul>
+                        <li>1 Air Conditioner unit</li>
+                        <li>1 Remote Control</li>
+                        <li>User Manual</li>
+                        <li>Installation Kit</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Add to Cart Modal -->
+<div id="ATC" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+
+        <div class="product-info">
+            <img src="@Url.Content("~/image/samsung.avif")" class="modal-img" alt="Fujidenzo Sample">
+
+            <div class="product-details-modal">
+                <h2>Fujidenzo Sample</h2>
+                <p class="modal-price">₱1,000</p>
+
+                <div class="counter">
+                    <button type="button" id="minus">-</button>
+                    <input id="units" type="number" value="1" min="1">
+                    <button type="button" id="plus">+</button>
+                </div>
+            </div>
+        </div>
+
+        <label>Installation Service:</label>
+        <select id="installation">
+            <option value="">Select</option>
+            <option>option 1</option>
+            <option>option 2</option>
+        </select>
+
+        <label>Additional Service upon Installation:</label>
+        <select id="extra">
+            <option value="">Select</option>
+            <option>option 1</option>
+            <option>option 2</option>
+        </select>
+
+        <div class="modal-buttons">
+            <button id="cancelBtn" class="cancel-btn">Cancel</button>
+            <button id="confirmBtn" class="confirm-btn">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="cart-modal">
+    <div class="cart-content">
+        <span class="cart-close">&times;</span>
+        <h2>🛒 Your Cart</h2>
+
+        <div id="cartItems" class="cart-items">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+
+        <div class="cart-footer">
+            <p>Total: <span id="cartTotal">₱0</span></p>
+            <button id="checkoutBtn" class="checkout-btn">Checkout</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("viewAR").addEventListener("click", () => {
+            window.location.href = "https://vinvincayobit.8thwall.app/vinvin-standing-aircon/";
+        });
+    </script>
+}

@@ -272,4 +272,23 @@ public class SupplierApiController : ControllerBase
 
     }
 
+    //DROPDOWN APIs (to be used in PO)
+    [HttpGet("dropdown")]
+    public async Task<IActionResult> GetSupplierDropdown()
+    {
+        var suppliers = await _context.suppliers
+            .Where(sup => sup.status != "ARCHIVED")
+            .OrderBy(sup => sup.supplier_name)
+            .Select(sup => new
+            {
+                sup.id,
+                sup.supplier_name
+            })
+            .ToListAsync();
+
+        return Ok(suppliers);
+    }
+    
+    
+
 }

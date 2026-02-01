@@ -34,6 +34,8 @@
 
         public decimal TotalGrossWeight {  get; set; }
 
+        public int ReorderLevel {get; set;}
+
 
 
         public List<TechnologyDto> Technologies { get; set; } = new();

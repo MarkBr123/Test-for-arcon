@@ -550,7 +550,7 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.Property(e => e.created_at).HasDefaultValueSql("now()");
             entity.Property(e => e.freight_cost).HasDefaultValueSql("0");
 
-            entity.HasOne(d => d.arcon_branch_addressNavigation).WithMany(p => p.purchase_orders).HasConstraintName("purchase_order_arcon_branch_address_fkey");
+            entity.HasOne(d => d.arcon_store_branch).WithMany(p => p.purchase_orders).HasConstraintName("purchase_order_arcon_branch_address_fkey");
 
             entity.HasOne(d => d.created_byNavigation).WithMany(p => p.purchase_orders)
                 .OnDelete(DeleteBehavior.SetNull)

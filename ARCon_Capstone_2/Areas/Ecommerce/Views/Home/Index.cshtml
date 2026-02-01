@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "Air-Con";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/View-js/Index.js" asp-append-version="true"></script>
+}
+
+
+@* Page Headline *@
+<section class="hero">
+    <div class="hero-text">
+        <h1>Best Aircon Distributor In Town</h1>
+        <p>We sell top quality for affordable prices.</p>
+        <p>Fast and reliable delivery.</p>
+        <p>Customer satisfaction guaranteed.</p>
+
+        <a asp-controller="Product" asp-action="Product" class="btn">Shop Now</a>
+    </div>
+
+    <div class="hero-img">
+        <img src="~/ImageSources/Background/coni.jpg" alt="Coni">
+    </div>
+</section>
+
+@* Products *@
+<section class="deals">
+    <h2>BEST DEALS</h2>
+    <div class="deal-cards">
+        <div class="card product-card text-dark">
+            <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
+            <h3>LG Window Inverter LA08GC</h3>
+            <p>Product Description</p>
+            <p>₱26,190</p>
+            <button class="btn btn-primary"
+                    onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
+                Add to Cart
+            </button>
+        </div>
+
+        <div class="card product-card text-dark">
+            <img src="~/ImageSources/Product/LG.webp" alt="Aircon">
+            <h3>Product Name</h3>
+            <p>0.8HP</p>
+            <p>₱1,000</p>
+            <button class="btn btn-primary"
+                    onclick="addToCart({id: 2, name: 'Product Name', price: 1000})">
+                Add to Cart
+            </button>
+        </div>
+
+        <div class="card product-card text-dark">
+            <img src="~/ImageSources/Product/LG.webp" alt="Aircon">
+            <h3>Product Name</h3>
+            <p>0.8HP</p>
+            <p>₱1,000</p>
+            <button class="btn btn-primary"
+                    onclick="addToCart({id: 3, name: 'Product Name', price: 1000})">
+                Add to Cart
+            </button>
+        </div>
+
+        <div class="card product-card text-dark">
+            <img src="~/ImageSources/Product/LG.webp" alt="Aircon">
+            <h3>Product Name</h3>
+            <p>0.8HP</p>
+            <p>₱1,000</p>
+            <button class="btn btn-primary"
+                    onclick="addToCart({id: 4, name: 'Product Name', price: 1000})">
+                Add to Cart
+            </button>
+        </div>
+    </div>
+
+</section>
+
+<section class="services" id="services">
+    <h2>Services</h2>
+    <div class="service-grid">
+        <div>
+            <a asp-controller="Index" asp-action="Cleaning">
+                <img src="~/ImageSources/Service/clean.png" alt="Cleaning">
+            </a>
+            <p>Cleaning</p>
+        </div>
+
+        <div>
+            <a asp-controller="Index" asp-action="Repair">
+                <img src="~/ImageSources/Service/repairing.jpg" alt="Repair">
+            </a>
+            <p>Repair</p>
+        </div>
+
+        <div>
+            <a asp-controller="Index" asp-action="Freoncharging">
+                <img src="~/ImageSources/Service/charging.jpg" alt="Freoncharging">
+            </a>    
+            <p>Freon Charging</p>
+        </div>
+
+        <div>
+            <a asp-controller="Index" asp-action="Installing">
+                <img src="~/ImageSources/Service/install.png" alt="Installing">
+            </a>
+            <p>Installing</p>
+        </div>
+    </div>
+</section>
+
+<section class="bottom-note">
+    <p>AIR-CON: offers high-quality products with fast and reliable services!</p>
+</section>
+
+<section class="bottom-image">
+    <div class="overlay"></div>
+    <div class="text-overlay">
+        <h1>Skilled and Well-trained Technicians</h1>
+        <p>Expert service, anytime, anywhere.</p>
+    </div>
+    <img src="~/ImageSources/Background/owner.jpg" alt="Aircon">
+</section>
+
+<script src="~/js/dashboard.js"></script>

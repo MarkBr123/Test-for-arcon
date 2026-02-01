@@ -1,34 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\",
+  "WorkspaceRootPath": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\suppliers.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\suppliers.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\source\\repos\\arcon_capstone_2\\areas\\ecommerce\\views\\product\\featured.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\ecommerce\\views\\product\\featured.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\dtos\\supplierupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:dtos\\supplierupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\source\\repos\\arcon_capstone_2\\areas\\ecommerce\\views\\product\\featured.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\ecommerce\\views\\product\\featured.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\suppliersapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\suppliersapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\source\\repos\\arcon_capstone_2\\areas\\ecommerce\\views\\service\\cleaning.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\ecommerce\\views\\service\\cleaning.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\source\\repos\\arcon_capstone_2\\areas\\ecommerce\\views\\service\\cleaning.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\ecommerce\\views\\service\\cleaning.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\admin-users.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\admin-users.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\source\\repos\\arcon_capstone_2\\data\\arcon_capstone_2_dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:data\\arcon_capstone_2_dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,90 +35,66 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "suppliers.js",
-              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\suppliers.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\suppliers.js",
-              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\suppliers.js",
-              "RelativeToolTip": "wwwroot\\js\\suppliers.js",
-              "ViewState": "AgIAANIAAAAAAAAAAAAmwOQAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-01-03T14:50:03.548Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
+              "Title": "Featured.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Areas\\Ecommerce\\Views\\Product\\Featured.cshtml.cs",
+              "RelativeDocumentMoniker": "Areas\\Ecommerce\\Views\\Product\\Featured.cshtml.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Areas\\Ecommerce\\Views\\Product\\Featured.cshtml.cs",
+              "RelativeToolTip": "Areas\\Ecommerce\\Views\\Product\\Featured.cshtml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-01T03:15:34.534Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T15:14:23.392Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "_AdminLayout.cshtml",
-              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAAANcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-06T16:55:30.255Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "ViewState": "AgIAAAkEAAAAAAAAAAAAACIEAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-06T16:46:36.44Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "admin-users.js",
-              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\admin-users.js",
-              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
-              "RelativeToolTip": "wwwroot\\js\\admin-users.js",
-              "ViewState": "AgIAAOgAAAAAAAAAAAAAABABAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-01-06T16:35:20.961Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SupplierUpdateDto.cs",
-              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\DTOs\\SupplierUpdateDto.cs",
-              "RelativeDocumentMoniker": "DTOs\\SupplierUpdateDto.cs",
-              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\DTOs\\SupplierUpdateDto.cs",
-              "RelativeToolTip": "DTOs\\SupplierUpdateDto.cs",
+              "Title": "Featured.cshtml",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Areas\\Ecommerce\\Views\\Product\\Featured.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Ecommerce\\Views\\Product\\Featured.cshtml",
+              "ToolTip": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Areas\\Ecommerce\\Views\\Product\\Featured.cshtml",
+              "RelativeToolTip": "Areas\\Ecommerce\\Views\\Product\\Featured.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T18:51:17.792Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-01T15:14:23.275Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "SuppliersApiController.cs",
-              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\SuppliersApiController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\SuppliersApiController.cs",
-              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\SuppliersApiController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\SuppliersApiController.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAwwGYAAAAyAAAAAAAAAA==",
+              "Title": "Cleaning.cshtml",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Areas\\Ecommerce\\Views\\Service\\Cleaning.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Ecommerce\\Views\\Service\\Cleaning.cshtml",
+              "ToolTip": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Areas\\Ecommerce\\Views\\Service\\Cleaning.cshtml",
+              "RelativeToolTip": "Areas\\Ecommerce\\Views\\Service\\Cleaning.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-01T15:07:10.892Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Cleaning.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Areas\\Ecommerce\\Views\\Service\\Cleaning.cshtml.cs",
+              "RelativeDocumentMoniker": "Areas\\Ecommerce\\Views\\Service\\Cleaning.cshtml.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Areas\\Ecommerce\\Views\\Service\\Cleaning.cshtml.cs",
+              "RelativeToolTip": "Areas\\Ecommerce\\Views\\Service\\Cleaning.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-03T14:52:13.144Z",
+              "WhenOpened": "2026-02-01T15:01:24.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ARCon_Capstone_2_DbContext.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Data\\ARCon_Capstone_2_DbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ARCon_Capstone_2_DbContext.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\source\\repos\\ARCon_Capstone_2\\Data\\ARCon_Capstone_2_DbContext.cs",
+              "RelativeToolTip": "Data\\ARCon_Capstone_2_DbContext.cs",
+              "ViewState": "AgIAABgCAAAAAAAAAAAAADECAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T14:37:08.497Z",
               "EditorCaption": ""
             }
           ]
