@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mark\\OneDrive\\เอกสาร\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj": {}
+    "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mark\\OneDrive\\เอกสาร\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj": {
+    "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mark\\OneDrive\\เอกสาร\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj",
+        "projectUniqueName": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj",
         "projectName": "ARCon_Capstone_2",
-        "projectPath": "C:\\Users\\Mark\\OneDrive\\เอกสาร\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj",
+        "projectPath": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\ARCon_Capstone_2.csproj",
         "packagesPath": "C:\\Users\\Mark\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mark\\OneDrive\\เอกสาร\\Test-for-arcon\\ARCon_Capstone_2\\obj\\",
+        "outputPath": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

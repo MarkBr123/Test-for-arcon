@@ -1,34 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\",
+  "WorkspaceRootPath": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\mark\\onedrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\test-for-arcon\\arcon_capstone_2\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\mark\\onedrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\mark\\onedrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\mark\\onedrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\suppliers.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\suppliers.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\suppliers.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\mark\\onedrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\admin-users.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\admin-users.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\mark\\onedrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\test-for-arcon\\arcon_capstone_2\\dtos\\supplierupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\dtos\\supplierupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:dtos\\supplierupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\mark\\onedrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\suppliersapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\suppliersapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\suppliersapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\projects\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\admin-users.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\admin-users.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,28 +38,29 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "suppliers.js",
-              "DocumentMoniker": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\suppliers.js",
+              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\suppliers.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\suppliers.js",
-              "ToolTip": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\suppliers.js",
+              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\suppliers.js",
               "RelativeToolTip": "wwwroot\\js\\suppliers.js",
-              "ViewState": "AgIAANIAAAAAAAAAAAAmwPEAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAANIAAAAAAAAAAAAmwOQAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2026-01-03T14:50:03.548Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\appsettings.json",
+              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\appsettings.json",
+              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -68,24 +69,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "_AdminLayout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "ToolTip": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
               "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
               "ViewState": "AgIAAIUAAAAAAAAAAAAAANcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-06T16:55:30.255Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-06T16:55:30.255Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Products\\Index.cshtml",
+              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Products\\Index.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Products\\Index.cshtml",
+              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Products\\Index.cshtml",
               "RelativeToolTip": "Areas\\Admin\\Views\\Products\\Index.cshtml",
               "ViewState": "AgIAAAkEAAAAAAAAAAAAACIEAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -93,11 +93,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "admin-users.js",
-              "DocumentMoniker": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
+              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\admin-users.js",
-              "ToolTip": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
+              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
               "RelativeToolTip": "wwwroot\\js\\admin-users.js",
               "ViewState": "AgIAAOgAAAAAAAAAAAAAABABAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
@@ -105,27 +105,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "SupplierUpdateDto.cs",
-              "DocumentMoniker": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\DTOs\\SupplierUpdateDto.cs",
+              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\DTOs\\SupplierUpdateDto.cs",
               "RelativeDocumentMoniker": "DTOs\\SupplierUpdateDto.cs",
-              "ToolTip": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\DTOs\\SupplierUpdateDto.cs",
+              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\DTOs\\SupplierUpdateDto.cs",
               "RelativeToolTip": "DTOs\\SupplierUpdateDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T18:51:17.792Z"
+              "WhenOpened": "2026-01-05T18:51:17.792Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "SuppliersApiController.cs",
-              "DocumentMoniker": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\SuppliersApiController.cs",
+              "DocumentMoniker": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\SuppliersApiController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\SuppliersApiController.cs",
-              "ToolTip": "C:\\Users\\Mark\\OneDrive\\\u0E40\u0E2D\u0E01\u0E2A\u0E32\u0E23\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\SuppliersApiController.cs",
+              "ToolTip": "C:\\projects\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\SuppliersApiController.cs",
               "RelativeToolTip": "Areas\\Admin\\Controllers\\SuppliersApiController.cs",
               "ViewState": "AgIAAFMAAAAAAAAAAAAwwGYAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-03T14:52:13.144Z"
+              "WhenOpened": "2026-01-03T14:52:13.144Z",
+              "EditorCaption": ""
             }
           ]
         }
