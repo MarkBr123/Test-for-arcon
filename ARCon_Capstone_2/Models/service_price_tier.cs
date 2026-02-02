@@ -13,8 +13,10 @@ public partial class service_price_tier
 
     public int services_id { get; set; }
 
-    [StringLength(50)]
-    public string capacity_range { get; set; } = null!;
+    [Precision(4,2)]
+    public decimal capacity_min_range { get; set; }
+    [Precision(4, 2)]
+    public decimal capacity_max_range { get; set; }
 
     [Precision(12, 2)]
     public decimal price { get; set; }
