@@ -1,0 +1,47 @@
+﻿@page
+@model ARCon_Capstone_2.Areas.Ecommerce.Views.Home.LoginModel
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
+}
+
+
+<div class="login-page">
+    <div class="login-wrapper">
+        <div class="login-wrapper">
+
+            <!-- Left side -->
+            <div class="login-illustration">
+                <img src="~/ImageSources/Background/repair.jpg" alt="Illustration" />
+            </div>
+
+            <!-- Right side -->
+            <div class="login-form">
+                <h2>Login</h2>
+                <p>Welcome to our website and let’s get started</p>
+
+                <form method="post">
+                    <div class="form-group">
+                        <input type="text" name="Username" placeholder="Username" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="Password" placeholder="Password" />
+                    </div>
+
+                    <div class="forgot">
+                        <a id="forgot-pass" href="#">Forget password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login">Login</button>
+                </form>
+
+                <div class="divider">Or</div>
+                <div>Doesn't have an account?'</div>
+                <div class="forgot">
+                    <a id="sign-in "asp-controller="Home" asp-action="Signin">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

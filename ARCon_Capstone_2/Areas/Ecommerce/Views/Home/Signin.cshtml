@@ -1,0 +1,50 @@
+﻿@page
+@model ARCon_Capstone_2.Areas.Ecommerce.Views.Home.SigninModel
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
+}
+
+<div class="signup-page">
+    <div class="signup-card">
+
+        <!-- Left column: Signup form -->
+        <div class="signup-form">
+            <h2>Sign Up</h2>
+            <p class="subtitle">Welcome to our website, let’s get started</p>
+
+            <form method="post">
+                <h6>Name</h6>
+                <input type="text" placeholder="Username" required />
+
+                <div class="name-row">
+                    <input type="text" placeholder="First name" />
+                    <input type="text" placeholder="Last name" />
+                    <input type="text" placeholder="Middle name" />
+                </div>
+                <h6>Contact</h6>
+                <input type="email" placeholder="Email" required />
+                <input type="text" placeholder="Contact number" required />
+                <h6>Address</h6>
+                <input type="text" placeholder="Address" />
+                <input type="text" placeholder="Confirm Address" />
+                <h6>Password</h6>
+                <input type="password" placeholder="Password" required />
+                <input type="password" placeholder="Confirm Password" required />
+
+                <button type="submit">Create Account</button>
+            </form>
+        </div>
+
+        <!-- Right column: Info and illustration -->
+        <div class="signup-info">
+            <div class="illustration">
+                @* <h3>Aircon-i</h3>
+                <p>Welcome</p> *@
+                <img src="~/ImageSources/Background/repair.jpg" alt="Illustration" />
+            </div>
+        </div>
+
+    </div>
+</div>
+

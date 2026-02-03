@@ -25,14 +25,27 @@ namespace ARCon_Capstone_2.Areas.Controllers
         }
         public IActionResult Product()
         {
-            return View("~/Views/Product/Product.cshtml");
+            return View("~/Areas/Ecommerce/Views/Product/Product.cshtml");
         }
-
         public IActionResult About()
         {
             return View();
         }
 
+        public IActionResult Featured()
+        {
+            return View("~/Areas/Ecommerce/Views/Product/Featured.cshtml");
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        public IActionResult Signin()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

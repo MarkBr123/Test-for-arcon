@@ -9,22 +9,25 @@ namespace ARCon_Capstone_2.Areas.Controllers
     {
         public IActionResult Cleaning()
         {
-            return View("~/Views/Service/Cleaning.cshtml");
+            return View("~/Areas/Ecommerce/Views/Service/Cleaning.cshtml");
+
         }
 
         public IActionResult Repair()
         {
-            return View("~/Views/Service/Repair.cshtml");
+            return View("~/Areas/Ecommerce/Views/Service/Repair.cshtml");
         }
 
         public IActionResult FreonCharging()
         {
-            return View("~/Views/Service/Freoncharging.cshtml");
+            return View("~/Areas/Ecommerce/Views/Service/FreonCharging.cshtml");
+
         }
 
         public IActionResult Installing()
         {
-            return View("~/Views/Service/Installing.cshtml");
+            return View("~/Areas/Ecommerce/Views/Service/Installing.cshtml");
+
         }
     }
 
