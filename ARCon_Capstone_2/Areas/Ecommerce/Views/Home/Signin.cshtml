@@ -14,30 +14,50 @@
             <p class="subtitle">Welcome to our website, let’s get started</p>
 
             <form method="post">
+
                 <h6>Name</h6>
                 <input type="text" placeholder="Username" required />
+                <div class="name-row">
+                    <input id="fname" type="text" placeholder="First name" />
+                    <input id="lname" type="text" placeholder="Last name" />
+                    <input id="mname" type="text" placeholder="Middle name" />
+                </div>
+
+                <h6>Address</h6>
+                <input id="address" type="text" placeholder="Street Address" />
+                <input id="caddress" type="text" placeholder="Street Address Line 2" />
 
                 <div class="name-row">
-                    <input type="text" placeholder="First name" />
-                    <input type="text" placeholder="Last name" />
-                    <input type="text" placeholder="Middle name" />
+                    <input id="city" type="text" placeholder="City" />
+                    <input id="region" type="text" placeholder="Region" />
                 </div>
-                <h6>Contact</h6>
-                <input type="email" placeholder="Email" required />
-                <input type="text" placeholder="Contact number" required />
-                <h6>Address</h6>
-                <input type="text" placeholder="Address" />
-                <input type="text" placeholder="Confirm Address" />
-                <h6>Password</h6>
-                <input type="password" placeholder="Password" required />
-                <input type="password" placeholder="Confirm Password" required />
+                <div class="name-row">
+                    <input id="posta" type="text" placeholder="Postal/Zip Code" />
+                    <select id="country" required>
+                        <option value="">Country</option>
+                        <option value="PH">Philippines</option>
+                    </select>
+                </div>
 
-                <button type="submit">Create Account</button>
             </form>
         </div>
 
         <!-- Right column: Info and illustration -->
-        <div class="signup-info">
+        <div class="signup-right">
+            <div class="signup-form-right">
+
+                <form method="post">
+                    <h6>Contact</h6>
+                    <input id="email" type="email" placeholder="Email" required />
+                    <input id="contact" type="text" placeholder="Contact number" required />
+
+                    <h6>Password</h6>
+                    <input id="password" type="password" placeholder="Password" required />
+                    <input id="cpassword" type="password" placeholder="Confirm Password" required />
+
+                    <button type="submit">Create Account</button>
+                </form>
+            </div>
             <div class="illustration">
                 @* <h3>Aircon-i</h3>
                 <p>Welcome</p> *@
