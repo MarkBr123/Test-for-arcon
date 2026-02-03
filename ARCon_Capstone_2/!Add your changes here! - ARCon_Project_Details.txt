@@ -4,3 +4,4 @@ System Analyst:		Marcelino Susano Jr.
 Lead Programmer:	Marvin Cayobit
 
 
+Marcelino Susano Jr.- Login and Signup page (validation to be followed po and some changes)
