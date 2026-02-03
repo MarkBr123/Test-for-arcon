@@ -1,0 +1,14 @@
+﻿.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+[Bb]uild/
+[Bb]uilds/
+*.nupkg
+*.snupkg
+nuget.exe
+.DS_Store
+Thumbs.db

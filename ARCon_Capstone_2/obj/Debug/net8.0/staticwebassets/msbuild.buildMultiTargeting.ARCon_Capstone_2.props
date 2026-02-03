@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\ARCon_Capstone_2.props" />
-</Project>
