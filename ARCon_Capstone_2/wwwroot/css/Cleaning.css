@@ -1,0 +1,237 @@
+﻿/* ===== SERVICE CONTAINER ===== */
+.service-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== FORM LAYOUT ===== */
+.service-form {
+    display: flex;
+    gap: 30px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.form-left,
+.form-right {
+    flex: 1;
+}
+
+/* ===== HEADINGS ===== */
+.service-form h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #222;
+}
+
+.service-form h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* ===== LABELS & INPUTS ===== */
+.service-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #444;
+}
+
+.service-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+    .service-form select:focus {
+        outline: none;
+        border-color: #e53935;
+    }
+
+/* ===== UNITS & WARRANTY ===== */
+.units-warranty {
+    display: flex;
+    gap: 24px;
+    align-items: flex-end;
+}
+
+    .units-warranty > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+/* ===== UNITS COUNTER (SINGLE BOX) ===== */
+.counter-box {
+    display: flex;
+    align-items: center;
+    width: 120px;
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+    .counter-box button {
+        width: 36px;
+        height: 100%;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .counter-box button:hover {
+            background: #f2f2f2;
+        }
+
+    .counter-box input {
+        flex: 1;
+        height: 100%;
+        border: none;
+        text-align: center;
+        font-size: 14px;
+        outline: none;
+        -moz-appearance: textfield;
+    }
+
+        .counter-box input::-webkit-outer-spin-button,
+        .counter-box input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+/* ===== WARRANTY BUTTONS ===== */
+.warranty {
+    display: flex;
+    gap: 10px;
+}
+
+.warranty-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+    .warranty-btn.active {
+        background: #e53935;
+        color: #fff;
+        border-color: #e53935;
+    }
+
+/* ===== ADDITIONAL OPTIONS ===== */
+.additional label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* ===== UPLOAD BOX ===== */
+.upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    color: #777;
+    transition: border-color 0.2s;
+}
+
+    .upload-box:hover {
+        border-color: #e53935;
+    }
+
+    .upload-box span {
+        color: #e53935;
+        font-weight: 600;
+    }
+
+/* ===== PREVIEW ===== */
+#preview img,
+#preview video {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+/* ===== PRICE ===== */
+.price {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    text-align: center;
+}
+
+    .price span {
+        display: block;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .price strong {
+        font-size: 20px;
+        color: #e53935;
+    }
+
+/* ===== BUTTONS ===== */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.back-btn,
+.next-btn {
+    padding: 10px 22px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.back-btn {
+    background: #ddd;
+    color: #333;
+}
+
+.next-btn {
+    background: #e53935;
+    color: #fff;
+}
+
+    .next-btn:hover {
+        background: #c62828;
+    }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .service-form {
+        flex-direction: column;
+    }
+
+    .units-warranty {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

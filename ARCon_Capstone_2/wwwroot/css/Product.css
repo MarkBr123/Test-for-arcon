@@ -1,0 +1,222 @@
+﻿/** {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}*/
+
+/*web*/
+@media screen and (min-width: 0px) {
+    .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 40px;
+        /*background: linear-gradient(to left, #a4caf1, #f7f9fc, #ffffff);*/
+        background: linear-gradient(to right, #a4caf1, #ffffff);
+    }
+
+    /*body*/
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        /* Optional: Adds spacing left/right */
+    }
+
+    .product-main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        margin-top: 30px;
+    }
+
+    .left-column {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .main-img {
+        width: 100%;
+        max-width: 400px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .thumbnails {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+        .thumbnails img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+    .right-column {
+        flex: 1;
+        min-width: 300px;
+    }
+
+        .right-column h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+    .subtext {
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .rating {
+        color: #ffaa00;
+        margin-bottom: 10px;
+    }
+
+    .price {
+        font-size: 24px;
+        color: #007BFF;
+        margin-bottom: 20px;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .add,
+    .buy {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .add {
+        background-color: #007BFF;
+        color: white;
+    }
+
+    .buy {
+        background-color: #FF4D4F;
+        color: white;
+    }
+
+    .specs {
+        margin-bottom: 20px;
+    }
+
+        .specs span {
+            display: inline-block;
+            background: #eee;
+            padding: 5px 10px;
+            border-radius: 12px;
+            margin: 5px 5px 0 0;
+            font-size: 14px;
+        }
+
+    .dropdowns {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+        .dropdowns label {
+            font-weight: 600;
+        }
+
+        .dropdowns select {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+    .product-details {
+        margin-top: 50px;
+    }
+
+        .product-details h2 {
+            margin-bottom: 20px;
+        }
+
+    .feature-block {
+        background-color: #f7f7f7;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .grid-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        list-style: disc inside;
+    }
+}
+
+/* Quantity Counter */
+.counter-box {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+    .counter-box button {
+        width: 42px;
+        height: 100%;
+        border: none;
+        background: #e53935;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
+
+        .counter-box button:hover {
+            background: #c62828;
+        }
+
+    .counter-box input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        text-align: center;
+        font-size: 14px;
+        outline: none;
+        background: #fff;
+    }
+
+        /* Remove number input arrows */
+        .counter-box input::-webkit-outer-spin-button,
+        .counter-box input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+
+
+
+
+
+
+
+
