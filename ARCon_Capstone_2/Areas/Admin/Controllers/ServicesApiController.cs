@@ -75,19 +75,17 @@ public class ServicesApiController : ControllerBase
                     search = search.Trim().ToLower();
 
                     query = query.Where(s =>
-                        s.service_aircon_type.name.ToLower().Contains(search) ||
-                        s.service_categories.service_name.ToLower().Contains(search)
+                    EF.Functions.ILike(s.service_aircon_type.name ?? "", $"%{search}%") ||
+                    EF.Functions.ILike(s.service_categories.service_name ?? "", $"%{search}%") 
                     );
                 }
 
-        
-                query = (sortBy.ToLower(), sortDir.ToLower()) switch
-                {
-                    ("servicename", "desc") => query.OrderByDescending(s => s.service_categories.service_name),
-                    ("servicename", _) => query.OrderBy(s => s.service_categories.service_name),
+                bool asc = sortDir.ToLower() == "asc";
 
-                    ("aircontype", "desc") => query.OrderByDescending(s => s.service_aircon_type.name),
-                    _ => query.OrderBy(s => s.service_aircon_type.name)
+                query = sortBy switch
+                {
+                    "serviceName" =>  asc ? query.OrderBy(s => s.service_categories.service_name) : query.OrderByDescending(s => s.service_categories.service_name),
+                    _ => asc ? query.OrderBy(s => s.service_aircon_type.name) : query.OrderByDescending(s => s.service_aircon_type.name)
                 };
 
                 // 📄 PAGINATION
@@ -97,7 +95,8 @@ public class ServicesApiController : ControllerBase
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .Select(s => new
-                    {
+                    {   
+                        serviceId =s.id,
                         airconType = s.service_aircon_type.name,
                         serviceName = s.service_categories.service_name
                     })
@@ -113,12 +112,13 @@ public class ServicesApiController : ControllerBase
             }
 
     // this will be the child row of services
-    [HttpGet("services/{serviceId}/price-tiers")]
+    [HttpGet("{serviceId}/price-tiers")]
     public async Task<IActionResult> GetPriceTiers(int serviceId)
     {
         var tiers = await _context.service_price_tiers
-            .Where(t => t.services_id == serviceId)
+            .Where(t => t.services_id == serviceId && !t.is_deleted)
             .OrderBy(t => t.sort_order)
+            .ThenBy(t => t.capacity_min_range)
             .Select(t => new
             {
                 id = t.id,
@@ -130,4 +130,5 @@ public class ServicesApiController : ControllerBase
 
         return Ok(tiers);
     }
+
 }

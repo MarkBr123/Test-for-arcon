@@ -23,6 +23,10 @@ public partial class service_price_tier
 
     public int? sort_order { get; set; }
 
+    public bool is_deleted { get; set; }
+
+    public DateTime? deleted_at { get; set; }
+
     [ForeignKey("services_id")]
     [InverseProperty("service_price_tiers")]
     public virtual service services { get; set; } = null!;

@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\!add your changes here! - arcon_project_details.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:!add your changes here! - arcon_project_details.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\servicesapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\servicesapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\models\\service_price_tier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:models\\service_price_tier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\servicepricetiersapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\servicepricetiersapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\services.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\services.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\inventory-index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\inventory-index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "!Add your changes here! - ARCon_Project_Details.txt",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\!Add your changes here! - ARCon_Project_Details.txt",
+              "RelativeDocumentMoniker": "!Add your changes here! - ARCon_Project_Details.txt",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\!Add your changes here! - ARCon_Project_Details.txt",
+              "RelativeToolTip": "!Add your changes here! - ARCon_Project_Details.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-02-04T19:23:02.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "product.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\product.cs",
+              "RelativeDocumentMoniker": "Models\\product.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\product.cs",
+              "RelativeToolTip": "Models\\product.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T19:14:12.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "service_price_tier.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\service_price_tier.cs",
+              "RelativeDocumentMoniker": "Models\\service_price_tier.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\service_price_tier.cs",
+              "RelativeToolTip": "Models\\service_price_tier.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T19:07:12.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "inventory-index.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\inventory-index.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\inventory-index.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\inventory-index.js",
+              "RelativeToolTip": "wwwroot\\js\\inventory-index.js",
+              "ViewState": "AgIAABABAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-04T18:30:41.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ServicesApiController.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ServicesApiController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ServicesApiController.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ServicesApiController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\ServicesApiController.cs",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAAAHgAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T12:57:49.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ServicePriceTiersApiController.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ServicePriceTiersApiController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ServicePriceTiersApiController.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ServicePriceTiersApiController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\ServicePriceTiersApiController.cs",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAQwGUAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T16:38:34.426Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "services.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\services.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\services.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\services.js",
+              "RelativeToolTip": "wwwroot\\js\\services.js",
+              "ViewState": "AgIAAGYBAAAAAAAAAAAIwHoBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-03T13:29:37.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Services\\Index.cshtml",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Services\\Index.cshtml",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAAALAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-03T13:20:28.624Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

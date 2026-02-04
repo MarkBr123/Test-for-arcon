@@ -5,3 +5,4 @@ Lead Programmer:	Marvin Cayobit
 
 
 Marcelino Susano Jr.- Login and Signup page (validation to be followed po and some changes)
+Marvin Cayobit - Added Services CRUD
