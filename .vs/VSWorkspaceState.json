@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ARCon_Capstone_2",
-    "\\ARCon_Capstone_2\\Areas"
+    "\\ARCon_Capstone_2"
   ],
+<<<<<<< Updated upstream
   "SelectedNode": "\\ARCon_Capstone_2\\ARCon_Capstone_2.sln",
+=======
+>>>>>>> Stashed changes
   "PreviewInSolutionExplorer": false
 }
