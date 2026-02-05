@@ -9,7 +9,7 @@ namespace ARCon_Capstone_2.Controllers
             return RedirectToAction(
                 "Index",
                 "Home",
-                new { area = "Ecommerce" }
+                new { area = "Shop" }
             );
         }
     }

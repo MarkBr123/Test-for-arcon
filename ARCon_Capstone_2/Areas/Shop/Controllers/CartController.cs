@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-[Area("Ecommerce")]
+[Area("Shop")]
 public class CartController : Controller
 {
     public IActionResult CartIndex()

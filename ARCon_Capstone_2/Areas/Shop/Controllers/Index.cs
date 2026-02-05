@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ARCon_Capstone_2.Areas.Controllers
 {
-    [Area("Ecommerce")]
+    [Area("Shop")]
     public class Index : Controller
     {
         public IActionResult Cleaning()
