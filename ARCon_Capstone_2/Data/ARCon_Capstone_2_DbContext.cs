@@ -115,6 +115,15 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
     public virtual DbSet<user_role> user_roles { get; set; }
 
 
+    //Manually Added
+    public virtual DbSet<barangay> barangays { get; set; }
+    public virtual DbSet<municipality> municipalities{ get; set; }
+
+    public virtual DbSet<province> provinces { get; set; }
+    public virtual DbSet<region> regions { get; set; }
+    //end manually added
+
+
     public virtual DbSet<work_schedule> work_schedules { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -128,6 +137,89 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             .HasPostgresEnum("product_status", new[] { "ACTIVE", "DISCONTINUED", "DRAFT" })
             .HasPostgresEnum("user_status", new[] { "ACTIVE", "SUSPENDED", "ARCHIVED" });
 
+        //MANUALLY ADDED
+
+        // barangay
+        modelBuilder.Entity<barangay>(entity =>
+        {
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.barangay_name)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+            entity.HasOne(e => e.municipality)
+                  .WithMany(m => m.barangays)
+                  .HasForeignKey(e => e.municipality_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+        });
+        //municipality
+        modelBuilder.Entity<municipality>(entity =>
+        {
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.municipality_name)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+            // municipality → province (many-to-one)
+            entity.HasOne(e => e.province)
+                  .WithMany(p => p.municipalities)
+                  .HasForeignKey(e => e.province_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            // municipality → barangays (one-to-many)
+            entity.HasMany(e => e.barangays)
+                  .WithOne(b => b.municipality)
+                  .HasForeignKey(b => b.municipality_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        //province
+        modelBuilder.Entity<province>(entity =>
+        {
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.province_name)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+            // province → region (many-to-one)
+            entity.HasOne(e => e.region)
+                  .WithMany(r => r.provinces)
+                  .HasForeignKey(e => e.region_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            // province → municipalities (one-to-many)
+            entity.HasMany(e => e.municipalities)
+                  .WithOne(m => m.province)
+                  .HasForeignKey(m => m.province_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+        });
+        //region
+        modelBuilder.Entity<region>(entity =>
+        {
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.region_name)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+            entity.Property(e => e.region_description)
+                  .IsRequired();
+
+            // region → provinces (one-to-many)
+            entity.HasMany(e => e.provinces)
+                  .WithOne(p => p.region)
+                  .HasForeignKey(p => p.region_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+        });
+
+
+
+
+
+        //End Manually Added
         modelBuilder.Entity<admin_user>(entity =>
         {
             entity.HasKey(e => e.id).HasName("admin_users_pkey");
@@ -314,6 +406,39 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.Property(e => e.id).UseIdentityAlwaysColumn();
             entity.Property(e => e.created_at).HasDefaultValueSql("now()");
             entity.Property(e => e.is_default).HasDefaultValue(false);
+
+            //manually added part
+            // -------------------------
+            // barangay
+            // -------------------------
+            entity.HasOne(d => d.barangay)
+                  .WithMany(p => p.customer_addresses)
+                  .HasForeignKey(d => d.barangay_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            // -------------------------
+            // municipality
+            // -------------------------
+            entity.HasOne(d => d.municipality)
+                  .WithMany(p => p.customer_addresses)
+                  .HasForeignKey(d => d.municipality_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            // -------------------------
+            // province
+            // -------------------------
+            entity.HasOne(d => d.province)
+                  .WithMany(p => p.customer_addresses)
+                  .HasForeignKey(d => d.province_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            // -------------------------
+            // region
+            // -------------------------
+            entity.HasOne(d => d.region)
+                  .WithMany(p => p.customer_addresses)
+                  .HasForeignKey(d => d.region_id)
+                  .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(d => d.customer).WithMany(p => p.customer_addresses).HasConstraintName("customer_addresses_customer_id_fkey");
         });

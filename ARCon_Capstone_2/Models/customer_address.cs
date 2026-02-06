@@ -19,14 +19,34 @@ public partial class customer_address
     [StringLength(100)]
     public string? street_name { get; set; }
 
-    [StringLength(100)]
-    public string? barangay { get; set; }
 
-    [StringLength(100)]
-    public string? city { get; set; }
+    //barangay
+    // -------------------------
+    public int barangay_id { get; set; }
 
-    [StringLength(100)]
-    public string? province { get; set; }
+    [ForeignKey(nameof(barangay_id))]
+    [InverseProperty(nameof(barangay.customer_addresses))]
+    public virtual barangay barangay { get; set; } = null!;
+
+    //municipality
+    public int municipality_id { get; set; }
+
+    [ForeignKey(nameof(municipality_id))]
+    [InverseProperty(nameof(municipality.customer_addresses))]
+    public virtual municipality municipality { get; set; } = null!;
+
+    //province
+    public int province_id { get; set; }
+
+    [ForeignKey(nameof(province_id))]
+    [InverseProperty(nameof(province.customer_addresses))]
+    public virtual province province { get; set; } = null!;
+    //region
+    public int region_id { get; set; }
+
+    [ForeignKey(nameof(region_id))]
+    [InverseProperty(nameof(region.customer_addresses))]
+    public virtual region region { get; set; } = null!;
 
     [StringLength(10)]
     public string? zip_code { get; set; }
