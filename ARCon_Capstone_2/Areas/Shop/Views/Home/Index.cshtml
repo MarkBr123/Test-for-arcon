@@ -32,45 +32,54 @@
     <h2>BEST DEALS</h2>
     <div class="deal-cards">
         <div class="card product-card text-dark">
-            <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-            <h3>LG Window Inverter LA08GC</h3>
-            <p>Product Description</p>
-            <p>₱26,190</p>
+            <a asp-controller="Home" asp-action="Product">
+                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
+                <h3>LG Window Inverter LA08GC</h3>
+                <p>Product Description</p>
+                <p>₱26,190</p>
+            </a>
             <button class="btn btn-primary"
                     onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
                 Add to Cart
             </button>
         </div>
 
+
         <div class="card product-card text-dark">
-            <img src="~/ImageSources/Product/LG.webp" alt="Aircon">
-            <h3>Product Name</h3>
-            <p>0.8HP</p>
-            <p>₱1,000</p>
+            <a asp-controller="Home" asp-action="Product">
+                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
+                <h3>LG Window Inverter Try 2</h3>
+                <p>Product Description</p>
+                <p>₱12190</p>
+            </a>
             <button class="btn btn-primary"
-                    onclick="addToCart({id: 2, name: 'Product Name', price: 1000})">
+                    onclick="addToCart({id: 2, name: 'LG Window Inverter Try 2', price: 12190})">
                 Add to Cart
             </button>
         </div>
 
         <div class="card product-card text-dark">
-            <img src="~/ImageSources/Product/LG.webp" alt="Aircon">
-            <h3>Product Name</h3>
-            <p>0.8HP</p>
-            <p>₱1,000</p>
+            <a asp-controller="Home" asp-action="Product">
+                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
+                <h3>LG Window Inverter Try 3</h3>
+                <p>Product Description</p>
+                <p>₱42190</p>
+            </a>
             <button class="btn btn-primary"
-                    onclick="addToCart({id: 3, name: 'Product Name', price: 1000})">
+                    onclick="addToCart({id: 3, name: 'LG Window Inverter Try 3', price: 42190})">
                 Add to Cart
             </button>
         </div>
 
         <div class="card product-card text-dark">
-            <img src="~/ImageSources/Product/LG.webp" alt="Aircon">
-            <h3>Product Name</h3>
-            <p>0.8HP</p>
-            <p>₱1,000</p>
+            <a asp-controller="Home" asp-action="Product">
+                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
+                <h3>LG Window Inverter Try 4</h3>
+                <p>Product Description</p>
+                <p>₱16190</p>
+            </a>
             <button class="btn btn-primary"
-                    onclick="addToCart({id: 4, name: 'Product Name', price: 1000})">
+                    onclick="addToCart({id: 4, name: 'LG Window Inverter Try 4', price: 16190})">
                 Add to Cart
             </button>
         </div>
@@ -124,4 +133,4 @@
     <img src="~/ImageSources/Background/owner.jpg" alt="Aircon">
 </section>
 
-<script src="~/js/dashboard.js"></script>
+<script src="~/js/View-js/Index.js" asp-append-version="true"></script>

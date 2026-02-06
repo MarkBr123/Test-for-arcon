@@ -141,6 +141,12 @@ body {
     }
 
 /* DEALS SECTION*/
+
+.product-card a {
+    color: inherit; /* Uses the card text color */
+    text-decoration: none; /* Removes underline */
+}
+
 .deals {
     padding: 70px 6%;
     background: #ffffff;

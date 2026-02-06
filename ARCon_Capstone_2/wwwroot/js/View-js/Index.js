@@ -36,6 +36,73 @@
     updateCartCount();
 });
 
+/*for cart*/
+
+function getCart() {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function addToCart(product) {
+    let cart = getCart();
+    const existing = cart.find(p => p.id === product.id);
+    if (existing) {
+        existing.quantity++;
+    } else {
+        product.quantity = 1;
+        cart.push(product);
+    }
+    saveCart(cart);
+    renderCart();
+    alert(`${product.name} added to cart!`);
+}
+
+function renderCart() {
+    const cartItemsContainer = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+    const cart = getCart();
+
+    cartItemsContainer.innerHTML = "";
+    let total = 0;
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+        cartTotal.textContent = "₱0";
+        return;
+    }
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+        cartItemsContainer.innerHTML += `
+                <div class="cart-item">
+                    <strong>${item.name}</strong> - ₱${item.price} × ${item.quantity}
+                </div>
+            `;
+    });
+
+    cartTotal.textContent = "₱" + total;
+}
+
+// Initialize cart modal display
+const cartModal = document.getElementById("cartModal");
+const cartIcon = document.getElementById("cartButton");
+const cartClose = document.querySelector(".cart-close");
+
+cartIcon.addEventListener("click", e => {
+    e.preventDefault();
+    renderCart();
+    cartModal.style.display = "block";
+});
+
+cartClose.addEventListener("click", () => cartModal.style.display = "none");
+
+window.addEventListener("click", e => {
+    if (e.target == cartModal) cartModal.style.display = "none";
+});
+
 // CART LOGIC 
 function getCart() {
     return JSON.parse(localStorage.getItem("cart")) || [];
@@ -122,4 +189,9 @@ function removeFromCart(productId) {
     let cart = getCart().filter(i => i.id !== productId);
     saveCart(cart);
     renderCart();
+}
+
+/*Direct to product page*/
+function goToProduct() {
+    window.location.href = '@Url.Action("Product", "Product", new { area = "Shop" })';
 }
