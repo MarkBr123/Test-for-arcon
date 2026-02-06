@@ -1,4 +1,611 @@
-﻿@page
+﻿
 @model ARCon_Capstone_2.Views.Home.Services.FreonchargingModel
 @{
 }
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Freoncharge.css" asp-append-version="true" />
+}
+
+<section class="service-container">
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-step active" data-page="1">
+            <span class="progress-step-number">1</span>
+            <span>Service Details</span>
+        </div>
+        <div class="progress-step" data-page="2">
+            <span class="progress-step-number">2</span>
+            <span>Personal Information</span>
+        </div>
+    </div>
+
+    <form id="serviceForm" class="service-form">
+        <!-- Page 1: Service Details -->
+        <div id="page1" class="form-page active">
+            <div class="form-left">
+                <h2>Freon Charging Service</h2>
+
+                <!-- Aircon Entries Container -->
+                <div id="airconEntries">
+                    <!-- First Aircon Entry -->
+                    <div class="aircon-entry" data-aircon-id="1">
+                        <div class="aircon-entry-header">
+                            <div class="aircon-entry-title">Aircon #1</div>
+                            <button type="button" class="remove-aircon-btn hidden">Remove</button>
+                        </div>
+
+                        <div class="aircon-entry-content">
+                            <!-- AC Type Dropdown -->
+                            <div class="form-group">
+                                <label for="acType-1">AC Type *</label>
+                                <select id="acType-1" class="ac-type" data-aircon="1" required>
+                                    <option value="">Select AC Type...</option>
+                                    <option value="window_non_inverter">Window Type Non-Inverter</option>
+                                    <option value="window_inverter">Window Type Inverter</option>
+                                    <option value="split_wall_mounted">Split Type Wall Mounted</option>
+                                    <option value="floor_mounted">Floor Mounted</option>
+                                    <option value="ceiling_suspended">Ceiling Suspended</option>
+                                    <option value="cassette_type">Cassette Type</option>
+                                </select>
+                            </div>
+
+                            <!-- Refrigerant Type -->
+                            <div class="form-group">
+                                <label for="refrigerantType-1">Refrigerant Type *</label>
+                                <select id="refrigerantType-1" class="refrigerant-type" data-aircon="1" required>
+                                    <option value="">Select Refrigerant...</option>
+                                    <option value="r22">R22</option>
+                                    <option value="r32">R32</option>
+                                    <option value="r410a">R410A</option>
+                                    <option value="r134a">R134A</option>
+                                    <option value="not_sure">Not Sure</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="aircon-entry-content">
+                            <!-- Service Type -->
+                            <div class="form-group">
+                                <label for="serviceType-1">Service Type *</label>
+                                <select id="serviceType-1" class="service-type" data-aircon="1" required>
+                                    <option value="">Select Service...</option>
+                                    <option value="standard_charge">Standard Freon Charge</option>
+                                    <option value="leak_check">Leak Check + Charge</option>
+                                    <option value="full_recharge">Complete System Recharge</option>
+                                    <option value="pressure_test">Pressure Testing</option>
+                                </select>
+                            </div>
+
+                            <!-- Brand Dropdown -->
+                            <div class="form-group">
+                                <label for="brand-1">Brand (Optional)</label>
+                                <select id="brand-1" class="aircon-brand" data-aircon="1">
+                                    <option value="">Select Brand...</option>
+                                    <option value="samsung">Samsung</option>
+                                    <option value="lg">LG</option>
+                                    <option value="panasonic">Panasonic</option>
+                                    <option value="daikin">Daikin</option>
+                                    <option value="mitsubishi">Mitsubishi</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="units-warranty">
+                            <div class="form-group">
+                                <label>Number of Units *</label>
+                                <div class="counter-box">
+                                    <button type="button" class="minus" data-aircon="1">−</button>
+                                    <input class="units-input" type="number" value="1" min="1" max="10" data-aircon="1" required>
+                                    <button type="button" class="plus" data-aircon="1">+</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Last Charged Date</label>
+                                <input type="text" id="lastCharged-1" class="last-charged" data-aircon="1" placeholder="MM/YYYY or approximate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Another Aircon Button -->
+                <button type="button" class="add-aircon-btn" id="addAirconBtn">
+                    <span>+</span> Add Another Aircon
+                </button>
+
+                <!-- Additional Services -->
+                <div class="additional">
+                    <h3>Additional Requests</h3>
+                    <label><input type="checkbox" name="additional" value="leak_detection"> Leak Detection with UV Dye</label>
+                    <label><input type="checkbox" name="additional" value="vacuum_pump"> System Vacuum & Purge</label>
+                    <label><input type="checkbox" name="additional" value="ladder"> Long ladder needed for unit above 10ft/3m</label>
+                </div>
+            </div>
+
+            <div class="form-right">
+                <h2>Upload image/video (Optional)</h2>
+
+                <div class="upload-box" id="uploadBox">
+                    <input type="file" id="mediaUpload" accept="image/*,video/*" multiple>
+                    <p>Drag & Drop or <span>Select File</span></p>
+                    <div id="preview"></div>
+                </div>
+
+                <div class="price">
+                    <span>Estimated Price:</span>
+                    <strong id="estimatedPrice">₱ 0</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: Personal Information -->
+        <div id="page2" class="form-page">
+            <div class="form-left">
+                <h2>Personal Information</h2>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="customerType">Customer Type *</label>
+                    <select id="customerType" name="customerType" required>
+                        <option value="">Select...</option>
+                        <option value="individual">Individual</option>
+                        <option value="business">Business</option>
+                        <option value="corporate">Corporate</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Full Address *</label>
+                    <textarea id="address" name="address" required placeholder="Enter your complete address"></textarea>
+                </div>
+            </div>
+
+            <div class="form-right">
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="preferredContact">Preferred Contact Method</label>
+                    <select id="preferredContact" name="preferredContact">
+                        <option value="">Select...</option>
+                        <option value="phone">Phone Call</option>
+                        <option value="sms">SMS</option>
+                        <option value="email">Email</option>
+                        <option value="whatsapp">WhatsApp</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Additional Notes (Optional)</label>
+                    <textarea id="notes" name="notes" placeholder="Describe the issue, symptoms, or any special instructions..."></textarea>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="summary-box">
+                    <h3>Order Summary</h3>
+                    <div class="summary-content">
+                        <div class="summary-item">
+                            <span class="summary-label">Service:</span>
+                            <span class="summary-value">Freon Charging</span>
+                        </div>
+                        <div class="summary-item" id="summaryAircons">
+                            <span class="summary-label">Aircons:</span>
+                            <span class="summary-value">Not selected</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Refrigerant:</span>
+                            <span class="summary-value" id="summaryRefrigerant">Not selected</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Service Type:</span>
+                            <span class="summary-value" id="summaryServiceType">Not selected</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Total Units:</span>
+                            <span class="summary-value" id="summaryUnits">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Additional Services:</span>
+                            <span class="summary-value" id="summaryAdditional">None</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Estimated Total:</span>
+                        <span class="summary-value" id="summaryPrice">₱ 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="buttons">
+            <button type="button" class="back-btn hidden" id="backBtn">Back</button>
+            <button type="button" class="next-btn" id="nextBtn">Next</button>
+            <button type="submit" class="submit-btn hidden" id="submitBtn">Submit Booking</button>
+        </div>
+    </form>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Configuration - Freon Charging specific data
+        const serviceData = {
+            'standard_charge': { basePrice: 2500 },
+            'leak_check': { basePrice: 3500 },
+            'full_recharge': { basePrice: 4500 },
+            'pressure_test': { basePrice: 2000 }
+        };
+
+        const refrigerantPrices = {
+            'r22': 1.0,
+            'r32': 1.2,
+            'r410a': 1.3,
+            'r134a': 1.1,
+            'not_sure': 1.0
+        };
+
+        // DOM Elements
+        const pages = {
+            page1: document.getElementById('page1'),
+            page2: document.getElementById('page2'),
+            progressSteps: document.querySelectorAll('.progress-step'),
+            backBtn: document.getElementById('backBtn'),
+            nextBtn: document.getElementById('nextBtn'),
+            submitBtn: document.getElementById('submitBtn'),
+            airconEntries: document.getElementById('airconEntries'),
+            addAirconBtn: document.getElementById('addAirconBtn'),
+            uploadBox: document.getElementById('uploadBox'),
+            mediaUpload: document.getElementById('mediaUpload'),
+            serviceForm: document.getElementById('serviceForm')
+        };
+
+        // State
+        let currentPage = 1;
+        let airconCount = 1;
+
+        // Initialize
+        initForm();
+
+        // Functions
+        function initForm() {
+            setupEventListeners();
+            updateSummary();
+        }
+
+        function setupEventListeners() {
+            // Page navigation
+            pages.nextBtn.addEventListener('click', goToNextPage);
+            pages.backBtn.addEventListener('click', goToPreviousPage);
+
+            // Add aircon
+            pages.addAirconBtn.addEventListener('click', addAirconEntry);
+
+            // File upload
+            pages.uploadBox.addEventListener('click', () => pages.mediaUpload.click());
+            pages.mediaUpload.addEventListener('change', handleFileUpload);
+
+            // Form submission
+            pages.serviceForm.addEventListener('submit', handleSubmit);
+        }
+
+        function goToNextPage() {
+            if (!validateCurrentPage()) return;
+
+            if (currentPage === 1) {
+                currentPage = 2;
+                showPage(2);
+                pages.nextBtn.classList.add('hidden');
+                pages.submitBtn.classList.remove('hidden');
+                pages.backBtn.classList.remove('hidden');
+            }
+        }
+
+        function goToPreviousPage() {
+            currentPage = 1;
+            showPage(1);
+            pages.nextBtn.classList.remove('hidden');
+            pages.submitBtn.classList.add('hidden');
+            pages.backBtn.classList.add('hidden');
+        }
+
+        function showPage(pageNumber) {
+            // Hide all pages
+            pages.page1.classList.remove('active');
+            pages.page2.classList.remove('active');
+
+            // Show target page
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+
+            // Update progress indicator
+            pages.progressSteps.forEach(step => {
+                step.classList.remove('active');
+                if (parseInt(step.dataset.page) <= pageNumber) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update summary on page 2
+            if (pageNumber === 2) {
+                updateSummary();
+            }
+        }
+
+        function validateCurrentPage() {
+            if (currentPage === 1) {
+                const airconEntries = document.querySelectorAll('.aircon-entry');
+
+                for (const entry of airconEntries) {
+                    const acType = entry.querySelector('.ac-type');
+                    const refrigerantType = entry.querySelector('.refrigerant-type');
+                    const serviceType = entry.querySelector('.service-type');
+                    const units = entry.querySelector('.units-input');
+
+                    if (!acType.value || !refrigerantType.value || !serviceType.value || !units.value) {
+                        alert('Please fill all required fields for Aircon #' + entry.dataset.airconId);
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function addAirconEntry() {
+            airconCount++;
+            const template = document.querySelector('.aircon-entry').cloneNode(true);
+
+            // Update IDs and data attributes
+            template.dataset.airconId = airconCount;
+            template.querySelector('.aircon-entry-title').textContent = `Aircon #${airconCount}`;
+
+            // Update all inputs within this entry
+            template.querySelectorAll('[data-aircon]').forEach(el => {
+                el.dataset.aircon = airconCount;
+                const id = el.id ? el.id.replace(/\d+$/, airconCount) : null;
+                if (id) el.id = id;
+            });
+
+            // Clear values
+            template.querySelector('.ac-type').value = '';
+            template.querySelector('.refrigerant-type').value = '';
+            template.querySelector('.service-type').value = '';
+            template.querySelector('.aircon-brand').value = '';
+            template.querySelector('.units-input').value = 1;
+            template.querySelector('.last-charged').value = '';
+
+            // Show remove button
+            template.querySelector('.remove-aircon-btn').classList.remove('hidden');
+            template.querySelector('.remove-aircon-btn').addEventListener('click', function () {
+                if (airconCount > 1) {
+                    template.remove();
+                    airconCount--;
+                    updateSummary();
+                }
+            });
+
+            // Add event listeners
+            addAirconEventListeners(template, airconCount);
+
+            // Append to container
+            pages.airconEntries.appendChild(template);
+
+            // Update summary
+            updateSummary();
+        }
+
+        function addAirconEventListeners(entry, airconId) {
+            // All dropdown changes trigger summary update
+            entry.querySelector('.ac-type').addEventListener('change', updateSummary);
+            entry.querySelector('.refrigerant-type').addEventListener('change', updateSummary);
+            entry.querySelector('.service-type').addEventListener('change', updateSummary);
+            entry.querySelector('.aircon-brand').addEventListener('change', updateSummary);
+            entry.querySelector('.last-charged').addEventListener('input', updateSummary);
+
+            // Units counter
+            const minusBtn = entry.querySelector('.minus');
+            const plusBtn = entry.querySelector('.plus');
+            const unitsInput = entry.querySelector('.units-input');
+
+            minusBtn.addEventListener('click', function () {
+                const current = parseInt(unitsInput.value);
+                if (current > 1) {
+                    unitsInput.value = current - 1;
+                    updateSummary();
+                }
+            });
+
+            plusBtn.addEventListener('click', function () {
+                const current = parseInt(unitsInput.value);
+                if (current < 10) {
+                    unitsInput.value = current + 1;
+                    updateSummary();
+                }
+            });
+
+            unitsInput.addEventListener('change', updateSummary);
+        }
+
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const div = document.createElement('div');
+
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'Preview';
+                        div.appendChild(img);
+                    } else if (file.type.startsWith('video/')) {
+                        const video = document.createElement('video');
+                        video.src = e.target.result;
+                        video.controls = true;
+                        video.style.maxWidth = '100px';
+                        video.style.maxHeight = '100px';
+                        div.appendChild(video);
+                    }
+
+                    preview.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateSummary() {
+            const airconEntries = document.querySelectorAll('.aircon-entry');
+            let totalUnits = 0;
+            let totalPrice = 0;
+            const airconTypes = [];
+            const refrigerantTypes = new Set();
+            const serviceTypes = new Set();
+
+            // Calculate totals
+            airconEntries.forEach(entry => {
+                const units = parseInt(entry.querySelector('.units-input').value) || 1;
+                const acType = entry.querySelector('.ac-type').value;
+                const refrigerantType = entry.querySelector('.refrigerant-type').value;
+                const serviceType = entry.querySelector('.service-type').value;
+
+                totalUnits += units;
+
+                if (acType) {
+                    const typeName = entry.querySelector('.ac-type option:checked').textContent;
+                    airconTypes.push(`${typeName} (${units} unit${units > 1 ? 's' : ''})`);
+                }
+
+                if (refrigerantType) {
+                    const refrigerantName = entry.querySelector('.refrigerant-type option:checked').textContent;
+                    refrigerantTypes.add(refrigerantName);
+                }
+
+                if (serviceType) {
+                    const serviceName = entry.querySelector('.service-type option:checked').textContent;
+                    serviceTypes.add(serviceName);
+                }
+
+                // Calculate price
+                if (serviceType && serviceData[serviceType]) {
+                    let unitPrice = serviceData[serviceType].basePrice;
+
+                    // Adjust for refrigerant type
+                    if (refrigerantType && refrigerantPrices[refrigerantType]) {
+                        unitPrice *= refrigerantPrices[refrigerantType];
+                    }
+
+                    totalPrice += Math.round(unitPrice * units);
+                }
+            });
+
+            // Additional services
+            const additionalCheckboxes = document.querySelectorAll('input[name="additional"]:checked');
+            const additionalServices = additionalCheckboxes.length > 0
+                ? Array.from(additionalCheckboxes).map(cb => {
+                    const labels = {
+                        'leak_detection': 'UV Leak Detection',
+                        'vacuum_pump': 'Vacuum & Purge',
+                        'ladder': 'Ladder needed'
+                    };
+                    return labels[cb.value] || cb.value;
+                }).join(', ')
+                : 'None';
+
+            // Add additional service costs
+            if (additionalCheckboxes.length > 0) {
+                additionalCheckboxes.forEach(cb => {
+                    if (cb.value === 'leak_detection') totalPrice += 500;
+                    if (cb.value === 'vacuum_pump') totalPrice += 800;
+                });
+            }
+
+            // Update DOM
+            document.getElementById('summaryAircons').querySelector('.summary-value').textContent =
+                airconTypes.length > 0 ? airconTypes.join(', ') : 'Not selected';
+
+            document.getElementById('summaryRefrigerant').textContent =
+                refrigerantTypes.size > 0 ? Array.from(refrigerantTypes).join(', ') : 'Not selected';
+
+            document.getElementById('summaryServiceType').textContent =
+                serviceTypes.size > 0 ? Array.from(serviceTypes).join(', ') : 'Not selected';
+
+            document.getElementById('summaryUnits').textContent = totalUnits;
+            document.getElementById('summaryAdditional').textContent = additionalServices;
+            document.getElementById('summaryPrice').textContent = `₱ ${totalPrice.toLocaleString()}`;
+            document.getElementById('estimatedPrice').textContent = `₱ ${totalPrice.toLocaleString()}`;
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            if (!validateCurrentPage()) return;
+
+            // Collect form data
+            const formData = {
+                serviceDetails: collectServiceDetails(),
+                personalInfo: collectPersonalInfo(),
+                files: Array.from(pages.mediaUpload.files).map(file => file.name),
+                totalPrice: parsePrice(document.getElementById('summaryPrice').textContent)
+            };
+
+            // In a real app, you would send this to your server
+            console.log('Form submitted:', formData);
+            alert('Freon Charging booking submitted successfully! We will contact you soon.');
+        }
+
+        function collectServiceDetails() {
+            const entries = [];
+
+            document.querySelectorAll('.aircon-entry').forEach(entry => {
+                entries.push({
+                    acType: entry.querySelector('.ac-type').value,
+                    refrigerantType: entry.querySelector('.refrigerant-type').value,
+                    serviceType: entry.querySelector('.service-type').value,
+                    brand: entry.querySelector('.aircon-brand').value,
+                    units: entry.querySelector('.units-input').value,
+                    lastCharged: entry.querySelector('.last-charged').value
+                });
+            });
+
+            return entries;
+        }
+
+        function collectPersonalInfo() {
+            return {
+                fullName: document.getElementById('fullName').value,
+                customerType: document.getElementById('customerType').value,
+                address: document.getElementById('address').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                preferredContact: document.getElementById('preferredContact').value,
+                notes: document.getElementById('notes').value
+            };
+        }
+
+        function parsePrice(priceString) {
+            return parseInt(priceString.replace(/[^\d]/g, ''));
+        }
+
+        // Initialize event listeners for first aircon
+        addAirconEventListeners(document.querySelector('.aircon-entry'), 1);
+
+        // Initialize additional checkboxes
+        document.querySelectorAll('input[name="additional"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateSummary);
+        });
+    });
+</script>
