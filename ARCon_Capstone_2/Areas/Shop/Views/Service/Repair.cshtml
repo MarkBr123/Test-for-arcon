@@ -1,4 +1,182 @@
-﻿@page
-@model ARCon_Capstone_2.Views.Home.Services.RepairModel
+﻿@model ARCon_Capstone_2.Views.Home.Services.RepairModel
 @{
 }
+
+@{
+    ViewData["Title"] = "Repair Services";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Repair.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/Repair.js" asp-append-version="true"></script>
+}
+
+<div class="repair-container">
+    <!-- Hero Section -->
+    <section class="repair-hero">
+        <div class="hero-content">
+            <h1>Professional Aircon Repair Services</h1>
+            <p class="hero-subtitle">Expert solutions for all your air conditioning repair needs with guaranteed quality and fast turnaround</p>
+            <button class="cta-button" id="scheduleRepairBtn">Schedule a Repair</button>
+        </div>
+        <div class="hero-image">
+            <div class="image-placeholder">
+                Aircon Repair Service Image
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Repair Form Section -->
+    <section class="repair-form-section">
+        <h2>Repair Request Form</h2>
+        <form id="repairForm" class="repair-form">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email address">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+            </div>
+
+            <div class="form-group">
+                <label for="repairType">Repair Type *</label>
+                <select id="repairType" name="repairType" required>
+                    <option value="">Select a repair type</option>
+                    <option value="window">Window AC Repair</option>
+                    <option value="split">Split AC Repair</option>
+                    <option value="emergency">Emergency Repair</option>
+                    <option value="maintenance">Preventive Maintenance</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Problem Description *</label>
+                <textarea id="description" name="description" rows="4" required placeholder="Please describe the issue..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Urgency Level</label>
+                <div class="urgency-options">
+                    <label class="urgency-option">
+                        <input type="radio" name="urgency" value="normal" checked>
+                        <span>Normal (3-5 business days)</span>
+                    </label>
+                    <label class="urgency-option">
+                        <input type="radio" name="urgency" value="urgent">
+                        <span>Urgent (24-48 hours)</span>
+                    </label>
+                    <label class="urgency-option">
+                        <input type="radio" name="urgency" value="emergency">
+                        <span>Emergency (Same day)</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Repair Request</button>
+            <div id="formMessage" class="form-message"></div>
+        </form>
+    </section>
+
+    <!-- Services Cards Section -->
+    <section class="services-section">
+        <h2>Our Repair Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>General Repairs</h3>
+                <p>Comprehensive repair solutions for common issues and maintenance needs.</p>
+                <ul class="service-features">
+                    <li>Diagnostic assessment</li>
+                    <li>Quality parts replacement</li>
+                    <li>Preventive maintenance</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3>Emergency Repairs</h3>
+                <p>24/7 emergency services for urgent repair situations.</p>
+                <ul class="service-features">
+                    <li>24/7 availability</li>
+                    <li>Fast response time</li>
+                    <li>Priority service</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🛠️</div>
+                <h3>Specialized Repairs</h3>
+                <p>Expert repairs for specialized equipment and complex systems.</p>
+                <ul class="service-features">
+                    <li>Expert technicians</li>
+                    <li>Specialized tools</li>
+                    <li>Custom solutions</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    How much does the diagnostic fee cost?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>The diagnostic fee is ₱500. This fee will be waived if you proceed with the repair service.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Do you offer warranty on repairs?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, all our repairs come with a 90-day service warranty. Replacement parts have their own manufacturer warranty.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What are your service hours?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Monday to Saturday: 8:00 AM - 8:00 PM. Emergency services available 24/7 for urgent cases.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How long does a typical repair take?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Minor repairs: 1-2 hours. Moderate repairs: 2-4 hours. Major repairs: 4-8 hours or may require follow-up visits for parts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+        <div class="footer-content">
+            <p>© 2024 Aircon Repair Services. All rights reserved.</p>
+        </div>
+    </footer>
+</div>

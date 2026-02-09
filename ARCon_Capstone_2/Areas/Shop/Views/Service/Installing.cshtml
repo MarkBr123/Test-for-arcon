@@ -1,4 +1,347 @@
-﻿@page
-@model ARCon_Capstone_2.Views.Home.Services.InstallingModel
+﻿@model dynamic
 @{
+    ViewData["Title"] = "Installation Services";
+    Layout = "~/Areas/Shop/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Installing.css" asp-append-version="true" />
+}
+
+<section class="service-container">
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-step active" data-page="1">
+            <span class="progress-step-number">1</span>
+            <span>Installation Details</span>
+        </div>
+        <div class="progress-step" data-page="2">
+            <span class="progress-step-number">2</span>
+            <span>Location & Preferences</span>
+        </div>
+        <div class="progress-step" data-page="3">
+            <span class="progress-step-number">3</span>
+            <span>Personal Information</span>
+        </div>
+    </div>
+
+    <form id="installationForm" class="service-form">
+        <!-- Page 1: Installation Details -->
+        <div id="page1" class="form-page active">
+            <div class="form-left">
+                <h2>AC Installation Service</h2>
+
+                <!-- Unit Entries Container -->
+                <div id="unitEntries">
+                    <!-- First Unit Entry -->
+                    <div class="aircon-entry" data-unit-id="1">
+                        <div class="aircon-entry-header">
+                            <div class="aircon-entry-title">AC Unit #1</div>
+                            <button type="button" class="remove-aircon-btn hidden">Remove</button>
+                        </div>
+
+                        <div class="aircon-entry-content">
+                            <!-- AC Type Dropdown -->
+                            <div class="form-group">
+                                <label for="acType-1">AC Type *</label>
+                                <select id="acType-1" class="ac-type" data-unit="1" required>
+                                    <option value="">Select AC Type...</option>
+                                    <option value="window">Window Type</option>
+                                    <option value="split_wall">Split Type (Wall Mounted)</option>
+                                    <option value="split_floor">Split Type (Floor Mounted)</option>
+                                    <option value="split_ceiling">Split Type (Ceiling Cassette)</option>
+                                    <option value="central">Central AC System</option>
+                                    <option value="portable">Portable AC</option>
+                                </select>
+                            </div>
+
+                            <!-- AC Capacity -->
+                            <div class="form-group">
+                                <label for="capacity-1">AC Capacity (HP/Ton) *</label>
+                                <select id="capacity-1" class="capacity" data-unit="1" required>
+                                    <option value="">Select Capacity...</option>
+                                    <option value="0.5">0.5 HP (Small Room)</option>
+                                    <option value="1.0">1.0 HP (Medium Room)</option>
+                                    <option value="1.5">1.5 HP (Large Room)</option>
+                                    <option value="2.0">2.0 HP (Large Space)</option>
+                                    <option value="2.5">2.5 HP (Office/Small Hall)</option>
+                                    <option value="3.0">3.0 HP (Commercial)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="aircon-entry-content">
+                            <!-- Brand Dropdown -->
+                            <div class="form-group">
+                                <label for="brand-1">Brand *</label>
+                                <select id="brand-1" class="aircon-brand" data-unit="1" required>
+                                    <option value="">Select Brand...</option>
+                                    <option value="daikin">Daikin</option>
+                                    <option value="mitsubishi">Mitsubishi</option>
+                                    <option value="panasonic">Panasonic</option>
+                                    <option value="lg">LG</option>
+                                    <option value="samsung">Samsung</option>
+                                    <option value="carrier">Carrier</option>
+                                    <option value="other">Other Brand</option>
+                                </select>
+                            </div>
+
+                            <!-- Installation Type -->
+                            <div class="form-group">
+                                <label for="installationType-1">Installation Type *</label>
+                                <select id="installationType-1" class="installation-type" data-unit="1" required>
+                                    <option value="">Select Type...</option>
+                                    <option value="new">New Installation</option>
+                                    <option value="replacement">Replacement Installation</option>
+                                    <option value="relocation">Relocation</option>
+                                    <option value="commercial">Commercial Setup</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="units-warranty">
+                            <div class="form-group">
+                                <label>Number of Units *</label>
+                                <div class="counter-box">
+                                    <button type="button" class="minus" data-unit="1">−</button>
+                                    <input class="units-input" type="number" value="1" min="1" max="10" data-unit="1" required>
+                                    <button type="button" class="plus" data-unit="1">+</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Preferred Installation Date</label>
+                                <input type="date" id="installDate-1" class="install-date" data-unit="1" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Another Unit Button -->
+                <button type="button" class="add-aircon-btn" id="addUnitBtn">
+                    <span>+</span> Add Another AC Unit
+                </button>
+
+                <!-- Additional Installation Services -->
+                <div class="additional">
+                    <h3>Additional Installation Services</h3>
+                    <label><input type="checkbox" name="additional" value="electrical_wiring"> Electrical Wiring Setup</label>
+                    <label><input type="checkbox" name="additional" value="drainage_piping"> Drainage Piping</label>
+                    <label><input type="checkbox" name="additional" value="wall_cutting"> Wall Cutting/Boring</label>
+                    <label><input type="checkbox" name="additional" value="scaffolding"> Scaffolding/Ladder Required</label>
+                    <label><input type="checkbox" name="additional" value="disposal"> Old Unit Disposal</label>
+                </div>
+            </div>
+
+            <div class="form-right">
+                <h2>Upload Reference Images (Optional)</h2>
+
+                <div class="upload-box" id="uploadBox">
+                    <input type="file" id="mediaUpload" accept="image/*" multiple>
+                    <p>Upload pictures of installation area</p>
+                    <p>Drag & Drop or <span>Select File</span></p>
+                    <div id="preview"></div>
+                </div>
+
+                <div class="price">
+                    <span>Estimated Installation Price:</span>
+                    <strong id="estimatedPrice">₱ 0</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: Location & Preferences -->
+        <div id="page2" class="form-page">
+            <div class="form-left">
+                <h2>Installation Location Details</h2>
+
+                <div class="form-group">
+                    <label for="propertyType">Property Type *</label>
+                    <select id="propertyType" name="propertyType" required>
+                        <option value="">Select Property Type...</option>
+                        <option value="residential_house">Residential House</option>
+                        <option value="apartment">Apartment/Condo</option>
+                        <option value="office">Office/Commercial</option>
+                        <option value="shop">Shop/Retail</option>
+                        <option value="factory">Factory/Warehouse</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="floorLevel">Floor Level *</label>
+                    <select id="floorLevel" name="floorLevel" required>
+                        <option value="">Select Floor Level...</option>
+                        <option value="ground">Ground Floor</option>
+                        <option value="1">1st Floor</option>
+                        <option value="2">2nd Floor</option>
+                        <option value="3">3rd Floor</option>
+                        <option value="4">4th Floor & Above</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="roomDimensions">Room Dimensions (Optional)</label>
+                    <input type="text" id="roomDimensions" name="roomDimensions" placeholder="e.g., 4m x 5m">
+                </div>
+
+                <div class="form-group">
+                    <label for="accessDifficulty">Access Difficulty</label>
+                    <select id="accessDifficulty" name="accessDifficulty">
+                        <option value="">Select Difficulty...</option>
+                        <option value="easy">Easy (Ground floor, wide access)</option>
+                        <option value="medium">Medium (Stairs, narrow access)</option>
+                        <option value="difficult">Difficult (High floor, limited access)</option>
+                        <option value="very_difficult">Very Difficult (Special equipment needed)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-right">
+                <div class="form-group">
+                    <label for="powerSource">Power Source Availability</label>
+                    <select id="powerSource" name="powerSource">
+                        <option value="">Select Availability...</option>
+                        <option value="available">Power Outlet Available</option>
+                        <option value="nearby">Outlet Nearby (2-5 meters)</option>
+                        <option value="far">Outlet Far (5+ meters)</option>
+                        <option value="none">No Power Outlet</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="wallType">Wall Type</label>
+                    <select id="wallType" name="wallType">
+                        <option value="">Select Wall Type...</option>
+                        <option value="concrete">Concrete</option>
+                        <option value="brick">Brick</option>
+                        <option value="wood">Wood</option>
+                        <option value="glass">Glass</option>
+                        <option value="mixed">Mixed Materials</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="installationHeight">Installation Height from Floor</label>
+                    <select id="installationHeight" name="installationHeight">
+                        <option value="">Select Height...</option>
+                        <option value="2">Below 2 meters</option>
+                        <option value="3">2-3 meters</option>
+                        <option value="4">3-4 meters</option>
+                        <option value="5">Above 4 meters</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="specialRequirements">Special Requirements/Notes</label>
+                    <textarea id="specialRequirements" name="specialRequirements" placeholder="Any special installation requirements, obstacles, or notes..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: Personal Information -->
+        <div id="page3" class="form-page">
+            <div class="form-left">
+                <h2>Personal Information</h2>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="customerType">Customer Type *</label>
+                    <select id="customerType" name="customerType" required>
+                        <option value="">Select...</option>
+                        <option value="individual">Individual/Homeowner</option>
+                        <option value="business">Business Owner</option>
+                        <option value="contractor">Contractor/Builder</option>
+                        <option value="property_manager">Property Manager</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Installation Address *</label>
+                    <textarea id="address" name="address" required placeholder="Enter complete installation address"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="landmark">Nearest Landmark</label>
+                    <input type="text" id="landmark" name="landmark" placeholder="e.g., near shopping mall, beside bank">
+                </div>
+            </div>
+
+            <div class="form-right">
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="preferredTime">Preferred Installation Time</label>
+                    <select id="preferredTime" name="preferredTime">
+                        <option value="">Select Preferred Time...</option>
+                        <option value="morning">Morning (8 AM - 12 PM)</option>
+                        <option value="afternoon">Afternoon (1 PM - 5 PM)</option>
+                        <option value="evening">Evening (6 PM - 8 PM)</option>
+                        <option value="flexible">Flexible (Any time)</option>
+                    </select>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="summary-box">
+                    <h3>Installation Summary</h3>
+                    <div class="summary-content">
+                        <div class="summary-item">
+                            <span class="summary-label">Service:</span>
+                            <span class="summary-value">AC Installation</span>
+                        </div>
+                        <div class="summary-item" id="summaryUnits">
+                            <span class="summary-label">AC Units:</span>
+                            <span class="summary-value">Not selected</span>
+                        </div>
+                        <div class="summary-item" id="summaryInstallationType">
+                            <span class="summary-label">Installation Type:</span>
+                            <span class="summary-value">Not selected</span>
+                        </div>
+                        <div class="summary-item" id="summaryCapacity">
+                            <span class="summary-label">Total Capacity:</span>
+                            <span class="summary-value">0 HP</span>
+                        </div>
+                        <div class="summary-item" id="summaryPropertyType">
+                            <span class="summary-label">Property Type:</span>
+                            <span class="summary-value">Not selected</span>
+                        </div>
+                        <div class="summary-item" id="summaryAdditional">
+                            <span class="summary-label">Additional Services:</span>
+                            <span class="summary-value">None</span>
+                        </div>
+                        <div class="summary-item" id="summaryDifficulty">
+                            <span class="summary-label">Access Difficulty:</span>
+                            <span class="summary-value">Not specified</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Estimated Total:</span>
+                        <span class="summary-value" id="summaryPrice">₱ 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="buttons">
+            <button type="button" class="back-btn hidden" id="backBtn">Back</button>
+            <button type="button" class="next-btn" id="nextBtn">Next</button>
+            <button type="submit" class="submit-btn hidden" id="submitBtn">Submit Installation Request</button>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <script src="~/js/Installing.js"></script>
 }

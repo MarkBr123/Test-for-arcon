@@ -348,9 +348,9 @@ function addAircon() {
                         <button type="button" class="plus" data-aircon="${airconCounter}">+</button>
                     </div>
                 </div>
-                <div>
+                                    <div>
                     <label>Warranty Status *</label>
-                    <div class="warranty">
+                    <div class="warranty-buttons">
                         <button type="button" class="warranty-btn active" data-status="In-Warranty" data-aircon="${airconCounter}">In-Warranty</button>
                         <button type="button" class="warranty-btn" data-status="Out-of-Warranty" data-aircon="${airconCounter}">Out-of-Warranty</button>
                     </div>
