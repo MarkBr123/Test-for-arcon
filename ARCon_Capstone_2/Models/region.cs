@@ -15,12 +15,14 @@ namespace ARCon_Capstone_2.Models;
         public string region_name {  get; set; }
         public string region_description { get; set; }
 
+
+
     // Inverse navigation
     public ICollection<province> provinces { get; set; }
         = new List<province>();
 
     public ICollection<customer_address> customer_addresses { get; set; }
     = new List<customer_address>();
-
+    
 }
 

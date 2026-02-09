@@ -8,63 +8,81 @@
 <div class="signup-page">
     <div class="signup-card">
 
-        <!-- Left column: Signup form -->
-        <div class="signup-form">
-            <h2>Sign Up</h2>
-            <p class="subtitle">Welcome to our website, let’s get started</p>
+        <!-- ONE FORM ONLY -->
+        <form id="signupForm">
 
-            <form method="post">
+            <!-- Left column -->
+            <div class="signup-form">
+                <h2>Sign Up</h2>
+                <p class="subtitle">Welcome to our website, let’s get started</p>
 
-                <h6>Name</h6>
-                <input type="text" placeholder="Username" required />
+                <h6>Basic Information</h6>
+
                 <div class="name-row">
-                    <input id="fname" type="text" placeholder="First name" />
-                    <input id="lname" type="text" placeholder="Last name" />
-                    <input id="mname" type="text" placeholder="Middle name" />
+                    <input id="fname" name="first_name" type="text" placeholder="First name" required />
+                    <input id="mname" name="middle_name" type="text" placeholder="Middle name" />
+                    <input id="lname" name="last_name" type="text" placeholder="Last name" required />
                 </div>
+
+                <input id="birthday"
+                       name="birthday"
+                       type="date"
+                       required
+                       min="1904-01-01"
+                       max="2007-12-31" />
 
                 <h6>Address</h6>
-                <input id="address" type="text" placeholder="Street Address" />
-                <input id="caddress" type="text" placeholder="Street Address Line 2" />
+
+                <input id="house_unit" name="house_unit" type="text" placeholder="House / Unit" />
+                <input id="street_name" name="street_name" type="text" placeholder="Street" />
 
                 <div class="name-row">
-                    <input id="Barangay" type="text" placeholder="Barangay" />
-                    <input id="city" type="text" placeholder="City" />
-                </div>
-                <div class="name-row">
-                    <input id="posta" type="text" placeholder="Postal/Zip Code" />
-                    <select id="country" required>
-                        <option value="">Country</option>
-                        <option value="PH">Philippines</option>
+                    <select id="region" name="region_id" required>
+                        <option value="">-- Select Region --</option>
+                    </select>
+
+                    <select id="province" name="province_id" disabled required>
+                        <option value="">-- Select Province --</option>
                     </select>
                 </div>
 
-            </form>
-        </div>
+                <div class="name-row">
+                    <select id="municipality" name="municipality_id" disabled required>
+                        <option value="">-- Select Municipality --</option>
+                    </select>
 
-        <!-- Right column: Info and illustration -->
-        <div class="signup-right">
-            <div class="signup-form-right">
+                    <select id="barangay" name="barangay_id" disabled required>
+                        <option value="">-- Select Barangay --</option>
+                    </select>
+                </div>
 
-                <form method="post">
+                <input id="zip_code" name="zip_code" type="text" placeholder="Zip Code" />
+                <input id="landmark" name="landmark" type="text" placeholder="Landmark" />
+            </div>
+
+            <!-- Right column -->
+            <div class="signup-right">
+                <div class="signup-form-right">
                     <h6>Contact</h6>
-                    <input id="email" type="email" placeholder="Email" required />
-                    <input id="contact" type="text" placeholder="Contact number" required />
+                    <input id="email" name="email" type="email" placeholder="Email" required />
+                    <input id="contact" name="contact_no" type="text" placeholder="Contact number" required />
 
                     <h6>Password</h6>
-                    <input id="password" type="password" placeholder="Password" required />
+                    <input id="password" name="password" type="password" placeholder="Password" required />
                     <input id="cpassword" type="password" placeholder="Confirm Password" required />
+                    <div id="formError" class="form-error" style="display:none;"></div>
+                    <button type="button" id="btnCreateAccount">Create Account</button>
 
-                    <button type="submit">Create Account</button>
-                </form>
+                </div>
+
+                <div class="illustration">
+                    <img src="~/ImageSources/Background/repair.jpg" alt="Illustration" />
+                </div>
             </div>
-            <div class="illustration">
-                @* <h3>Aircon-i</h3>
-                <p>Welcome</p> *@
-                <img src="~/ImageSources/Background/repair.jpg" alt="Illustration" />
-            </div>
-        </div>
+
+        </form>
 
     </div>
 </div>
 
+<script src="~/js/create_customer.js"></script>

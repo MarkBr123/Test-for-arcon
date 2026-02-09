@@ -116,8 +116,8 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
 
     //Manually Added
-    public virtual DbSet<barangay> barangays { get; set; }
-    public virtual DbSet<municipality> municipalities{ get; set; }
+    public virtual DbSet<barangay> barangay { get; set; }
+    public virtual DbSet<municipality> municipality{ get; set; }
 
     public virtual DbSet<province> provinces { get; set; }
     public virtual DbSet<region> regions { get; set; }
