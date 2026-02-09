@@ -26,4 +26,5 @@ Marvin Cayobit
 				02/06/2026 - Altered Customer_Adderess tbl
 				02/06/2026 - Added Region, Province, Municipality, Barangay tbl 
 				02/06/2026 - Updated customer_address tbl,  DBContext
-				02/
+				02/06/2026 - Updated customer_address tbl,  DBContext (Done)
+				02/09/2026 - Created Customer Account, First Customer Address, Geolocation(Lat and Long) (DONE)
