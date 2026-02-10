@@ -53,6 +53,8 @@ public partial class admin_user
 
     public DateTime? last_login { get; set; }
 
+    public bool? must_change_password { get; set; }
+
     [StringLength(255)]
     public string? avatar_url { get; set; }
 

@@ -1,5 +1,8 @@
-﻿@page
-@model ARCon_Capstone_2.Areas.Shop.Views.Home.LoginModel
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 
 @section Styles {
     <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
@@ -20,21 +23,47 @@
                 <h2>Login</h2>
                 <p>Welcome to our website and let’s get started</p>
 
-                <form method="post">
-                    <div class="form-group">
-                        <input type="text" name="Username" placeholder="Username" />
-                    </div>
+                <form id="loginForm"
+                      asp-controller="Auth"
+                      asp-action="Login"
+                      asp-area=""
+                      method="post">
 
                     <div class="form-group">
-                        <input type="password" name="Password" placeholder="Password" />
+                        <input type="text"
+                               id="identifier"
+                               name="identifier"
+                               placeholder="Email or Contact Number"
+                               required />
                     </div>
 
-                    <div class="forgot">
-                        <a id="forgot-pass" href="#">Forget password?</a>
+                    <div class="form-group password-group">
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               placeholder="Password"
+                               required />
+
+                        <!-- optional toggle -->
+                        <button type="button" id="togglePassword" class="toggle-pass">
+                            👁
+                        </button>
                     </div>
 
-                    <button type="submit" class="btn-login">Login</button>
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="error-message">
+                            @TempData["Error"]
+                        </div>
+                    }
+
+
+                    <button type="submit" id="loginBtn" class="btn-login">
+                        Login
+                    </button>
                 </form>
+
+
 
                 <div class="divider">Or</div>
                 <div>Doesn't have an account?'</div>
@@ -45,3 +74,8 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+        <script src="~/js/login.js" asp-append-version="true"></script>
+}
+

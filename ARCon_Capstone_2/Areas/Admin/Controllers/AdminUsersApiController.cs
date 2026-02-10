@@ -51,8 +51,9 @@ public class AdminUsersApiController : ControllerBase
             return BadRequest("Contact number already exists.");
         }
 
-        var tempPassword = PasswordHelper.GenerateTemporaryPassword();
-        var hash = BCrypt.Net.BCrypt.HashPassword(tempPassword);
+        const string DEFAULT_ADMIN_PASSWORD = "airconi-admin123";
+        var hash = BCrypt.Net.BCrypt.HashPassword(DEFAULT_ADMIN_PASSWORD);
+
 
 
         foreach (var s in dto.Schedule)

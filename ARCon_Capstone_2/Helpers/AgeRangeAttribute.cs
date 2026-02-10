@@ -25,7 +25,6 @@ namespace ARCon_Capstone_2.Helpers
 
             int age = today.Year - birthDate.Year;
 
-            // Adjust if birthday hasn't occurred yet this year
             if (birthDate > today.AddYears(-age))
                 age--;
 

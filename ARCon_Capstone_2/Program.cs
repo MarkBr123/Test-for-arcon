@@ -1,67 +1,98 @@
 ﻿using ARCon_Capstone_2.Data;
 using ARCon_Capstone_2.Services;
 using Microsoft.EntityFrameworkCore;
-using ARCon_Capstone_2.Services;
+using Microsoft.AspNetCore.Mvc;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using QuestPDF.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ==========================
+// GLOBAL CONFIG
+// ==========================
 QuestPDF.Settings.License = LicenseType.Community;
 
-//Disable automatic ModelState response
+// ==========================
+// SERVICES (DI CONTAINER)
+// ==========================
+
+// MVC (Views + Controllers)
+builder.Services.AddControllersWithViews();
+
+// Suppress automatic 400 for APIs (you handle validation manually)
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
 
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// Database
 builder.Services.AddDbContext<ARCon_Capstone_2_DbContext>(options =>
     options.UseNpgsql(
-        "Host=localhost;Port=5432;Database=airconi_trading_db;Username=postgres;Password=50!20/OMEGA"
-    ));
+        builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? "Host=localhost;Port=5432;Database=airconi_trading_db;Username=postgres;Password=50!20/OMEGA"
+    )
+);
 
+// Session (REQUIRED for auth)
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Application services
 builder.Services.AddScoped<IEmailServices, EmailService>();
-builder.Services.AddControllers();
+builder.Services.AddScoped<CloudinaryService>();
 
+// PDF Services
+builder.Services.AddSingleton<IConverter>(
+    new SynchronizedConverter(new PdfTools())
+);
 
-
-//Dink to Pdf
-builder.Services.AddSingleton(typeof(IConverter),
-    new SynchronizedConverter(new PdfTools()));
-
-//https://nominatim.openstreetmap.org
+// HTTP Clients
 builder.Services.AddHttpClient<IGeocodingService, GeocodingService>(client =>
 {
     client.DefaultRequestHeaders.UserAgent.ParseAdd("ARCon-Capstone/1.0");
 });
 
-
+// ==========================
+// BUILD APP
+// ==========================
 var app = builder.Build();
 
+// ==========================
+// MIDDLEWARE PIPELINE
+// ==========================
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseRouting();
-app.UseStaticFiles();
-app.MapControllers();
-app.UseHttpsRedirection();
-app.UseAuthentication();
 
+app.UseSession();           // Session BEFORE authorization
 
+app.UseAuthorization();     // You are using session-based auth
 
-app.UseAuthorization();
+// ==========================
+// ROUTING
+// ==========================
 
-/* 🔥 REQUIRED FOR [ApiController] */
-
-
-/* MVC AREA ROUTES */
+// Areas (Admin, Shop, etc.)
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
 );
 
+// Default MVC route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}"
