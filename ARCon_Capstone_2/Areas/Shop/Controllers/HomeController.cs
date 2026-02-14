@@ -37,6 +37,11 @@ namespace ARCon_Capstone_2.Areas.Controllers
             return View("~/Areas/Shop/Views/Product/Featured.cshtml");
         }
 
+        public IActionResult Search()
+        {
+            return View("~/Areas/Shop/Views/Product/Search_results.cshtml");
+        }
+
         public IActionResult Login()
         {
             return View();

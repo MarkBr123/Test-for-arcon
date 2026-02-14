@@ -36,6 +36,19 @@ h1 {
         border-color: #e53935;
     }
 
+/*.tab-content {
+    display: none;
+}
+
+    .tab-content.active {
+        display: block;
+    }
+
+.tab.active {
+    background-color: #007bff;
+    color: white;
+}*/
+
 /* BADGE */
 .badge {
     background: #e53935;

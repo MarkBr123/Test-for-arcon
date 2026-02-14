@@ -4,27 +4,4 @@ System Analyst:		Marcelino Susano Jr.
 Lead Programmer:	Marvin Cayobit
 
 
-Marcelino Susano Jr.- Add to cart function updated, product cards
-
-Marvin Cayobit					
-				12/19/2025 - Started Products CRUD (Done 12/24/2025)
-				12/25/2025 - Started Admin Users CRUD(Done 12/28/2025)
-				12/29/2025 - Started Suppliers CRUD(Done 1/6/2026)
-				01/13/2026 - Started CRUD Purchase Order
-				01/14/2026 - Add JS and modal in purchase order (Done)
-				01/15/2026 - Post Purchase order (Done), *show rows(done 1/17/2026), *archive(done 1/17/2026), *edit(done 1/18/2026) and *summary(done 1/17/2026)
-				01/18/2026 - Add Generate PDF (purchase order) Done
-				01/22/2026 - Updated Products tbl (Reorder Level) and improved the PO Status
-				01/23/2026 - Redesigned the +Purchase Order and +Replacement Delivery. Started the +Purchase Orde of Section A and B of the Inventory (Done)
-				01/24/2026 - + Purchase Order Section C and Add to Inventory.  Start + Replacement Delivery.(Not Yet), Still working as of 01/25/26 5:24AM >.<
-				01/26/2026 - + Purchase Order Section C and Add to Inventory. (Done!!! 01/26/2026)
-				01/26/2026 - Make the inventory index table with search, pagination and sorting (Started, not yet done)
-				01/28/2026 - Make the inventory index table with search, pagination and sorting (DONE!!!!)
-				01/28/2026 - Rewrite source code of PDF Generator (DONE!)
-				01/29/2026 - Start the CRUD of Services
-				02/04/2026 - Added Services CRUD Done!
-				02/06/2026 - Altered Customer_Adderess tbl
-				02/06/2026 - Added Region, Province, Municipality, Barangay tbl 
-				02/06/2026 - Updated customer_address tbl,  DBContext
-				02/06/2026 - Updated customer_address tbl,  DBContext (Done)
-				02/09/2026 - Created Customer Account, First Customer Address, Geolocation(Lat and Long) (DONE)
+Marcelino Susano Jr.- (2/14/26) notification, checkout page, cart pages, toolbar (for filter), search-result page

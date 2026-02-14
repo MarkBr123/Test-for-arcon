@@ -2,59 +2,100 @@
     ViewData["Title"] = "Checkout";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/Checkout.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/View-js/Checkout.js" asp-append-version="true"></script>
+}
+
 <div class="container checkout-page">
     <div class="row">
         <!-- LEFT: SHIPPING DETAILS -->
         <div class="col-md-7">
             <h3 class="section-title">Fill in shipping details.</h3>
 
-            <form method="post">
+            <form id="shippingForm">
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label>First name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="FirstName" value="Inoh" required />
+                        <input type="text"
+                               class="form-control"
+                               id="firstName"
+                               name="FirstName"
+                               required />
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label>Last name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="LastName" value="Susano" required />
+                        <input type="text"
+                               class="form-control"
+                               id="lastName"
+                               name="LastName"
+                               required />
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label>Country <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" value="Philippines" readonly />
+                    <input type="text"
+                           class="form-control"
+                           id="country"
+                           name="Country"
+                           value="Philippines"
+                           readonly />
                 </div>
 
                 <div class="mb-3">
                     <label>Street address <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control mb-2" placeholder="House number and street name" required />
-                    <input type="text" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" />
+                    <input type="text"
+                           class="form-control mb-2"
+                           id="street"
+                           name="Street"
+                           placeholder="House number and street name"
+                           required />
+                    <input type="text"
+                           class="form-control"
+                           id="unit"
+                           name="Unit"
+                           placeholder="Apartment, suite, unit, etc. (optional)" />
                 </div>
 
                 <div class="mb-3">
                     <label>City <span class="text-danger">*</span></label>
-                    <select class="form-select" required>
-                        <option selected>Caloocan</option>
-                        <option>Quezon City</option>
-                        <option>Manila</option>
+                    <select class="form-select"
+                            id="city"
+                            name="City"
+                            required>
+                        <option value="Caloocan">Caloocan</option>
+                        <option value="Quezon City">Quezon City</option>
+                        <option value="Manila">Manila</option>
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label>Region <span class="text-danger">*</span></label>
-                    <select class="form-select" required>
-                        <option selected>Metro Manila</option>
-                        <option>Region IV-A</option>
+                    <select class="form-select"
+                            id="region"
+                            name="Region"
+                            required>
+                        <option value="Metro Manila">Metro Manila</option>
+                        <option value="Region IV-A">Region IV-A</option>
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label>Barangay <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" required />
+                    <input type="text"
+                           class="form-control"
+                           id="barangay"
+                           name="Barangay"
+                           required />
                 </div>
             </form>
         </div>
+
 
         <!-- RIGHT: ORDER SUMMARY -->
         <div class="col-md-5">
@@ -67,90 +108,125 @@
                     <strong>Subtotal</strong>
                 </div>
 
-                <div class="product-item">
-                    <div>
-                        <strong>Kolin KA-200MCARINV32</strong><br />
-                        <small>2.0 HP Window Type Airconditioner - 2025</small>
-                    </div>
-                    <div>₱29,695</div>
-                </div>
+                <div id="checkoutItems"></div>
 
                 <hr />
 
                 <div class="d-flex justify-content-between">
                     <span>Subtotal</span>
-                    <span>₱29,695</span>
+                    <span id="checkoutSubtotal">₱0</span>
                 </div>
 
                 <div class="mt-3">
                     <strong>Shipping</strong>
+
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" checked />
-                        <label class="form-check-label">
+                        <input class="form-check-input shipping-option"
+                               type="radio"
+                               name="shippingMethod"
+                               value="400"
+                               id="delivery"
+                               checked>
+                        <label class="form-check-label" for="delivery">
                             Standard Delivery (L): ₱400
                         </label>
                     </div>
-                    <div class="form-check text-muted">
-                        <input class="form-check-input" type="radio" disabled />
-                        <label class="form-check-label">
-                            Pick Up In Store (Click & Collect)
+
+                    <div class="form-check">
+                        <input class="form-check-input shipping-option"
+                               type="radio"
+                               name="shippingMethod"
+                               value="0"
+                               id="pickup">
+                        <label class="form-check-label" for="pickup">
+                            Pick-up from the store
                         </label>
                     </div>
                 </div>
+
+    
+
 
                 <hr />
 
                 <div class="d-flex justify-content-between total">
                     <strong>Total</strong>
-                    <strong>₱30,095</strong>
+                    <strong id="checkoutTotal">₱0</strong>
                 </div>
 
                 <div class="mt-3">
                     <label>Preferred Delivery Date <span class="text-danger">*</span></label>
-                    <input type="date" class="form-control" required />
+                    <input type="date" class="form-control" id="deliveryDate" required />
                 </div>
 
                 <div class="mt-3">
                     <label>Preferred Delivery Time Slot <span class="text-danger">*</span></label>
-                    <select class="form-select" required>
+                    <select class="form-select" id="deliveryTime" required>
                         <option>8:00 AM – 12:00 PM</option>
                         <option>1:00 PM – 5:00 PM</option>
                     </select>
                 </div>
 
-                <button class="btn btn-danger w-100 mt-4">
+                <button type="button" id="placeOrderBtn" class="btn btn-danger w-100 mt-4">
                     Place Order
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@* Modal for form *@
+<div class="modal fade" id="orderSummaryModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Summary</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <h6>Shipping Details</h6>
+                <p id="summaryShipping"></p>
+
+                <hr />
+
+                <h6>Ordered Items</h6>
+                <div id="summaryItems"></div>
+
+                <hr />
+
+                <h6>Shipping Details</h6>
+                <div id="summaryDate_Time"></div>
+
+                <hr />
+
+                <div class="d-flex justify-content-between">
+                    <strong>Total</strong>
+                    <strong id="summaryTotal"></strong>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Edit</button>
+                <button class="btn btn-danger" id="confirmOrderBtn">
+                    Confirm Order
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<style>
-    .checkout-page {
-        margin-top: 40px;
-    }
+@* Order confirmation notif toast*@
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+    <div id="orderToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Your order has been successfully placed!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
-    .section-title {
-        border-bottom: 2px solid #e53935;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-    }
-
-    .order-summary {
-        background: #fff;
-        border: 1px solid #ddd;
-        padding: 20px;
-        border-radius: 6px;
-    }
-
-    .product-item {
-        display: flex;
-        justify-content: space-between;
-        margin: 15px 0;
-    }
-
-    .total {
-        font-size: 18px;
-    }
-</style>

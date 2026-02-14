@@ -34,7 +34,7 @@
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" asp-fragment="services">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Product">Shop</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Search">Shop</a>
                         </li>
                     </ul>
                 </div>
@@ -56,8 +56,17 @@
             <button class="search-btn" type="submit">🔍</button>
         </form>
 
-        <!-- Cart & Login -->
+        <!-- Notification, Cart, & Login -->
         <div class="d-flex gap-3 ms-3">
+            <a class="nav-link position-relative" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal" id="notificationButton">
+                🔔
+                <span id="notificationCount"
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                      style="display:none;">
+                    0
+                </span>
+            </a>
+
             <a class="nav-link position-relative" href="#" id="cartButton">
                 🛒
                 <span id="cartCount"
@@ -68,12 +77,42 @@
             </a>
 
             <a class="nav-link" asp-controller="Home" asp-action="Login">Login</a>
-
         </div>
     </div>
 
+    <!-- Notification Modal -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-md">
+            <div class="modal-content">
+
+                <!-- Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Notifications</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body p-0">
+                    <!-- Empty state (show when no notifications) -->
+                <div class="text-center text-muted py-4">
+                    No notifications yet
+                </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="#" class="btn btn-primary">View all</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <!-- Cart Modal -->
-    <div id="cartModal" class="cart-modal">
+    <div id="cartModal" class="cart-modal"> 
         <div class="cart-modal-content">
             <span class="cart-close">&times;</span>
             <h2>Your Cart</h2>
@@ -91,6 +130,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
     <div class="container-fluid p-0">
         <main role="main" class="pb-3">
@@ -114,3 +156,4 @@
 
 </body>
 </html>
+

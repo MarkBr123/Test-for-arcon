@@ -85,3 +85,76 @@ document.addEventListener("input", (e) => {
     }
 });
 
+
+/*Tab*/
+document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            tab.classList.add('active');
+
+            const target = tab.getAttribute('data-tab');
+            document.getElementById(target).classList.add('active');
+        });
+    });
+});
+
+
+/*ordered items*/
+function loadOrderedItems() {
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const container = document.getElementById("orderedItemsContainer");
+
+    if (!container) return;
+
+    if (orders.length === 0) {
+        container.innerHTML = "<p class='text-muted'>No ordered items yet.</p>";
+        return;
+    }
+
+    container.innerHTML = "";
+
+    orders.forEach(order => {
+        let orderHtml = `
+            <div class="order-card mb-4">
+                <div class="order-items-row header">
+                    <span class="col product">Product</span>
+                    <span class="col price">Price</span>
+                    <span class="col quantity">Qty</span>
+                    <span class="col subtotal">Subtotal</span>
+                </div>
+        `;
+
+        order.items.forEach(item => {
+            const qty = item.quantity || 1;
+            const subtotal = item.price * qty;
+
+            orderHtml += `
+                <div class="order-items-row">
+                    <span class="col product">${item.name}</span>
+                    <span class="col price">₱${item.price.toLocaleString()}</span>
+                    <span class="col quantity">${qty}</span>
+                    <span class="col subtotal">₱${subtotal.toLocaleString()}</span>
+                </div>
+            `;
+        });
+
+        orderHtml += `
+            <div class="order-footer">
+                <small>Order Date: ${order.date}</small>
+            </div>
+            </div>
+        `;
+
+        container.innerHTML += orderHtml;
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadOrderedItems();
+});

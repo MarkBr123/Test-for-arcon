@@ -90,14 +90,124 @@ body {
         color: #007bff;
     }
 
+/* Toolbar container */
+#tb {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    font-size: 14px;
+    justify-content: flex-start;
+    padding: 30px 15%;
+    gap: 40px;
+}
+
+    /* Remove default button styling */
+    #tb #b1,
+    #tb #b2,
+    #tb #b3 {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+    }
+
+        #tb #b1:hover,
+        #tb #b2:hover,
+        #tb #b3:hover {
+            color: #007bff;
+        }
+
+    /* Dropdown containers */
+    #tb #d1 {
+        position: relative;
+        cursor: pointer;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 20px;
+        background-color: #007bff;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    #tb #d2 {
+        cursor: pointer;
+        position: relative;
+        font-weight: 500;
+    }
+
+    /* Label styling */
+    #tb .dropdown-label {
+       /* color: #333;*/
+    }
+
+    /* Hover color */
+    #tb #d1:hover .dropdown-label {
+        color: black;
+    }
+    #tb #d2:hover .dropdown-label {
+        color: #007bff;
+    }
+
+    /* Dropdown menu */
+    #tb .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        min-width: 120px;
+        padding: 6px 0;
+        z-index: 1000;
+    }
+
+    /* Show dropdown on hover */
+    #tb #d1:hover .dropdown-menu,
+    #tb #d2:hover .dropdown-menu {
+        display: block;
+    }
+
+    /* Dropdown items */
+    #tb .dropdown-item {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+        #tb .dropdown-item:hover {
+            background-color: #f2f2f2;
+        }
+
+#b3 {
+    margin-left: auto;
+}
+
+#list-icon {
+    font-size: 28px;
+    line-height: 1;
+    position:relative;
+    top: .5px;
+}
+
+
+#caterogries {
+    font-size: 16px;
+}
+
+
+
 /* HERO SECTION */
 .hero {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 100px 8%;
-    min-height: 90vh;
-    background: linear-gradient(to right, #b9d9f5, #eaf4ff);
+    padding: 30px 13.5%;
+    min-height: 40vh;
+    padding-bottom: 70px;
+        
 }
 
 .hero-text {
@@ -141,7 +251,6 @@ body {
     }
 
 /* DEALS SECTION*/
-
 .product-card a {
     color: inherit; /* Uses the card text color */
     text-decoration: none; /* Removes underline */
@@ -160,11 +269,12 @@ body {
     }
 
 .deal-cards {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
     gap: 20px;
-    justify-content: center;
+    justify-content: center; /* centers the whole row */
 }
+
 
 .card {
     width: 200px;
@@ -430,10 +540,6 @@ body {
     }
 
 
-.deal-cards {
-}
-
-
 
 
 /* MOBILE RESPONSIVE */
@@ -461,3 +567,5 @@ body {
         margin: 0;
     }
 }
+
+

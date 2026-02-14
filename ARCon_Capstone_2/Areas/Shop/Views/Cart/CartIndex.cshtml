@@ -16,13 +16,13 @@
 
 <main class="container">
     <br>
-    @* <div class="tabs">
-        <button class="tab active" data-tab="shipping">Favorite<span class="badge">2</span></button>
-        <button class="tab" data-tab="arrived">Checked<span class="badge">1</span></button>
-        <button class="tab" data-tab="canceled">Pending</button>
-    </div> *@
+    <div class="tabs">
+        <button class="tab active" data-tab="Cart-Items">Cart Items@* <span class="badge">2</span> *@</button>
+        <button class="tab" data-tab="Ordered">Ordered@* <span class="badge">1</span> *@</button>
+        <button class="tab" data-tab="To-Ship">To Ship</button>
+    </div>
 
-    <div id="shipping" class="tab-content active">
+    <div id="Cart-Items" class="tab-content active">
         <div id="cartPageCard" class="order-card">
             <div class="order-items-row header">
                 <span class="col product">Product</span>
@@ -31,33 +31,19 @@
                 <span class="col subtotal">Subtotal</span>
             </div>
 
-            <div class="order-items-row">
-                <span class="col product">Kolin Inverter KAG-250WCINV 2.5HP</span>
-                <span class="col price">₱1,000</span>
-                <span class="col quantity">1</span>
-                <span class="col subtotal">₱1,000</span>
-            </div>
-
-            <div class="order-items-row">
-                <span class="col product">Kolin Inverter KAG-250WCINV 2.5HP</span>
-                <span class="col price">₱1,000</span>
-                <span class="col quantity">1</span>
-                <span class="col subtotal">₱1,000</span>
-            </div>
-
             <div class="order-footer">
                 <p>Total: <strong id="cartPageTotal">₱0</strong></p>
-                <button class="details-btn">Checkout</button>
+                <a class="btn btn-secondary" asp-controller="Cart" asp-action="Checkout">Checkout</a>
             </div>
         </div>
     </div>
 
-
-    <div id="arrived" class="tab-content">
-        <p>No arrived orders yet.</p>
+    <div id="Ordered" class="tab-content">
+        <div id="orderedItemsContainer"></div>
     </div>
 
-    <div id="canceled" class="tab-content">
-        <p>No canceled orders.</p>
+    <div id="To-Ship" class="tab-content">
+        <div id="toship"></div>
     </div>
+
 </main>

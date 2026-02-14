@@ -1,6 +1,8 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
 
-    //Services smooth scroll
+    // ===========================
+    // SMOOTH SCROLL TO SECTION
+    // ===========================
     if (window.location.hash === "#services") {
         const servicesSection = document.getElementById("services");
         if (servicesSection) {
@@ -10,42 +12,45 @@
         }
     }
 
-    //Cart modal controls
-    const cartModal = document.getElementById("cartModal");
-    const cartButton = document.getElementById("cartButton");
-    const closeBtn = document.querySelector(".cart-close");
-
-    if (cartButton && cartModal && closeBtn) {
-        cartButton.addEventListener("click", e => {
-            e.preventDefault();
-            renderCart();
-            cartModal.style.display = "block";
-        });
-
-        closeBtn.addEventListener("click", () => {
-            cartModal.style.display = "none";
-        });
-
-        window.addEventListener("click", e => {
-            if (e.target === cartModal) {
-                cartModal.style.display = "none";
-            }
-        });
-    }
-
+    // ===========================
+    // CART INITIALIZATION
+    // ===========================
+    initCartModal();
     updateCartCount();
+    renderCart(); // Render cart if there are items
+
+    // ===========================
+    // NOTIFICATIONS INITIALIZATION
+    // ===========================
+    initNotifications();
+
+    // ===========================
+    // ACTIVATE SPECIFIC TAB IF FLAGGED
+    // ===========================
+    const tabToActivate = localStorage.getItem("activateTab");
+    if (tabToActivate) {
+        const tabButton = document.querySelector(`.tabs button[data-tab="${tabToActivate}"]`);
+        if (tabButton) tabButton.click(); // Trigger tab switch
+        localStorage.removeItem("activateTab"); // Clear flag
+    }
 });
 
-/*for cart*/
+/* ===========================
+   CART FUNCTIONS
+=========================== */
 
+// Get cart from localStorage
 function getCart() {
     return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
+// Save cart to localStorage and update count
 function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
 }
 
+// Add a product to the cart
 function addToCart(product) {
     let cart = getCart();
     const existing = cart.find(p => p.id === product.id);
@@ -60,59 +65,7 @@ function addToCart(product) {
     alert(`${product.name} added to cart!`);
 }
 
-function renderCart() {
-    const cartItemsContainer = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
-    const cart = getCart();
-
-    cartItemsContainer.innerHTML = "";
-    let total = 0;
-
-    if (cart.length === 0) {
-        cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-        cartTotal.textContent = "₱0";
-        return;
-    }
-
-    cart.forEach(item => {
-        total += item.price * item.quantity;
-        cartItemsContainer.innerHTML += `
-                <div class="cart-item">
-                    <strong>${item.name}</strong> - ₱${item.price} × ${item.quantity}
-                </div>
-            `;
-    });
-
-    cartTotal.textContent = "₱" + total;
-}
-
-// Initialize cart modal display
-const cartModal = document.getElementById("cartModal");
-const cartIcon = document.getElementById("cartButton");
-const cartClose = document.querySelector(".cart-close");
-
-cartIcon.addEventListener("click", e => {
-    e.preventDefault();
-    renderCart();
-    cartModal.style.display = "block";
-});
-
-cartClose.addEventListener("click", () => cartModal.style.display = "none");
-
-window.addEventListener("click", e => {
-    if (e.target == cartModal) cartModal.style.display = "none";
-});
-
-// CART LOGIC 
-function getCart() {
-    return JSON.parse(localStorage.getItem("cart")) || [];
-}
-
-function saveCart(cart) {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartCount();
-}
-
+// Update cart icon/badge count
 function updateCartCount() {
     const cartCount = document.getElementById("cartCount");
     if (!cartCount) return;
@@ -124,6 +77,7 @@ function updateCartCount() {
     cartCount.style.display = totalItems > 0 ? "inline-block" : "none";
 }
 
+// Render cart items in modal
 function renderCart() {
     const cartItemsContainer = document.getElementById("cartItems");
     const cartTotal = document.getElementById("cartTotal");
@@ -145,38 +99,33 @@ function renderCart() {
         total += subtotal;
 
         cartItemsContainer.innerHTML += `
-    <div class="cart-item">
-    <div>
-        <strong>${item.name}</strong><br>
-        ₱${item.price.toLocaleString()}
-    </div>
-
-    <div class="action-group">
-        <div class="counter-box">
-            <button type="button" onclick="changeQty(${item.id}, -1)">−</button>
-            <input type="number" value="${qty}" min="1" readonly>
-            <button type="button" onclick="changeQty(${item.id}, 1)">+</button>
-        </div>
-
-        <button class="btn btn-sm btn-danger ms-2" onclick="removeFromCart(${item.id})">✖</button>
-    </div>
-</div>
-
-`;
-
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    ₱${item.price.toLocaleString()}
+                </div>
+                <div class="action-group">
+                    <div class="counter-box">
+                        <button type="button" onclick="changeQty(${item.id}, -1)">−</button>
+                        <input type="number" value="${qty}" min="1" readonly>
+                        <button type="button" onclick="changeQty(${item.id}, 1)">+</button>
+                    </div>
+                    <button class="btn btn-sm btn-danger ms-2" onclick="removeFromCart(${item.id})">✖</button>
+                </div>
+            </div>
+        `;
     });
 
     cartTotal.textContent = "₱" + total.toLocaleString();
 }
 
+// Change quantity of a cart item
 function changeQty(productId, delta) {
     let cart = getCart();
     const item = cart.find(i => i.id === productId);
-
     if (!item) return;
 
     item.quantity = (item.quantity || 1) + delta;
-
     if (item.quantity <= 0) {
         cart = cart.filter(i => i.id !== productId);
     }
@@ -185,13 +134,146 @@ function changeQty(productId, delta) {
     renderCart();
 }
 
+// Remove item from cart
 function removeFromCart(productId) {
     let cart = getCart().filter(i => i.id !== productId);
     saveCart(cart);
     renderCart();
 }
 
-/*Direct to product page*/
-function goToProduct() {
-    window.location.href = '@Url.Action("Product", "Product", new { area = "Shop" })';
+// Initialize cart modal open/close
+function initCartModal() {
+    const cartModal = document.getElementById("cartModal");
+    const cartButton = document.getElementById("cartButton");
+    const cartClose = document.querySelector(".cart-close");
+
+    if (!cartModal || !cartButton || !cartClose) return;
+
+    cartButton.addEventListener("click", e => {
+        e.preventDefault();
+        renderCart();
+        cartModal.style.display = "block";
+    });
+
+    cartClose.addEventListener("click", () => cartModal.style.display = "none");
+
+    window.addEventListener("click", e => {
+        if (e.target === cartModal) cartModal.style.display = "none";
+    });
+}
+
+/* ===========================
+   NOTIFICATIONS FUNCTIONS
+=========================== */
+
+// Initialize notifications
+function initNotifications() {
+    const notificationBadge = document.getElementById("notificationCount");
+    const notificationModal = document.getElementById("notificationModal");
+    const notificationModalBody = document.querySelector("#notificationModal .modal-body");
+
+    if (!notificationBadge || !notificationModal || !notificationModalBody) return;
+
+    // Load notifications immediately
+    loadNotifications();
+
+    // Mark all as read when modal opens
+    notificationModal.addEventListener('show.bs.modal', () => {
+        markAllNotificationsRead();
+    });
+}
+
+// Load notifications into the modal
+function loadNotifications() {
+    const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+    const notificationModalBody = document.querySelector("#notificationModal .modal-body");
+    const notificationBadge = document.getElementById("notificationCount");
+
+    if (!notificationModalBody || !notificationBadge) return;
+
+    // Clear modal content
+    notificationModalBody.innerHTML = "";
+
+    if (notifications.length === 0) {
+        notificationModalBody.innerHTML = `
+            <div class="text-center text-muted py-4 empty-notification">
+                No notifications yet
+            </div>
+        `;
+        updateNotificationBadge();
+        return;
+    }
+
+    // Display each notification
+    notifications.slice().reverse().forEach(notif => {
+        const div = document.createElement("div");
+        div.classList.add("notification-item", "p-2", "border-bottom");
+        if (!notif.read) div.classList.add("fw-bold"); // Unread bold
+
+        div.innerHTML = `
+            <strong>${notif.title}</strong><br>
+            ${notif.date}<br>
+            ${notif.message}
+        `;
+
+        // On click: mark read and redirect
+        div.addEventListener("click", () => {
+            notif.read = true;
+            localStorage.setItem("notifications", JSON.stringify(notifications));
+            updateNotificationBadge();
+
+            if (notif.url) {
+                // Navigate to Cart page and flag the Ordered tab
+                window.location.href = "/Ecommerce/Cart/CartIndex";
+                localStorage.setItem("activateTab", "Ordered");
+            }
+        });
+
+        notificationModalBody.appendChild(div);
+    });
+
+    updateNotificationBadge();
+}
+
+// Update notification badge count
+function updateNotificationBadge() {
+    const notificationBadge = document.getElementById("notificationCount");
+    if (!notificationBadge) return;
+
+    const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+    const unreadCount = notifications.filter(n => !n.read).length;
+
+    if (unreadCount > 0) {
+        notificationBadge.textContent = unreadCount;
+        notificationBadge.style.display = "inline-block";
+    } else {
+        notificationBadge.textContent = "";
+        notificationBadge.style.display = "none";
+    }
+}
+
+// Mark all notifications as read
+function markAllNotificationsRead() {
+    const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+    notifications.forEach(n => n.read = true);
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+    updateNotificationBadge();
+}
+
+// Push a new order notification
+function pushOrderNotification(order) {
+    const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+
+    const newNotif = {
+        id: Date.now(),
+        title: `Order #${order.id}`,
+        date: new Date().toLocaleString(),
+        message: order.items.map(i => `${i.name} x${i.quantity}`).join(", "),
+        url: "/Ecommerce/Cart/CartIndex#Ordered" // Redirect to Ordered tab
+    };
+
+    notifications.push(newNotif);
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+
+    loadNotifications(); // Refresh modal
 }
