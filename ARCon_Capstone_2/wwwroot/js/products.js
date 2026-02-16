@@ -1,9 +1,21 @@
 ﻿let searchTimeout = null;
 let currentSearch = "";
 
+//edit products variables
+let editTechnologies = [];
+let currentUploadProductId = null;
+
+//const tr = document.createElement("tr");
+
+
+
+
+
+
+
 /* ---------- STATE ---------- */
 let currentPage = 1;
-const pageSize = 3;
+const pageSize = 24;
 let sortBy = "createDate";
 let sortDir = "desc";
 let totalCount = 0;
@@ -35,7 +47,7 @@ let productDraft = {
 
     grossWeightA: 0,
     grossWeightB: 0,
-    totalGrossWeight: 0,
+    //totalGrossWeight: 0,
 
     technologies: [],
     specifications: [],
@@ -43,19 +55,36 @@ let productDraft = {
 };
 
 
+// for media modal
+let primaryFile = null;
+let galleryFiles = [];
+
 /* ---------------- LOAD ---------------- */
 function loadProducts(page = 1) {
     currentPage = page;
 
     fetch(`/admin/api/products?page=${currentPage}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}&search=${encodeURIComponent(currentSearch ?? "")}`)
-        .then(r => r.json())
+        .then(async r => {
+
+            console.log("Status:", r.status);
+
+            if (!r.ok) {
+                const text = await r.text();
+                console.error("Server returned error:", text);
+                throw new Error(text);
+            }
+
+            return r.json();
+        })
         .then(data => {
+            console.log("Data received:", data);
             totalCount = data.totalCount;
             renderTable(data.items);
             renderPagination();
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error("Fetch failed:", err));
 }
+
 
 
 
@@ -65,13 +94,19 @@ function renderTable(items) {
     const tbody = document.querySelector("#productsTable tbody");
     tbody.innerHTML = "";
 
+    const tr = document.createElement("tr");
+    //this will make click row > details per row
+    tr.style.cursor = "pointer";
+    tr.onclick = () => viewDetails(null, p.id);
+
+
     if (!items || items.length === 0) {
         tbody.innerHTML = `
-                <tr>
-                    <td colspan="12" class="text-center text-muted">
-                        No products found
-                    </td>
-                </tr>`;
+            <tr>
+                <td colspan="12" class="text-center text-muted">
+                    No products found
+                </td>
+            </tr>`;
         return;
     }
 
@@ -79,56 +114,101 @@ function renderTable(items) {
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
-                <td class="small text-center">${p.sku}</td>
-                <td class="small text-center">${p.manufacturer}</td>
-                <td class="small text-center">${p.product_model}</td>
-                <td class="small text-center">${p.product_series ?? "-"}</td>
-                <td class="small text-center">${p.formfactor ?? "-"}</td>
+    <td class="small text-center">${p.sku}</td>
+    <td class="small text-center">${p.manufacturer}</td>
+    <td class="small text-center">${p.product_model}</td>
+    <td class="small text-center">${p.product_series ?? "-"}</td>
+    <td class="small text-center">${p.formfactor ?? "-"}</td>
 
-                <td class="small text-end">
-                    ₱${Number(p.original_selling_price).toLocaleString()}
-                </td>
-                <td class="small text-end">
-                    ₱${Number(p.actual_selling_price).toLocaleString()}
-                </td>
+    <td class="small text-end">
+        ₱${Number(p.original_selling_price).toLocaleString()}
+    </td>
+    <td class="small text-end">
+        ₱${Number(p.actual_selling_price).toLocaleString()}
+    </td>
 
-                <td class="small text-center">
-                    <span class="badge bg-${statusColor(p.status)}">
-                        ${p.status}
-                    </span>
-                </td>
+    <td class="small text-center">
+        <span class="badge bg-${statusColor(p.status)}">
+            ${p.status}
+        </span>
+    </td>
 
-                <td class="small text-center">${p.discount_type ?? "-"}</td>
-                <td class="small text-end">${p.discount_value ?? "-"}</td>
+    <td class="small text-center">${p.discount_type ?? "-"}</td>
+    <td class="small text-end">${p.discount_value ?? "-"}</td>
 
-                <td class="small text-center">
-                    ${new Date(p.created_at).toLocaleDateString()}
-                </td>
+    <td class="small text-center">
+        ${new Date(p.created_at).toLocaleDateString()}
+    </td>
 
-                   ${p.ar_url
-                ? `<a href="${normalizeUrl(p.ar_url)}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn btn-sm btn-outline-info me-1">
-                      AR
-                     </a>`
-                : `<button class="btn btn-sm btn-outline-secondary me-1" disabled>AR</button>`
+    <!-- ACTION MENU -->
+    <td class="small text-center" onclick="event.stopPropagation()">
+        <div class="dropdown">
+            <button class="btn btn-sm btn-outline-secondary"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                ⋮
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <button class="dropdown-item"
+                            onclick="viewDetails(event, ${p.id})">
+                        View Details
+                    </button>
+                </li>
+
+                <li>
+                    <button class="dropdown-item"
+                            onclick="productUpdate_openModal(${p.id})">
+                        Edit
+                    </button>
+                </li>
+                
+                <li>
+                    <button class="dropdown-item"
+                            onclick="openUploadMedia(${p.id})">
+                        Media
+                    </button>
+                </li>
+
+                <li>
+                    ${p.ar_url
+                ? `<a class="dropdown-item"
+                                   href="${normalizeUrl(p.ar_url)}"
+                                   target="_blank"
+                                   rel="noopener noreferrer">
+                                   Open AR
+                               </a>`
+                : `<button class="dropdown-item text-muted" disabled>
+                                   AR not available
+                               </button>`
             }
-                        <button class="btn btn-sm btn-outline-secondary me-1"
-                            onclick="viewDetails(event, ${p.id})">Details</button>
-                    <button class="btn btn-sm btn-primary me-1"
-                                    onclick="productUpdate_openModal(${p.id})">Edit</button>
-                    <button class="btn btn-sm btn-danger"
-                            onclick="archiveProduct(event, ${p.id})">
-                            Archive
-                    </button>       
-                </td>
-            `;
+                </li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <li>
+                    ${p.status === "Archived"
+                ? `<button class="dropdown-item text-muted" disabled>
+                                   Already Archived
+                               </button>`
+                : `<button class="dropdown-item text-danger"
+                                   onclick="archiveProduct(event, ${p.id})">
+                                   Archive
+                               </button>`
+            }
+                </li>
+            </ul>
+        </div>
+    </td>
+`;
+
 
 
         tbody.appendChild(tr);
     });
 }
+
 
 //ar button open link
 
@@ -289,13 +369,11 @@ function fillSummaryModal(d) {
 
     // WEIGHT
     document.getElementById("dGrossWeightA").textContent =
-        d.gross_Weight_A != null ? `${d.gross_Weight_A} kg` : "-";
+        `${d.gross_Weight_A ?? 0} kg`;
 
     document.getElementById("dGrossWeightB").textContent =
-        d.gross_Weight_B != null ? `${d.gross_Weight_B} kg` : "-";
+        `${d.gross_Weight_B ?? 0} kg`;
 
-    document.getElementById("dTotalGrossWeight").textContent =
-        d.total_Gross_Weight != null ? `${d.total_Gross_Weight} kg` : "-";
 
     // AUDIT
     document.getElementById("dCreatedAt").textContent =
@@ -446,7 +524,7 @@ function archiveProduct(e, id) {
         })
         .then(data => {
             console.log("Archived:", data);
-            location.reload(); // or refresh table
+            //location.reload(); // or refresh table
         })
         .catch(err => {
             console.error(err);
@@ -461,24 +539,31 @@ document.addEventListener("DOMContentLoaded", loadProducts);
 
 // modals
 function onDiscountChange() {
+
     productDraft.discountType = discountType.value;
 
     if (discountType.value === "NONE") {
+
         discountValue.classList.add("d-none");
         discountValue.value = "";
-        productDraft.discountValue = null;
-    } else {
+
+        productDraft.discountValue = 0;   // safer than null
+    }
+    else {
+
         discountValue.classList.remove("d-none");
     }
 }
 
+
 function goTech() {
     productDraft.manufacturerId = parseInt(manufacturerId.value);
-    productDraft.formFactorId = formFactorId.value ? parseInt(formFactorId.value) : null;
+    productDraft.formFactorID = formFactorId.value ? parseInt(formFactorId.value) : null;
 
     productDraft.productModel = productModel.value;
     //productDraft.sku = sku.value;
-    productDraft.partNumberA = partA.value;
+    productDraft.partNumberA = partNumberA.value;
+    productDraft.partNumberB = partNumberB.value;
     productDraft.originalSellingPrice = parseFloat(price.value);
     productDraft.productSeries = productSeries.value;
 
@@ -489,10 +574,10 @@ function goTech() {
         parseInt(outrightReplacementDays.value) || 0;
 
     productDraft.grossWeightA =
-        parseFloat(grossWeightA.value) || 0;
+        parseFloat(grossWeightA.value) ?? 0;
 
-    productDraft.grossWeightB =
-        parseFloat(grossWeightB.value) || 0;
+    const weightB = parseFloat(grossWeightB.value);
+    productDraft.grossWeightB = isNaN(weightB) ? 0 : weightB;
 
     //productDraft.totalGrossWeight =
     //   parseFloat(totalGrossWeight.value) || 0;
@@ -574,33 +659,77 @@ function goTags() {
 
 
 function addTag() {
-    const input = document.getElementById("tagInput");
-    const value = input.value.trim();
-    if (!value) return;
 
-    // remove empty state
+    const input = document.getElementById("tagInput");
+    const list = document.getElementById("tagList");
     const empty = document.getElementById("tagEmpty");
+
+    const tag = input.value.trim();
+    if (!tag) return;
+
+    // Prevent duplicates
+    if (productDraft.tags.includes(tag))
+        return;
+
+    // Push into draft
+    productDraft.tags.push(tag);
+
     if (empty) empty.remove();
 
     const li = document.createElement("li");
     li.className = "list-group-item d-flex align-items-center justify-content-between";
 
-    const span = document.createElement("span");
-    span.className = "tag-pill";
-    span.textContent = value;
-    span.title = value; // 👈 hover shows full text
+    li.innerHTML = `
+        <span class="tag-pill">${tag}</span>
+        <button type="button" class="btn btn-sm btn-outline-danger">×</button>
+    `;
 
-    const btn = document.createElement("button");
-    btn.className = "btn btn-sm btn-outline-danger ms-2";
-    btn.innerHTML = "&times;";
-    btn.onclick = () => li.remove();
+    li.querySelector("button")
+        .addEventListener("click", function () {
 
-    li.appendChild(span);
-    li.appendChild(btn);
+            // Remove from draft
+            productDraft.tags =
+                productDraft.tags.filter(t => t !== tag);
 
-    document.getElementById("tagList").appendChild(li);
+            li.remove();
+
+            if (productDraft.tags.length === 0) {
+                list.innerHTML = `
+                    <li id="tagEmpty"
+                        class="list-group-item text-muted">
+                        No tags added yet
+                    </li>
+                `;
+            }
+        });
+
+    list.appendChild(li);
+
     input.value = "";
 }
+
+//this will remove the added tag on create products
+function removeTag(button) {
+
+    const li = button.closest("li");
+    const tag = li.querySelector(".tag-pill").innerText;
+
+    productDraft.tags =
+        productDraft.tags.filter(t => t !== tag);
+
+    li.remove();
+
+    if (productDraft.tags.length === 0) {
+        document.getElementById("tagList").innerHTML = `
+            <li id="tagEmpty"
+                class="list-group-item text-muted">
+                No tags added yet
+            </li>
+        `;
+    }
+}
+
+
 
 function back(prev, current) {
     bootstrap.Modal.getInstance(current).hide();
@@ -624,11 +753,59 @@ function saveProduct() {
         .then(() => {
             alert("Product saved successfully!");
             location.reload();
+            resetProductModal();
         })
         .catch(err => {
             alert("ERROR:\n\n" + err.message);
             console.error(err);
+            resetProductModal();
         });
+
+    productDraft.tags = [];
+    document.getElementById("tagList").innerHTML = `
+    <li id="tagEmpty"
+        class="list-group-item text-muted">
+        No tags added yet
+    </li>
+`;
+}
+
+// This resets modal
+function resetProductModal() {
+
+    // Reset JS object
+    productDraft = {
+        manufacturerId: 0,
+        formFactorID: 0,
+        productModel: "",
+        productSeries: "",
+        sku: "",
+        partNumberA: "",
+        partNumberB: null,
+        originalSellingPrice: 0,
+        discountType: "NONE",
+        discountValue: 0,
+        reorderLevel: 3,
+        arUrl: null,
+        manufacturerWarrantyYears: 0,
+        outrightReplacementDays: 0,
+        grossWeightA: 0,
+        grossWeightB: 0,
+        technologies: [],
+        specifications: [],
+        tags: []
+    };
+
+    // Reset form inputs
+    document.getElementById("productForm").reset();
+
+    // Reset dynamic sections
+    document.getElementById("tagList").innerHTML = `
+        <li id="tagEmpty"
+            class="list-group-item text-muted">
+            No tags added yet
+        </li>
+    `;
 }
 
 
@@ -645,6 +822,8 @@ function saveProduct() {
 // OPEN MODAL + LOAD DATA
 /////////////////////////////
 
+
+/*
 function productUpdate_openModal(productId) {
     productUpdate_currentId = productId;
 
@@ -863,7 +1042,7 @@ function productUpdate_saveSpecs() {
         })
         .catch(err => alert(err.message));
 }
-
+*/
 
 function applyProductSearch() {
     currentSearch = document
@@ -893,18 +1072,381 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    const specsTabBtn =
-        document.querySelector('[data-bs-target="#tab-specs"]');
-
-    if (specsTabBtn) {
-        specsTabBtn.addEventListener("shown.bs.tab", () => {
-            productUpdate_loadSpecs();
-        });
-    }
-});
-
 ////// Dom Content loader
 document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
 });
+
+
+
+
+// Upload Media
+
+document.getElementById("primaryInput")
+    .addEventListener("change", function (e) {
+
+        const file = e.target.files[0];
+        if (!file) return;
+
+        primaryFile = file;
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+
+            const img = document.getElementById("primaryPreview");
+            img.src = event.target.result;
+            img.classList.remove("d-none");
+
+            document.getElementById("primaryPlaceholder")
+                .classList.add("d-none");
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+
+document.getElementById("multipleInput")
+    .addEventListener("change", function (e) {
+
+        const files = Array.from(e.target.files);
+
+        files.forEach(file => {
+            galleryFiles.push(file);
+        });
+
+        renderGallery();
+
+        // reset input so same file can be re-selected
+        e.target.value = "";
+    });
+
+
+function renderGallery() {
+
+    const grid = document.getElementById("galleryGrid");
+    if (!grid) return;
+
+    grid.innerHTML = "";
+
+    // Upload box
+    const uploadCol = document.createElement("div");
+    uploadCol.className = "col-3";
+
+    const uploadBox = document.createElement("div");
+    uploadBox.className = "border rounded d-flex justify-content-center align-items-center";
+    uploadBox.style.height = "150px";
+    uploadBox.style.cursor = "pointer";
+    uploadBox.innerText = "+ Add";
+
+    uploadBox.addEventListener("click", function () {
+        document.getElementById("multipleInput").click();
+    });
+
+    uploadCol.appendChild(uploadBox);
+    grid.appendChild(uploadCol);
+
+    // Preview images
+    galleryFiles.forEach((file, index) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+
+            const col = document.createElement("div");
+            col.className = "col-3";
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "position-relative";
+
+            const img = document.createElement("img");
+            img.src = event.target.result;
+            img.className = "img-fluid rounded";
+            img.style.height = "150px";
+            img.style.objectFit = "cover";
+            img.style.width = "100%";
+
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "btn btn-sm btn-danger position-absolute top-0 end-0 m-1";
+            btn.innerText = "×";
+
+            btn.addEventListener("click", function () {
+                galleryFiles.splice(index, 1);
+                renderGallery();
+            });
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(btn);
+            col.appendChild(wrapper);
+            grid.appendChild(col);
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
+
+function removeImage(index) {
+    galleryFiles.splice(index, 1);
+    renderGallery();
+};
+
+async function saveImages() {
+
+    const formData = new FormData();
+
+    if (primaryFile)
+        formData.append("Files", primaryFile);
+
+    galleryFiles.forEach(file => {
+        formData.append("Files", file);
+    });
+
+    if (primaryFile)
+        formData.append("PrimaryIndex", 0);
+
+    const productId =
+        document.getElementById("currentProductId").value;
+
+    try {
+
+        const response = await fetch(`/admin/api/products/${productId}/images`, {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text);
+        }
+
+        alert("Images uploaded successfully!");
+
+    } catch (err) {
+        console.error("Upload failed:", err);
+        alert("Upload failed.");
+    }
+}
+
+
+function openUploadMedia(productId) {
+
+    primaryFile = null;
+    galleryFiles = [];
+
+    const primaryPreview = document.getElementById("primaryPreview");
+    const primaryPlaceholder = document.getElementById("primaryPlaceholder");
+    const primaryInput = document.getElementById("primaryInput");
+
+    primaryPreview.src = "";
+    primaryPreview.classList.add("d-none");
+    primaryPlaceholder.classList.remove("d-none");
+
+    primaryInput.value = "";
+
+    const multipleInput = document.getElementById("multipleInput");
+    multipleInput.value = "";
+
+    renderGallery();
+
+    document.getElementById("currentProductId").value = productId;
+
+    const modal = new bootstrap.Modal(
+        document.getElementById("mediaModal")
+    );
+
+    modal.show();
+}
+
+window.openUploadMedia = openUploadMedia;
+
+
+
+
+//helpers for upload image
+/* ---------------- PRIMARY PREVIEW ---------------- */
+document.getElementById("primaryInput")
+    .addEventListener("change", function (e) {
+
+        const file = e.target.files[0];
+        if (!file) return;
+
+        primaryFile = file;
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+
+            const img = document.getElementById("primaryPreview");
+            img.src = event.target.result;
+            img.classList.remove("d-none");
+
+            document.getElementById("primaryPlaceholder")
+                .classList.add("d-none");
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+
+
+
+/* ---------------- REMOVE IMAGE ---------------- */
+function removeGalleryImage(index) {
+    galleryFiles.splice(index, 1);
+    renderGallery();
+}
+
+
+//clean the image
+document.getElementById("mediaModal")
+    .addEventListener("hidden.bs.modal", function () {
+
+        // Reset stored files
+        primaryFile = null;
+        galleryFiles = [];
+
+        // Reset primary preview
+        const primaryPreview = document.getElementById("primaryPreview");
+        const primaryPlaceholder = document.getElementById("primaryPlaceholder");
+
+        primaryPreview.src = "";
+        primaryPreview.classList.add("d-none");
+        primaryPlaceholder.classList.remove("d-none");
+
+        // Reset file inputs
+        document.getElementById("primaryInput").value = "";
+        document.getElementById("multipleInput").value = "";
+
+        // Reset gallery grid
+        renderGallery();
+    });
+
+document.addEventListener("DOMContentLoaded", function () {
+    renderGallery();
+});
+
+
+/////////////////////////////////////////////////////////////////////Edit Product Details /////////////////////////////////////////////////////////////////////////////////////
+
+
+//OPEN EDIT STEP 1 MODAL
+async function productUpdate_openModal(productId) {
+
+    try {
+
+        const response = await fetch(`/admin/api/products/${productId}`);
+
+        if (!response.ok)
+            throw new Error("Failed to load product.");
+
+        const p = await response.json();
+
+        // Store product ID
+        document.getElementById("editProductId").value = p.id;
+        // Editable
+        document.getElementById("editOriginalPrice").value = p.original_selling_price;
+        document.getElementById("editDiscountType").value = p.discount_type;
+        document.getElementById("editDiscountValue").value = p.discount_value;
+        document.getElementById("editPartNumberA").value = p.part_number_a;
+        document.getElementById("editPartNumberB").value = p.part_number_b;
+        document.getElementById("editReorderLevel").value = p.reorder_level;
+        document.getElementById("editManufacturerWarrantyYears").value = p.manufacturer_warranty_years;
+        document.getElementById("editOutrightReplacementDays").value = p.outright_replacement_days;
+        document.getElementById("editGrossWeightA").value = p.gross_weight_a;
+        document.getElementById("editGrossWeightB").value = p.gross_weight_b;
+        document.getElementById("editArUrl").value = p.ar_url;
+
+        // Open modal
+        const modal = new bootstrap.Modal(
+            document.getElementById("editStep1Modal")
+        );
+
+        modal.show();
+
+    } catch (err) {
+        console.error(err);
+        alert("Failed to load product.");
+    }
+}
+
+// to > edit Technologies
+function goEditTech() {
+
+    const step1 = bootstrap.Modal.getInstance(
+        document.getElementById("editStep1Modal")
+    );
+
+    step1.hide();
+
+    const tech = new bootstrap.Modal(
+        document.getElementById("editTechModal")
+    );
+
+    tech.show();
+}
+
+
+//////////////////////////////////////////////////////////////// Step 2 Technlogies /////////////////////////////////////////////////////////////////////////////
+function addEditTechnology() {
+
+    const nameInput = document.getElementById("editTechName");
+    const descInput = document.getElementById("editTechDesc");
+    const list = document.getElementById("editTechList");
+    const empty = document.getElementById("editTechEmpty");
+
+    const name = nameInput.value.trim();
+    const desc = descInput.value.trim();
+
+    if (!name) return;
+
+    editTechnologies.push({ name, description: desc });
+
+    if (empty) empty.remove();
+
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between align-items-center";
+
+    li.innerHTML = `
+        <div>
+            <strong>${name}</strong>
+            <div class="small text-muted">${desc}</div>
+        </div>
+        <button class="btn btn-sm btn-outline-danger">×</button>
+    `;
+
+    li.querySelector("button")
+        .addEventListener("click", function () {
+            li.remove();
+            editTechnologies = editTechnologies.filter(t => t.name !== name);
+
+            if (editTechnologies.length === 0) {
+                list.innerHTML = `
+                    <li id="editTechEmpty"
+                        class="list-group-item text-muted">
+                        No technologies added yet
+                    </li>
+                `;
+            }
+        });
+
+    list.appendChild(li);
+
+    nameInput.value = "";
+    descInput.value = "";
+}
+function goEditSpec() {
+
+    const tech = bootstrap.Modal.getInstance(
+        document.getElementById("editTechModal")
+    );
+
+    tech.hide();
+
+    const spec = new bootstrap.Modal(
+        document.getElementById("editSpecModal")
+    );
+
+    spec.show();
+}
+/////////////////////////////////////////////// Step 3 Specifications ////////////////////////////////////////////////

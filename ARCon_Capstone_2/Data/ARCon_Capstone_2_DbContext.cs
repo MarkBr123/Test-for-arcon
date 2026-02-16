@@ -126,6 +126,8 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<work_schedule> work_schedules { get; set; }
 
+    public virtual DbSet<products_media> products_medias { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=airconi_trading_db;Username=postgres;Password=50!20/OMEGA");
@@ -558,6 +560,11 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.HasOne(d => d.created_byNavigation).WithMany(p => p.media_urls)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("media_url_created_by_fkey");
+            entity.HasMany(d => d.product_medias)
+                .WithOne(p => p.media)
+                .HasForeignKey(p => p.media_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
         });
 
         modelBuilder.Entity<notification>(entity =>
@@ -627,6 +634,36 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.HasOne(d => d.updated_byNavigation).WithMany(p => p.productupdated_byNavigations)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("products_updated_by_fkey");
+
+            entity.HasMany(d => d.products_media)
+                   .WithOne(p => p.product)
+                   .HasForeignKey(p => p.product_id)
+                   .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<products_media>(entity =>
+        {
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.is_primary)
+                .HasDefaultValue(false);
+
+            entity.HasOne(d => d.product)
+                .WithMany(p => p.products_media)
+                .HasForeignKey(d => d.product_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(d => d.media)
+                .WithMany(p => p.product_medias)
+                .HasForeignKey(d => d.media_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            // 🔥 Prevent multiple primary images per product
+            entity.HasIndex(e => e.product_id)
+                .HasDatabaseName("ux_product_primary_image")
+                .HasFilter("\"is_primary\" = true")
+                .IsUnique();
         });
 
         modelBuilder.Entity<product_review>(entity =>

@@ -159,7 +159,7 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Part Number A</label>
-                        <input id="partA" class="form-control" placeholder="Primary part number" />
+                        <input id="partNumberA" class="form-control" placeholder="Primary part number" />
                     </div>
 
                     <div class="col-md-6">
@@ -636,22 +636,7 @@
                                 class="list-group-item text-muted">
                                 No tags added yet
                             </li>
-
-                            <!-- SAMPLE TAG ITEM -->
-                            <!--
-                            <li class="list-group-item d-flex align-items-center justify-content-between">
-                                <span class="tag-pill"
-                                      title="Ultra High Efficiency Inverter Technology">
-                                    Ultra High Efficiency Inverter Technology
-                                </span>
-
-                                <button type="button"
-                                        class="btn btn-sm btn-outline-danger ms-2"
-                                        onclick="removeTag(this)">
-                                    ×
-                                </button>
-                            </li>
-                            -->
+                            
 
                         </ul>
                     </div>
@@ -941,8 +926,454 @@
 
 
 
-                                                                                                <!-- End Update Modals-->            
 
+
+
+
+<!-- MEDIA UPLOAD MODAL -->
+<div class="modal fade" id="mediaModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Product Images</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <!-- 🔥 Hidden Product ID -->
+                <input type="hidden" id="currentProductId" />
+
+                <!-- PRIMARY IMAGE -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">
+                        Main Thumbnail (Primary Image)
+                    </label>
+
+                    <div class="primary-box text-center p-3 border rounded"
+                         style="cursor:pointer; min-height:250px;"
+                         onclick="document.getElementById('primaryInput').click()">
+
+                        <input type="file"
+                               id="primaryInput"
+                               accept="image/*"
+                               hidden />
+
+                        <!-- Primary Preview -->
+                        <img id="primaryPreview"
+                             class="img-fluid rounded d-none"
+                             style="max-height:230px; object-fit:contain;"
+                             alt="Primary Preview" />
+
+                        <!-- Placeholder -->
+                        <div id="primaryPlaceholder"
+                             class="text-muted">
+                            Click to upload primary image
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MULTIPLE IMAGES -->
+                <div>
+                    <label class="form-label fw-bold">
+                        Gallery Images
+                    </label>
+
+                    <input type="file"
+                           id="multipleInput"
+                           accept="image/*"
+                           multiple
+                           hidden />
+
+                    <div class="row g-3" id="galleryGrid">
+
+                        <div class="col-3" id="galleryUploadBox">
+                            <div class="upload-box border rounded d-flex justify-content-center align-items-center"
+                                 style="height:150px; cursor:pointer;"
+                                 onclick="document.getElementById('multipleInput').click()">
+                                + Add
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="button"
+                        class="btn btn-success"
+                        onclick="saveImages()">
+                    Save Images
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!--Update Modals-->
+<!-- ================= EDIT STEP 1: BASIC INFO ================= -->
+<div class="modal fade" id="editStep1Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5>Edit Product - Basic Info</h5>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Hidden Product ID -->
+                <input type="hidden" id="editProductId" />
+                <hr class="my-4" />
+
+                <!-- SECTION: PRICING -->
+                <h6 class="text-muted mb-2">Pricing & Discount</h6>
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Original Price</label>
+                        <input id="editOriginalPrice"
+                               type="number"
+                               class="form-control"
+                               placeholder="₱0.00" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Discount Type</label>
+                        <select id="editDiscountType"
+                                class="form-select"
+                                onchange="onEditDiscountChange()">
+                            <option value="NONE">No Discount</option>
+                            <option value="PERCENTAGE">Percentage (%)</option>
+                            <option value="AMOUNT">Fixed Amount</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Discount Value</label>
+                        <input id="editDiscountValue"
+                               type="number"
+                               step="0.01"
+                               class="form-control"
+                               placeholder="0.00" />
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <!-- SECTION: PRODUCT IDENTIFIERS -->
+                <h6 class="text-muted mb-2">Product Identifiers</h6>
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Part Number A</label>
+                        <input id="editPartNumberA"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Part Number B</label>
+                        <input id="editPartNumberB"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Reorder Level</label>
+                        <input type="number"
+                               min="0"
+                               class="form-control"
+                               id="editReorderLevel" />
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <!-- SECTION: WARRANTY & WEIGHT -->
+                <h6 class="text-muted mb-2">Warranty & Physical Details</h6>
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Manufacturer Warranty (Years)</label>
+                        <input id="editManufacturerWarrantyYears"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Outright Replacement (Days)</label>
+                        <input id="editOutrightReplacementDays"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Gross Weight A (kg)</label>
+                        <input id="editGrossWeightA"
+                               type="number"
+                               step="0.01"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Gross Weight B (kg)</label>
+                        <input id="editGrossWeightB"
+                               type="number"
+                               step="0.01"
+                               class="form-control" />
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <!-- SECTION: MEDIA -->
+                <h6 class="text-muted mb-2">Media</h6>
+                <div class="row g-3">
+
+                    <div class="col-md-12">
+                        <label class="form-label">AR URL</label>
+                        <input id="editArUrl"
+                               class="form-control"
+                               placeholder="https://..." />
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success"
+                        onclick="goEditTech()">
+                    Next
+                </button>
+            </div>
+
+            <!-- ================= EDIT STEP 2: TECHNOLOGIES ================= -->
+            <div class="modal fade" id="editTechModal" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content shadow-lg">
+
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="mb-0">Edit Product - Technologies</h5>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <!-- Add Technology -->
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h6 class="fw-semibold mb-3">Add Technology</h6>
+
+                                    <div class="row g-2">
+                                        <div class="col-md-5">
+                                            <input id="editTechName"
+                                                   class="form-control"
+                                                   placeholder="Technology Name" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input id="editTechDesc"
+                                                   class="form-control"
+                                                   placeholder="Description" />
+                                        </div>
+                                        <div class="col-md-2 d-grid">
+                                            <button class="btn btn-outline-primary"
+                                                    onclick="addEditTechnology()">
+                                                Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Technology List -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="fw-semibold mb-3">Added Technologies</h6>
+                                    <ul id="editTechList"
+                                        class="list-group list-group-flush">
+                                        <li id="editTechEmpty"
+                                            class="list-group-item text-muted">
+                                            No technologies added yet
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button class="btn btn-outline-secondary"
+                                    onclick="backEditStep1()">
+                                Back
+                            </button>
+
+                            <button class="btn btn-primary"
+                                    onclick="goEditSpec()">
+                                Next
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= EDIT STEP 3: SPECIFICATIONS ================= -->
+            <div class="modal fade"
+                 id="editSpecModal"
+                 tabindex="-1"
+                 data-bs-backdrop="static"
+                 data-bs-keyboard="false">
+
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content shadow-lg">
+
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title">Edit Product - Specifications</h5>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <p class="text-muted mb-4">
+                                Update the technical specifications for this product.
+                            </p>
+
+                            <div class="row">
+                                @foreach (var key in ViewBag.SpecKeys)
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-semibold">
+                                            @key.keyname
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control edit-spec-input"
+                                               data-key-id="@key.id"
+                                               placeholder="Enter value" />
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button class="btn btn-outline-secondary"
+                                    onclick="backEditTech()">
+                                Back
+                            </button>
+
+                            <button class="btn btn-primary"
+                                    onclick="goEditTags()">
+                                Next
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= EDIT STEP 4: TAGS + SUMMARY ================= -->
+            <div class="modal fade" id="editTagModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content shadow-lg">
+
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="mb-0">Edit Product - Tags</h5>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <!-- Add Tag -->
+                            <div class="input-group mb-3">
+                                <input id="editTagInput"
+                                       class="form-control"
+                                       placeholder="Enter tag" />
+                                <button class="btn btn-outline-success"
+                                        onclick="addEditTag()">
+                                    Add
+                                </button>
+                            </div>
+
+                            <!-- Tag List -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="fw-semibold mb-3">Tags</h6>
+
+                                    <ul id="editTagList"
+                                        class="list-group list-group-flush">
+
+                                        <li id="editTagEmpty"
+                                            class="list-group-item text-muted">
+                                            No tags added yet
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button class="btn btn-outline-secondary"
+                                    onclick="backEditSpec()">
+                                Back
+                            </button>
+
+                            <button class="btn btn-success"
+                                    onclick="updateProduct()">
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
 
 
 <!-- ================= JAVASCRIPT ================= -->

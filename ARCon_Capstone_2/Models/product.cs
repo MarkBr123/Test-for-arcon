@@ -129,4 +129,8 @@ public partial class product
     [ForeignKey("updated_by")]
     [InverseProperty("productupdated_byNavigations")]
     public virtual admin_user? updated_byNavigation { get; set; }
+    public virtual ICollection<products_media> products_media { get; set; }
+        = new List<products_media>();
+
+
 }

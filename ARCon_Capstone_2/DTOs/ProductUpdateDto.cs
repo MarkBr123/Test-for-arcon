@@ -2,6 +2,7 @@
 {
     public class ProductUpdateDto
     {
+
         public string Part_Number_A {  get; set; }
         public string Part_Number_B { get; set; }
         public string Status { get; set; }

@@ -1,6 +1,8 @@
 ﻿using ARCon_Capstone_2.Data;
 using ARCon_Capstone_2.DTOs;
 using ARCon_Capstone_2.Models;
+using CloudinaryDotNet.Actions;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +14,12 @@ using Microsoft.EntityFrameworkCore;
 public class ProductsApiController : ControllerBase
 {
     private readonly ARCon_Capstone_2_DbContext _context;
+    public readonly Cloudinary _cloudinary;
 
-    public ProductsApiController(ARCon_Capstone_2_DbContext context)
+    public ProductsApiController(ARCon_Capstone_2_DbContext context, Cloudinary cloudinary)
     {
         _context = context;
+        _cloudinary = cloudinary;
     }
 
     [HttpPost("add")]
@@ -28,7 +32,10 @@ public class ProductsApiController : ControllerBase
             // 1️⃣ COMPUTE ACTUAL SELLING PRICE (SERVER-SIDE ONLY)
             decimal actualSellingPrice;
             decimal discountedSellingPrice;
-            decimal totalgrossweight = Math.Round(dto.GrossWeightA + dto.GrossWeightB, 2, MidpointRounding.AwayFromZero);
+            decimal totalgrossweight = 
+                (dto.GrossWeightA) + (dto.GrossWeightB);
+
+
             var sku = await GenerateSku(dto.ManufacturerId, dto.FormFactorID);
 
             //sku generation
@@ -138,7 +145,7 @@ public class ProductsApiController : ControllerBase
                 product_series = dto.ProductSeries.ToUpper(),
                 sku = sku,
                 part_number_a = dto.PartNumberA.ToUpper(),
-                part_number_b = dto.PartNumberB.ToUpper(),
+                part_number_b = dto.PartNumberB?.ToUpper(),
                 original_selling_price = dto.OriginalSellingPrice,
                 discounted_selling_price = discountedSellingPrice,
                 discount_type = discountType,
@@ -204,8 +211,14 @@ public class ProductsApiController : ControllerBase
             }
 
 
-            // 5️⃣ TAGS
-            foreach (var name in dto.Tags)
+            // Remove existing tags first (for update)
+            var existingProductTags = _context.product_tags
+                .Where(pt => pt.product_id == product.id);
+
+            _context.product_tags.RemoveRange(existingProductTags);
+
+            // Add new tags
+            foreach (var name in dto.Tags.Distinct())
             {
                 var tag = await _context.tags
                     .FirstOrDefaultAsync(x => x.tag_name == name);
@@ -223,6 +236,7 @@ public class ProductsApiController : ControllerBase
                     tag_id = tag.id
                 });
             }
+
 
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
@@ -525,6 +539,11 @@ public class ProductsApiController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok();
     }
+
+
+
+
+
     // paired with update
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
@@ -651,4 +670,101 @@ public class ProductsApiController : ControllerBase
     }
 
 
+
+    //upload media
+    [HttpPost("{id}/images")]
+    public async Task<IActionResult> UploadImages(
+       int id,
+       [FromForm] ProductMediaUploadDto dto)
+    {
+        if (dto.files == null || dto.files.Count == 0)
+            return BadRequest("No files uploaded.");
+
+        var product = await _context.products
+            .Include(p => p.products_media)
+            .FirstOrDefaultAsync(p => p.id == id);
+
+        if (product == null)
+            return NotFound("Product not found.");
+
+        using var transaction = await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+            for (int i = 0; i < dto.files.Count; i++)
+            {
+                var file = dto.files[i];
+
+                // ===== Upload to Cloudinary =====
+                await using var stream = file.OpenReadStream();
+
+                var uploadParams = new ImageUploadParams
+                {
+                    File = new FileDescription(file.FileName, stream),
+                    Folder = "products",
+                    UseFilename = true,
+                    UniqueFilename = true,
+                    Overwrite = false
+                };
+
+                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+                if (uploadResult.Error != null)
+                    throw new Exception(uploadResult.Error.Message);
+
+                // ===== Save media_url =====
+                var media = new media_url
+                {
+                    url = uploadResult.Url.ToString(),
+                    secure_id = uploadResult.SecureUrl.ToString(),
+                    public_id = uploadResult.PublicId,
+                    folder = "products",
+                    file_name = file.FileName,
+                    mime_type = file.ContentType,
+                    file_size = file.Length,
+                    storage_provider = "cloudinary",
+                    created_at = DateTime.UtcNow,
+                    is_deleted = false
+                };
+
+                _context.media_urls.Add(media);
+                await _context.SaveChangesAsync();
+
+                // ===== Handle Primary Image =====
+                bool isPrimary = false;
+
+                if (dto.PrimaryIndex.HasValue && dto.PrimaryIndex == i)
+                {
+                    // Remove old primary if exists
+                    var oldPrimary = product.products_media
+                        .FirstOrDefault(pm => pm.is_primary);
+
+                    if (oldPrimary != null)
+                        oldPrimary.is_primary = false;
+
+                    isPrimary = true;
+                }
+
+                // ===== Link to Product =====
+                var productMedia = new products_media
+                {
+                    product_id = id,
+                    media_id = media.id,
+                    is_primary = isPrimary
+                };
+
+                _context.products_medias.Add(productMedia);
+            }
+
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+
+            return Ok(new { message = "Images uploaded successfully." });
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            return StatusCode(500, ex.Message);
+        }
+    }
 }

@@ -16,9 +16,18 @@ public partial class media_url
     public string url { get; set; } = null!;
 
     [StringLength(50)]
-    public string? type { get; set; }
+    public string? mime_type { get; set; }
 
     public DateTime? created_at { get; set; }
+
+    public string? file_name { get; set; }
+    public string storage_provider {  get; set; }
+    public Int64? file_size { get; set; }
+    public Boolean? is_deleted { get; set; }
+
+    public string folder {  get; set; } 
+    public string public_id { get; set; }   
+    public string secure_id { get; set; }
 
     public int? created_by { get; set; }
 
@@ -37,4 +46,9 @@ public partial class media_url
 
     [InverseProperty("supplier_logo_media")]
     public virtual ICollection<supplier> suppliers { get; set; } = new List<supplier>();
+
+    public virtual ICollection<products_media> product_medias { get; set; }
+        = new List<products_media>();
+
+
 }

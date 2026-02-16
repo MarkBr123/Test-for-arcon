@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using QuestPDF.Infrastructure;
+using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,21 @@ builder.Services.AddDbContext<ARCon_Capstone_2_DbContext>(options =>
         ?? "Host=localhost;Port=5432;Database=airconi_trading_db;Username=postgres;Password=50!20/OMEGA"
     )
 );
+
+
+//Media Upload
+builder.Services.AddSingleton(provider =>
+{
+    var config = builder.Configuration;
+
+    var account = new Account(
+        config["Cloudinary:CloudName"],
+        config["Cloudinary:ApiKey"],
+        config["Cloudinary:ApiSecret"]
+    );
+
+    return new Cloudinary(account);
+});
 
 // Session (REQUIRED for auth)
 builder.Services.AddDistributedMemoryCache();
