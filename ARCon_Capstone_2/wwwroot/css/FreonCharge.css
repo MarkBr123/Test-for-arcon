@@ -209,13 +209,13 @@
     }
 
 .next-btn {
-    background: linear-gradient(145deg, #e53935, #d32f2f);
+    background: linear-gradient(145deg, #2196F3, #2196F3);
     color: white;
     margin-left: auto;
 }
 
     .next-btn:hover {
-        background: linear-gradient(145deg, #d32f2f, #c62828);
+        background: linear-gradient(145deg,#008000);
         transform: translateY(-2px);
         box-shadow: 0 6px 12px rgba(229, 57, 53, 0.3);
     }
@@ -327,7 +327,7 @@
         width: 40px;
         height: 40px;
         border: none;
-        background: #e53935;
+        background: #2196F3;
         color: white;
         font-size: 18px;
         font-weight: bold;
@@ -336,7 +336,7 @@
     }
 
         .counter-box button:hover {
-            background: #c62828;
+            background: #008000;
         }
 
     .counter-box input {
@@ -474,7 +474,7 @@
 }
 
     .progress-step.active {
-        color: #e53935;
+        color: #2196F3;
         font-weight: 600;
     }
 
@@ -493,7 +493,7 @@
 }
 
 .progress-step.active .progress-step-number {
-    background: #e53935;
+    background: #2196F3;
     border-color: #ffcdd2;
 }
 
