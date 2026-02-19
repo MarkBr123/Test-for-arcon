@@ -56,7 +56,7 @@
                 container.innerHTML += `
                     <div class="card product-card text-dark">
 
-                        <a href="/Home/Product/${p.id}">
+                        <a href="/Shop/Product/Details/${p.id}">
                             ${stockDisplay}
                             <img src="${imageUrl}" alt="${p.productModel}">
                             <h3>${p.brandName} ${p.productSeries} ${p.productModel}</h3>

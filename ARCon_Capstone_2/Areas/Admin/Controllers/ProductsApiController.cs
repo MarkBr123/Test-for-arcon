@@ -135,6 +135,15 @@ public class ProductsApiController : ControllerBase
                 dto.ArUrl = "https://" + dto.ArUrl;
             }
 
+            //
+            if (dto.DiscountType == "PERCENTAGE" && dto.DiscountValue > 100)
+            {
+                return BadRequest("Percentage cannot exceed 100.");
+            }
+            if (dto.DiscountType == "AMOUNT" && (dto.DiscountValue >= dto.OriginalSellingPrice))
+            {
+                return BadRequest("Discount amount cannot exceed or match original selling price");
+            }
 
             // 2️⃣ CREATE PRODUCT (NO SAVE YET)
             var product = new product
@@ -374,9 +383,9 @@ public class ProductsApiController : ControllerBase
         });
     }
 
-
+    // for product summary (admin)
     [HttpGet("summary/{id}")]
-    public async Task<IActionResult> GetProductSummary(int id)
+    public async Task<IActionResult> GetProductDetails(int id)
     {
 
         var product = await _context.products
@@ -387,6 +396,19 @@ public class ProductsApiController : ControllerBase
 
         if (product == null)
             return NotFound();
+
+        // ---- STOCK
+        var availableStock = await _context.inventories
+            .CountAsync(i => i.product_id == id && i.status == "GOOD_STOCK");
+
+        var inStock = availableStock > 0;
+
+        // ---- IMAGES
+        var images = await _context.products_medias
+            .Where(pm => pm.product_id == id)
+            .OrderByDescending(pm => pm.is_primary)
+            .Select(pm => pm.media.url)
+            .ToListAsync();
 
         // -- spec (key-value pairs)
         var specifications = await _context.technical_specifications
@@ -444,7 +466,7 @@ public class ProductsApiController : ControllerBase
             original_Selling_Price = product.original_selling_price,
             discounted_Selling_Price = product.discounted_selling_price,
             discount_Type = product.discount_type,
-            discount_Amount = product.discount_type,
+            //discount_Amount = product.discount_value,
             discount_Value = product.discount_value,
             actual_Selling_Price = product.actual_selling_price,
             ar_url = product.ar_url,
@@ -456,6 +478,13 @@ public class ProductsApiController : ControllerBase
             gross_Weight_B = product.gross_weight_b,
             total_Gross_Weight = product.total_gross_weight,
             reorder_level = product.reorder_level,
+
+            available_Stock = availableStock,
+            in_Stock = inStock,
+
+            // ---- IMAGES
+            images = images,
+
             //details query from multiple tables (Joined)
             specifications = specifications,
             tags = tags,
@@ -463,6 +492,141 @@ public class ProductsApiController : ControllerBase
         };
         return Ok(result);
     }
+
+
+
+
+
+    //// for product summary (shop)
+    [HttpGet("details/{id}")]
+    public async Task<IActionResult> GetProductSummary(int id)
+    {
+
+        var product = await _context.products
+            .Include(p => p.form_factor)
+            .Include(p => p.manufacturer)
+
+            .FirstOrDefaultAsync(p => p.id == id);
+
+        if (product == null)
+            return NotFound();
+
+        // ---- STOCK
+        var availableStock = await _context.inventories
+            .CountAsync(i => i.product_id == id && i.status == "GOOD_STOCK");
+
+        var inStock = availableStock > 0;
+
+        // ---- IMAGES
+        var images = await _context.products_medias
+            .Where(pm => pm.product_id == id)
+            .OrderByDescending(pm => pm.is_primary)
+            .Select(pm => pm.media.url)
+            .ToListAsync();
+
+        // -- spec (key-value pairs)
+        var specifications = await _context.technical_specifications
+            .Where(ts => ts.product_id == id)
+            .Join(
+            _context.specification_keys,
+            ts => ts.key_id,
+            sk => sk.id,
+            (ts, sk) => new
+            {
+                key = sk.keyname,
+                value = ts.value,
+            }
+        )
+            .OrderBy(x => x.key)
+            .ToListAsync();
+
+        var tags = await _context.product_tags
+            .Where(pt => pt.product_id == id)
+            .Join(
+                _context.tags,
+                pt => pt.tag_id,
+                t => t.id,
+                (pt, t) => t.tag_name
+            )
+            .OrderBy(t => t)
+            .ToListAsync();
+
+        var technologies = await _context.product_technologies
+            .Where(pt => pt.product_id == id)
+            .Join(
+                _context.technology_types,
+                pt => pt.technology_id,
+                tt => tt.id,
+                (pt, tt) => new
+                {
+                    id = tt.id,
+                    name = tt.technology_name,
+                    description = tt.technology_desc
+                }
+            )
+            .OrderBy(t => t.name)
+            .ToListAsync();
+        var result = new Shop_ProductDetailsDto
+        {
+            //basic info
+            Sku = product.sku,
+            ProductModel = product.product_model,
+            ProductSeries = product.product_series,
+            PartNumberA = product.part_number_a,
+            PartNumberB = product.part_number_b,
+
+            FormFactor = product.form_factor.form_factor1,
+            BrandName = product.manufacturer.brand_name,
+
+            Status = product.status,
+
+            OriginalSellingPrice = product.original_selling_price,
+            DiscountedSellingPrice = product.discounted_selling_price,
+            DiscountType = product.discount_type,
+            DiscountValue = product.discount_value,
+            ActualSellingPrice = product.actual_selling_price,
+
+            ArUrl = product.ar_url,
+
+            ManufacturerWarrantyYears = product.manufacturer_warranty_years,
+            OutrightReplacementDays = product.outright_replacement_days,
+
+            GrossWeightA = product.gross_weight_a,
+            GrossWeightB = product.gross_weight_b,
+            TotalGrossWeight = product.total_gross_weight,
+
+            ReorderLevel = product.reorder_level,
+
+            AvailableStock = availableStock,
+            InStock = inStock,
+
+            Images = images,
+
+            Specifications = specifications
+        .Select(s => new Shop_SpecificationDto
+        {
+            Key = s.key,
+            Value = s.value
+        }).ToList(),
+
+            Tags = tags,
+
+            Technologies = technologies
+        .Select(t => new Shop_TechnologyDto
+        {
+            Id = t.id,
+            Name = t.name,
+            Description = t.description
+        }).ToList()
+        };
+        return Ok(result);
+    }
+
+
+
+
+
+
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateDto dto)

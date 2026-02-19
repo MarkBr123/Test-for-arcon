@@ -98,7 +98,9 @@ function renderCart() {
         const subtotal = item.price * qty;
         total += subtotal;
 
-        cartItemsContainer.innerHTML += `
+
+        // commented temporarily
+      /*  cartItemsContainer.innerHTML += `
             <div class="cart-item">
                 <div>
                     <strong>${item.name}</strong><br>
@@ -113,7 +115,7 @@ function renderCart() {
                     <button class="btn btn-sm btn-danger ms-2" onclick="removeFromCart(${item.id})">✖</button>
                 </div>
             </div>
-        `;
+        `; */
     });
 
     cartTotal.textContent = "₱" + total.toLocaleString();

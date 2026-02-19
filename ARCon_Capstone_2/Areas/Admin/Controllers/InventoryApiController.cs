@@ -133,7 +133,7 @@ public class InventoryApiController : ControllerBase
     [HttpGet("inventory-list")]
 
     public async Task<IActionResult> GetParentsListForInventory
-        (int page = 1, int pageSize = 3, string sortBy = "date", string sortDir = "desc", string? search = null)
+        (int page = 1, int pageSize = 16, string sortBy = "date", string sortDir = "desc", string? search = null)
     {
         var query = _context.products
             .Where(p => p.status.ToUpper() != "ARCHIVED")

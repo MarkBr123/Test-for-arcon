@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ARCon_Capstone_2.Models;
 
-[Index("technology_name", Name = "technology_types_technology_name_key", IsUnique = true)]
 public partial class technology_type
 {
     [Key]

@@ -57,4 +57,60 @@ public class Shop_ProductApiController: ControllerBase
 
         return Ok (products);       
     }
+
+    // This will get the (5) discounted product cards for homepage
+    [HttpGet("best-deals")]
+    public async Task<IActionResult> GetBestDeals()
+    {
+        var products = await _context.products
+            .Where(p =>
+                p.status == "ACTIVE" &&
+                p.discount_type != "NONE" &&
+                new[] { "PERCENTAGE", "AMOUNT" }
+                    .Contains(p.discount_type))
+            .OrderByDescending(p => p.updated_at) // optional sorting
+            .Select(p => new Shop_GetBestDealsCardDto
+                    {
+                        Id = p.id,
+
+                        BrandName = p.manufacturer.brand_name,
+
+                        ProductSeries = p.product_series,
+                        ProductModel = p.product_model,
+
+                        ActualSellingPrice = p.actual_selling_price,
+
+                        HorsePower = p.technical_specifications
+                            .Where(ts => ts.key.keyname == "Horsepower")
+                            .Select(ts => ts.value)
+                            .FirstOrDefault(),
+
+                        AvailableStock = p.inventories
+                            .Count(i => i.status == "GOOD_STOCK"),
+
+                        InStock = p.inventories
+                            .Any(i => i.status == "GOOD_STOCK"),
+
+                        DiscountType = p.discount_type,
+                        DiscountValue = p.discount_value,
+
+                        ActualPrice = p.actual_selling_price,
+                        OriginalSellingPrice = p.original_selling_price,
+
+                        PrimaryImageUrl = p.products_media
+                            .Where(pm => pm.is_primary)
+                            .Select(pm => pm.media.url)
+                            .FirstOrDefault()
+                    })
+            .Take(5)
+            .AsNoTracking()
+            .ToListAsync();
+
+        return Ok(products);
+    }
+
+
+
+
+
 }

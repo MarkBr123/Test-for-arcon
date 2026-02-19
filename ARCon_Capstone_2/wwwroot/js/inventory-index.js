@@ -1,6 +1,6 @@
 ﻿// ===== STATE =====
 let inventoryPage = 1;
-let inventoryPageSize = 3;
+let inventoryPageSize = 16;
 let inventorySortBy = "createDate";
 let inventorySortDir = "desc";
 let inventorySearch = "";

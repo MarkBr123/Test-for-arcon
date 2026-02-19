@@ -736,6 +736,36 @@ function back(prev, current) {
     new bootstrap.Modal(prev).show();
 }
 function saveProduct() {
+
+    // 🔥 Validate Discount
+    if (productDraft.discountType !== "NONE") {
+
+        const value = parseFloat(discountValue.value);
+
+        if (isNaN(value) || value <= 0) {
+            alert("Discount value must be greater than 0.");
+            return;
+        }
+
+        if (productDraft.discountType === "PERCENTAGE" && value > 100) {
+            alert("Percentage cannot exceed 100%");
+            return;
+        }
+
+        if (productDraft.discountType === "AMOUNT") {
+
+            const originalPrice = parseFloat(productDraft.originalSellingPrice);
+
+            if (value >= originalSellingPrice) {
+                alert("Discount amount cannot exceed or match original selling price.");
+                return;
+            }
+        }
+
+        productDraft.discountValue = value;
+    }
+
+
     fetch('/admin/api/products/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -797,7 +827,10 @@ function resetProductModal() {
     };
 
     // Reset form inputs
-    document.getElementById("productForm").reset();
+    document.getElementById("step1Modal").reset();
+    document.getElementById("techModal").reset();
+    document.getElementById("specModal").reset();
+    document.getElementById("tagModal").reset();
 
     // Reset dynamic sections
     document.getElementById("tagList").innerHTML = `
@@ -1221,11 +1254,13 @@ async function saveImages() {
         }
 
         alert("Images uploaded successfully!");
+        
 
     } catch (err) {
         console.error("Upload failed:", err);
         alert("Upload failed.");
     }
+    location.reload();
 }
 
 

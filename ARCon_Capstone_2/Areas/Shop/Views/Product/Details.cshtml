@@ -1,0 +1,163 @@
+﻿@{
+    ViewData["Title"] = "Product Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Product.css" asp-append-version="true" />
+}
+
+<div class="section2">
+    <section class="hero">
+        <div class="container">
+            <div class="product-main">
+
+                <!-- LEFT COLUMN -->
+                <div class="left-column">
+                    <img id="mainImage" class="main-img" alt="Product Image" />
+
+                    <div class="thumbnails" id="thumbnailContainer">
+                        <!-- Thumbnails will be inserted dynamically -->
+
+                        <div class="buttons">
+                            <button class="ar" id="viewAR">View in AR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="right-column">
+                    <h1 id="productName"></h1>
+
+                    <div id="tagsContainer"></div>
+
+                    <p class="subtext" id="productSubtext"></p>
+
+                    <p class="rating">★★★★★ <span> | 0 star based on reviews</span></p>
+
+                    <p id="discountBadge" class="discount-badge"></p>
+
+                    <p class="price" id="productPrice"></p>
+
+                    <p id="stockStatus"></p>
+
+                    <div class="buttons">
+                        <button class="add" id="openModal">Add to Cart</button>
+                        <button class="buy">Buy Now</button>
+                    </div>
+
+                    <!-- INSTALLATION OPTIONS -->
+                    <div class="dropdowns">
+                        <label>Installation Service</label>
+                        <select id="installationSelect"></select>
+
+                        <label>Additional Service upon installation</label>
+                        <select id="additionalSelect"></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCT DETAILS -->
+            <div class="product-details">
+                <h2>Product Features</h2>
+
+                <div class="feature-block">
+                    <strong>Model Name:</strong>
+                    <span id="modelName"></span>
+                </div>
+
+                <div class="grid-features" id="specificationsContainer">
+                    <!-- Specifications inserted dynamically -->
+                </div>
+
+                <!-- TECHNOLOGIES -->
+                <div class="feature-block">
+                    <strong>Technologies:</strong>
+                    <div id="technologiesContainer"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ADD TO CART MODAL -->
+<div id="ATC" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+
+        <div class="product-info">
+            <img id="modalImage" class="modal-img" alt="Product Image" />
+
+            <div class="product-details-modal">
+                <h2 id="modalProductName"></h2>
+                <p class="modal-price" id="modalProductPrice"></p>
+
+                <div class="counter">
+                    <button type="button" id="minus">-</button>
+                    <input id="units" type="number" value="1" min="1">
+                    <button type="button" id="plus">+</button>
+                </div>
+            </div>
+        </div>
+
+        <label>Installation Service:</label>
+        <select id="modalInstallationSelect"></select>
+
+        <label>Additional Service upon Installation:</label>
+        <select id="modalAdditionalSelect"></select>
+
+        <div class="modal-buttons">
+            <button id="cancelBtn" class="cancel-btn">Cancel</button>
+            <button id="confirmBtn" class="confirm-btn">Confirm</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Cart Modal -->
+<div id="cartModal" class="cart-modal">
+    <div class="cart-content">
+        <span class="cart-close">&times;</span>
+        <h2>🛒 Your Cart</h2>
+
+        <div id="cartItems" class="cart-items">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+
+        <div class="cart-footer">
+            <p>Total: <span id="cartTotal">₱0</span></p>
+            <button id="checkoutBtn" class="checkout-btn">Checkout</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const productId = @ViewBag.ProductId;
+    </script>
+
+    <script src="~/js/shop_js/shop_product-details.js"></script>
+
+    <script>
+        document.getElementById("viewAR").addEventListener("click", () => {
+            fetch(`/admin/api/products/details/${productId}`)
+                .then(res => res.json())
+                .then(p => {
+                    if (p.arUrl) {
+                        window.location.href = p.arUrl;
+                    }
+                });
+        });
+    </script>
+}

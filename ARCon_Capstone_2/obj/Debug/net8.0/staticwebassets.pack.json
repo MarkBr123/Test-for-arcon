@@ -185,8 +185,16 @@
       "PackagePath": "staticwebassets\\js\\services.js"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_home_five_bestdeal_cards.js",
+      "PackagePath": "staticwebassets\\js\\shop_js\\shop_home_five_bestdeal_cards.js"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_home_ten_products_card.js",
       "PackagePath": "staticwebassets\\js\\shop_js\\shop_home_ten_products_card.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_product-details.js",
+      "PackagePath": "staticwebassets\\js\\shop_js\\shop_product-details.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\site.js",

@@ -23,10 +23,12 @@ namespace ARCon_Capstone_2.Areas.Controllers
         {
             return View();
         }
-        public IActionResult Product()
+        public IActionResult Product(int id)
         {
-            return View("~/Areas/Shop/Views/Product/Product.cshtml");
+            ViewBag.ProductId = id;
+            return View("Product"); // cleaner
         }
+
         public IActionResult About()
         {
             return View();
