@@ -56,29 +56,128 @@
             <button class="search-btn" type="submit">🔍</button>
         </form>
 
+
+
+
         <!-- Notification, Cart, & Login -->
-        <div class="d-flex gap-3 ms-3">
-            <a class="nav-link position-relative" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal" id="notificationButton">
-                🔔
-                <span id="notificationCount"
-                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                      style="display:none;">
-                    0
-                </span>
-            </a>
+        <div class="d-flex align-items-center gap-3 ms-3">
 
-            <a class="nav-link position-relative" href="#" id="cartButton">
+            <!--Notifications are only available when logged in-->
+            @{
+                var userId = Context.Session.GetInt32("UserId");
+                var userType = Context.Session.GetString("UserType");
+            }
+
+            @if (userId != null && userType == "CUSTOMER")
+            {
+                <!-- 🔔 Notifications -->
+                <a class="nav-link position-relative"
+                   href="#"
+                   data-bs-toggle="modal"
+                   data-bs-target="#notificationModal"
+                   id="notificationButton">
+                    🔔
+                    <span id="notificationCount"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                          style="display:none;">
+                        0
+                    </span>
+                </a>
+            }
+
+
+            <!-- 🛒 Cart -->
+            <a class="nav-link position-relative"
+               asp-area="Shop"
+               asp-controller="Cart"
+               asp-action="MyCart">
                 🛒
-                <span id="cartCount"
-                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                      style="display:none;">
-                    0
-                </span>
             </a>
 
-            <a class="nav-link" asp-controller="Home" asp-action="Login">Login</a>
+            <!--This will check if logged in or not!-->
+            @{
+                var firstName = Context.Session.GetString("CustomerFirstName");
+            }
+
+            @if (userType == "CUSTOMER" && !string.IsNullOrEmpty(firstName))
+            {
+                <!-- 👤 Customer Dropdown -->
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <i class="bi bi-person-circle me-1"></i> @firstName
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item"
+                               asp-area="Shop"
+                               asp-controller="Profile"
+                               asp-action="Index">
+                                Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               asp-area="Shop"
+                               asp-controller="Orders"
+                               asp-action="Index">
+                                My Purchases
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               asp-area="Shop"
+                               asp-controller="Service"
+                               asp-action="Index">
+                                My Services
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               asp-area=""
+                               asp-controller="Auth"
+                               asp-action="Logout">
+                                Logout
+                            </a>
+
+
+                        </li>
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <!-- 🔐 Login -->
+                <a class="nav-link"
+                   asp-area="Shop"
+                   asp-controller="Home"
+                   asp-action="Login">
+                    Login
+                </a>
+            }
+
         </div>
+
     </div>
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- Notification Modal -->
     <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
@@ -111,6 +210,21 @@
     </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Cart Modal -->
     <div id="cartModal" class="cart-modal"> 
         <div class="cart-modal-content">
@@ -131,6 +245,22 @@
         </div>
     </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Toast container -->
     <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
@@ -147,13 +277,20 @@
         </div>
     </footer>
 
+
+  
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/View-js/Index.js" asp-append-version="true"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>
+
+
+
+<!--Temporarily removed on Purpose by Marvin-->
+<!--<script src="~/js/site.js" asp-append-version="true"></script>  -->
+<!--<script src="~/js/View-js/Index.js" asp-append-version="true"></script> -->
 

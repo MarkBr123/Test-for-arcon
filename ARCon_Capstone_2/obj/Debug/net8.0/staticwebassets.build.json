@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vibE3G/GQOaVbC16DcN9V5xDNISRfMdL6JYfApBcVwM=",
+  "Hash": "vVqa+2AVLX4cjVhJ8fyp28OzHONch4s12vPvhkmSsTY=",
   "Source": "ARCon_Capstone_2",
   "BasePath": "_content/ARCon_Capstone_2",
   "Mode": "Default",
@@ -851,6 +851,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\services.js"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\Shop_CartItems.js",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "js/shop_js/Shop_CartItems.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\shop_js\\Shop_CartItems.js"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_home_five_bestdeal_cards.js",

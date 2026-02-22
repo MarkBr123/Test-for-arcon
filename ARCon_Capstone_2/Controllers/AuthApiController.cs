@@ -1,4 +1,7 @@
-﻿using ARCon_Capstone_2.Data;
+﻿
+
+
+using ARCon_Capstone_2.Data;
 using ARCon_Capstone_2.DTOs;
 using ARCon_Capstone_2.Models;
 using ARCon_Capstone_2.Services;
@@ -6,6 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ARCon_Capstone_2.Controllers;
+
+/// <summary>
+/// This is the authenticator when creating a customer data
+/// </summary>
 
 [ApiController]
 [Route("api/auth")]

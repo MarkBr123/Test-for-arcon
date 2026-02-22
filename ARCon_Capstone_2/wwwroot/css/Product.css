@@ -212,6 +212,84 @@
             margin: 0;
         }
 
+/*/////////////////////////////////// Added By Marvin /////////////////////////////////*/
+
+/*badges for tags (details.cshtml)*/
+
+.tag-badge {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 4px 10px;
+    margin: 4px 6px 4px 0;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/*prices original and discounted (details.cshtml) */
+.original-price {
+    color: #888;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+
+.discount-badge {
+    display: inline-block;
+    background: #e53935;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+/* Strike original price ONLY (details.cshtml) */
+.strike-price {
+    text-decoration: line-through;
+}
+
+
+/* Discount text bold + slightly larger (details.cshtml) */
+.discount-text {
+    font-weight: 600;
+    font-size: 16px;
+    color: #e53935;
+}
+
+/* Actual selling price bold + larger (details.cshtml) */
+.price {
+    font-weight: 700;
+    font-size: 24px;
+    color: #4FC3F7;
+    margin-top: 4px;
+}
+
+/*For Specs (Details.html)*/
+.spec-item {
+    background-color: #1e1e1e; /* dark bg */
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #2c2c2c;
+}
+
+    .spec-item strong {
+        display: block;
+        font-size: 14px;
+        color: #aaa;
+        margin-bottom: 4px;
+    }
+
+    .spec-item p {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+    }
+
+
+/*/////////////////////////////////// End Added By Marvin /////////////////////////////////*/
 
 
 

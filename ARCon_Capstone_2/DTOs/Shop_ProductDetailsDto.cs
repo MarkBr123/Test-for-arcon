@@ -3,6 +3,8 @@
     public class Shop_ProductDetailsDto
     {
         // --- BASIC INFO
+
+        public int ProductId { get; set; }
         public string Sku { get; set; }
         public string ProductModel { get; set; }
         public string ProductSeries { get; set; }
@@ -14,7 +16,7 @@
 
         public string Status { get; set; }
 
-        public decimal OriginalSellingPrice { get; set; }
+        public decimal? OriginalSellingPrice { get; set; }
         public decimal? DiscountedSellingPrice { get; set; }
 
         public string DiscountType { get; set; }

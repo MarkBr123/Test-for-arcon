@@ -157,7 +157,7 @@ public class ProductsApiController : ControllerBase
                 part_number_b = dto.PartNumberB?.ToUpper(),
                 original_selling_price = dto.OriginalSellingPrice,
                 discounted_selling_price = discountedSellingPrice,
-                discount_type = discountType,
+                discount_type = discountType.ToUpper(),
                 discount_value = dto.DiscountValue,
                 actual_selling_price = actualSellingPrice,
                 ar_url = dto.ArUrl,
@@ -569,6 +569,7 @@ public class ProductsApiController : ControllerBase
         var result = new Shop_ProductDetailsDto
         {
             //basic info
+            ProductId = product.id,
             Sku = product.sku,
             ProductModel = product.product_model,
             ProductSeries = product.product_series,

@@ -35,7 +35,7 @@ public class Shop_ProductApiController: ControllerBase
                 ProductModel = p.product_model,
                 ActualSellingPrice = p.actual_selling_price,
                 HorsePower = p.technical_specifications
-                    .Where(ts => ts.key.keyname == "Horsepower")
+                    .Where(ts => ts.key.keyname == "Horsepower (HP)")
                     .Select(ts => ts.value)
                     .FirstOrDefault(),
 
@@ -81,7 +81,7 @@ public class Shop_ProductApiController: ControllerBase
                         ActualSellingPrice = p.actual_selling_price,
 
                         HorsePower = p.technical_specifications
-                            .Where(ts => ts.key.keyname == "Horsepower")
+                            .Where(ts => ts.key.keyname == "Horsepower (HP)")
                             .Select(ts => ts.value)
                             .FirstOrDefault(),
 

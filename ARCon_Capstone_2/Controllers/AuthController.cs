@@ -98,6 +98,7 @@ public class AuthController : Controller
             // ✅ CREATE CUSTOMER SESSION
             HttpContext.Session.SetInt32("UserId", customer.id);
             HttpContext.Session.SetString("UserType", "CUSTOMER");
+            HttpContext.Session.SetString("CustomerFirstName", customer.first_name);
 
             return RedirectToAction("Index", "Home");
         }
@@ -133,7 +134,12 @@ public class AuthController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();
-        return RedirectToAction("Login");
+
+        return RedirectToAction(
+            "Login",
+            "Home",
+            new { area = "Shop" }
+        );
     }
     [HttpGet]
     public IActionResult Login()

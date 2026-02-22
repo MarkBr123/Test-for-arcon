@@ -185,6 +185,10 @@
       "PackagePath": "staticwebassets\\js\\services.js"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\Shop_CartItems.js",
+      "PackagePath": "staticwebassets\\js\\shop_js\\Shop_CartItems.js"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_home_five_bestdeal_cards.js",
       "PackagePath": "staticwebassets\\js\\shop_js\\shop_home_five_bestdeal_cards.js"
     },

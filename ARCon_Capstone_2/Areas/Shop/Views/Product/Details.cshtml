@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="~/css/Product.css" asp-append-version="true" />
 }
 
+
 <div class="section2">
     <section class="hero">
         <div class="container">
@@ -26,25 +27,42 @@
 
                 <!-- RIGHT COLUMN -->
                 <div class="right-column">
-                    <h1 id="productName"></h1>
 
-                    <div id="tagsContainer"></div>
+                    <p class="sku" id="productSku"></p>
+
+                    <h1 id="productName"></h1>
 
                     <p class="subtext" id="productSubtext"></p>
 
+                    <div id="tagsContainer"></div>
+
                     <p class="rating">★★★★★ <span> | 0 star based on reviews</span></p>
 
-                    <p id="discountBadge" class="discount-badge"></p>
-
+                    <p class="original-price" id="originalPrice"></p>
                     <p class="price" id="productPrice"></p>
 
-                    <p id="stockStatus"></p>
 
-                    <div class="buttons">
-                        <button class="add" id="openModal">Add to Cart</button>
-                        <button class="buy">Buy Now</button>
+                    <p id="stockStatus"></p>
+                    <div class="quantity-wrapper">
+                        <label for="quantity">Quantity</label>
+                        <input type="number"
+                               id="quantity"
+                               name="quantity"
+                               value="1"
+                               min="1"
+                               step="1"
+                               required />
                     </div>
 
+                    <div class="buttons">
+                        <button type="button" class="add" id="addToCart">
+                            Add to Cart
+                        </button>
+
+                        <button type="button" class="buy" id="buyNow">
+                            Buy Now
+                        </button>
+                    </div>
                     <!-- INSTALLATION OPTIONS -->
                     <div class="dropdowns">
                         <label>Installation Service</label>
@@ -71,7 +89,7 @@
 
                 <!-- TECHNOLOGIES -->
                 <div class="feature-block">
-                    <strong>Technologies:</strong>
+                    <strong>Technologies and Features:</strong>
                     <div id="technologiesContainer"></div>
                 </div>
 

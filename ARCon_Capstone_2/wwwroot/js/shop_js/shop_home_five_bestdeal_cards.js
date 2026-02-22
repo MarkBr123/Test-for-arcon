@@ -51,7 +51,7 @@ function renderBestDeals(products) {
                          alt="${p.productModel}">
 
                     <h3>${p.brandName} ${p.productSeries ?? ""} ${p.productModel}</h3>
-
+                    <p>${p.horsePower ?? "-"} ${p.horsePower ? "HP" : ""}</p>
                     <p class="old-price text-muted" style="text-decoration: line-through;">
                         ₱${formatPrice(p.originalSellingPrice)}
                     </p>

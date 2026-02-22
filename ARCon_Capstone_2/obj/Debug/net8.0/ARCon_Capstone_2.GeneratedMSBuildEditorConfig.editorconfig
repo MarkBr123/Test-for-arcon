@@ -78,12 +78,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xDYXJ0XENhcnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Cart/CartIndex.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xDYXJ0XENhcnRJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Cart/Checkout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xDYXJ0XENoZWNrb3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Cart/MyCart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xDYXJ0XE15Q2FydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Home/About.cshtml]
@@ -108,6 +108,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Home/Signin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xIb21lXFNpZ25pbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Orders/MyOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xPcmRlcnNcTXlPcmRlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Product/Details.cshtml]

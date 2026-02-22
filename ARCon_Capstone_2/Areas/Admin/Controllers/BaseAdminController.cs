@@ -1,4 +1,6 @@
-﻿using ARCon_Capstone_2.Extensions;
+﻿
+
+using ARCon_Capstone_2.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

@@ -188,3 +188,26 @@ h1 {
     border-left: none;
     border-right: none;
 }
+
+
+/*Separator by Marvin*/
+.cart-item-wrapper {
+    padding: 15px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+    .cart-item-wrapper:last-child {
+        border-bottom: none;
+    }
+
+/*Indent Service Options description on Mycart*/
+
+.installation-row {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.installation-details {
+    padding-left: 60px; /* adjust as needed */
+}
+

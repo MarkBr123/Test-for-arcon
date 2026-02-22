@@ -1,9 +1,14 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
     loadProduct();
     loadInstallationOptions();
+    initializeCartButtons();
+
 });
 
 let currentProduct = null;
+let maxStock = 0;
+
+
 
 /* ===============================
    LOAD PRODUCT SUMMARY
@@ -15,9 +20,9 @@ async function loadProduct() {
 
         const p = await res.json();
         currentProduct = p;
-
+        console.log("Current product:", currentProduct);
         renderBasicInfo(p);
-        renderImages(p.images);
+        renderImages(p.images, p.arUrl);
         renderSpecifications(p.specifications);
         renderTags(p.tags);
         renderTechnologies(p.technologies);
@@ -33,6 +38,9 @@ async function loadProduct() {
 ================================= */
 function renderBasicInfo(p) {
 
+    document.getElementById("productSku").innerText =
+        `SKU Code: ${p.sku}`;
+
     document.getElementById("productName").innerText =
         `${p.brandName} ${p.productSeries ?? ""} ${p.productModel}`;
 
@@ -42,46 +50,93 @@ function renderBasicInfo(p) {
     document.getElementById("productSubtext").innerText =
         `${p.formFactor ?? ""}`;
 
-    document.getElementById("productPrice").innerText =
-        `₱${formatPrice(p.actualSellingPrice)}`;
+    const originalPriceEl = document.getElementById("originalPrice");
+    const priceEl = document.getElementById("productPrice");
 
-    // Discount badge
-    const badge = document.getElementById("discountBadge");
-    badge.innerText = "";
+    const type = p.discountType?.trim().toUpperCase();
+    const original = Number(p.originalSellingPrice);
+    const actual = Number(p.actualSellingPrice);
+    const discountValue = Number(p.discountValue);
 
-    if (p.discountType === "PERCENTAGE" && p.discountValue) {
-        badge.innerText = `${p.discountValue}% Less`;
-    }
-    else if (p.discountType === "AMOUNT" && p.discountValue) {
-        badge.innerText = `₱${formatPrice(p.discountValue)} Less`;
+    originalPriceEl.innerHTML = "";
+    priceEl.innerHTML = `₱${formatPrice(actual)}`;
+
+    if (type && discountValue > 0) {
+
+        let discountText = "";
+
+        if (type === "PERCENTAGE") {
+            discountText = `${discountValue}% Less`;
+        }
+        else if (type === "AMOUNT") {
+            discountText = `₱${formatPrice(discountValue)} Less`;
+        }
+
+        originalPriceEl.innerHTML =
+            `<span class="strike-price">₱${formatPrice(original)}</span>
+             <span class="discount-text"> (${discountText})</span>`;
     }
 
     // Stock
-    const stock = document.getElementById("stockStatus");
+    // Stock
+    const stockEl = document.getElementById("stockStatus");
+
     if (p.inStock) {
-        stock.innerHTML = `<span style="color:green;">In Stock (${p.availableStock})</span>`;
+        stockEl.innerHTML =
+            `<span style="color:green;">In Stock (${p.availableStock})</span>`;
+
+        maxStock = p.availableStock; // ✅ define stock properly
     } else {
-        stock.innerHTML = `<span style="color:red;">Out of Stock</span>`;
+        stockEl.innerHTML =
+            `<span style="color:red;">Out of Stock</span>`;
+
+        maxStock = 0;
     }
 }
+
+
 
 /* ===============================
    IMAGES + THUMBNAILS
 ================================= */
-function renderImages(images) {
+function renderImages(images, arUrl) {
     const mainImage = document.getElementById("mainImage");
     const container = document.getElementById("thumbnailContainer");
 
-    container.innerHTML = `
-        <div class="buttons">
-            <button class="ar" id="viewAR">View in AR</button>
-        </div>
-    `;
+    container.innerHTML = "";
 
-    if (!images || images.length === 0) return;
+    // Create AR button block
+    const buttonWrapper = document.createElement("div");
+    buttonWrapper.classList.add("buttons");
 
+    const arButton = document.createElement("button");
+    arButton.classList.add("ar");
+    arButton.innerText = "View in AR";
+
+    // If AR URL exists → enable redirect
+    if (arUrl && arUrl.trim() !== "") {
+        arButton.addEventListener("click", () => {
+            window.open(arUrl, "_blank");
+        });
+    } else {
+        arButton.disabled = true;
+        arButton.style.opacity = "0.5";
+        arButton.style.cursor = "not-allowed";
+    }
+
+
+    buttonWrapper.appendChild(arButton);
+
+    // If no images → still show button
+    if (!images || images.length === 0) {
+        container.appendChild(buttonWrapper);
+        return;
+    }
+
+    // Set main image
     mainImage.src = images[0];
 
+    // Create thumbnails
     images.forEach(img => {
         const thumb = document.createElement("img");
         thumb.src = img;
@@ -91,9 +146,13 @@ function renderImages(images) {
             mainImage.src = img;
         });
 
-        container.prepend(thumb);
+        container.appendChild(thumb);
     });
+
+    // Add AR button at bottom
+    container.appendChild(buttonWrapper);
 }
+
 
 /* ===============================
    SPECIFICATIONS
@@ -102,16 +161,18 @@ function renderSpecifications(specs) {
     const container = document.getElementById("specificationsContainer");
     container.innerHTML = "";
 
-    if (!specs) return;
+    if (!specs || specs.length === 0) return;
 
     specs.forEach(s => {
         container.innerHTML += `
-            <div>
-                <strong>${s.key}:</strong> ${s.value}
+            <div class="spec-item">
+                <strong>${s.key}</strong>
+                <p>${s.value}</p>
             </div>
         `;
     });
 }
+
 
 /* ===============================
    TAGS
@@ -120,14 +181,17 @@ function renderTags(tags) {
     const container = document.getElementById("tagsContainer");
     container.innerHTML = "";
 
-    if (!tags) return;
+    if (!tags || tags.length === 0) return;
 
-    tags.forEach(t => {
-        container.innerHTML += `
-            <span class="tag-badge">${t}</span>
-        `;
+    tags.forEach(tag => {
+        const badge = document.createElement("span");
+        badge.classList.add("tag-badge");
+        badge.innerText = tag;
+
+        container.appendChild(badge);
     });
 }
+
 
 /* ===============================
    TECHNOLOGIES
@@ -210,4 +274,114 @@ function formatPrice(value) {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
+}
+
+//Initialize Cart Logic
+function initializeCartButtons() {
+
+    const quantityInput = document.getElementById("quantity");
+    const addBtn = document.getElementById("addToCart");
+    const buyBtn = document.getElementById("buyNow");
+
+    quantityInput.addEventListener("input", handleQuantityInput);
+    addBtn.addEventListener("click", handleAddToCart);
+    buyBtn.addEventListener("click", handleBuyNow);
+}
+//Stock Validation
+function validateStock(qty) {
+
+    if (isNaN(qty) || qty < 1) {
+        alert("Invalid quantity.");
+        return false;
+    }
+
+    if (qty > maxStock) {
+        alert(`Quantity exceeds available stock (${maxStock})`);
+        return false;
+    }
+
+    if (maxStock <= 0) {
+        alert("Product is out of stock.");
+        return false;
+    }
+
+    return true;
+}
+//Handle Quantity Input
+function handleQuantityInput(e) {
+    let qty = parseInt(e.target.value);
+
+    if (qty > maxStock) e.target.value = maxStock;
+    if (qty < 1 || isNaN(qty)) e.target.value = 1;
+}
+
+//Add to Cart Handler
+async function handleAddToCart() {
+
+    const quantityInput = document.getElementById("quantity");
+    const qty = parseInt(quantityInput.value);
+
+    if (!validateStock(qty)) return;
+    if (!currentProduct) return;
+
+    const payload = {
+        productId: currentProduct.productId,
+        quantity: qty,
+        stdInstallationServiceOptionId: getSelectValue("installationSelect"),
+        additionalInstallationServiceOptionId: getSelectValue("additionalSelect")
+    };
+
+    await postCart(payload);
+}
+
+//Buy Now Handler
+async function handleBuyNow() {
+
+    const quantityInput = document.getElementById("quantity");
+    const qty = parseInt(quantityInput.value);
+
+    if (!validateStock(qty)) return;
+    if (!currentProduct) return;
+
+    const payload = {
+        productId: currentProduct.productId,
+        quantity: qty,
+        stdInstallationServiceOptionId: getSelectValue("installationSelect"),
+        additionalInstallationServiceOptionId: getSelectValue("additionalSelect")
+    };
+
+    await postCart(payload);
+
+    window.location.href = "/Shop/Cart/MyCart";
+}
+
+//Helper Function with Post
+function getSelectValue(id) {
+    const value = document.getElementById(id).value;
+    return value ? parseInt(value) : null;
+}
+
+async function postCart(payload) {
+
+    try {
+        const response = await fetch("/api/shop/cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert("Item added to cart!");
+        }
+        else if (response.status === 401) {
+            window.location.href = "/Shop/Home/Login";
+        }
+        else {
+            const error = await response.text();
+            alert(error);
+        }
+    }
+    catch (err) {
+        console.error("Add to cart failed", err);
+    }
 }

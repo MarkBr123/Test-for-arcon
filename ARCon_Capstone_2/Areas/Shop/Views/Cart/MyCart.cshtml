@@ -1,0 +1,66 @@
+﻿@section Styles {
+    <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+}
+
+
+
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<br>
+
+<h1 id="cartPageTitle">My Cart</h1>
+
+<main class="container" id="cartContainer">
+
+    <br>
+
+    <!-- ================= Cart Items ================= -->
+    <div id="cartPageCard" class="order-card">
+
+        <!-- Header -->
+        <div class="order-items-row header" id="cartHeaderRow">
+
+            <label>
+                <input type="checkbox"
+                       id="selectAllCartItems" />
+            </label>
+
+            <span class="col brand">Brand</span>
+            <span class="col series">Product Series</span>
+            <span class="col model">Model</span>
+            <span class="col sku">SKU</span>
+            <span class="col price">Unit Price</span>
+            <span class="col quantity">Quantity</span>
+            <span class="col stdServiceFee">Standard Service</span>
+            <span class="col AddServiceFee">Additional Service</span>
+            <span class="col subtotal">Subtotal</span>
+            <span class="col Action">Action</span>
+        </div>
+
+        <!-- Dynamic Cart Items -->
+        <div id="cartItemsContainer">
+            <!-- JS will render cart items here -->
+        </div>
+
+        <!-- Footer -->
+        <div class="order-footer" id="cartFooter">
+            <p>
+                Total:
+                <strong id="cartPageTotal">₱0.00</strong>
+            </p>
+
+            <a class="btn btn-secondary"
+               id="checkoutBtn"
+               asp-controller="Cart"
+               asp-action="Checkout">
+                Checkout
+            </a>
+        </div>
+
+    </div>
+
+</main>
+
+<script src="~/js/shop_js/Shop_CartItems.js"></script>

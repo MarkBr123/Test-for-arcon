@@ -7,25 +7,35 @@
 }
 
 @{
-    ViewData["Title"] = "Cart";
+    ViewData["Title"] = "My Orders";
 }
 
 <br>
 
-<h1>Cart</h1>
+<h1>Orders</h1>
 
 <main class="container">
     <br>
     <div class="tabs">
-        <button class="tab active" data-tab="Cart-Items">Cart Items@* <span class="badge">2</span> *@</button>
-        <button class="tab" data-tab="Ordered">Ordered@* <span class="badge">1</span> *@</button>
+        <button class="tab active" data-tab="OnProcessing">On Processing@* <span class="badge">2</span> *@</button>
+        <button class="tab" data-tab="Confirmed">Confirmed by Airconi@* <span class="badge">1</span> *@</button>
         <button class="tab" data-tab="To-Ship">To Ship</button>
+        <button class="tab" data-tab="In-Transit">In Transit</button>
+        <button class="tab" data-tab="Delivered">Delivered</button>
     </div>
 
     <div id="Cart-Items" class="tab-content active">
         <div id="cartPageCard" class="order-card">
             <div class="order-items-row header">
-                <span class="col product">Product</span>
+                <label>
+                    <input type="checkbox" id="addToCheckout" />
+                    Add To Checkout
+                </label>
+
+                <span class="col brand">Brand</span>
+                <span class="col series">Product Series</span>
+                <span class="col model">Model</span>
+                <span class="col price">SKU</span>
                 <span class="col price">Price</span>
                 <span class="col quantity">Qty</span>
                 <span class="col subtotal">Subtotal</span>
@@ -47,3 +57,5 @@
     </div>
 
 </main>
+
+<script src="~/js/View-js/Cart.js"></script>
