@@ -190,3 +190,43 @@ document.getElementById("selectAllCartItems")
 
         calculateCheckedTotal();
     });
+
+
+//this will proOnly the checked items should go to checkout. Not the entire cart
+
+document.getElementById("checkoutBtn")
+    .addEventListener("click", function (e) {
+
+        e.preventDefault();
+
+        const selectedIds = [];
+
+        document.querySelectorAll(".cartItemCheckbox:checked")
+            .forEach(cb => {
+                selectedIds.push(
+                    parseInt(
+                        cb.closest(".cart-item-wrapper")
+                            .dataset.id
+                    )
+                );
+            });
+
+        if (selectedIds.length === 0) {
+            alert("Please select at least one item.");
+            return;
+        }
+
+        // Send to backend
+        fetch("/api/shop/checkout/checkout-selected", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify(selectedIds)
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Failed");
+                window.location.href = "/Shop/Cart/Checkout";
+            });
+    });

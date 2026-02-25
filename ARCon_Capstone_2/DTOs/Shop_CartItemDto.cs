@@ -18,6 +18,8 @@
 
         public int? Quantity { get; set; }
 
+        public bool IsSelected { get; set; }
+
         // Installation
         public string? StdDescription { get; set; }
         public decimal? StdPrice { get; set; }

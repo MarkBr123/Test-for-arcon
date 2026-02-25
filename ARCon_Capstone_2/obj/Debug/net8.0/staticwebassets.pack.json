@@ -17,6 +17,34 @@
       "PackagePath": "staticwebassets\\ImageSources\\Background\\repair.jpg"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\DELIVERY_w_in_NCR__NEARBY_MARILAO_PROVINCE.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Banner\\DELIVERY_w_in_NCR__NEARBY_MARILAO_PROVINCE.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\ELECTRICAL_LINE_UP_TO_10FT.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Banner\\ELECTRICAL_LINE_UP_TO_10FT.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\FREEINSTALLATION_OF_COPPER_LINE_COMMUNICATION_LINE__DRAIN_LINE_MAXIMUM_UP_TO_10FT.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Banner\\FREEINSTALLATION_OF_COPPER_LINE_COMMUNICATION_LINE__DRAIN_LINE_MAXIMUM_UP_TO_10FT.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\HEAVY_DUTY_WALLTYPE_BRACKET.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Banner\\HEAVY_DUTY_WALLTYPE_BRACKET.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\INDOOR_CIRCUIT_BREAKER_FOR_SELECTED_MODELS.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Banner\\INDOOR_CIRCUIT_BREAKER_FOR_SELECTED_MODELS.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\New1.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Banner\\New1.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\New2.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Banner\\New2.png"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\banner.png",
       "PackagePath": "staticwebassets\\ImageSources\\Banner\\banner.png"
     },
@@ -187,6 +215,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\Shop_CartItems.js",
       "PackagePath": "staticwebassets\\js\\shop_js\\Shop_CartItems.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_checkout.js",
+      "PackagePath": "staticwebassets\\js\\shop_js\\shop_checkout.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_home_five_bestdeal_cards.js",

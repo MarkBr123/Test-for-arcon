@@ -17,6 +17,8 @@ public partial class cart_item
 
     public int quantity { get; set; }
 
+    public bool isselected { get; set; }
+
     public int? std_installation_service_option_id { get; set; }
 
     public int? additional_installation_service_option_id { get; set; }

@@ -19,12 +19,10 @@ public partial class checkout_item
 
     [Precision(12, 2)]
     public decimal? product_price { get; set; }
-
     [Precision(12, 2)]
-    public decimal? std_service_price { get; set; }
-
+    public decimal? std_installation_price { get; set; }
     [Precision(12, 2)]
-    public decimal? additional_service_price { get; set; }
+    public decimal? additional_installation_price { get; set; }
 
     [Precision(12, 2)]
     public decimal? total_item_amount { get; set; }

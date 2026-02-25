@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ARCon_Capstone_2.Services;
 using Humanizer;
+using System.Text.Json;
+
 
 namespace ARCon_Capstone_2.Areas.Shop.Controllers;
 
 
 [Route("api/shop/cart")]
-public class Shop_CartApiController : ControllerBase
+public class Shop_CartApiController : Controller
 {
     public readonly ARCon_Capstone_2_DbContext _context;
     public Shop_CartApiController(ARCon_Capstone_2_DbContext context)
@@ -116,6 +118,7 @@ public class Shop_CartApiController : ControllerBase
 
         var items = await (
             from ci in _context.cart_items
+             
 
             join p in _context.products
                 on ci.product_id equals p.id
@@ -131,9 +134,11 @@ public class Shop_CartApiController : ControllerBase
             from add in addJoin.DefaultIfEmpty()
 
             where ci.cart_id == cart.id
+            && ci.isselected == false
             select new Shop_CartItemDto
             {
                 CartItemId = ci.id,
+                IsSelected = ci.isselected,
                 ProductId = p.id,
                 BrandName = p.manufacturer.brand_name,
                 ProductSeries = p.product_series,
@@ -187,6 +192,5 @@ public class Shop_CartApiController : ControllerBase
 
         return Ok();
     }
-
 }
 

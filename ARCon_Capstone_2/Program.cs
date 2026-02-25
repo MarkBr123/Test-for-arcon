@@ -35,6 +35,8 @@ builder.Services.AddDbContext<ARCon_Capstone_2_DbContext>(options =>
     )
 );
 
+System.Diagnostics.Activity.DefaultIdFormat = System.Diagnostics.ActivityIdFormat.W3C;
+System.Diagnostics.Activity.ForceDefaultIdFormat = true;
 
 //Media Upload
 builder.Services.AddSingleton(provider =>

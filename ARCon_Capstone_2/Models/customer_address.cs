@@ -22,27 +22,27 @@ public partial class customer_address
 
     //barangay
     // -------------------------
-    public int barangay_id { get; set; }
+    public int? barangay_id { get; set; }
 
     [ForeignKey(nameof(barangay_id))]
     [InverseProperty(nameof(barangay.customer_addresses))]
     public virtual barangay barangay { get; set; } = null!;
 
     //municipality
-    public int municipality_id { get; set; }
+    public int? municipality_id { get; set; }
 
     [ForeignKey(nameof(municipality_id))]
     [InverseProperty(nameof(municipality.customer_addresses))]
     public virtual municipality municipality { get; set; } = null!;
 
     //province
-    public int province_id { get; set; }
+    public int? province_id { get; set; }
 
     [ForeignKey(nameof(province_id))]
     [InverseProperty(nameof(province.customer_addresses))]
     public virtual province province { get; set; } = null!;
     //region
-    public int region_id { get; set; }
+    public int? region_id { get; set; }
 
     [ForeignKey(nameof(region_id))]
     [InverseProperty(nameof(region.customer_addresses))]
@@ -54,7 +54,7 @@ public partial class customer_address
     [StringLength(255)]
     public string? landmark { get; set; }
 
-    public bool? is_default { get; set; }
+    public bool is_default { get; set; }
 
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? created_at { get; set; }

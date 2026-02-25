@@ -1,0 +1,5 @@
+1771955948169
+POST
+/v3/quotations
+
+{"data": {"item": {"weight": "30Kg", "quantity": "12", "categories": ["APPLIANCES"], "handlingInstructions": ["KEEP_UPRIGHT"]}, "stops": [{"address": "Innocentre, 72 Tat Chee Ave, Kowloon Tong", "coordinates": {"lat": "14.707697", "lng": "121.069319"}}, {"address": "Canton Rd, Tsim Sha Tsui", "coordinates": {"lat": "14.763525", "lng": "120.946117"}}], "language": "en_PH", "serviceType": "SEDAN", "specialRequests": ["PURCHASE_SERVICE_1"], "isRouteOptimized": false}}

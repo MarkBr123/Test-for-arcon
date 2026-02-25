@@ -121,6 +121,9 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<province> provinces { get; set; }
     public virtual DbSet<region> regions { get; set; }
+
+    public virtual DbSet<lalamove_template> lalamove_templates{ get; set; }
+
     //end manually added
 
 
@@ -215,6 +218,20 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                   .WithOne(p => p.region)
                   .HasForeignKey(p => p.region_id)
                   .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<lalamove_template>(entity =>
+        {
+            entity.ToTable("lalamove_templates");
+
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.template_name)
+                  .HasColumnName("template_name");
+
+            entity.Property(e => e.request_body)
+                  .HasColumnName("request_body")
+                  .HasColumnType("jsonb");
         });
 
 

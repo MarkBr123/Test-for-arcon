@@ -18,12 +18,6 @@ public partial class customer_transaction
     public int customer_id { get; set; }
 
     [Precision(12, 2)]
-    public decimal? delivery_cost { get; set; }
-
-    [Precision(12, 2)]
-    public decimal? total_item_cost { get; set; }
-
-    [Precision(12, 2)]
     public decimal? grand_total { get; set; }
 
     [StringLength(20)]
