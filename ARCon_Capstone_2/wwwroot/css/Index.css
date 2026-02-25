@@ -22,8 +22,8 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 6%;
-    background: #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    /*background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);*/
 }
 
 /* LOGO */
@@ -199,18 +199,131 @@ body {
 
 
 
+/*Banner*/
+
 /* HERO SECTION */
 .hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 13.5%;
-    min-height: 40vh;
-    padding-bottom: 70px;
-        
+    padding: 20px 6%;
 }
 
-.hero-text {
+/* Banner container */
+.banner-img {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 16px; /* moved here to apply uniformly */
+}
+
+    .banner-img img {
+        width: 100%;
+        height: 100%; /* fill the container */
+        object-fit: cover; /* crop to fill */
+        display: block;
+        border-radius: inherit;
+    }
+
+#banner-l {
+    width: 850px;
+    height: 720px;
+    border-radius: 24px;
+}
+    /* Carousel images */
+    #banner-l img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* cover the entire container */
+        display: block;
+        border-radius: inherit;
+    }
+
+/* Right banners container */
+#banner-r1,
+#banner-r2 {
+    width: 450px;
+    height: 215px; /* set fixed height to align both stacked banners */
+    position: relative;
+    left: 200px;
+    border-radius: 16px;
+}
+
+    #banner-r1 img,
+    #banner-r2 img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* fill the container */
+        display: block;
+        border-radius: inherit;
+    }
+
+    #banner-r1{
+        margin-bottom: 10px;
+    }
+
+
+/* FORCE carousel to inherit full height */
+#heroCarousel,
+#heroCarousel .carousel-inner,
+#heroCarousel .carousel-item {
+    height: 100%;
+    border-radius: 24px;
+   
+}
+
+/* Make sure hero is positioned */
+.hero {
+    position: relative;
+}
+
+/* Add transition */
+.carousel-control-prev,
+.carousel-control-next {
+    transition: all 0.4s ease;
+    opacity: 0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(40%) brightness(70%) contrast(40%);
+    transform: scale(1.2);
+}
+
+/* Default hidden positions */
+.carousel-control-prev {
+    left: 30px;
+}
+
+.carousel-control-next {
+    right: -180px;
+}
+
+/* On hover slide inside */
+.hero:hover .carousel-control-prev {
+    left: -10px;
+    opacity: 1;
+}
+
+.hero:hover .carousel-control-next {
+    right: -220px;
+    opacity: 1;
+}
+
+
+/* Responsive tweaks: stack columns and adjust widths on smaller screens */
+/*@media (max-width: 992px) {
+    #banner-l, #banner-r1, #banner-r2 {
+        width: 100% !important;
+        height: auto !important;
+        position: static !important;
+        margin-left: 0 !important;
+        border-radius: 16px;
+    }
+
+    .col-6 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}*/
+
+/*.hero-text {
     max-width: 520px;
 }
 
@@ -238,6 +351,7 @@ body {
     .btn:hover {
         background: #0056b3;
     }
+*/
 
 .hero-img {
     max-width: 520px;
@@ -250,10 +364,11 @@ body {
         width: 100%;
     }
 
+
 /* DEALS SECTION*/
 .product-card a {
-    color: inherit; /* Uses the card text color */
-    text-decoration: none; /* Removes underline */
+    color: inherit; 
+    text-decoration: none; 
 }
 
 .deals {
@@ -270,7 +385,7 @@ body {
 
 .deal-cards {
     display: grid;
-    grid-template-columns: repeat(5, 200px);
+    grid-template-columns: repeat(6, 200px);
     gap: 20px;
     justify-content: center; /* centers the whole row */
 }
@@ -295,6 +410,80 @@ body {
         transform: scale(1.05);
         box-shadow: 0 6px 20px rgba(0,0,0,0.25);
     }
+
+.deals {
+    position: relative;
+    padding: 30px 110px; /* space for arrows */
+}
+
+.deals-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.deals-viewport {
+    overflow: hidden;
+}
+
+.deals-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.deal-slide {
+    min-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* Arrows */
+.deal-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    z-index: 20;
+    cursor: pointer;
+}
+
+    /*button animation*/
+.deal-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+    /* Default hidden outside */
+    .deal-btn.prev {
+        left: 10px;
+        transform: translate(-80px, -50%);
+        opacity: 0;
+    }
+
+    .deal-btn.next {
+        right: 10px;
+        transform: translate(80px, -50%);
+        opacity: 0;
+    }
+
+/* On hover → slide in */
+.deals:hover .deal-btn.prev {
+    transform: translate(0, -50%);
+    opacity: 1;
+}
+
+.deals:hover .deal-btn.next {
+    transform: translate(0, -50%);
+    opacity: 1;
+}
+
 
 /* SERVICES SECTION */
 .services {
@@ -568,14 +757,27 @@ body {
     }
 }
 
-/*badges for tags*/
-.tag-badge {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    padding: 4px 10px;
-    margin: 4px 6px 4px 0;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
+
+.header-wrapper {
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* optional soft shadow */
+}
+
+/* Remove separate backgrounds */
+.top-bar {
+    background: transparent;
+}
+
+.toolbar {
+    background: transparent;
+}
+
+/* Remove unwanted spacing */
+.top-bar,
+.toolbar {
+    margin: 0;
+}
+
+#view-item{
+    width: 120px;
 }

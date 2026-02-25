@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ARCon_Capstone_2.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
 
     @RenderSection("Styles", required: false)
 </head>
@@ -245,7 +247,13 @@
         </div>
     </div>
 
-
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div class="spinner-wrapper">
+            <div class="spinner-ring"></div>
+            <img src="~/ImageSources/Logo/aircon.PNG" alt="Loading..." class="logo-center" />
+        </div>
+    </div>
 
 
 
@@ -282,9 +290,19 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        window.addEventListener("load", function () {
+            var loader = document.getElementById("loadingOverlay");
+            if (loader) {
+                loader.style.display = "none";
+            }
 
+            // to show
+            // document.getElementById("loadingOverlay").style.display = "flex";
+
+        });
+    </script>
 </body>
 </html>
 

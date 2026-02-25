@@ -98,9 +98,7 @@ function renderCart() {
         const subtotal = item.price * qty;
         total += subtotal;
 
-
-        // commented temporarily
-      /*  cartItemsContainer.innerHTML += `
+        cartItemsContainer.innerHTML += `
             <div class="cart-item">
                 <div>
                     <strong>${item.name}</strong><br>
@@ -115,7 +113,7 @@ function renderCart() {
                     <button class="btn btn-sm btn-danger ms-2" onclick="removeFromCart(${item.id})">✖</button>
                 </div>
             </div>
-        `; */
+        `;
     });
 
     cartTotal.textContent = "₱" + total.toLocaleString();
@@ -278,4 +276,28 @@ function pushOrderNotification(order) {
     localStorage.setItem("notifications", JSON.stringify(notifications));
 
     loadNotifications(); // Refresh modal
+}
+
+
+/*Product slide*/
+
+
+    let currentSlide = 0;
+
+    function moveSlide(direction) {
+    const slides = document.querySelectorAll('.deal-slide');
+    const totalSlides = slides.length;
+
+    currentSlide += direction;
+
+    if (currentSlide < 0) {
+        currentSlide = totalSlides - 1;
+    }
+
+    if (currentSlide >= totalSlides) {
+        currentSlide = 0;
+    }
+
+    const track = document.querySelector('.deals-track');
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
 }
