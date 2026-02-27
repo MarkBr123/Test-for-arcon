@@ -1,0 +1,315 @@
+Series: 	LG Window Type Inverter 
+AR URL: 	https://vinvincayobit.8thwall.app/lg-window-inverter-la08-la250gc/
+For Models:	LG Window Inverter LA08GC 0.8HP
+		LG Window Inverter LA100GC 1HP
+		LG Window Inverter LA130GC 1.3HP
+		LG Window Inverter LA150GC 1.5HP
+		LG Window Inverter LA180GC 1.8HP
+		LG Window Inverter LA200GC 2HP
+		LG Window Inverter LA250GC 2.5HP
+
+Series: 	Kolin Window Type Inverter
+AR URL: 	https://vinvincayobit.8thwall.app/kolin-window-inverter-kag75-kag250wcinv/
+For Models:	Kolin Inverter KAG75WCINV .75HP
+		Kolin Inverter KAG100WCINV 1HP
+		Kolin Inverter KAG150WCINV 1.5HP
+		Kolin Inverter KAG200WCINV 2HP
+		Kolin Inverter KAG250WCINV 2.5HP
+
+Series: 	Carrier Window Type Inverter
+AR URL:		https://vinvincayobit.8thwall.app/carrier-window-inverter-wcarj012eev-15hp/
+For Models:	Carrier WCARJ012EEV 1.5HP
+
+Series:		Kolin Non-Inverter KAM
+AR URL:		https://vinvincayobit.8thwall.app/kolin-window-non-inverter-kamxxxcm-55-150-hp/
+For Models:	Kolin Non-Inverter KAM55CMC32 0.5HP
+		Kolin Non-Inverter KAM75CMC32 .75HP
+		Kolin Non-Inverter KAM95CMC32 1HP
+		Kolin Non-Inverter KAM150CMC32 1.5HP
+
+Series:		Kolin Non-Inverter KAM
+AR URL:		https://vinvincayobit.8thwall.app/kolin-window-noninverter-kam-75-200drc32/
+For Models:	Kolin Non-Inverter KAM75DRC32 .75HP
+		Kolin Non-Inverter KAM100DRC32 1HP
+		Kolin Non-Inverter KAM150DRC32 1.5HP
+		Kolin Non-Inverter KAM200DRC32 2HP
+
+
+Series:		Fujidenzo Window Type, Non-Inverter
+AR URL:		https://vinvincayobit.8thwall.app/fujidenzo-window-noninverter-632igt/
+For Models:	Fujidenzo WAR-632IGT 0.6HP with Remote	
+
+
+Series:		Fujidenzo Window Type, Non-Inverter
+AR URL:		https://vinvincayobit.8thwall.app/fujidenzo-window-noninverter-wam632igt/
+For Models:	Fujidenzo WAM-632IGT 0.6HP without remote
+	
+
+
+Series:		Fujidenzo Window Type, Non-Inverter
+AR URL:		https://vinvincayobit.8thwall.app/fujidenzo-window-noninverter-war100igt
+For Models:	Fujidenzo WAR-100IGT 1HP with Remote
+
+Series:		Panasonic Premium XU 1 and 1.5Hp
+AR URL:		https://vinvincayobit.8thwall.app/panasonic-premium-inverter-xu-series-1-1p5hp/
+For Models:	Panasonic CS-XU9XKQ / CS-XU12XKQ (1hp and 1.5hp)
+
+Series:		Panasonic Premium XU 2 and 2.5Hp
+AR URL:		https://vinvincayobit.8thwall.app/panasonic-premium-inverter-xu-series-2-2p5hp/
+For Models:	Panasonic CS-XU18XKQ / CS-XU24XKQ (1hp and 1.5hp)
+
+
+					   		
+=============================================== Panasonic ==============================================
+
+Series:			Panasonic Delux and Panasonic Standard
+Official Product URL:	https://www.panasonic.com/ph/air-solutions/products/air-conditioner/single-split-wall-mount-air-conditioner/deluxe-inverter-xpu-series.html
+			https://www.panasonic.com/ph/air-solutions/products/air-conditioner/single-split-wall-mount-air-conditioner/standard-inverter-pu-series.html
+			
+			(bro magkamukha lang yung delux and standard)
+AR URL:			https://vinvincayobit.8thwall.app/panasonic-delux-cs-xpu9-12-18wkq-1-1-5-2hp/
+For Models:		Panasonic Delux CS-XPU9WKQ (1HP)
+			Panasonic Delux CS-XPU12WKQ 1.5HP)
+			Panasonic Delux CS-XPU18WKQ (2HP)
+			Panasonic Standard CS-PU9WKQ (1HP)
+			Panasonic Standard CS-PU12WKQ (1.5HP)
+			Panasonic Standard CS-PU18WKQ (2HP)
+			
+
+Series:			Panasonic Delux and Panasonic Standard
+Official Product URL:	https://www.panasonic.com/ph/air-solutions/products/air-conditioner/single-split-wall-mount-air-conditioner/deluxe-inverter-xpu-series.html
+			https://www.panasonic.com/ph/air-solutions/products/air-conditioner/single-split-wall-mount-air-conditioner/standard-inverter-pu-series.html
+			
+			(bro magkamukha lang yung delux and standard)
+AR URL:			https://vinvincayobit.8thwall.app/panasonic-delux-cs-xpu24xkq-2hp/
+For Models:		Panasonic Delux CS-XPU24WKQ (2.5HP)
+			Panasonic Standard CS-PU18WKQ (2.5HP)
+
+===============================================    Koppel   ============================================
+
+
+Series:			Koppel Lunaire Inverter
+Official Product URL:	https://koppel.ph/products/split-type-wall-mounted-super-inverter-lunaire-series/
+
+AR URL:			https://vinvincayobit.8thwall.app/koppel-indoor-kv09wm-arf31d-1hp/
+For Model:		Koppel Indoor (KV09WM-ARF31D) Outdoor (KV09OD-ARF31D) (1Hp)	
+					
+	
+AR URL:			https://vinvincayobit.8thwall.app/koppel-indoor-kv12wm-arf31d-1-5hp/
+For Model:		Koppel Indoor (KV12WM-ARF31D) Outdoor (KV12OD-ARF31D) (1.5Hp) 
+
+
+AR URL:			https://vinvincayobit.8thwall.app/koppel-indoor-kv18wm-arf31d-2hp/
+For Model:		Koppel Indoor (KV18WM-ARF31D) Outdoor (KV18OD-ARF31D) (2Hp) 
+
+
+AR URL:			https://vinvincayobit.8thwall.app/koppel-indoor-kv24wm-arf31d-2-5-3hp/
+For Models:		Koppel Indoor (KV24WM-ARF31D) Outdoor (KV24OD-ARF31D) (2.5Hp) 
+			Koppel Indoor (KV27WM-ARF31D) Outdoor (KV27OD-ARF31D) (3Hp)
+
+===============================================    Carrier   ============================================
+
+
+Series:			Carrier Aura Inverter
+Official Product URL:	https://carrier.com.ph/for-homes/products/carrier-aura-inverter
+
+AR URL:			https://vinvincayobit.8thwall.app/carrier-aura-inverter-1hp/
+For Model:		Carrier Aura Inverter (1Hp and 1.5hp)	
+
+AR URL:			https://vinvincayobit.8thwall.app/carrier-aura-inverter-2hp/
+For Model:		Carrier Aura Inverter (2hp)
+
+AR URL:			https://vinvincayobit.8thwall.app/carrier-aura-inverter-2-5hp/
+For Model:		Carrier Aura Inverter (2.5hp)
+
+
+
+Series:			Carrier Nexus Inverter
+Official Product URL:	https://carrier.com.ph/for-homes/products/carrier-nexus-split-type-inverter
+
+AR URL:			https://vinvincayobit.8thwall.app/carrier-nexus-inverter-1-1-5hp/
+For Model:		Carrier Nexus Inverter (1Hp and 1.5hp)	
+
+AR URL:			https://vinvincayobit.8thwall.app/carrier-nexus-inverter-2hp/
+For Model:		Carrier Nexus Inverter (2hp)
+
+AR URL:			https://vinvincayobit.8thwall.app/carrier-nexus-inverter-2-5hp/
+For Model:		Carrier Nexus Inverter (2.5hp)
+
+
+===============================================    Daikin   ============================================
+
+
+Series:			Daikin King Series
+Official Product URL:	https://www.daikin.com.ph/products/room-air/d-smart-king/
+
+AR URL:			https://vinvincayobit.8thwall.app/daikin-king-series-1-1-5hp/
+For Model:		Daikin King Series AVA (1Hp and 1.5hp)	
+
+AR URL:			https://vinvincayobit.8thwall.app/daikin-king-series-2-3hp/
+For Model:		Daikin King Series AVA (2Hp, 2.5hp and 3hp)
+
+
+
+Series:			Daikin Queen Series
+Official Product URL:	hhttps://www.daikin.com.ph/products/room-air/d-smart-queen/
+
+AR URL:			https://vinvincayobit.8thwall.app/daikin-queen-series-ava-1-1-5hp/
+For Model:		Daikin Queen Series AVA (1Hp and 1.5hp)	
+
+AR URL:			https://vinvincayobit.8thwall.app/daikin-queen-series-ava-2-2-5hp/
+For Model:		Daikin Queen Series AVA (2Hp and 2.5hp)
+
+
+
+Series:			Daikin D-Smart Series (BVA)
+Official Product URL:	https://mabces.com.ph/product/daikin-ftkq25bva-rkq25bva-1hp-d-smart-wall-mounted-inverter-aircon/
+
+AR URL:			https://vinvincayobit.8thwall.app/daikin-d-series-bva-1hp/
+For Model:		Daikin-D-Series-FTKQ25BVA-1HpA (1Hp)	
+
+AR URL:			https://vinvincayobit.8thwall.app/daikin-d-series-bva-1-5-2hp/
+For Model:		daikin-D-Series-FTKQ35BVA-1.5-2Hp (1.5Hp and 2hp)
+
+AR URL:			https://vinvincayobit.8thwall.app/daikin-d-series-bva-2-5-3hp/
+For Model:		daikin-D-Series-FTKQ60BVA (2.5Hp) and Daikin-D-Series-FTKQ71BVA-(3Hp)
+
+
+
+							   !!!! NEW !!!!	
+
+Series:			LG Dual Inverter Premium
+Official Product URL:	https://www.lg.com/my/residential-air-conditioners/single-split-air-conditioners/s3-q09ja2pa/
+
+AR URL:			https://vinvincayobit.8thwall.app/lg-dual-inverter-premium/
+For Model:		LG Dual Inverter Premium (1-2.5Hp)
+
+
+Series:			LG Dual Inverter Standard
+Official Product URL:	https://www.lg.com/ph/residential-air-conditioner/split-type-air-conditioners/hsn09isy/
+
+AR URL:			https://vinvincayobit.8thwall.app/lg-dual-inverter-standard/
+For Model:		LG Dual Inverter Standard (1-2.5Hp)
+
+
+Series:			Kolin Inverter Primus Premium Gold
+Official Product URL:	https://kolinphil.com.ph/product/split-type-aircon/primus-gold-series/
+
+AR URL:			https://vinvincayobit.8thwall.app/kolin-inverter-primus-gold/
+For Model:		Kolin Inverter Primus Premium Gold (1-3HP)
+
+
+Series:			Kolin Inverter Certus Premium 
+Official Product URL:	https://kolinphil.com.ph/product/split-type-aircon/certus/
+
+AR URL:			https://vinvincayobit.8thwall.app/kolin-inverter-certus-premium/
+For Model:		Kolin Inverter Certus Premium (1-2.5Hp)
+
+
+Series:			GREE Inverter Primo (Standard)
+Official Product URL:	https://www.greephilippines.com.ph/primo.html
+
+AR URL:			https://vinvincayobit.8thwall.app/gree-full-dc-inverter-primo-standard/
+For Model:		GREE Full DC Inverter Primo (1-3HP)
+
+
+Series:			GREE Full DC Inverter Crysta
+Official Product URL:	https://www.greephilippines.com.ph/crysta.html
+
+AR URL:			https://vinvincayobit.8thwall.app/gree-full-dc-inverter-crysta/
+For Model:		GREE Full DC Inverter Crysta (1-2.5Hp)
+
+
+Series:			Tosot Supracool Inverter
+Official Product URL:	https://rosaritoindustries.com/product/tosot-supracool-split-type-inverter-aircon/ (Not the official product website)
+
+AR URL:			https://vinvincayobit.8thwall.app/tosot-supracool-inverter/
+For Model:		Tosot Supracool Inverter (1-3hp)
+
+
+Series:			Sharp J-Tech Inverter
+Official Product URL:	https://ph.sharp/products/air-care/ahau-x10bef?v=1757
+
+AR URL:			https://vinvincayobit.8thwall.app/sharp-jtech-inverter/
+For Model:		Sharp J-Tech Inverter (1-2.5Hp)
+
+
+Series:			OX Interter
+Official Product URL:	https://boomupp.com/product/ox-1-0hp-wall-mounted-split-type-inverter-aircon-ox-w09-pvf/ (not official website)
+
+AR URL:			https://vinvincayobit.8thwall.app/ox-inverter/
+For Model:		OX Interter (1-3Hp)
+
+
+Series:			Samsung S Inverter
+Official Product URL:	https://www.samsung.com/ph/air-conditioners/wall-mount/ar09tyhyewkntc/
+
+AR URL:			https://vinvincayobit.8thwall.app/samsung-s-inverter/
+For Model:		Samsung S Inverter (1-2.5Hp)
+
+
+Series:			Samsung Windfree Inverter
+Official Product URL:	https://www.samsung.com/ph/air-conditioners/wall-mount/ar9500t-wind-free-ar10byhamwkntc/
+
+AR URL:			https://vinvincayobit.8thwall.app/samsung-windfree-inverter/
+For Model:		Samsung Windfree Inverter (1-2.5HP)
+
+
+Series:			Samsung Windfree Premium
+Official Product URL:	https://www.samsunghvac.com/residential/windfree-premium
+
+AR URL:			https://vinvincayobit.8thwall.app/samsung-windfree-inverter-premium/
+For Model:		Samsung Windfree Premium (1-2.5HP)
+
+
+Series:			AUX Q Series
+Official Product URL:	https://www.aux.mt/residental-units/q-series/
+
+AR URL:			https://vinvincayobit.8thwall.app/aux-q-series/
+For Model:		AUX Q Series (1-3Hp)
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+			
+		
+
+
+
+
+
+
+
+
+
