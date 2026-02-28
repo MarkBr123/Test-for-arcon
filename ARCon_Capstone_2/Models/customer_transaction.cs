@@ -15,6 +15,7 @@ public partial class customer_transaction
 
     public int? payment_transaction_id { get; set; }
 
+    public string? transaction_code { get; set; }
     public int customer_id { get; set; }
 
     [Precision(12, 2)]
@@ -27,6 +28,8 @@ public partial class customer_transaction
     public string? shipping_method { get; set; }
 
     public DateTime? created_at { get; set; }
+    public DateTime? date_confirmed { get; set; }
+    public DateTime? date_rejected { get; set; }
 
     [StringLength(30)]
     public string? status { get; set; }

@@ -303,7 +303,43 @@ public class Shop_CheckoutApiController: ControllerBase
                     status = "PENDING_CONFIRMATION",
                 };
 
+
                 _context.customer_transactions.Add(customerTransaction);
+                await _context.SaveChangesAsync(); // get DB id
+
+
+                // Build Transaction Code
+
+                // Get customer
+                var customer = await _context.customers
+                    .Where(c => c.id == customerId)
+                    .Select(c => new
+                    {
+                        c.id,
+                        c.first_name,
+                        c.last_name
+                    })
+                    .FirstOrDefaultAsync();
+
+                // First letters
+                string firstInitial = customer.first_name?.Substring(0, 1).ToUpper() ?? "X";
+                string lastInitial = customer.last_name?.Substring(0, 1).ToUpper() ?? "X";
+
+                // Date part
+                string datePart = DateTime.Now.ToString("MMddyy");
+
+                // Get last transaction count for this customer
+                int lastCount = await _context.customer_transactions
+                    .Where(t => t.customer_id == customerId)
+                    .CountAsync();
+
+                // Build final code
+                string transactionCode =
+                    $"TR-{customer.id}{firstInitial}{lastInitial}{datePart}-{lastCount}";
+
+                // Assign
+                customerTransaction.transaction_code = transactionCode;
+
                 await _context.SaveChangesAsync();
             }
 

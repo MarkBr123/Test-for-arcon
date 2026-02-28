@@ -1,12 +1,190 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\transaction-details.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\transaction-details.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\transaction-summary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\transaction-summary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\processing.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\processing.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\transactionsapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\transactionsapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\transaction-processing.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\transaction-processing.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\transaction-index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\transaction-index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\models\\customer_transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:models\\customer_transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\view-js\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\view-js\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "transaction-summary.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-summary.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\transaction-summary.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-summary.js",
+              "RelativeToolTip": "wwwroot\\js\\transaction-summary.js",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-28T00:13:51.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "transaction-details.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-details.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\transaction-details.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-details.js",
+              "RelativeToolTip": "wwwroot\\js\\transaction-details.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-28T00:05:08.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Details.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\Details.cshtml",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Details.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\Details.cshtml",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAIkAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-27T23:54:12.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "transaction-processing.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-processing.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\transaction-processing.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-processing.js",
+              "RelativeToolTip": "wwwroot\\js\\transaction-processing.js",
+              "ViewState": "AgIAAKMAAAAAAAAAAAArwL0AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-27T23:38:11.929Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Index.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\View-js\\Index.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\View-js\\Index.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\View-js\\Index.js",
+              "RelativeToolTip": "wwwroot\\js\\View-js\\Index.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-27T23:38:17.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "customer_transaction.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\customer_transaction.cs",
+              "RelativeDocumentMoniker": "Models\\customer_transaction.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\customer_transaction.cs",
+              "RelativeToolTip": "Models\\customer_transaction.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T23:06:48.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Processing.cshtml",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Processing.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\Processing.cshtml",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Processing.cshtml",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\Processing.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-27T22:21:07.877Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "transaction-index.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-index.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\transaction-index.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-index.js",
+              "RelativeToolTip": "wwwroot\\js\\transaction-index.js",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAIwLEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-27T17:09:23.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TransactionsApiController.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\TransactionsApiController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\TransactionsApiController.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\TransactionsApiController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\TransactionsApiController.cs",
+              "ViewState": "AgIAAAsBAAAAAAAAAAAAALQAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T16:47:18.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TransactionsController.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\TransactionsController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\TransactionsController.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\TransactionsController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\TransactionsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T15:19:38.675Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
