@@ -1,8 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
 
-    // ===========================
     // SMOOTH SCROLL TO SECTION
-    // ===========================
     if (window.location.hash === "#services") {
         const servicesSection = document.getElementById("services");
         if (servicesSection) {
@@ -12,21 +10,15 @@
         }
     }
 
-    // ===========================
     // CART INITIALIZATION
-    // ===========================
     initCartModal();
     updateCartCount();
     renderCart(); // Render cart if there are items
 
-    // ===========================
     // NOTIFICATIONS INITIALIZATION
-    // ===========================
     initNotifications();
 
-    // ===========================
-    // ACTIVATE SPECIFIC TAB IF FLAGGED
-    // ===========================
+   // ACTIVATE SPECIFIC TAB IF FLAGGED
     const tabToActivate = localStorage.getItem("activateTab");
     if (tabToActivate) {
         const tabButton = document.querySelector(`.tabs button[data-tab="${tabToActivate}"]`);
@@ -35,9 +27,7 @@
     }
 });
 
-/* ===========================
-   CART FUNCTIONS
-=========================== */
+/* CART FUNCTIONS */
 
 // Get cart from localStorage
 function getCart() {

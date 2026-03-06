@@ -137,7 +137,7 @@
 </section>
 
 @* Products *@
-<section class="deals">
+<section class="deals" id="best-deals">
     <h2>BEST DEALS</h2>
 
     <div class="deals-container">
@@ -148,215 +148,14 @@
             <div class="deals-track">
                 @*  SLIDE 1  *@
                 <div class="deal-slide">
-                    <div class="deal-cards">
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter LA08GC</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱26,190</p>
-                            </a>
-
-                            <!-- Button container -->
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-
-
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter Try 2</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱12,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter Try 3</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱42,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter Try 4</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱16,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter Try 4</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱16,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter Try 4</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱16,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-
+                    <div class="deal-cards" id="bestDealsContainer">
+                        <!-- Products will load here from API -->
                     </div>
                 </div>
 
                 @* SLIDE 2 *@
                 <div class="deal-slide">
                     <div class="deal-cards">
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter LA08GC</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱26,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-
-
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter Try 2</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱12,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter Try 3</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱42,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="card product-card text-dark">
-                            <a asp-controller="Home" asp-action="Product">
-                                <span class="badge discount">19% OFF</span>
-                                <span class="badge stock">IN STOCK</span>
-                                <img src="~/ImageSources/Product/LG.webp" alt="LG Window Inverter">
-                                <h3>LG Window Inverter Try 4</h3>
-                                <p>Product Description</p>
-                                <p class="old-price">₱30,000</p>
-                                <p class="price">₱16,190</p>
-                            </a>
-                            <div class="product-btns">
-                                <button class="btn btn-primary" id="view-item" onclick="">
-                                    View Item
-                                </button>
-                                <button class="btn btn-primary" onclick="addToCart({id: 1, name: 'LG Window Inverter LA08GC', price: 26190})">
-                                    🛒
-                                </button>
-                            </div>
-                        </div>
                         <div class="card product-card text-dark">
                             <a asp-controller="Home" asp-action="Product">
                                 <span class="badge discount">19% OFF</span>
@@ -408,14 +207,6 @@
     </div>
 </section>
 
-
-@* Best Deals 5 *@
-<section class="deals">
-    <h2>BEST DEALS</h2>
-    <div class="deal-cards" id="bestDealsContainer">
-        <!-- Products will load here from API -->
-    </div>
-</section>
 
 <!--Start This is the (10 Products Section)-->
 <section class="deals">

@@ -383,11 +383,15 @@ body {
         margin-bottom: 40px;
     }
 
+    #best-deals{
+        background-color:#e5fffd;
+    }
 .deal-cards {
     display: grid;
     grid-template-columns: repeat(6, 200px);
     gap: 20px;
-    justify-content: center; /* centers the whole row */
+    justify-content: center; 
+    padding: 20px 20px;
 }
 
 
