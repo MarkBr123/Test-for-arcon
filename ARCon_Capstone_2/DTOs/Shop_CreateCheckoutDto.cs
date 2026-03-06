@@ -5,7 +5,7 @@
         public string PaymentMethod { get; set; }      // COD or PAYMONGO
         public string ShippingMethod { get; set; }     // Pickup, In-house, Lalamove
         public int? DeliveryAddressId { get; set; }    // Required if not Pickup
-        public int? BranchId { get; set; }             // Required if Pickup
+
     }
 }
 

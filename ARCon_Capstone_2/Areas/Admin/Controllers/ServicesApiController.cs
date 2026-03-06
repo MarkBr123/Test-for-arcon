@@ -59,7 +59,7 @@ public class ServicesApiController : ControllerBase
     [HttpGet("services-list")]
             public async Task<IActionResult> GetServices(
             int page = 1,
-            int pageSize = 10,
+            int pageSize = 24,
             string sortBy = "airconType",
             string sortDir = "asc",
             string? search = null)

@@ -13,6 +13,7 @@ function renderSummary(data) {
     document.getElementById("summaryTransactionCode").innerText = data.transactionCode;
     document.getElementById("summaryCreatedAt").innerText = formatDate(data.createdAt);
     document.getElementById("summaryStatus").innerHTML = getStatusBadge(data.status);
+    document.getElementById("summaryShippingMethod").innerHTML = getStatusBadge(data.shippingMethod);
 
     document.getElementById("summaryCustomerName").innerText = data.customerName;
     document.getElementById("summaryCustomerContactNumber").innerText = data.customerNo;

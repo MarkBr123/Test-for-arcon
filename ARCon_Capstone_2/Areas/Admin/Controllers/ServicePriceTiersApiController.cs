@@ -65,7 +65,8 @@ public class ServicesPriceTiersApiController : ControllerBase
             capacity_min_range = dto.CapacityMin,
             capacity_max_range = dto.CapacityMax,
             price = dto.Price,
-            sort_order = dto.SortOrder
+            sort_order = dto.SortOrder,
+            unit = dto.Unit
         };
 
         _context.service_price_tiers.Add(tier);
@@ -120,7 +121,8 @@ public class ServicesPriceTiersApiController : ControllerBase
                 id = tier.id,
                 minHp = tier.capacity_min_range,
                 maxHp = tier.capacity_max_range,
-                price = tier.price
+                price = tier.price,
+                unit =tier.unit
             });
         }
 
@@ -136,7 +138,8 @@ public class ServicesPriceTiersApiController : ControllerBase
                 serviceId = t.services_id,
                 capacityMin = t.capacity_min_range,
                 capacityMax = t.capacity_max_range,
-                price = t.price
+                price = t.price,
+                unit = t.unit
             })
             .FirstOrDefaultAsync();
 

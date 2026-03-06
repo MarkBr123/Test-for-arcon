@@ -27,6 +27,8 @@ public partial class service_price_tier
 
     public DateTime? deleted_at { get; set; }
 
+    public string? unit { get; set; }
+
     [ForeignKey("services_id")]
     [InverseProperty("service_price_tiers")]
     public virtual service services { get; set; } = null!;

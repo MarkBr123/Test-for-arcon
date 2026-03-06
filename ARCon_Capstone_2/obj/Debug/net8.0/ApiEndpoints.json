@@ -441,6 +441,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "InventoryApiController",
+    "Method": "GetAvailableInventoryByProduct",
+    "RelativePath": "api/inventory/product/{productId}/available",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ARCon_Capstone_2.Controllers.MunicipalityApiController",
     "Method": "GetMunicipality",
     "RelativePath": "api/municipality/provinceID/{provID}",

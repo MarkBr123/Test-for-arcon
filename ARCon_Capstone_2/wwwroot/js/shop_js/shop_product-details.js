@@ -385,3 +385,6 @@ async function postCart(payload) {
         console.error("Add to cart failed", err);
     }
 }
+
+
+///// login check

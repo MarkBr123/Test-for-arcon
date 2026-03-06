@@ -7,5 +7,6 @@
         public decimal CapacityMax { get; set; }
         public decimal Price { get; set; }
         public int SortOrder { get; set; } = 1;
+        public string? Unit { get; set; }
     }
 }

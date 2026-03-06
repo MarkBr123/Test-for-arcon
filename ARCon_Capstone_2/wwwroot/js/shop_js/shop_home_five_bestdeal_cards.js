@@ -68,7 +68,7 @@ function renderBestDeals(products) {
                             name: '${p.productModel}', 
                             price: ${p.actualPrice}
                         })">
-                    Add to Cart
+                    View Item
                 </button>
 
             </div>

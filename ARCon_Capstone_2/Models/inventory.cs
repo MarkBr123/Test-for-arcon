@@ -59,4 +59,7 @@ public partial class inventory
     [ForeignKey("updated_by")]
     [InverseProperty("inventoryupdated_byNavigations")]
     public virtual admin_user? updated_byNavigation { get; set; }
+
+    [InverseProperty("inventory")]
+    public virtual delivery_item? delivery_item { get; set; }
 }

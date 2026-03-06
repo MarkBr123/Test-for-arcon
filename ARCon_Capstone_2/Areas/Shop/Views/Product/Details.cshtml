@@ -140,9 +140,6 @@
 
 
 
-
-
-
 <!-- Cart Modal -->
 <div id="cartModal" class="cart-modal">
     <div class="cart-content">
@@ -163,6 +160,7 @@
 @section Scripts {
     <script>
         const productId = @ViewBag.ProductId;
+        const isLoggedIn = @ViewBag.IsLoggedIn.ToString().ToLower();
     </script>
 
     <script src="~/js/shop_js/shop_product-details.js"></script>

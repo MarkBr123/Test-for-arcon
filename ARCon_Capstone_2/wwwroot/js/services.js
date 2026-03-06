@@ -1,5 +1,5 @@
 ﻿let page = 1;
-let pageSize = 5;
+let pageSize = 24;
 let sortBy = "airconType";
 let sortDir = "asc";
 
@@ -251,15 +251,22 @@ function addNewTier(index, btn) {
     document.getElementById("maxHp").value = "";
     document.getElementById("price").value = "";
 
+    // default to HP
+    document.getElementById("unitHP").checked = true;
+
     new bootstrap.Modal(
         document.getElementById("priceTierModal")
     ).show();
 }
+
+
 async function savePriceTier() {
     const serviceId = Number(document.getElementById("priceTierServiceId").value);
     const minHp = Number(document.getElementById("minHp").value);
     const maxHp = Number(document.getElementById("maxHp").value);
     const price = Number(document.getElementById("price").value);
+
+    const unit = document.querySelector('input[name="capacityUnit"]:checked')?.value;
 
     if (!minHp || !maxHp || !price) {
         alert("All fields are required.");
@@ -267,7 +274,7 @@ async function savePriceTier() {
     }
 
     if (minHp >= maxHp) {
-        alert("Min HP must be less than Max HP");
+        alert("Min must be less than Max");
         return;
     }
 
@@ -278,6 +285,7 @@ async function savePriceTier() {
             serviceId,
             capacityMin: minHp,
             capacityMax: maxHp,
+            unit, // ✅ added
             price
         })
     });
@@ -290,6 +298,7 @@ async function savePriceTier() {
     bootstrap.Modal
         .getInstance(document.getElementById("priceTierModal"))
         .hide();
+
     location.reload();
 }
 
@@ -299,10 +308,7 @@ async function savePriceTier() {
 async function editPriceTier(tierId) {
     try {
         const res = await fetch(`/api/service-price-tiers/${tierId}`);
-        if (!res.ok) {
-            const msg = await res.text();
-            throw new Error(msg || "Failed to load price tier");
-        }
+        if (!res.ok) throw new Error(await res.text());
 
         const tier = await res.json();
 
@@ -312,6 +318,12 @@ async function editPriceTier(tierId) {
         document.getElementById("editMaxHp").value = tier.capacityMax;
         document.getElementById("editPrice").value = tier.price;
 
+        // ✅ set unit radio
+        if (tier.unit === "TR") {
+            document.getElementById("editUnitTR").checked = true;
+        } else {
+            document.getElementById("editUnitHP").checked = true;
+        }
 
         window.editingTierId = tierId;
 
@@ -320,23 +332,26 @@ async function editPriceTier(tierId) {
         ).show();
 
     } catch (err) {
-
+        alert(err.message);
     }
 }
 
 
 //save the edit
 async function saveEditedPriceTier() {
+    const selectedUnit = document.querySelector('input[name="editUnit"]:checked');
+
     const payload = {
         serviceId: Number(editPriceTierServiceId.value),
         capacityMin: Number(editMinHp.value),
         capacityMax: Number(editMaxHp.value),
+        unit: unit, // ✅ added
         price: Number(editPrice.value)
     };
 
     // validation
     if (payload.capacityMin >= payload.capacityMax) {
-        alert("Min HP must be less than Max HP");
+        alert("Min must be less than Max");
         return;
     }
 
@@ -364,9 +379,9 @@ async function saveEditedPriceTier() {
     } catch {
         alert("Something went wrong while updating the price tier");
     }
+
     location.reload();
 }
-
 
 //delete a price tier
 async function deletePriceTier(tierId, serviceId) {

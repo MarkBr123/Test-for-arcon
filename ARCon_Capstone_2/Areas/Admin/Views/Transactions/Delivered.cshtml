@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Delivered";
+    var status = "DELIVERED"; // or ViewBag.Status// PAYMENT_PENDING, PROCESSING, TO_SHIP, IN_TRANSIT, DELIVERED, CANCELLED
+}
+<div class="d-flex align-items-center mb-3">
+
+    <!-- LEFT: Title -->
+    <div>
+        <h4 class="mb-0">Delivered</h4>
+    </div>
+
+    <!-- CENTER: Search -->
+    <div class="flex-grow-1 d-flex justify-content-center">
+        <input type="text"
+               id="deliveredSearchInput"
+               class="form-control form-control-sm"
+               placeholder="Search successful deliveries..."
+               style="max-width: 620px;" />
+    </div>
+
+  
+</div>
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div id="deliveredTransactiontInfo" class="text-muted small mt-1"></div>
+</div>
+
+<div class="order-tracker">
+
+    <a href="/Admin/Transactions/Index"
+       class="step @(status == "PENDING_CONFIRMATION" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Payment Pending</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/Processing"
+       class="step @(status == "PROCESSING" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Processing</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/ForShipping"
+       class="step @(status == "BOOKED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>To Ship</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/InTransit"
+       class="step @(status == "IN_TRANSIT" ? "active" : "")">
+        <div class="circle"></div>
+        <span>In Transit</span>
+    </a>
+
+    <div class="line"></div>
+
+    <!-- Delivered -->
+    <a href="/Admin/Transactions/Delivered"
+       class="step @(status == "DELIVERED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Delivered</span>
+    </a>
+
+    <div class="divider">|</div>
+
+    <!-- Cancelled -->
+    <a href="/Admin/Transactions/Cancelled_Failed"
+       class="step @(status == "CANCELLED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Cancelled / Failed</span>
+    </a>
+
+</div>
+
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+
+            <th class="text-center sortable"
+                data-sort="deliveryCode">
+                Delivery Code <span class="sort-indicator"></span>
+            </th>
+
+            <th class="text-center sortable"
+                data-sort="transactionCode">
+                Transaction Code <span class="sort-indicator"></span>
+            </th>
+
+            <th class="text-center sortable"
+                data-sort="courier">
+                Courier <span class="sort-indicator"></span>
+            </th>
+
+            <th class="text-center sortable"
+                data-sort="scheduledAt">
+                Scheduled Date <span class="sort-indicator"></span>
+            </th>
+
+            <th class="text-center sortable"
+                data-sort="deliveredAt">
+                Delivered At <span class="sort-indicator"></span>
+            </th>
+
+            <th class="text-center sortable"
+                data-sort="grandTotal">
+                Grand Total <span class="sort-indicator"></span>
+            </th>
+
+            <th class="text-center sortable"
+                data-sort="deliveryTries">
+                Delivery Tries <span class="sort-indicator"></span>
+            </th>
+            <th class="text-center">Action</th>
+
+        </tr>
+    </thead>
+
+    <tbody id="deliveredTableBody">
+        <!-- Injected by JS -->
+    </tbody>
+</table>
+
+
+<nav aria-label="Delivered Pagination" class="mt-3">
+    <ul id="pagination" class="pagination justify-content-center">
+        <!-- pagination injected by JS -->
+    </ul>
+</nav>
+
+<!-- Master Summary Modal -->
+<div class="modal fade" id="masterSummaryModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Delivery Master Summary</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" id="masterSummaryBody">
+                <!-- Injected by JS -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/js/transaction-delivered.js"></script>

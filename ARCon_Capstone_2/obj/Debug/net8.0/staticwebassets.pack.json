@@ -241,8 +241,24 @@
       "PackagePath": "staticwebassets\\js\\suppliers.js"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-cancelledFailed.js",
+      "PackagePath": "staticwebassets\\js\\transaction-cancelledFailed.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-createDelivery.js",
+      "PackagePath": "staticwebassets\\js\\transaction-createDelivery.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-delivered.js",
+      "PackagePath": "staticwebassets\\js\\transaction-delivered.js"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-details.js",
       "PackagePath": "staticwebassets\\js\\transaction-details.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-inTransit.js",
+      "PackagePath": "staticwebassets\\js\\transaction-inTransit.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-index.js",
@@ -255,6 +271,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-summary.js",
       "PackagePath": "staticwebassets\\js\\transaction-summary.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction_forShipping.js",
+      "PackagePath": "staticwebassets\\js\\transaction_forShipping.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\utilities.js",

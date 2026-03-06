@@ -46,4 +46,7 @@ public partial class checkout_item
     [ForeignKey("std_installation_option_id")]
     [InverseProperty("checkout_items")]
     public virtual installation_std_service_option? std_installation_option { get; set; }
+
+    [InverseProperty("checkout_item")]
+    public virtual ICollection<delivery_item> delivery_items { get; set; } = new List<delivery_item>();
 }

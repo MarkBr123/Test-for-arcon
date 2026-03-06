@@ -1,0 +1,251 @@
+﻿@{
+    ViewData["Title"] = "For Shipping";
+    var status = "BOOKED"; // or ViewBag.Status// PAYMENT_PENDING, PROCESSING, TO_SHIP, IN_TRANSIT, DELIVERED, CANCELLED
+}
+<div class="d-flex align-items-center mb-3">
+
+    <!-- LEFT: Title -->
+    <div>
+        <h4 class="mb-0">For Shipping</h4>
+    </div>
+
+    <!-- CENTER: Search -->
+    <div class="flex-grow-1 d-flex justify-content-center">
+        <input type="text"
+               id="forShippinhSearchInput"
+               class="form-control form-control-sm"
+               placeholder="Search for deliveries..."
+               style="max-width: 620px;" />
+    </div>
+
+</div>
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div id="forShippingTransactiontInfo" class="text-muted small mt-1"></div>
+</div>
+
+<div class="order-tracker">
+
+    <a href="/Admin/Transactions/Index"
+       class="step @(status == "PENDING_CONFIRMATION" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Payment Pending</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/Processing"
+       class="step @(status == "PROCESSING" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Processing</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/ForShipping"
+       class="step @(status == "BOOKED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>To Ship</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/InTransit"
+       class="step @(status == "IN_TRANSIT" ? "active" : "")">
+        <div class="circle"></div>
+        <span>In Transit</span>
+    </a>
+
+    <div class="line"></div>
+
+    <!-- Delivered -->
+    <a href="/Admin/Transactions/Delivered"
+       class="step @(status == "DELIVERED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Delivered</span>
+    </a>
+
+    <div class="divider">|</div>
+
+    <!-- Cancelled -->
+    <a href="/Admin/Transactions/Cancelled_Failed"
+       class="step @(status == "CANCELLED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Cancelled / Failed</span>
+    </a>
+    </a>
+
+</div>
+
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th class="text-center small sortable" onclick="sort('deliveryRefCode')">
+                Delivery Reference
+            </th>
+            <th class="text-center small sortable" onclick="sort('transactionCode')">
+                Transaction Code
+            </th>
+            <th class="text-center small sortable" onclick="sort('customerName')">
+                Customer NAme
+            </th>
+            <th class="text-center small sortable" onclick="sort('courier')">
+                Courier
+            </th>
+            <th class="text-center small sortable" onclick="sort('scheduledAt')">
+                Scheduled At
+            </th>
+            <th class="text-center small sortable" onclick="sort('scheduleStatus')">
+                Schedule Status
+            </th>
+            <th class="text-center small sortable" onclick="sort('-')">
+                Created At
+            </th>
+        </tr>
+    </thead>
+
+    <tbody id="forShippingTableBody">
+        <!-- injected by JS -->
+    </tbody>
+</table>
+
+
+<nav aria-label="Processing Transaction Pagination" class="mt-3">
+    <ul id="pagination" class="pagination justify-content-center">
+        <!-- pagination injected by JS -->
+    </ul>
+</nav>
+
+
+<!-- Delivery Details Modal -->
+<div class="modal fade" id="deliveryDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Delivery Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- DELIVERY INFO -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Delivery Code:</strong>
+                        <div id="detailDeliveryCode"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Status:</strong>
+                        <div id="detailDeliveryStatus"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Courier:</strong>
+                        <div id="detailCourier"></div>
+                    </div>
+                </div>
+
+                <!-- TRANSACTION INFO -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Transaction Code:</strong>
+                        <div id="detailTransactionCode"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Customer:</strong>
+                        <div id="detailCustomerName"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Contact:</strong>
+                        <div id="detailCustomerContact"></div>
+                    </div>
+                </div>
+
+
+                <!-- ITEMS TABLE -->
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-center">Qty</th>
+                            <th>Serial Numbers</th>
+                            <th class="text-end">Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailItemsBody">
+                    </tbody>
+                </table>
+
+                <div class="text-end fw-bold mt-3">
+                    Total Weight:
+                    <span id="detailTotalWeight"></span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Cancel Delivery Modal -->
+<div class="modal fade" id="cancelDeliveryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">
+                    Cancel Delivery
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Cancellation Reason
+                    </label>
+                    <textarea class="form-control"
+                              id="cancelReasonInput"
+                              rows="3"
+                              placeholder="Enter reason..."></textarea>
+                </div>
+
+                <div id="cancelWarningMessage"
+                     class="alert alert-warning d-none">
+                    This action is irreversible. Are you sure?
+                    <br>
+                    Please wait <span id="countdown">5</span> seconds...
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+
+                <button type="button"
+                        class="btn btn-danger"
+                        id="confirmCancelBtn">
+                    Cancel Delivery
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/js/transaction_forShipping.js"></script>

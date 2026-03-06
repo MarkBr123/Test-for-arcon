@@ -1,0 +1,293 @@
+﻿@{
+    ViewData["Title"] = "Create Delivery";
+}
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h4 class="mb-0">Create Delivery</h4>
+
+        <div class="btn-group">
+            <a href="/Admin/Transactions/Processing"
+               class="btn btn-outline-primary d-flex align-items-center gap-2">              
+                ← Go Back
+            </a>
+
+            <button type="button"
+                    class="btn btn-outline-primary d-flex align-items-center gap-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#transactionModal">
+                <i class="bi bi-truck"></i>
+                Select Transaction
+            </button>
+        </div>
+
+    </div>
+
+    <!--Section A-->
+   
+
+    <div class="border rounded p-3 mb-4 bg-light">
+    <!--  TRANSACTION INFORMATION -->
+        <h5 class="fw-bold mb-3">A. Transaction Summary</h5>
+    <div class="card mb-4">
+        <div class="card-header fw-semibold">
+            Transaction Information
+        </div>
+        <div class="card-body">
+            <div class="row mb-2">
+                <div class="col-md-3 fw-semibold">Transaction Code</div>
+                <div class="col-md-9 fw-bold fs-2 text-primary" id="summaryTransactionCode"></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3 fw-semibold">Placed At</div>
+                <div class="col-md-9" id="summaryCreatedAt"></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3 fw-semibold">Confirmed At</div>
+                <div class="col-md-9" id="summaryTransactionConfirmedDate"></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-3 fw-semibold">Status</div>
+                <div class="col-md-9" id="summaryStatus"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--  CUSTOMER INFORMATION -->
+
+    <div class="card mb-4">
+        <div class="card-header fw-semibold">
+            Customer Information
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 fw-semibold">Customer Name</div>
+                <div class="col-md-9" id="summaryCustomerName"></div>
+                <div class="col-md-3 fw-semibold">Customer Contact Number</div>
+                <div class="col-md-9" id="summaryCustomerContactNumber"></div>
+                <div class="col-md-3 fw-semibold">Delivery Address</div>
+                <div class="col-md-9" id="summaryCustomerDelAddress"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--  PAYMENT INFORMATION -->
+
+    <div class="card mb-4">
+        <div class="card-header fw-semibold">
+            Payment Information
+        </div>
+        <div class="card-body">
+            <div class="row mb-2">
+                <div class="col-md-3 fw-semibold">Payment Method</div>
+                <div class="col-md-9" id="summaryPaymentMethod"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 fw-semibold">Payment Status</div>
+                <div class="col-md-9" id="summaryPaymentStatus"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 4️ ORDER ITEMS -->
+
+    <div class="card mb-4">
+        <div class="card-header fw-semibold">
+            Ordered Items
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-bordered align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Product</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Product Price</th>
+                        <th class="text-end">Std Install</th>
+                        <th class="text-end">Add Install</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="summaryItemsTableBody">
+                    <!-- Injected by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- FINANCIAL SUMMARY -->
+
+    <div class="card">
+        <div class="card-header fw-semibold">
+            Financial Summary
+        </div>
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between mb-2">
+                <span>Delivery Cost</span>
+                <span id="summaryDeliveryCost"></span>
+            </div>
+
+            <hr />
+
+            <div class="d-flex justify-content-between fs-5 fw-bold">
+                <span>Grand Total</span>
+                <span id="summaryGrandTotal"></span>
+            </div>
+
+        </div>
+    </div>
+    <div class="mt-4 d-flex justify-content-end gap-2">
+    </div>
+
+
+        <!--Section B-->
+        <h5 class="fw-bold mb-3">B. Delivery Details</h5>
+
+        <div class="card mb-4">
+            <div class="card-body">
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Courier</label>
+                        <select class="form-select" id="deliveryCourier">
+                            <option value="">Select Courier</option>
+                            <option value="LALAMOVE">Lalamove</option>
+                            <option value="IN_HOUSE">In-house</option>
+                            <option value="PICKUP">Pickup</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Scheduled Date</label>
+                        <input type="date" 
+                   class="form-control" 
+                   id="deliveryScheduledDate"
+                   min="@DateTime.Now.ToString("yyyy-MM-dd")">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Tracking Number (Optional)</label>
+                        <input type="text" class="form-control" id="deliveryTrackingNumber">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Section C-->
+
+        <h5 class="fw-bold mb-3">C. Delivery Items</h5>
+
+        <div class="card mb-4">
+            <div class="card-body p-0">
+
+                <table class="table table-bordered align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-center">Ordered Qty</th>
+                            <th class="text-center">Stock Available</th>
+                            <th class="text-center">Selected</th>
+                            <th>Select Inventory</th>                      
+                        </tr>
+                    </thead>
+                    <tbody id="deliveryItemsTableBody">
+                        <!-- Injected by JS -->
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+       
+
+</div>
+
+</div>
+<!--Inventory Selection Modal-->
+
+    <div class="modal fade" id="inventoryModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Inventory Units</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Serial Number</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryListBody">
+                            <!-- Inject GOOD_STOCK inventory here -->
+                        </tbody>
+                    </table>
+                <div class="mt-3 text-end">
+                    <button class="btn btn-primary" onclick="confirmInventorySelection()">
+                        Confirm Selection
+                    </button>
+                </div>
+                </div>
+           
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+        <button class="btn btn-success" id="createDeliveryBtn">
+            Create For Shipping
+        </button>
+    </div>
+
+
+
+
+
+<!--Transaction Selector Modal-->
+<div class="modal fade" id="transactionModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Select Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Transaction Code</th>
+                            <th>Customer</th>
+                            <th>Date Placed</th>    
+                            <th>Date Confirmed</th>
+                            <th>Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionListBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/js/transaction-createDelivery.js"></script>
+

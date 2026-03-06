@@ -125,16 +125,16 @@ public class Shop_CheckoutApiController: ControllerBase
 
         try
         {
-            // ===============================
-            // 1️⃣ Validate Logged-in User
-            // ===============================
+
+            // 1️ Validate Logged-in User
+
             var customerId = HttpContext.Session.GetInt32("UserId");
             if (customerId == null)
                 return Unauthorized();
 
-            // ===============================
-            // 2️⃣ Get Selected Cart Item IDs from Session
-            // ===============================
+
+            // 2️ Get Selected Cart Item IDs from Session
+
             var selectedString = HttpContext.Session.GetString("SelectedCartItems");
             if (string.IsNullOrEmpty(selectedString))
                 return BadRequest("No selected items.");
@@ -144,9 +144,9 @@ public class Shop_CheckoutApiController: ControllerBase
                 .Select(int.Parse)
                 .ToList();
 
-            // ===============================
+
             // 3️⃣ Load Cart Items (Validate Ownership)
-            // ===============================
+
             var cartItems = await _context.cart_items
                 .Where(c => c.cart.customer_id == customerId &&
                             selectedIds.Contains(c.id))
@@ -159,17 +159,15 @@ public class Shop_CheckoutApiController: ControllerBase
             if (!cartItems.Any())
                 return BadRequest("No valid cart items found.");
 
-            // ===============================
-            // 4️⃣ Validate Shipping & Address
-            // ===============================
+
+            // 4️ Validate Shipping & Address
+
             int branchId = 1; // default branch
 
             if (dto.ShippingMethod == "STORE_PICKUP")
             {
-                if (dto.BranchId == null)
+                if (branchId == 0)
                     return BadRequest("Branch required for pickup.");
-
-                branchId = dto.BranchId.Value;  // ✅ assign FROM dto
             }
             else
             {
@@ -182,8 +180,6 @@ public class Shop_CheckoutApiController: ControllerBase
 
                 if (!addressValid)
                     return BadRequest("Invalid delivery address.");
-
-                branchId = 1; // delivery uses main branch
             }
             // ===============================
             // 5️⃣ Determine Delivery Cost
@@ -283,14 +279,14 @@ public class Shop_CheckoutApiController: ControllerBase
                 payment_method = dto.PaymentMethod,
                 amount = grandTotal,
                 cod_status= dto.PaymentMethod == "CASH_ON_DELIVERY" ? "PENDING" : null,
-                paymongo_status = dto.PaymentMethod == "ONLINE_PAYMENT" ? "pending" : null,
+                paymongo_status = dto.PaymentMethod == "ONLINE_PAYMENT" ? "PENDING" : null,
             };
 
             _context.payment_transactions.Add(paymentTransaction);
             await _context.SaveChangesAsync();
 
 
-            // Create Customer Transaction (ONLY FOR COD)
+            // Create Customer Transaction (ONLY FOR COD) //////////////////////////////////////////
 
             if (dto.PaymentMethod == "CASH_ON_DELIVERY")
             {
@@ -301,6 +297,64 @@ public class Shop_CheckoutApiController: ControllerBase
                     customer_id = customerId.Value,
                     grand_total = grandTotal,
                     status = "PENDING_CONFIRMATION",
+                    shipping_method = dto.ShippingMethod,
+                    payment_method = dto.PaymentMethod
+                };
+
+
+                _context.customer_transactions.Add(customerTransaction);
+                await _context.SaveChangesAsync(); // get DB id
+
+
+                // Build Transaction Code
+
+                // Get customer
+                var customer = await _context.customers
+                    .Where(c => c.id == customerId)
+                    .Select(c => new
+                    {
+                        c.id,
+                        c.first_name,
+                        c.last_name
+                    })
+                    .FirstOrDefaultAsync();
+
+                // First letters
+                string firstInitial = customer.first_name?.Substring(0, 1).ToUpper() ?? "X";
+                string lastInitial = customer.last_name?.Substring(0, 1).ToUpper() ?? "X";
+
+                // Date part
+                string datePart = DateTime.Now.ToString("MMddyy");
+
+                // Get last transaction count for this customer
+                int lastCount = await _context.customer_transactions
+                    .Where(t => t.customer_id == customerId)
+                    .CountAsync();
+
+                // Build final code
+                string transactionCode =
+                    $"TR-{customer.id}{firstInitial}{lastInitial}{datePart}-{lastCount}";
+
+                // Assign
+                customerTransaction.transaction_code = transactionCode;
+
+                await _context.SaveChangesAsync();
+            }
+
+
+            // Create Customer Transaction (Online Payment) //////////////////////////////////////////////
+            // if online payment
+            else if (dto.PaymentMethod == "ONLINE_PAYMENT")
+            {
+                var customerTransaction = new customer_transaction
+                {
+                    checkout_id = checkout.id,
+                    payment_transaction_id = paymentTransaction.id,
+                    customer_id = customerId.Value,
+                    grand_total = grandTotal,
+                    status = "PENDING_CONFIRMATION",
+                    shipping_method = dto.ShippingMethod,
+                    payment_method = dto.PaymentMethod
                 };
 
 
@@ -349,7 +403,7 @@ public class Shop_CheckoutApiController: ControllerBase
             /////
 
             // Remove Selected Cart Items
- 
+
             _context.cart_items.RemoveRange(cartItems);
             await _context.SaveChangesAsync();
 
@@ -371,7 +425,17 @@ public class Shop_CheckoutApiController: ControllerBase
         catch (Exception ex)
         {
             await dbTransaction.RollbackAsync();
-            return StatusCode(500, ex.Message);
+
+            var fullError = ex.InnerException?.Message ?? ex.Message;
+
+            Console.WriteLine("========== FULL ERROR ==========");
+            Console.WriteLine(ex.ToString());
+            Console.WriteLine("================================");
+
+            return StatusCode(500, new
+            {
+                message = fullError
+            });
         }
     }
 

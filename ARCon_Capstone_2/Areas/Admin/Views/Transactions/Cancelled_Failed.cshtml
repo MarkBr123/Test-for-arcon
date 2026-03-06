@@ -1,33 +1,29 @@
 ﻿@{
-    ViewData["Title"] = "Processing";
-    var status = "PROCESSING"; // or ViewBag.Status// PAYMENT_PENDING, PROCESSING, TO_SHIP, IN_TRANSIT, DELIVERED, CANCELLED
+    ViewData["Title"] = "Cancelled / Failed Delivery";
+    var status = "CANCELLED"; // or ViewBag.Status// PAYMENT_PENDING, PROCESSING, TO_SHIP, IN_TRANSIT, DELIVERED, CANCELLED
 }
 <div class="d-flex align-items-center mb-3">
 
     <!-- LEFT: Title -->
     <div>
-        <h4 class="mb-0">Processing (Transaction)</h4>
+        <h4 class="mb-0">Cancelled / Failed Delivery</h4>
     </div>
 
     <!-- CENTER: Search -->
     <div class="flex-grow-1 d-flex justify-content-center">
         <input type="text"
-               id="paymentProcessingTransactionSearchInput"
+               id="cancelledOrFailedSearchInput"
                class="form-control form-control-sm"
-               placeholder="Search processing transactions..."
+               placeholder="Search cancelled / failed deliveries..."
                style="max-width: 620px;" />
     </div>
-    <!-- RIGHT: Create Delivery Button -->
-    <div>
-        <a href="/Admin/Transactions/CreateDelivery" class="btn btn-sm btn-primary">
-            Create Delivery
-        </a>
-    </div>
+
+   
 </div>
 
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <div id="processingTransactiontInfo" class="text-muted small mt-1"></div>
+    <div id="cancelledOrFailedDeliveryInfo" class="text-muted small mt-1"></div>
 </div>
 
 <div class="order-tracker">
@@ -74,7 +70,7 @@
     <div class="divider">|</div>
 
     <!-- Cancelled -->
-    <a href="/Admin/Transactions/Cancelled_Failed"
+    <a href="/Admin/Transactions/Cancelled"
        class="step @(status == "CANCELLED" ? "active" : "")">
         <div class="circle"></div>
         <span>Cancelled / Failed</span>
@@ -86,27 +82,29 @@
 <table class="table table-hover align-middle">
     <thead class="table-light">
         <tr>
-            <th class="text-center small sortable" onclick="sort('transactionCode')">
+            <th class="text-center small">
+                Delivery Code
+            </th>
+            <th class="text-center small">
                 Transaction Code
             </th>
-            <th class="text-center small sortable" onclick="sort('customerName')">
-                Customer Name
+            <th class="text-center small">
+                Cancellation Reason
             </th>
-            <th>
-                Payment Method
+            <th class="text-center small">
+               Fail Reason
             </th>
-            <th class="text-center small sortable" onclick="sort('grandTotal')">
-                Grand Total
+            <th class="text-center small">
+               Date Cancelled
             </th>
-            <th class="text-center small sortable" onclick="sort('-')">
-                Placed At
+            <
+            <th class="text-center small">
+                Failed At
             </th>
-            <th class="text-center small sortable" onclick="sort('dateConfirmed')">
-                Date Confirmed
-            </th>
-            <th>
-                Status
-            </th>
+            <
+            <th class="text-center small">
+                Delivery Tries
+            </th>>
         </tr>
     </thead>
 
@@ -116,10 +114,10 @@
 </table>
 
 
-<nav aria-label="Processing Transaction Pagination" class="mt-3">
+<nav aria-label="Cancelled Failed Pagination" class="mt-3">
     <ul id="pagination" class="pagination justify-content-center">
         <!-- pagination injected by JS -->
     </ul>
 </nav>
 
-<script src="~/js/transaction-processing.js"></script>
+<script src="~/js/transaction-cancelledFailed.js"></script>

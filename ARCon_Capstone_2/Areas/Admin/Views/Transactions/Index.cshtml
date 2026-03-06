@@ -1,5 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Transactions";
+    ViewData["Title"] = "Pending Confirmation";
+    var status = "PENDING_CONFIRMATION"; // or ViewBag.Status// PAYMENT_PENDING, PROCESSING, TO_SHIP, IN_TRANSIT, DELIVERED, CANCELLED
 }
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="mb-0">Pending (Transaction)</h4>
@@ -25,6 +26,63 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div id="pendingTransactiontInfo" class="text-muted small mt-1"></div>
 </div>
+
+
+
+<div class="order-tracker">
+
+    <a href="/Admin/Transactions/Index"
+       class="step @(status == "PENDING_CONFIRMATION" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Payment Pending</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/Processing"
+       class="step @(status == "PROCESSING" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Processing</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/ForShipping"
+       class="step @(status == "BOOKED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>To Ship</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Transactions/InTransit"
+       class="step @(status == "IN_TRANSIT" ? "active" : "")">
+        <div class="circle"></div>
+        <span>In Transit</span>
+    </a>
+
+    <div class="line"></div>
+
+    <!-- Delivered -->
+    <a href="/Admin/Transactions/Delivered"
+       class="step @(status == "DELIVERED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Delivered</span>
+    </a>
+
+    <div class="divider">|</div>
+
+    <!-- Cancelled -->
+    <a href="/Admin/Transactions/Cancelled_Failed"
+       class="step @(status == "CANCELLED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Cancelled / Failed</span>
+    </a>
+
+</div>
+
+
+
 
 <table class="table table-hover align-middle">
     <thead class="table-light">

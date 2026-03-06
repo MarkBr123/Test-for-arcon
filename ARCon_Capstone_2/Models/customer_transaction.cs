@@ -17,6 +17,7 @@ public partial class customer_transaction
 
     public string? transaction_code { get; set; }
     public int customer_id { get; set; }
+    public bool? has_active_delivery { get; set; }
 
     [Precision(12, 2)]
     public decimal? grand_total { get; set; }
@@ -48,4 +49,7 @@ public partial class customer_transaction
     [ForeignKey("payment_transaction_id")]
     [InverseProperty("customer_transactions")]
     public virtual payment_transaction? payment_transaction { get; set; }
+
+    [InverseProperty("customer_transaction")]
+    public virtual ICollection<delivery> deliveries { get; set; } = new List<delivery>();
 }

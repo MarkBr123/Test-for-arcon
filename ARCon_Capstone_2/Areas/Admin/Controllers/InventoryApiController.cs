@@ -218,7 +218,7 @@ public class InventoryApiController : ControllerBase
 
         var totalStock = await query
             .SelectMany(p => p.inventories)
-            .CountAsync();
+            .CountAsync(i => i.status == "GOOD_STOCK" || i.status == "RESERVED_FOR_DELIVERY");
 
         var goodStock = await query
             .SelectMany(p => p.inventories)
@@ -252,6 +252,7 @@ public class InventoryApiController : ControllerBase
             from s in supGroup.DefaultIfEmpty()
 
             where i.product_id == productId
+                && i.status != "SOLD"
             orderby i.created_at
             select new
             {
@@ -267,5 +268,26 @@ public class InventoryApiController : ControllerBase
         ).ToListAsync();
 
         return Ok(stocks);
+    }
+
+    [HttpGet("product/{productId}/available")]
+    public async Task<IActionResult> GetAvailableInventoryByProduct(int productId)
+    {
+        var available = await (
+            from i in _context.inventories
+            join p in _context.products
+                on i.product_id equals p.id
+            where i.product_id == productId
+               && i.status == "GOOD_STOCK" && i.status != "SOLD"
+            orderby i.created_at
+            select new
+            {
+                inventoryId = i.id,
+                serialNumber = i.serial_number,
+                grossWeight = p.total_gross_weight
+            }
+        ).ToListAsync();
+
+        return Ok(available);
     }
 }

@@ -50,3 +50,51 @@ async function saveAcType() {
     .classList.remove('is-invalid');
         });
 
+
+async function saveServiceCategory() {
+    const nameInput = document.getElementById("categoryName");
+    const descInput = document.getElementById("categoryDesc");
+
+    const name = nameInput.value.trim();
+    const description = descInput.value.trim();
+
+    nameInput.classList.remove("is-invalid");
+    descInput.classList.remove("is-invalid");
+
+    let hasError = false;
+
+    if (!name) {
+        nameInput.classList.add("is-invalid");
+        hasError = true;
+    }
+
+    if (!description) {
+        descInput.classList.add("is-invalid");
+        hasError = true;
+    }
+
+    if (hasError) return;
+
+    const response = await fetch("/api/service-categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, description })
+    });
+
+    if (response.ok) {
+        nameInput.value = "";
+        descInput.value = "";
+
+        const modal = bootstrap.Modal.getInstance(
+            document.getElementById("serviceCategoryModal")
+        );
+        modal.hide();
+    }
+    else if (response.status === 409) {
+        alert("Category already exists.");
+    }
+    else {
+        alert("Something went wrong.");
+    }
+}
+

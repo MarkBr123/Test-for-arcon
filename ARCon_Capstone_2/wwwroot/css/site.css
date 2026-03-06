@@ -377,3 +377,52 @@ body {
 .hidden {
     display: none;
 }
+
+
+
+/*Navigations */
+.order-tracker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    font-size: 12px;
+    color: #999;
+}
+
+.circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ccc;
+    margin-bottom: 3px;
+}
+
+.line {
+    width: 40px;
+    height: 2px;
+    background: #ccc;
+}
+
+.divider {
+    font-size: 16px;
+    color: #ccc;
+    margin: 0 4px;
+}
+
+.step.active {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+    .step.active .circle {
+        background: #0d6efd;
+    }

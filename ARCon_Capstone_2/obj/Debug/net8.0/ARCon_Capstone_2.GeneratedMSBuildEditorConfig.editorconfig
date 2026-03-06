@@ -66,12 +66,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3VwcGxpZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Transactions/Cancelled_Failed.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVHJhbnNhY3Rpb25zXENhbmNlbGxlZF9GYWlsZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Transactions/CreateDelivery.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVHJhbnNhY3Rpb25zXENyZWF0ZURlbGl2ZXJ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Transactions/Delivered.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVHJhbnNhY3Rpb25zXERlbGl2ZXJlZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Transactions/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVHJhbnNhY3Rpb25zXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Transactions/ForShipping.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVHJhbnNhY3Rpb25zXEZvclNoaXBwaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Transactions/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVHJhbnNhY3Rpb25zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Transactions/InTransit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVHJhbnNhY3Rpb25zXEluVHJhbnNpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Transactions/Processing.cshtml]

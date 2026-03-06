@@ -30,7 +30,7 @@ public class Shop_CartApiController : Controller
 
         if (customerId == null || userType != "CUSTOMER")
         {
-            return RedirectToAction("Login", "Home", new { area = "Shop" });
+            return Unauthorized();
         }
 
 

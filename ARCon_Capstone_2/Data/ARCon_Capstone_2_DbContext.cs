@@ -124,6 +124,9 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<lalamove_template> lalamove_templates{ get; set; }
 
+    public virtual DbSet<delivery> deliveries { get; set; }
+    public virtual DbSet<delivery_item> delivery_items { get; set; }
+
     //end manually added
 
 
@@ -234,11 +237,77 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                   .HasColumnType("jsonb");
         });
 
+        modelBuilder.Entity<delivery>(entity =>
+        {
+            entity.ToTable("deliveries");
 
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.delivery_ref_code)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+            entity.HasIndex(e => e.delivery_ref_code)
+                  .IsUnique();
+
+            entity.Property(e => e.courier)
+                  .HasMaxLength(50);
+
+            entity.Property(e => e.status)
+                  .HasMaxLength(30)
+                  .HasDefaultValue("PENDING");
+
+            entity.Property(e => e.deliverytotalweight)
+                  .HasColumnType("numeric(8,2)");
+
+            entity.Property(e => e.tracking_number)
+                  .HasMaxLength(100);
+
+            entity.Property(e => e.created_at)
+                  .HasDefaultValueSql("NOW()");
+
+            entity.Property(e => e.in_transit_at);
+
+            // Relationship: delivery → customer_transaction
+            entity.HasOne(d => d.customer_transaction)
+                  .WithMany(ct => ct.deliveries)
+                  .HasForeignKey(d => d.customer_transaction_id)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<delivery_item>(entity =>
+        {
+            entity.ToTable("delivery_items");
+
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.created_at)
+                  .HasDefaultValueSql("NOW()");
+
+            // Relationship: delivery_item → delivery
+            entity.HasOne(di => di.delivery)
+                  .WithMany(d => d.delivery_items)
+                  .HasForeignKey(di => di.delivery_id)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            // Relationship: delivery_item → checkout_item
+            entity.HasOne(di => di.checkout_item)
+                  .WithMany(ci => ci.delivery_items)
+                  .HasForeignKey(di => di.checkout_item_id)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            // Relationship: delivery_item → inventory
+            entity.HasOne(di => di.inventory)
+                          .WithOne(i => i.delivery_item)
+                          .HasForeignKey<delivery_item>(di => di.inventory_id)
+                          .OnDelete(DeleteBehavior.Restrict);
+        });
 
 
 
         //End Manually Added
+
+
         modelBuilder.Entity<admin_user>(entity =>
         {
             entity.HasKey(e => e.id).HasName("admin_users_pkey");
@@ -403,6 +472,11 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasConstraintName("checkout_items_product_id_fkey");
 
             entity.HasOne(d => d.std_installation_option).WithMany(p => p.checkout_items).HasConstraintName("checkout_items_std_installation_option_id_fkey");
+            entity.HasMany(d => d.delivery_items)
+              .WithOne(p => p.checkout_item)
+              .HasForeignKey(d => d.checkout_item_id)
+              .OnDelete(DeleteBehavior.Restrict)
+              .HasConstraintName("delivery_items_checkout_item_id_fkey");
         });
 
         modelBuilder.Entity<customer>(entity =>
@@ -479,6 +553,16 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasConstraintName("customer_transactions_customer_id_fkey");
 
             entity.HasOne(d => d.payment_transaction).WithMany(p => p.customer_transactions).HasConstraintName("customer_transactions_payment_transaction_id_fkey");
+
+            entity.Property(e => e.has_active_delivery)
+                        .HasDefaultValue(false);
+
+
+            entity.HasMany(d => d.deliveries)
+                .WithOne(p => p.customer_transaction)
+                .HasForeignKey(d => d.customer_transaction_id)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("deliveries_customer_transaction_id_fkey");
         });
 
         modelBuilder.Entity<form_factor>(entity =>
@@ -542,6 +626,7 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.HasOne(d => d.updated_byNavigation).WithMany(p => p.inventoryupdated_byNavigations)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("inventory_updated_by_fkey");
+
         });
 
         modelBuilder.Entity<manufacturer>(entity =>

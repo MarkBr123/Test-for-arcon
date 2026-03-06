@@ -28,5 +28,25 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
             ViewBag.TransactionId = id;
             return View();
         }
-    }
+        public IActionResult CreateDelivery()
+        {
+            return View();
+        }
+        public IActionResult ForShipping()
+        {
+            return View();
+        }
+        public IActionResult InTransit()
+        {
+            return View();
+        }
+        public IActionResult Cancelled_Failed()
+        {
+            return View();
+        }
+            public IActionResult Delivered()
+            {
+                return View();
+            }
+        }
 }

@@ -38,9 +38,11 @@ public class TransactionsApiController : ControllerBase
             .AsQueryable();
 
 
-        //Filter Pending Only
+        //Filter Pending Only or Reprocess
 
-        query = query.Where(t => t.status == "PENDING_CONFIRMATION");
+        query = query.Where(t =>
+            t.status == "PENDING_CONFIRMATION" ||
+            t.status == "PENDING_REPROCESS");
 
         //Search
 
@@ -110,7 +112,7 @@ public class TransactionsApiController : ControllerBase
     public async Task<IActionResult> GetTransactionSummary(int id)
     {
            var summary = await _context.customer_transactions
-            .Where(t => t.id == id && t.status == "PENDING_CONFIRMATION")
+            .Where(t => t.id == id && (t.status == "PENDING_CONFIRMATION" || t.status == "PENDING_REPROCESS"))
             .Select(t => new
             {
                 transactionId = t.id,
@@ -121,6 +123,7 @@ public class TransactionsApiController : ControllerBase
                              + (t.customer.last_name ?? ""),
                 customerEmail = t.customer.email,
                 customerNo = t.customer.contact_no,
+                shippingMethod = t.shipping_method,
                 deliveryAddress = t.checkout.delivery_address_id != null
                     ? t.checkout.delivery_address.house_unit + ", " +
                       t.checkout.delivery_address.street_name + ", " +
@@ -168,7 +171,7 @@ public class TransactionsApiController : ControllerBase
     }
 
 
-    [HttpGet("{id}/details")]
+    [HttpGet("{id}/details")] // used in processing.cshtml and CreateDelivery.cshtml
     public async Task<IActionResult> GetTransactionDetails(int id)
     {
         var summary = await _context.customer_transactions
@@ -177,12 +180,13 @@ public class TransactionsApiController : ControllerBase
          {
              transactionId = t.id,
              transactionCode = t.transaction_code,
-
+             transactionConfimedDate = t.date_confirmed,
              customerName = (t.customer.first_name ?? "")
                           + " "
                           + (t.customer.last_name ?? ""),
              customerEmail = t.customer.email,
              customerNo = t.customer.contact_no,
+             shippingMethod = t.shipping_method,
              deliveryAddress = t.checkout.delivery_address_id != null
                  ? t.checkout.delivery_address.house_unit + ", " +
                    t.checkout.delivery_address.street_name + ", " +
@@ -209,7 +213,7 @@ public class TransactionsApiController : ControllerBase
                  productManufacturer = ci.product.manufacturer != null
                      ? ci.product.manufacturer.brand_name
                      : null,
-
+                 checkoutItemId = ci.id, /// added
                  productSeries = ci.product.product_series,
                  productModel = ci.product.product_model,
                  productSku = ci.product.sku,
@@ -260,11 +264,6 @@ public class TransactionsApiController : ControllerBase
 
             return Ok();
         }
-
-
-
-
-
 
 
     [HttpGet("processing-transactions")]
@@ -334,6 +333,7 @@ public class TransactionsApiController : ControllerBase
                 transactionCode = t.transaction_code,
                 customerName = t.customer.first_name + " " + t.customer.last_name,
                 paymentMethod = t.payment_transaction.payment_method,
+                dateConfimerd = t.date_confirmed,
                 grandTotal = t.grand_total,
                 createdAt = t.created_at,
                 dateConfirmed = t.date_confirmed,
@@ -347,6 +347,61 @@ public class TransactionsApiController : ControllerBase
             page,
             pageSize,
             data
+        });
+    }
+
+
+    ////FAILED AND CANCELLED TRANSACTIONS
+    [HttpGet("cancelled-failed")]
+    public async Task<IActionResult> GetCancelledAndFailedDeliveries(
+        int page = 1,
+        int pageSize = 10,
+        string? search = null)
+    {
+        var query = _context.deliveries
+            .Include(d => d.customer_transaction)
+            .Where(d => d.status == "CANCELLED" || d.status == "FAILED")
+            .AsQueryable();
+
+        // 🔎 Search
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            search = search.Trim().ToLower();
+
+            query = query.Where(d =>
+                EF.Functions.ILike(d.delivery_ref_code ?? "", $"%{search}%") ||
+                EF.Functions.ILike(d.customer_transaction.transaction_code ?? "", $"%{search}%")
+            );
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var deliveries = await query
+            .OrderByDescending(d => d.created_at)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(d => new
+            {
+                d.id,
+                d.delivery_ref_code,
+                d.courier,
+                d.status,
+                d.delivery_tries,
+                d.date_cancelled,
+                d.cancellation_reason,
+                d.failed_at,
+                d.fail_reason,
+                d.fail_reason_code,
+                transactionCode = d.customer_transaction.transaction_code
+            })
+            .ToListAsync();
+
+        return Ok(new
+        {
+            totalCount,
+            page,
+            pageSize,
+            data = deliveries
         });
     }
 
