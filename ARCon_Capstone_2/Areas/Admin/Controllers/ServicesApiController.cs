@@ -131,4 +131,28 @@ public class ServicesApiController : ControllerBase
         return Ok(tiers);
     }
 
+    /// <summary>
+    /// Service ID (Category + Aircon Type Combo)
+    /// fetch the bridge record.
+    /// </summary>
+
+    [HttpGet("by-combo")]
+    public async Task<IActionResult> GetServiceByCombo(
+    int categoryId, int airconTypeId)
+    {
+        var service = await _context.services
+            .Where(s =>
+                s.service_categories_id == categoryId &&
+                s.service_aircon_type_id == airconTypeId)
+            .Select(s => new {
+                id = s.id
+            })
+            .FirstOrDefaultAsync();
+
+        if (service == null)
+            return NotFound("Service not available.");
+
+        return Ok(service);
+    }
+
 }

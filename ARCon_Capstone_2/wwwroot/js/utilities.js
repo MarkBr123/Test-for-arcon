@@ -54,12 +54,15 @@ async function saveAcType() {
 async function saveServiceCategory() {
     const nameInput = document.getElementById("categoryName");
     const descInput = document.getElementById("categoryDesc");
+    const classSelect = document.getElementById("categoryClass");
 
     const name = nameInput.value.trim();
     const description = descInput.value.trim();
+    const serviceClass = classSelect.value;
 
     nameInput.classList.remove("is-invalid");
     descInput.classList.remove("is-invalid");
+    classSelect.classList.remove("is-invalid");
 
     let hasError = false;
 
@@ -73,17 +76,27 @@ async function saveServiceCategory() {
         hasError = true;
     }
 
+    if (!serviceClass) {
+        classSelect.classList.add("is-invalid");
+        hasError = true;
+    }
+
     if (hasError) return;
 
     const response = await fetch("/api/service-categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description })
+        body: JSON.stringify({
+            name,
+            description,
+            serviceClass   // ✅ NEW
+        })
     });
 
     if (response.ok) {
         nameInput.value = "";
         descInput.value = "";
+        classSelect.value = "";
 
         const modal = bootstrap.Modal.getInstance(
             document.getElementById("serviceCategoryModal")

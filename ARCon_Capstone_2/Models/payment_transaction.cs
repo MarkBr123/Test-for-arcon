@@ -41,4 +41,7 @@ public partial class payment_transaction
 
     [InverseProperty("payment_transaction")]
     public virtual ICollection<customer_transaction> customer_transactions { get; set; } = new List<customer_transaction>();
+
+    [InverseProperty("payment_transaction")]
+    public virtual ICollection<service_booking> service_bookings { get; set; } = new List<service_booking>();
 }

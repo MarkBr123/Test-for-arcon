@@ -27,213 +27,273 @@
             <div class="form-left">
                 <h2>Aircon Cleaning Service</h2>
 
-                <!-- Aircon Entries Container -->
-                <div id="airconEntries">
-                    <!-- First Aircon Entry -->
-                    <div class="aircon-entry" data-aircon-id="1">
-                        <div class="aircon-entry-header">
-                            <div class="aircon-entry-title">Aircon #1</div>
-                            <button type="button" class="remove-aircon-btn hidden">Remove</button>
-                        </div>
+                <!-- ================= AIRCON PAGE LAYOUT ================= -->
+                <div class="form-split">
 
-                        <div class="aircon-entry-content">
-                            <!-- AC Type Dropdown -->
-                            <div class="form-group">
-                                <label for="acType-1">AC Type *</label>
-                                <select id="acType-1" class="ac-type" data-aircon="1" required>
-                                    <option value="">Select AC Type...</option>
-                                    <option value="window_non_inverter">Window Type Non-Inverter</option>
-                                    <option value="window_inverter">Window Type Inverter</option>
-                                    <option value="split_wall_mounted">Split Type Wall Mounted</option>
-                                    <option value="floor_mounted">Floor Mounted</option>
-                                    <option value="ceiling_suspended">Ceiling Suspended</option>
-                                    <option value="cassette_type">Cassette Type</option>
-                                </select>
-                            </div>
+                    <!-- ============ LEFT SIDE ============ -->
+                    <div class="panel">
 
-                            <!-- Service Type -->
-                            <div class="form-group">
-                                <label for="serviceType-1">Service Type *</label>
-                                <select id="serviceType-1" class="service-type" data-aircon="1" required>
-                                    <option value="">Select Service...</option>
-                                    <option value="standard_cleaning">Standard Cleaning</option>
-                                    <option value="deep_cleaning">Deep Cleaning</option>
-                                    <option value="chemical_wash">Chemical Wash</option>
-                                    <option value="complete_service">Complete Service Package</option>
-                                </select>
-                            </div>
-                        </div>
+                        <h2>Aircon Cleaning Service</h2>
 
-                        <div class="aircon-entry-content">
-                            <!-- Price Tier -->
-                            <div class="form-group">
-                                <label for="priceTier-1">Price Tier *</label>
-                                <select id="priceTier-1" class="price-tier" data-aircon="1" required>
-                                    <option value="">Select Tier...</option>
-                                    <option value="basic">Basic (1-2 HP)</option>
-                                    <option value="standard">Standard (2-3 HP)</option>
-                                    <option value="premium">Premium (3+ HP)</option>
-                                    <option value="commercial">Commercial Units</option>
-                                </select>
-                            </div>
+                        <!-- Aircon Entries Container -->
+                        <div id="airconEntries">
 
-                            <!-- Brand Dropdown -->
-                            <div class="form-group">
-                                <label for="brand-1">Brand (Optional)</label>
-                                <select id="brand-1" class="aircon-brand" data-aircon="1">
-                                    <option value="">Select Brand...</option>
-                                    <option value="samsung">Samsung</option>
-                                    <option value="lg">LG</option>
-                                    <option value="panasonic">Panasonic</option>
-                                    <option value="daikin">Daikin</option>
-                                    <option value="mitsubishi">Mitsubishi</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
+                            <!-- First Aircon Entry -->
+                            <div class="aircon-entry" data-aircon-id="1">
 
-                        <div class="units-warranty">
-                            <div class="form-group">
-                                <label>Number of Units *</label>
-                                <div class="counter-box">
-                                    <button type="button" class="minus" data-aircon="1">−</button>
-                                    <input class="units-input" type="number" value="1" min="1" max="10" data-aircon="1" required>
-                                    <button type="button" class="plus" data-aircon="1">+</button>
+                                <div class="aircon-entry-header">
+                                    <div class="aircon-entry-title">Aircon #1</div>
+                                    <button type="button"
+                                            class="remove-aircon-btn hidden"
+                                            data-aircon="1">
+                                        Remove
+                                    </button>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label>Warranty Status *</label>
-                                <div class="warranty-buttons">
-                                    <button type="button" class="warranty-btn active" data-status="In-Warranty" data-aircon="1">In-Warranty</button>
-                                    <button type="button" class="warranty-btn" data-status="Out-of-Warranty" data-aircon="1">Out-of-Warranty</button>
+                                <!-- Row 1 -->
+                                <div class="aircon-entry-content">
+
+                                    <div class="form-group">
+                                        <label for="acType-1">AC Type *</label>
+                                        <select id="acType-1"
+                                                class="ac-type"
+                                                data-aircon="1"
+                                                required>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="serviceType-1">Service Type *</label>
+                                        <select id="serviceType-1"
+                                                class="service-type"
+                                                data-aircon="1"
+                                                required>
+                                        </select>
+                                    </div>
+
                                 </div>
+
+                                <!-- Row 2 -->
+                                <div class="aircon-entry-content">
+
+                                    <div class="form-group">
+                                        <label for="priceTier-1">Price Tier *</label>
+                                        <select id="priceTier-1"
+                                                class="price-tier"
+                                                data-aircon="1"
+                                                required>
+                                            <option value="">Select Tier...</option>
+                                            <option value="basic">Basic (1-2 HP)</option>
+                                            <option value="standard">Standard (2-3 HP)</option>
+                                            <option value="premium">Premium (3+ HP)</option>
+                                            <option value="commercial">Commercial Units</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="brand-1">Brand (Optional)</label>
+                                        <select id="brand-1"
+                                                class="aircon-brand"
+                                                data-aircon="1">
+                                            <option value="">Select Brand...</option>
+                                            <option value="samsung">Samsung</option>
+                                            <option value="lg">LG</option>
+                                            <option value="panasonic">Panasonic</option>
+                                            <option value="daikin">Daikin</option>
+                                            <option value="koppel">Koppel</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <!-- Row 3 -->
+                                <div class="units-warranty">
+
+                                    <div class="form-group">
+                                        <label>Number of Units *</label>
+                                        <div class="counter-box">
+                                            <button type="button" class="minus" data-aircon="1">−</button>
+                                            <input type="number"
+                                                   class="units-input"
+                                                   value="1"
+                                                   min="1"
+                                                   max="10"
+                                                   data-aircon="1"
+                                                   required>
+                                            <button type="button" class="plus" data-aircon="1">+</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
+
+                        <!-- Add Another Aircon -->
+                        <button type="button" class="add-aircon-btn" id="addAirconBtn">
+                            <span>+</span> Add Another Aircon
+                        </button>
+
                     </div>
+
+
+                    <!-- ============ RIGHT SIDE ============ -->
+                    <div class="panel">
+
+                        <div class="price">
+                            <span>Estimated Price</span>
+                            <strong id="estimatedPrice">₱ 0</strong>
+                        </div>
+
+                    </div>
+
                 </div>
-
-                <!-- Add Another Aircon Button -->
-                <button type="button" class="add-aircon-btn" id="addAirconBtn">
-                    <span>+</span> Add Another Aircon
-                </button>
-
-                <!-- Additional Services -->
-                <div class="additional">
-                    <h3>Additional Requests</h3>
-                    <label><input type="checkbox" name="additional" value="ladder"> Long ladder needed for unit above 10ft/3m</label>
-                    <label><input type="checkbox" name="additional" value="chemical_wash"> Chemical Wash/Disinfecting</label>
-                    <label><input type="checkbox" name="additional" value="filter_replacement"> Air Filter Replacement</label>
-                </div>
-            </div>
-
-            <div class="form-right">
-                <h2>Upload image/video (Optional)</h2>
-
-                <div class="upload-box" id="uploadBox">
-                    <input type="file" id="mediaUpload" accept="image/*,video/*" multiple>
-                    <p>Drag & Drop or <span>Select File</span></p>
-                    <div id="preview"></div>
-                </div>
-
-                <div class="price">
-                    <span>Estimated Price:</span>
-                    <strong id="estimatedPrice">₱ 0</strong>
-                </div>
-            </div>
+        </div>
         </div>
 
-        <!-- Page 2: Personal Information -->
+        <!-- Page 2: Review & Booking -->
         <div id="page2" class="form-page">
-            <div class="form-left">
-                <h2>Personal Information</h2>
 
-                <div class="form-group">
-                    <label for="fullName">Full Name *</label>
-                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
-                </div>
+            <div class="booking-grid">
 
-                <div class="form-group">
-                    <label for="customerType">Customer Type *</label>
-                    <select id="customerType" name="customerType" required>
-                        <option value="">Select...</option>
-                        <option value="individual">Individual</option>
-                        <option value="business">Business</option>
-                        <option value="corporate">Corporate</option>
-                    </select>
-                </div>
+                <!-- ================= LEFT SIDE ================= -->
+                <div class="booking-left">
 
-                <div class="form-group">
-                    <label for="address">Full Address *</label>
-                    <textarea id="address" name="address" required placeholder="Enter your complete address"></textarea>
-                </div>
-            </div>
+                    <h2>Services Included</h2>
 
-            <div class="form-right">
-                <div class="form-group">
-                    <label for="phone">Phone Number *</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required placeholder="Enter your email address">
-                </div>
-
-                <div class="form-group">
-                    <label for="preferredContact">Preferred Contact Method</label>
-                    <select id="preferredContact" name="preferredContact">
-                        <option value="">Select...</option>
-                        <option value="phone">Phone Call</option>
-                        <option value="sms">SMS</option>
-                        <option value="email">Email</option>
-                        <option value="whatsapp">WhatsApp</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="notes">Additional Notes (Optional)</label>
-                    <textarea id="notes" name="notes" placeholder="Any special instructions or cleaning preferences..."></textarea>
-                </div>
-
-                <!-- Order Summary -->
-                <div class="summary-box">
-                    <h3>Order Summary</h3>
-                    <div class="summary-content">
-                        <div class="summary-item">
-                            <span class="summary-label">Service:</span>
-                            <span class="summary-value">Aircon Cleaning</span>
+                    <div id="servicesIncludedList" class="services-list">
+                        <!-- JS renders service_booking_items here -->
+                        <!-- Example item -->
+                       
+                        <div class="service-card">
+                            <div class="svc-title">Pulldown Deep Cleaning</div>
+                            <div class="svc-meta">
+                                Split Type • Basic (1–2 HP) • 2 unit(s)
+                            </div>
+                            <div class="svc-submeta">
+                                Brand: Samsung • Capacity: 1–2 HP
+                            </div>
+                            <div class="svc-price">₱ 2,400</div>
                         </div>
-                        <div class="summary-item" id="summaryAircons">
-                            <span class="summary-label">Aircons:</span>
-                            <span class="summary-value">Not selected</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Service Type:</span>
-                            <span class="summary-value" id="summaryServiceType">Not selected</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Price Tier:</span>
-                            <span class="summary-value" id="summaryPriceTier">Not selected</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Total Units:</span>
-                            <span class="summary-value" id="summaryUnits">0</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Warranty:</span>
-                            <span class="summary-value" id="summaryWarranty">Mixed</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Additional Services:</span>
-                            <span class="summary-value" id="summaryAdditional">None</span>
+                      
+                    </div>
+
+                </div>
+
+
+                <!-- ================= RIGHT SIDE ================= -->
+                <div class="booking-right">
+
+                    <h2>Booking Details</h2>
+
+                    <!-- Customer Type -->
+                    <div class="form-group">
+                        <label>Customer Type *</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="customer_type" value="PERSONAL" checked>
+                                Personal
+                            </label>
+                            <label>
+                                <input type="radio" name="customer_type" value="BUSINESS">
+                                Business
+                            </label>
                         </div>
                     </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Estimated Total:</span>
-                        <span class="summary-value" id="summaryPrice">₱ 0</span>
+
+                    <!-- Business Name -->
+                    <div class="form-group">
+                        <label>Business Name</label>
+                        <input type="text" id="businessName" name="business_name"
+                               placeholder="Required if Business" disabled>
                     </div>
+
+                    <!-- Service Address -->
+                    <div class="form-group">
+                        <label>Service Address *</label>
+
+                        <button type="button" id="chooseAddressBtn" class="address-btn">
+                            + Choose Service Address
+                        </button>
+
+                        <!-- Selected Address Preview -->
+                        <div id="selectedAddressBox" class="selected-address hidden">
+                            <div id="selectedAddressText"></div>
+                            <button type="button" id="changeAddressBtn" class="link-btn">
+                                Change
+                            </button>
+                        </div>
+
+                        <!-- Hidden value for form submit -->
+                        <input type="hidden" id="customerAddressId" name="customer_address_id" required>
+                    </div>
+
+                    <!-- Property Type -->
+                    <div class="form-group">
+                        <label>Property Type *</label>
+                        <select name="property_type" required>
+                            <option value="">Select...</option>
+                            <option value="HOUSE">House</option>
+                            <option value="CONDO">Condo</option>
+                            <option value="CORPORATE">Corporate</option>
+                            <option value="BUSINESS">Business</option>
+                        </select>
+                    </div>
+
+                    <!-- Schedule Date -->
+                    <div class="form-group">
+                        <label>Schedule Date *</label>
+                        <input type="date" id="scheduleDate" name="schedule_date" required>
+                    </div>
+
+                    <!-- Preferred Time -->
+                    <div class="mb-3">
+                        <label class="form-label">Preferred Service Time</label>
+                        <input type="time"
+                               name="preferred_time"
+                               class="form-control"
+                               min="08:00"
+                               max="18:00" />
+                    </div>
+
+                    <!-- Customer Note -->
+                    <div class="form-group">
+                        <label>Customer Note</label>
+                        <textarea name="customer_note" rows="3"
+                                  placeholder="Special instructions for technicians..."></textarea>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="form-group">
+                        <label>Payment Method *</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="payment_method" value="ONLINE_PAYMENT" required>
+                                Online Payment
+                            </label>
+                            <label>
+                                <input type="radio" name="payment_method" value="AFTER_SERVICE">
+                                Pay After Service
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <!-- Total Amount -->
+                    <div class="total-box">
+                        <span>Total Amount</span>
+                        <strong id="totalAmount">₱ 0.00</strong>
+                    </div>
+
+                    <!-- Book Button -->
+                    <button type="submit" class="btn-primary btn-full">
+                        Book Service
+                    </button>
+
                 </div>
+
             </div>
         </div>
 
@@ -241,11 +301,33 @@
         <div class="buttons">
             <button type="button" class="back-btn hidden" id="backBtn">Back</button>
             <button type="button" class="next-btn" id="nextBtn">Next</button>
-            <button type="submit" class="submit-btn hidden" id="submitBtn">Submit Booking</button>
+            <button type="submit" class="submit-btn hidden" id="submitBtn">Book Service</button>
         </div>
+
     </form>
 </section>
 
-@section Scripts {
-    <script src="~/js/Cleaning.js"></script>
-}
+<!--Address-->
+<div class="modal fade" id="addressModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Select Service Address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div id="addressListContainer" class="address-list"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const IS_LOGGED_IN = @ViewBag.IsLoggedIn.ToString().ToLower();
+    const LOGIN_URL = '/Shop/Home/Login';
+</script>
+
+<script src="~/js/Cleaning.js"></script>

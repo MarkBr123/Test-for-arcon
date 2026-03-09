@@ -13,8 +13,9 @@ public partial class service_price_tier
 
     public int services_id { get; set; }
 
-    [Precision(4,2)]
+    [Precision(4, 2)]
     public decimal capacity_min_range { get; set; }
+
     [Precision(4, 2)]
     public decimal capacity_max_range { get; set; }
 
@@ -27,9 +28,16 @@ public partial class service_price_tier
 
     public DateTime? deleted_at { get; set; }
 
+    [StringLength(2)]
     public string? unit { get; set; }
 
-    [ForeignKey("services_id")]
-    [InverseProperty("service_price_tiers")]
+    // 🔗 Belongs to Service
+    [ForeignKey(nameof(services_id))]
+    [InverseProperty(nameof(service.service_price_tiers))]
     public virtual service services { get; set; } = null!;
+
+    // 🔗 Referenced by many booking items
+    [InverseProperty(nameof(service_booking_item.service_price_tier))]
+    public virtual ICollection<service_booking_item> service_booking_items { get; set; }
+        = new List<service_booking_item>();
 }

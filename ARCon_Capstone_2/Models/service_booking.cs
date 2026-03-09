@@ -25,6 +25,7 @@ public partial class service_booking
     [Column(TypeName = "timestamp without time zone")]
     public DateTime schedule_date { get; set; }
 
+    public TimeOnly preferred_time { get; set; }
     public string? customer_note { get; set; }
 
     [StringLength(50)]
@@ -33,11 +34,17 @@ public partial class service_booking
     [StringLength(50)]
     public string payment_status { get; set; } = null!;
 
+    [StringLength(100)]
+    public string business_name { get; set; } = null!;
+
     [StringLength(255)]
     public string? payment_reference { get; set; }
 
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? paid_at { get; set; }
+
+    [StringLength(50)]
+    public string property_type { get; set; }
 
     [Precision(12, 2)]
     public decimal? total_amount { get; set; }
@@ -55,6 +62,12 @@ public partial class service_booking
     [ForeignKey("customer_addresses_id")]
     [InverseProperty("service_bookings")]
     public virtual customer_address customer_addresses { get; set; } = null!;
+
+    [ForeignKey("payment_transaction_id")]
+    [InverseProperty("service_bookings")]
+    public virtual payment_transaction? payment_transaction { get; set; }
+
+
 
     [InverseProperty("service_bookings")]
     public virtual ICollection<service_booking_item> service_booking_items { get; set; } = new List<service_booking_item>();

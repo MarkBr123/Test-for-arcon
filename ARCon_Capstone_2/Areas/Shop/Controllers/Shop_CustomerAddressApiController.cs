@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ARCon_Capstone_2.Areas.Shop.Controllers;
 
-[Route("api/shop/addresses")]
+[Route("api/shop")]
 public class Shop_CustomerAddressApiController : ControllerBase
 {
     private readonly ARCon_Capstone_2_DbContext _context;
@@ -21,7 +21,7 @@ public class Shop_CustomerAddressApiController : ControllerBase
     }
 
     // GET all addresses of logged in customer
-    [HttpGet]
+    [HttpGet("addresses")]
     public async Task<IActionResult> GetAddresses()
     {
         var customerId = HttpContext.Session.GetInt32("UserId");

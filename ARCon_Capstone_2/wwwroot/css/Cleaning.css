@@ -1,490 +1,358 @@
-﻿/* ===== SERVICE CONTAINER ===== */
+﻿/* ================================
+   BASE LAYOUT
+================================ */
 .service-container {
-    max-width: 1100px;
+    max-width: 1150px;
     margin: 40px auto;
     padding: 20px;
     font-family: "Segoe UI", Arial, sans-serif;
 }
 
-/* ===== FORM LAYOUT ===== */
 .service-form {
-    background: #fff;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 }
 
-/* Each page controls its own layout */
+/* ================================
+   PAGE SYSTEM
+================================ */
 .form-page {
     display: none;
 }
 
     .form-page.active {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        align-items: flex-start;
-        gap: 40px;
+        display: block;
     }
 
-.form-left,
-.form-right {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/* ================================
+   TWO COLUMN LAYOUTS
+================================ */
+.form-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
 }
 
-/* ===== PAGE 1 SPECIFIC STYLES ===== */
-#page1 .form-group {
-    margin-bottom: 20px;
-}
-
-#page1 label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #333;
-    font-size: 15px;
-}
-
-#page1 select {
+.booking-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 32px;
+    align-items: start;
     width: 100%;
-    padding: 14px 16px;
-    border-radius: 10px;
-    border: 2px solid #ddd;
-    font-size: 15px;
-    background: #fafafa;
-    transition: all 0.3s ease;
 }
 
-    #page1 select:focus {
-        outline: none;
-        border-color: #e53935;
-        background: #fff;
-        box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+/* Panels (Page 2 uses booking-left/right) */
+.panel,
+.booking-left,
+.booking-right {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    min-height: 220px;
+    color: #1f2937;
+}
+
+    .panel h2,
+    .booking-left h2,
+    .booking-right h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #f1f1f1;
     }
 
-/* ===== PAGE 2 SPECIFIC STYLES ===== */
-#page2 .form-group {
-    margin-bottom: 20px;
+/* ================================
+   FORM ELEMENTS
+================================ */
+.form-group {
+    margin-bottom: 18px;
 }
 
-#page2 label {
+label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
     font-weight: 600;
     color: #333;
-    font-size: 15px;
 }
 
-#page2 input,
-#page2 textarea,
-#page2 select {
+input, select, textarea {
     width: 100%;
-    padding: 14px 16px;
+    padding: 12px 14px;
     border-radius: 10px;
-    border: 2px solid #ddd;
-    font-size: 15px;
-    font-family: "Segoe UI", Arial, sans-serif;
+    border: 2px solid #e2e2e2;
+    font-size: 14px;
     background: #fafafa;
-    transition: all 0.3s ease;
+    transition: all .2s ease;
     box-sizing: border-box;
 }
 
-    #page2 input:focus,
-    #page2 textarea:focus,
-    #page2 select:focus {
+    input:focus, select:focus, textarea:focus {
         outline: none;
-        border-color: #e53935;
+        border-color: #2196F3;
         background: #fff;
-        box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+        box-shadow: 0 0 0 3px rgba(33,150,243,.12);
     }
 
-#page2 textarea {
+textarea {
     resize: vertical;
-    min-height: 100px;
-    line-height: 1.5;
+    min-height: 90px;
 }
 
-/* ===== ORDER SUMMARY ===== */
-.summary-box {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 12px;
-    padding: 25px;
-    border: 2px solid #e0e0e0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    min-height: 350px;
+/* ================================
+   RADIO GROUP
+================================ */
+.radio-group {
     display: flex;
-    flex-direction: column;
+    gap: 18px;
+    flex-wrap: wrap;
 }
 
-    .summary-box h3 {
-        margin-bottom: 20px;
-        color: #222;
-        font-size: 18px;
-        font-weight: 700;
-        text-align: center;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #e53935;
+    .radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        cursor: pointer;
     }
 
-.summary-content {
-    flex: 1;
-    overflow-y: auto;
-    max-height: 250px;
-    padding-right: 5px;
-}
-
-.summary-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px dashed #ddd;
-}
-
-    .summary-item:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-        font-size: 16px;
-        font-weight: 700;
-        color: #e53935;
-        margin-top: auto;
-    }
-
-.summary-label {
-    color: #555;
-    font-weight: 500;
-    min-width: 140px;
-}
-
-.summary-value {
-    font-weight: 600;
-    color: #222;
-    text-align: right;
-    word-break: break-word;
-    max-width: 200px;
-}
-
-/* ===== BUTTONS ===== */
-.buttons {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 1px solid #eee;
-    width: 100%;
-}
-
-.back-btn,
-.next-btn,
-.submit-btn,
-.add-aircon-btn,
-.remove-aircon-btn {
-    border: none;
-    border-radius: 8px;
-    padding: 14px 36px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    display: inline-block;
-    min-width: 160px;
-}
-
-.back-btn {
-    background: #f5f5f5;
-    color: #666;
-    border: 2px solid #e0e0e0;
-    margin-right: auto;
-}
-
-    .back-btn:hover {
-        background: #e0e0e0;
-        color: #333;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-.next-btn {
-    background: linear-gradient(145deg, #2196F3, #2196F3);
-    color: white;
-    margin-left: auto;
-}
-
-    .next-btn:hover {
-        background: linear-gradient(145deg,#008000);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(229, 57, 53, 0.3);
-    }
-
-.submit-btn {
-    background: linear-gradient(145deg, #2e7d32, #1b5e20);
-    color: white;
-    margin-left: auto;
-}
-
-    .submit-btn:hover {
-        background: linear-gradient(145deg, #1b5e20, #0d5c1a);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(46, 125, 50, 0.3);
-    }
-
-.add-aircon-btn {
-    background: linear-gradient(145deg, #2196F3, #2196f3);
-    color: white;
-    padding: 12px 24px;
-    font-size: 14px;
-    margin-top: 20px;
-    min-width: auto;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-    .add-aircon-btn:hover {
-        background: linear-gradient(145deg, #2196F3,);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(229, 57, 53, 0.3);
-    }
-
-.remove-aircon-btn {
-    background: #f5f5f5;
-    color: #666;
-    border: 2px solid #e0e0e0;
-    padding: 8px 16px;
-    font-size: 14px;
-    margin-top: 10px;
-    min-width: auto;
-}
-
-    .remove-aircon-btn:hover {
-        background: #008000;
-        color: white;
-        border-color: #008000;
-    }
-
-/* ===== HEADINGS ===== */
-.service-form h2 {
-    font-size: 24px;
-    margin-bottom: 25px;
-    font-weight: 600;
-    color: #222;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f0f0f0;
-}
-
-/* ===== AIRCON ENTRY STYLES ===== */
+/* ================================
+   AIRCON ENTRY (PAGE 1)
+================================ */
 .aircon-entry {
-    background: #f8f9fa;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #e0e0e0;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 18px;
 }
 
 .aircon-entry-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 14px;
 }
 
 .aircon-entry-title {
     font-weight: 600;
-    color: #333;
-    font-size: 16px;
 }
 
 .aircon-entry-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 18px;
 }
 
-/* ===== UNITS AND WARRANTY ===== */
 .units-warranty {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 18px;
+    margin-top: 16px;
 }
 
+/* ================================
+   COUNTER
+================================ */
 .counter-box {
     display: flex;
     align-items: center;
-    width: 140px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
+    border: 2px solid #e2e2e2;
+    border-radius: 10px;
     overflow: hidden;
+    width: 130px;
 }
 
     .counter-box button {
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
         border: none;
         background: #2196F3;
-        color: white;
-        font-size: 18px;
-        font-weight: bold;
+        color: #fff;
+        font-weight: 700;
         cursor: pointer;
-        transition: background 0.3s;
     }
 
         .counter-box button:hover {
-            background: #008000;
+            background: #1976d2;
         }
 
     .counter-box input {
         flex: 1;
-        height: 40px;
-        text-align: center;
         border: none;
-        font-size: 16px;
+        text-align: center;
         font-weight: 600;
-        background: white;
+        background: #fff;
     }
 
-/* Warranty buttons */
-.warranty-buttons {
+/* ================================
+   SERVICES INCLUDED (PAGE 2 LEFT)
+================================ */
+.services-list {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
 }
 
-.warranty-btn {
-    flex: 1;
-    padding: 12px 16px;
-    border: 2px solid #ddd;
-    background: white;
+.service-card {
+    border: 1px solid #dfe3e8;
+    border-radius: 12px;
+    padding: 14px;
+    background: #ffffff;
+}
+
+.svc-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.svc-meta,
+.svc-submeta {
+    font-size: 12.5px;
     color: #666;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
 }
 
-    .warranty-btn.active {
-        background: #e53935;
-        color: white;
-        border-color: #e53935;
+.svc-price {
+    margin-top: 8px;
+    font-weight: 700;
+}
+
+/* ================================
+   ADDRESS BUTTON
+================================ */
+.address-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px dashed #cfcfcf;
+    background: #fafafa;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+    .address-btn:hover {
+        border-color: #2196F3;
+        background: #f0f7ff;
     }
 
-    .warranty-btn:hover:not(.active) {
-        background: #f5f5f5;
+.selected-address {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    background: #fff;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: #2196F3;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* ================================
+   TOTAL + CTA
+================================ */
+.total-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-radius: 12px;
+    background: #f3f6fb;
+    margin: 18px 0;
+    font-size: 16px;
+}
+
+    .total-box strong {
+        font-size: 22px;
+        color: #0f172a;
     }
 
-/* ===== ADDITIONAL SERVICES ===== */
-.additional {
-    margin-top: 30px;
-    padding-top: 20px;
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(145deg,#2e7d32,#1b5e20);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(46,125,50,.35);
+    }
+
+/* ================================
+   NAVIGATION BUTTONS
+================================ */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 36px;
+    padding-top: 22px;
     border-top: 1px solid #eee;
 }
 
-    .additional h3 {
-        margin-bottom: 15px;
-        color: #333;
-    }
-
-    .additional label {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 15px;
-        color: #444;
-        margin-bottom: 12px;
-        padding: 8px;
-        border-radius: 8px;
-        transition: background 0.2s;
-    }
-
-        .additional label:hover {
-            background: #f9f9f9;
-        }
-
-/* ===== UPLOAD BOX ===== */
-.upload-box {
-    border: 2px dashed #ccc;
-    border-radius: 12px;
-    padding: 40px 20px;
-    text-align: center;
+.back-btn, .next-btn, .submit-btn {
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
     cursor: pointer;
-    color: #777;
-    transition: all 0.3s;
-    background: #fafafa;
-    position: relative;
 }
 
-    .upload-box:hover {
-        border-color: #e53935;
-        background: #fff5f5;
-    }
-
-    .upload-box span {
-        color: #e53935;
-        font-weight: 600;
-    }
-
-#mediaUpload {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 10;
+.back-btn {
+    background: #f3f4f6;
 }
 
-/* ===== PRICE DISPLAY ===== */
-.price {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    text-align: center;
-    border: 2px solid #e0e0e0;
+.next-btn {
+    background: #2196F3;
+    color: #fff;
 }
 
-    .price span {
-        display: block;
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 8px;
+    .next-btn:hover {
+        background: #1976d2;
     }
 
-    .price strong {
-        font-size: 28px;
-        color: #e53935;
-        font-weight: 700;
-    }
-
-/* ===== HIDDEN CLASS ===== */
-.hidden {
-    display: none !important;
+.submit-btn {
+    background: #2e7d32;
+    color: #fff;
 }
 
-/* ===== PROGRESS INDICATOR ===== */
+    .submit-btn:hover {
+        background: #1b5e20;
+    }
+
+/* ================================
+   PROGRESS INDICATOR
+================================ */
 .progress-indicator {
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
     gap: 60px;
+    margin-bottom: 36px;
 }
 
 .progress-step {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    color: #777;
-    font-size: 15px;
-    text-align: center;
+    gap: 6px;
+    color: #888;
+    font-size: 14px;
 }
 
     .progress-step.active {
@@ -493,140 +361,53 @@
     }
 
 .progress-step-number {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: #e0e0e0;
-    color: white;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-    border: 3px solid #f0f0f0;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 .progress-step.active .progress-step-number {
     background: #2196F3;
-    border-color: #ffcdd2;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-    .service-container {
-        padding: 10px;
-        margin: 20px auto;
-    }
+/* ================================
+   UTILITIES
+================================ */
+.hidden {
+    display: none !important;
+}
 
-    .service-form {
-        padding: 20px;
-    }
-
-    .form-page.active {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .progress-indicator {
-        gap: 30px;
-        margin-bottom: 30px;
-    }
-
-    .progress-step {
-        font-size: 13px;
-    }
-
-    .progress-step-number {
-        width: 28px;
-        height: 28px;
-        font-size: 13px;
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width:900px) {
+    .form-split,
+    .booking-grid {
+        grid-template-columns: 1fr;
     }
 
     .buttons {
         flex-direction: column;
-        gap: 15px;
-        margin-top: 30px;
-        padding-top: 20px;
+        gap: 12px;
     }
 
-    .back-btn,
-    .next-btn,
-    .submit-btn {
+    .back-btn, .next-btn, .submit-btn {
         width: 100%;
-        min-width: auto;
-        margin-left: 0;
-        margin-right: 0;
     }
 
-    #page2 input,
-    #page2 textarea,
-    #page2 select {
-        padding: 12px 14px;
-        font-size: 14px;
-    }
-
-    .summary-box {
-        min-height: 300px;
-    }
-
-    .summary-content {
-        max-height: 200px;
-    }
-
-    .summary-label {
-        min-width: 120px;
-    }
-
-    .summary-value {
-        max-width: 150px;
-    }
-
-    .aircon-entry-content {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
+    .aircon-entry-content,
     .units-warranty {
         grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .add-aircon-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .warranty-buttons {
-        flex-direction: column;
     }
 }
-/* Warranty buttons */
-.warranty-buttons {
-    display: flex;
-    gap: 10px;
-}
 
-.warranty-btn {
-    flex: 1;
-    padding: 12px 16px;
-    border: 2px solid #ddd;
-    background: white;
-    color: #666;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-}
 
-    .warranty-btn.active {
-        background: #2196f3;
-        color: white;
-        border-color: #2196f3;
-    }
+/* Address Modal */
 
-    .warranty-btn:hover:not(.active) {
-        background: #f5f5f5;
-    }

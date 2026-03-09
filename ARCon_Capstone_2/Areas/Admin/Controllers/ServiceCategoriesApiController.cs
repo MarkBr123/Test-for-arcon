@@ -29,9 +29,12 @@ public class ServiceCategoriesApiController : ControllerBase
             return BadRequest("Category name is required.");
         if (string.IsNullOrWhiteSpace(dto.Description))
             return BadRequest("Brief description is required.");
+        if (string.IsNullOrWhiteSpace(dto.ServiceClass))
+            return BadRequest("service class is required.");
 
         var name = dto.Name.Trim();
         var desc = dto.Description.Trim();
+        var service_class = dto.ServiceClass.Trim();
 
         var exists = await _context.service_categories
             .AnyAsync(sc => sc.service_name.ToUpper() == name.ToUpper());
@@ -40,7 +43,7 @@ public class ServiceCategoriesApiController : ControllerBase
             return Conflict("Aircon type already exists.");
 
         var cat = new service_category { service_name = name,
-            description = desc
+            description = desc, service_class = service_class
         };
         _context.service_categories.Add(cat);
         await _context.SaveChangesAsync();
@@ -56,7 +59,9 @@ public class ServiceCategoriesApiController : ControllerBase
             .Select(ac => new
             {
                 id = ac.id,
-                name = ac.service_name
+                name = ac.service_name,
+                serviceClass = ac.service_class
+               
             })
             .ToListAsync();
         return Ok(servCategories);

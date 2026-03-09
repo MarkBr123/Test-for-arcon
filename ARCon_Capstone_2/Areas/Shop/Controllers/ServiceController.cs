@@ -3,9 +3,35 @@
 [Area("Shop")]
 public class ServiceController : Controller
 {
-    public IActionResult Index()
+    private void SetLoginState()
     {
+        var customerId = HttpContext.Session.GetInt32("UserId");
+        var userType = HttpContext.Session.GetString("UserType");
+
+        ViewBag.IsLoggedIn = (customerId != null && userType == "CUSTOMER");
+    }
+
+    public IActionResult Cleaning()
+    {
+        SetLoginState();
         return View();
     }
 
+    public IActionResult Repair()
+    {
+        SetLoginState();
+        return View();
+    }
+
+    public IActionResult FreonCharging()
+    {
+        SetLoginState();
+        return View();
+    }
+
+    public IActionResult Installing()
+    {
+        SetLoginState();
+        return View();
+    }
 }

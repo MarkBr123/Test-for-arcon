@@ -788,6 +788,22 @@
   },
   {
     "ContainingType": "ServiceAirconTypesApiController",
+    "Method": "GetAirconTypes",
+    "RelativePath": "api/service-aircon-types/aircon-types/{categoryId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServiceAirconTypesApiController",
     "Method": "GetACTypeDropdown",
     "RelativePath": "api/service-aircon-types/dropdown",
     "HttpMethod": "GET",
@@ -872,6 +888,22 @@
   },
   {
     "ContainingType": "ServicesPriceTiersApiController",
+    "Method": "GetPriceTiers",
+    "RelativePath": "api/service-price-tiers/by-service/{serviceId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "serviceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServicesPriceTiersApiController",
     "Method": "EditPriceTier",
     "RelativePath": "api/service-price-tiers/edit/{id}",
     "HttpMethod": "PUT",
@@ -919,6 +951,27 @@
         "Name": "serviceId",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ServicesApiController",
+    "Method": "GetServiceByCombo",
+    "RelativePath": "api/services/by-combo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "airconTypeId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

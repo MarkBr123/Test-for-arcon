@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using static QuestPDF.Helpers.Colors;
+using System.Drawing;
 
 
 [AllowAnonymous]
@@ -56,5 +58,28 @@ public class ServiceAirconTypesApiController : ControllerBase
             })
             .ToListAsync();
         return Ok(acTypes);
+    }
+
+
+    /// <summary>
+    /// Aircon Types by Category
+    //  So user can pick aircon type after category.
+    /// </summary>
+    /// <returns></returns>
+
+        [HttpGet("aircon-types/{categoryId}")]
+    public async Task<IActionResult> GetAirconTypes(int categoryId)
+    {
+        var data = await _context.services
+            .Where(s => s.service_categories_id == categoryId)
+            .Select(s => new {
+                id = s.service_aircon_type.id,
+                name = s.service_aircon_type.name
+            })
+            .Distinct()
+            .OrderBy(x => x.name)
+            .ToListAsync();
+
+        return Ok(data);
     }
 }

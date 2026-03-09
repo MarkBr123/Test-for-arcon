@@ -42,8 +42,6 @@ public class ServicesPriceTiersApiController : ControllerBase
         }
 
 
-
-
         if (dto.ServiceId <= 0)
             return BadRequest("Invalid service.");
 
@@ -165,6 +163,24 @@ public class ServicesPriceTiersApiController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    [HttpGet("by-service/{serviceId}")]
+    public async Task<IActionResult> GetPriceTiers(int serviceId)
+    {
+        var tiers = await _context.service_price_tiers
+            .Where(t => t.services_id == serviceId && !t.is_deleted)
+            .OrderBy(t => t.sort_order)
+            .Select(t => new {
+                id = t.id,
+                min = t.capacity_min_range,
+                max = t.capacity_max_range,
+                unit = t.unit,
+                price = t.price
+            })
+            .ToListAsync();
+
+        return Ok(tiers);
     }
 
 

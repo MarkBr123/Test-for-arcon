@@ -16,6 +16,9 @@ public partial class service_category
 
     public string? description { get; set; }
 
+    [StringLength(20)]
+    public string service_class { get; set; } = null!;
+
     [InverseProperty("service_categories")]
     public virtual ICollection<service> services { get; set; } = new List<service>();
 }

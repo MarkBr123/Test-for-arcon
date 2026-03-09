@@ -903,6 +903,8 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.Property(e => e.payment_status).HasDefaultValueSql("'PENDING'::character varying");
             entity.Property(e => e.status).HasDefaultValueSql("'Pending'::character varying");
 
+            entity.HasOne(d => d.payment_transaction).WithMany(p => p.service_bookings).HasConstraintName("service_bookings_payment_transaction_id_fkey");
+
             entity.HasOne(d => d.customer_addresses).WithMany(p => p.service_bookings)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("service_bookings_customer_addresses_id_fkey");
@@ -914,17 +916,36 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
         modelBuilder.Entity<service_booking_item>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("service_booking_items_pkey");
+            entity.HasKey(e => e.id)
+                  .HasName("service_booking_items_pkey");
 
-            entity.Property(e => e.id).UseIdentityAlwaysColumn();
-            entity.Property(e => e.quantity).HasDefaultValue(1);
-            entity.Property(e => e.total_amount).HasComputedColumnSql("((quantity)::numeric * price)", true);
+            entity.Property(e => e.id)
+                  .UseIdentityAlwaysColumn();
 
-            entity.HasOne(d => d.service_bookings).WithMany(p => p.service_booking_items).HasConstraintName("service_booking_items_service_bookings_id_fkey");
+            entity.Property(e => e.unit_count)
+                  .HasDefaultValue(1);
 
-            entity.HasOne(d => d.services).WithMany(p => p.service_booking_items)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("service_booking_items_services_id_fkey");
+            entity.Property(e => e.total_amount)
+                  .HasComputedColumnSql("(unit_count * price)", true);
+
+            // Booking
+            entity.HasOne(d => d.service_bookings)
+                  .WithMany(p => p.service_booking_items)
+                  .HasForeignKey(d => d.service_bookings_id)
+                  .HasConstraintName("service_booking_items_service_bookings_id_fkey");
+
+            // Service
+            entity.HasOne(d => d.services)
+                  .WithMany(p => p.service_booking_items)
+                  .HasForeignKey(d => d.services_id)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("service_booking_items_services_id_fkey");
+
+            // Price Tier ✅
+            entity.HasOne(d => d.service_price_tier)
+                  .WithMany(p => p.service_booking_items)
+                  .HasForeignKey(d => d.service_price_tier_id)
+                  .HasConstraintName("service_booking_items_service_price_tiers_id_fkey");
         });
 
         modelBuilder.Entity<service_booking_technician>(entity =>
@@ -950,14 +971,24 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
         modelBuilder.Entity<service_price_tier>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("service_price_tiers_pkey");
+            entity.HasKey(e => e.id)
+                  .HasName("service_price_tiers_pkey");
 
-            entity.Property(e => e.id).UseIdentityAlwaysColumn();
-            entity.Property(e => e.sort_order).HasDefaultValue(1);
+            entity.Property(e => e.id)
+                  .UseIdentityAlwaysColumn();
 
-            entity.HasOne(d => d.services).WithMany(p => p.service_price_tiers).HasConstraintName("service_price_tiers_services_id_fkey");
+            entity.Property(e => e.sort_order)
+                  .HasDefaultValue(1);
+
+            // Tier belongs to Service
+            entity.HasOne(d => d.services)
+                  .WithMany(p => p.service_price_tiers)
+                  .HasForeignKey(d => d.services_id)
+                  .HasConstraintName("service_price_tiers_services_id_fkey");
+
+            // ✅ DO NOT configure booking items here
+            // Relationship is configured from service_booking_item side
         });
-
         modelBuilder.Entity<service_review>(entity =>
         {
             entity.HasKey(e => e.id).HasName("service_reviews_pkey");
