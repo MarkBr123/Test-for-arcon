@@ -8,8 +8,15 @@
     font-size: large;
     position: relative;
     top: 2px;
+    right: 40px;
 }
 
+    #togglePassword.active::after {
+        content: " ⟋ ";
+        color: black;
+        position: absolute;
+        left: 9px;
+    }
 /* =========================
    LOGIN PAGE
 ========================= */

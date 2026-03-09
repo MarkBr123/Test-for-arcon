@@ -6,9 +6,11 @@
           rel="stylesheet">
 }
 
-@* @section Scripts {
+@section Scripts {
+    <script src="~/js/View-js/Search.js" asp-append-version="true"></script>
+
     <script src="~/js/View-js/Index.js" asp-append-version="true"></script>
-} *@
+}
 
 <div class="search-container">
 
@@ -51,9 +53,9 @@
         <div class="filter-section">
             <h5>HP</h5>
             <div class="filter-scroll">
-                <label><input type="checkbox" id="1-hp" /> 1 HP</label><br />
-                <label><input type="checkbox" id="1.5-hp" /> 1.5 HP</label><br />
-                <label><input type="checkbox" id="2-hp" /> 2 HP</label><br />
+                <label><input type="checkbox" id="1-hp" value="1" /> 1 HP</label><br />
+                <label><input type="checkbox" id="1.5-hp" value="1.5" /> 1.5 HP</label><br />
+                <label><input type="checkbox" id="2-hp" value="2" /> 2 HP</label><br />
                 <label><input type="checkbox" id="2.5-hp" /> 2.5 HP</label><br />
                 <label><input type="checkbox" id="3-hp" /> 3 HP</label><br />
                 <label><input type="checkbox" id="3.5-hp" /> 3.5 HP</label><br />
@@ -67,14 +69,22 @@
 
         <div class="filter-section">
             <h5>Form Type</h5>
-            <label><input type="checkbox" id="split" /> Split</label><br />
-            <label><input type="checkbox" id="window" /> Window</label><br />
-            <label><input type="checkbox" id="ceiling" /> Ceiling</label>
+            <label>
+                <input type="checkbox" id="split-productSeries" value="Split"> Split
+            </label><br />
+
+            <label>
+                <input type="checkbox" id="window-productSeries" value="Window"> Window
+            </label><br />
+
+            <label>
+                <input type="checkbox" id="ceiling-productSeries" value="Ceiling"> Ceiling 
+            </label>
         </div>
 
         <hr>
 
-        <button class="btn btn-primary mt-3">Apply Filters</button>
+        @* <button class="btn btn-primary mt-3">Apply Filters</button> *@
     </aside>
 
 
@@ -92,55 +102,8 @@
             </select>
         </div>
 
-        <div class="product-grid">
-
-            <!-- Product Card Placeholder -->
-            <div class="product-card">
-                <span class="badge discount">19% OFF</span>
-                <span class="badge stock">IN STOCK</span>
-
-                <img src="~/ImageSources/Product/LG.webp" alt="Product">
-
-                <h4>LG Window Inverter LA08GC</h4>
-                <p class="description">Inverter | 1 HP | Window Type</p>
-
-                <p class="old-price">₱30,000</p>
-                <p class="price">₱26,190</p>
-
-                <button class="btn btn-primary">Add to Cart</button>
-            </div>
-
-
-            <div class="product-card">
-                <span class="badge discount">10% OFF</span>
-                <span class="badge stock">IN STOCK</span>
-
-                <img src="~/ImageSources/Product/LG.webp" alt="Product">
-
-                <h4>Samsung Split Type 1.5HP</h4>
-                <p class="description">Inverter | 1.5 HP | Split Type</p>
-
-                <p class="old-price">₱45,000</p>
-                <p class="price">₱39,999</p>
-
-                <button class="btn btn-primary">Add to Cart</button>
-            </div>
-
-            <div class="product-card">
-                <span class="badge discount">31% OFF</span>
-                <span class="badge stock">IN STOCK</span>
-
-                <img src="~/ImageSources/Product/LG.webp" alt="Product">
-
-                <h4>Daikin Ceiling Type 2HP</h4>
-                <p class="description">Non-Inverter | 2 HP | Ceiling</p>
-
-                <p class="old-price">₱50,000</p>
-                <p class="price">₱34,500</p>
-
-                <button class="btn btn-primary">Add to Cart</button>
-            </div>
-
+        <div class="product-grid" id="productGrid">
+            @* placeholder for products *@
         </div>
 
     </section>

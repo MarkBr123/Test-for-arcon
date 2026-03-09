@@ -79,3 +79,20 @@
         <script src="~/js/login.js" asp-append-version="true"></script>
 }
 
+<script>
+    const password = document.getElementById("password");
+    const toggle = document.getElementById("togglePassword");
+
+    toggle.addEventListener("click", function () {
+
+        // Toggle password visibility
+        if (password.type === "password") {
+            password.type = "text";
+        } else {
+            password.type = "password";
+        }
+
+        // Toggle slash
+        this.classList.toggle("active");
+    });
+</script>

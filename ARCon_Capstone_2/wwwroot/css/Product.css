@@ -13,7 +13,8 @@
         align-items: center;
         padding: 40px;
         /*background: linear-gradient(to left, #a4caf1, #f7f9fc, #ffffff);*/
-        background: linear-gradient(to right, #a4caf1, #ffffff);
+        /*background: linear-gradient(to right, #a4caf1, #ffffff);*/
+        background: white;
     }
 
     /*body*/
@@ -212,10 +213,44 @@
             margin: 0;
         }
 
+
+#quantity-wrap {
+    padding-bottom: 20px;
+}
+#quantity {
+    width: 40px;
+    height: 25px;
+    text-align: center;
+}
+
+.ar {
+    border-radius: 4px;
+    padding: 10px 10px 10px 10px;
+    border: none;
+    background: #ccc;
+    height: 40px;
+    position: relative;
+    bottom: 60px;
+    left: 65px;
+}
+
+.buttons{
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /*/////////////////////////////////// Added By Marvin /////////////////////////////////*/
-
 /*badges for tags (details.cshtml)*/
-
 .tag-badge {
     display: inline-block;
     background-color: #007bff;

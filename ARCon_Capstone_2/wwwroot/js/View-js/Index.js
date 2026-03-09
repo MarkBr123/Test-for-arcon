@@ -291,3 +291,28 @@ function pushOrderNotification(order) {
     const track = document.querySelector('.deals-track');
     track.style.transform = `translateX(-${currentSlide * 100}%)`;
 }
+
+
+/*product js*/
+
+document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', function () {
+        const category = item.closest('.text-dropdown')
+            .querySelector('.dropdown-label')
+            .innerText.trim();
+
+        let queryParams = new URLSearchParams(window.location.search);
+
+        if (category.includes('Brands')) {
+            queryParams.set('brands', item.dataset.value);
+        } else if (category.includes('HP')) {
+            // Convert to number before sending in query
+            queryParams.set('hp', parseFloat(item.dataset.value));
+        } else if (category.includes('Form')) {
+            queryParams.set('series', item.dataset.value);
+        }
+
+        // Redirect to search page
+        window.location.href = `/Shop/Product/Search_results?${queryParams.toString()}`;
+    });
+});
