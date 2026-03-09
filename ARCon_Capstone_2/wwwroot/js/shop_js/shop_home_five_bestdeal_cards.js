@@ -21,6 +21,32 @@ function renderBestDeals(products) {
         return;
     }
 
+    // Create a single modal dynamically (only once)
+    let modal = document.getElementById("itemModal");
+    if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "itemModal";
+        modal.className = "modal fade";
+        modal.tabIndex = -1;
+        modal.setAttribute("aria-hidden", "true");
+        modal.innerHTML = `
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalBody"></div>
+                    <div class="modal-footer">
+                        <a id="viewMoreBtn" class="btn btn-primary" href="#">View more</a>
+                        <button id="modalAddToCart" class="btn btn-primary">🛒</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
     products.forEach(p => {
 
         let discountBadge = "";
@@ -52,16 +78,19 @@ function renderBestDeals(products) {
 
                     <h3>${p.brandName} ${p.productSeries ?? ""} ${p.productModel}</h3>
                     <p>${p.horsePower ?? "-"} ${p.horsePower ? "HP" : ""}</p>
-                    <p class="old-price text-muted" style="text-decoration: line-through;">
-                        ₱${formatPrice(p.originalSellingPrice)}
-                    </p>
+                <div class="price-section">
+                   <p class="old-price text-muted" style="text-decoration: line-through;">
+                   ₱${formatPrice(p.originalSellingPrice)}
+                   </p>
 
-                    <p class="price fw-bold">
-                        ₱${formatPrice(p.actualPrice)}
-                    </p>
+                   <p class="price fw-bold">
+                   ₱${formatPrice(p.actualPrice)}
+                   </p>
+                </div> 
 
                 </a>
 
+<<<<<<< Updated upstream
                 <button class="btn btn-primary"
                         onclick="addToCart({
                             id: ${p.id}, 
@@ -71,13 +100,59 @@ function renderBestDeals(products) {
                     View Item
                 </button>
 
+=======
+               <div class="product-btns">
+                    <button class="btn btn-primary view-item-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#itemModal"
+                        data-id="${p.id}"
+                        data-name="${p.productModel}"
+                        data-price="${p.actualPrice}"
+                        data-brand="${p.brandName}"
+                        data-series="${p.productSeries ?? ''}"
+                        data-hp="${p.horsePower ?? '-'}"
+                        data-image="${p.primaryImageUrl ?? '/images/no-image.png'}"
+                        data-original-price="${p.originalSellingPrice}">
+                        View Item
+                    </button>
+                    <button class="btn btn-primary cart-btn" onclick="addToCart({id: ${p.id}, name: '${p.productModel}', price: ${p.actualPrice}})">
+                        🛒
+                    </button>
+                </div>
+>>>>>>> Stashed changes
             </div>
         `;
 
         container.innerHTML += card;
     });
-}
 
+    /*view_more modal*/
+    const modalEl = new bootstrap.Modal(document.getElementById('itemModal'));
+    container.querySelectorAll(".view-item-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            const name = btn.dataset.name;
+            const price = btn.dataset.price;
+            const brand = btn.dataset.brand;
+            const series = btn.dataset.series;
+            const hp = btn.dataset.hp;
+            const image = btn.dataset.image;
+            const originalPrice = btn.dataset.originalPrice;
+
+            document.getElementById('modalTitle').textContent = `${brand} ${series} ${name}`;
+            document.getElementById('modalBody').innerHTML = `
+                <img src="${image}" alt="${name}" class="img-fluid mb-3">
+                <p>${hp} HP</p>
+                <p>₱${formatPrice(originalPrice)} <br> <strong>₱${formatPrice(price)}</strong></p>
+            `;
+            const modalAddBtn = document.getElementById('modalAddToCart');
+            modalAddBtn.onclick = () => addToCart({ id, name, price });
+            document.getElementById('viewMoreBtn').href = `/Shop/Product/Details/${id}`;
+
+            modalEl.show();
+        });
+    });
+}
 //helpers
 function formatPrice(price) {
     return Number(price).toLocaleString("en-PH", {
