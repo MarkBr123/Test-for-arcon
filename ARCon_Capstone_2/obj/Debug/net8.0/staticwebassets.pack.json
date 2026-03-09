@@ -9,12 +9,28 @@
       "PackagePath": "staticwebassets\\ImageSources\\Background\\coni.jpg"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\install.jpg",
+      "PackagePath": "staticwebassets\\ImageSources\\Background\\install.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\install2.jpg",
+      "PackagePath": "staticwebassets\\ImageSources\\Background\\install2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\login.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Background\\login.png"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\owner.jpg",
       "PackagePath": "staticwebassets\\ImageSources\\Background\\owner.jpg"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\repair.jpg",
       "PackagePath": "staticwebassets\\ImageSources\\Background\\repair.jpg"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\repair2.jpg",
+      "PackagePath": "staticwebassets\\ImageSources\\Background\\repair2.jpg"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Banner\\DELIVERY_w_in_NCR__NEARBY_MARILAO_PROVINCE.png",
@@ -171,6 +187,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\View-js\\Index.js",
       "PackagePath": "staticwebassets\\js\\View-js\\Index.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\View-js\\Search.js",
+      "PackagePath": "staticwebassets\\js\\View-js\\Search.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
