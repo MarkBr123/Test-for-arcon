@@ -84,7 +84,7 @@ async function updatePriceTierDropdown(id) {
         );
 
         if (!res.ok) {
-            priceTier.innerHTML = '<option value="">No service available</option>';
+            priceTier.innerHTML = '<option value="">No price tier available</option>';
             priceTier.disabled = true;
             updateTotal();
             return;
@@ -109,13 +109,20 @@ async function updatePriceTierDropdown(id) {
     priceTier.disabled = false;
 
     tiers.forEach(t => {
-        const opt = document.createElement('option');
-        opt.value = t.id;
-        opt.dataset.price = t.price;
-        opt.textContent =
-            `${t.min} - ${t.max} ${t.unit} — ₱${t.price.toLocaleString()}`;
+    const opt = document.createElement('option');
+
+    opt.value = t.id;
+    opt.dataset.price = t.price;
+    opt.dataset.unit = t.unit;
+    opt.dataset.min = t.capacity_min_range;
+    opt.dataset.max = t.capacity_max_range;
+
+        const fmt = n => Number(n).toFixed(1).replace(/\.0$/, '');
+        opt.textContent = `${fmt(t.min)}-${fmt(t.max)} ${t.unit} — ₱${t.price.toLocaleString()}`;
+
         priceTier.appendChild(opt);
-    });
+        console.log(t);
+});
 
     updateTotal();
 }
@@ -188,7 +195,7 @@ function addAircon() {
     const html = `
     <div class="aircon-entry" data-aircon-id="${id}">
         <div class="aircon-entry-header">
-            <div class="aircon-entry-title">Aircon #${id}</div>
+            <div class="aircon-entry-title">Service #${id}</div>
             <button type="button" class="remove-aircon-btn">Remove</button>
         </div>
 
@@ -212,12 +219,14 @@ function addAircon() {
                 <label>Brand</label>
                 <select id="brand-${id}" class="aircon-brand">
                     <option value="">Select Brand...</option>
-                    <option value="samsung">Samsung</option>
-                    <option value="lg">LG</option>
-                    <option value="panasonic">Panasonic</option>
-                    <option value="daikin">Daikin</option>
-                    <option value="koppel">Koppel</option>
-                    <option value="other">Other</option>
+                                            <option value="Samsung">Samsung</option>
+                                            <option value="LG">LG</option>
+                                            <option value="Panasonic">Panasonic</option>
+                                            <option value="Daikin">Daikin</option>
+                                            <option value="Koppel">Koppel</option>
+                                            <option value="Fujidenzo">Fujidenzo</option>
+                                            <option value="Sharp">Sharp</option>
+                                            <option value="other">Other</option>
                 </select>
             </div>
         </div>
@@ -245,7 +254,7 @@ function addAircon() {
 function renumberAircons() {
     document.querySelectorAll('.aircon-entry')
         .forEach((entry, i) =>
-            entry.querySelector('.aircon-entry-title').textContent = `Aircon #${i + 1}`
+            entry.querySelector('.aircon-entry-title').textContent = `Service #${i + 1}`
         );
 }
 
@@ -343,7 +352,7 @@ function setupNavigation() {
                 tier?.disabled ||
                 invalidUnits
             ) {
-                alert(`Aircon #${id} is incomplete.`);
+                alert(`Service #${id} is incomplete.`);
                 entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 entry.style.border = '2px solid #e53935';
                 setTimeout(() => entry.style.border = '', 2000);
@@ -351,8 +360,11 @@ function setupNavigation() {
             }
         }
 
-        // 🔁 Merge duplicates
+        // ✅ Merge same configs
         mergeDuplicateAircons();
+
+        // ✅ Then render summary
+        renderAirconSummary();
 
         // ✅ Proceed
         document.getElementById('page1').classList.remove('active');
@@ -368,36 +380,66 @@ function setupNavigation() {
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+
 }
 
-// ================= BACK BUTTON =================
+
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ================= BACK BUTTON LOGIC =================
     const backBtn = document.getElementById('backBtn');
-    if (!backBtn) return;
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
 
-    backBtn.addEventListener('click', () => {
+            // Show Page 1
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
 
-        // Show Page 1
-        document.getElementById('page2').classList.remove('active');
-        document.getElementById('page1').classList.add('active');
+            // Toggle buttons
+            document.getElementById('backBtn').classList.add('hidden');
+            document.getElementById('submitBtn').classList.add('hidden');
+            document.getElementById('nextBtn').classList.remove('hidden');
 
-        // Toggle buttons
-        document.getElementById('backBtn').classList.add('hidden');
-        document.getElementById('submitBtn').classList.add('hidden');
-        document.getElementById('nextBtn').classList.remove('hidden');
+            // Progress indicator
+            const steps = document.querySelectorAll('.progress-step');
+            if (steps.length >= 2) {
+                steps[1].classList.remove('active');
+                steps[0].classList.add('active');
+            }
 
-        // Progress indicator
-        const steps = document.querySelectorAll('.progress-step');
-        if (steps.length >= 2) {
-            steps[1].classList.remove('active');
-            steps[0].classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+
+    // ================= CUSTOMER TYPE → BUSINESS FIELD =================
+    const businessNameInput = document.getElementById("businessName");
+    const customerTypeRadios = document.querySelectorAll('input[name="customer_type"]');
+
+    function updateBusinessField() {
+        const selected = document.querySelector('input[name="customer_type"]:checked')?.value;
+    const isBusiness = selected === "BUSINESS";
+
+    businessNameInput.disabled = !isBusiness;
+    businessNameInput.required = isBusiness;
+
+    // Optional: clear value if switching to Personal
+    if (!isBusiness) {
+        businessNameInput.value = "";
         }
+    }
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Run on page load
+    updateBusinessField();
+
+    // Run when radio changes
+    customerTypeRadios.forEach(radio => {
+        radio.addEventListener("change", updateBusinessField);
     });
 
 });
+
 
 //////////////////// ADDRESS MODAL ////////////////////
 
@@ -510,3 +552,183 @@ function selectAddress(addr) {
     // Close modal
     bootstrap.Modal.getInstance(addressModal)?.hide();
 }
+
+// ================= RENDER AIRCON SUMMARY (PAGE 2) =================
+function renderAirconSummary() {
+    const container = document.getElementById('airconSummaryContainer');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const entries = document.querySelectorAll('.aircon-entry');
+
+    if (!entries.length) {
+        container.innerHTML = '<div class="text-muted">No aircon services added.</div>';
+        return;
+    }
+
+    entries.forEach((entry, index) => {
+        const id = entry.dataset.airconId;
+
+        // ✅ FIXED IDs
+        const acTypeText = getSelectedText(`acType-${id}`);
+        const serviceText = getSelectedText(`serviceType-${id}`);
+        const tierText = getSelectedText(`priceTier-${id}`);
+        const brandText = getSelectedText(`brand-${id}`);
+
+        const units = entry.querySelector('.units-input')?.value || 1;
+
+        const card = document.createElement('div');
+        card.className = 'card p-3 mb-3';
+
+        card.innerHTML = `
+                <div class="svc-row">
+
+                    <div class="svc-left">
+                        <div class="svc-title">Service #${index + 1}</div>
+                        <div class="svc-meta">
+                            ${acTypeText} • ${serviceText}
+                        </div>
+                    </div>
+
+                    <div class="svc-mid">
+                        <div class="svc-tier">${tierText}</div>
+                        <div class="svc-brand">${brandText}</div>
+                    </div>
+
+                    <div class="svc-right">
+                        ${units} unit${units > 1 ? 's' : ''}
+                    </div>
+
+                </div>
+            `;
+
+        container.appendChild(card);
+    });
+}
+
+
+// ================= HELPER =================
+function getSelectedText(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return '-';
+
+    const option = select.options[select.selectedIndex];
+
+    // placeholder usually has value=""
+    if (!option || !option.value) return '-';
+
+    return option.textContent.trim();
+}
+
+///Post///
+async function submitBooking() {
+
+    // ================= BASIC VALIDATION =================
+    const addressId = Number(document.getElementById('customerAddressId')?.value);
+    const scheduleDate = document.getElementById('scheduleDate')?.value;
+    const propertyType = document.querySelector('[name="property_type"]')?.value;
+    const paymentMethod = getRadioValue('payment_method');
+    const preferredTimeInput = document.getElementById('preferredTime'); // ✅ renamed for clarity
+
+    if (!addressId) return alert("Please select a service address.");
+    if (!scheduleDate) return alert("Please select schedule date.");
+    if (!propertyType) return alert("Please select property type.");
+    if (!paymentMethod) return alert("Please select payment method.");
+
+    // ================= BUILD PAYLOAD =================
+    const payload = {
+        customer_addresses_id: addressId,
+        schedule_date: scheduleDate,
+        preferred_time: preferredTimeInput.value
+            ? preferredTimeInput.value + ":00"
+            : null, // ✅ read from input (POST flow)
+        property_type: propertyType.toUpperCase(),
+        customer_note: document.querySelector('[name="customer_note"]')?.value || null,
+        payment_method: paymentMethod.toUpperCase(),
+        sbitems: []
+    };
+
+    // ================= COLLECT AIRCON ITEMS =================
+    const entries = document.querySelectorAll('.aircon-entry');
+
+    if (!entries.length) {
+        alert("Add at least one aircon service.");
+        return;
+    }
+
+    entries.forEach(entry => {
+        const id = entry.dataset.airconId;
+
+        const tierSelect = document.getElementById(`priceTier-${id}`);
+        const unitsInput = entry.querySelector('.units-input');
+        const brandSelect = document.getElementById(`brand-${id}`);
+
+        if (!tierSelect?.value) return;
+
+        const selectedOption = tierSelect.selectedOptions[0];
+        const price = Number(selectedOption?.dataset.price || 0);
+
+        payload.sbitems.push({
+            services_id: Number(tierSelect.dataset.serviceId),
+            service_price_tiers_id: Number(tierSelect.value),
+            unit_count: Number(unitsInput?.value || 1),
+            unit_brand: brandSelect?.value || null,
+            unit: selectedOption?.dataset.unit || null,
+            capacity_range: selectedOption?.textContent || null,
+            price: price
+        });
+    });
+
+    console.log("FINAL BOOKING PAYLOAD:", JSON.stringify(payload, null, 2));
+
+    // ================= DISABLE BUTTON =================
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = "Processing...";
+
+    try {
+        const res = await fetch("/api/service-bookings", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(payload)
+        });
+
+        // 👇 log raw response
+        console.log("STATUS:", res.status);
+
+        const text = await res.text();
+        console.log("RAW RESPONSE:", text);
+
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch {
+            throw new Error("Server did not return JSON");
+        }
+
+        if (!res.ok) {
+            alert(data.message || "Booking failed.");
+            return;
+        }
+
+        window.location.href = `/Shop/Booking/Success?id=${data.bookingId}`;
+
+    } catch (err) {
+        console.error("FETCH ERROR:", err);
+        alert("Network error. Please try again.");
+    }
+}
+function getRadioValue(name) {
+    return document.querySelector(`input[name="${name}"]:checked`)?.value || null;
+}
+
+///Submit Button///
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('submitBtn')
+        ?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await submitBooking();
+        });
+});

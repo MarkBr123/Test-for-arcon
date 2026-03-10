@@ -25,7 +25,6 @@
         <!-- Page 1: Service Details -->
         <div id="page1" class="form-page active">
             <div class="form-left">
-                <h2>Aircon Cleaning Service</h2>
 
                 <!-- ================= AIRCON PAGE LAYOUT ================= -->
                 <div class="form-split">
@@ -42,11 +41,12 @@
                             <div class="aircon-entry" data-aircon-id="1">
 
                                 <div class="aircon-entry-header">
-                                    <div class="aircon-entry-title">Aircon #1</div>
+                                    <div class="aircon-entry-title">Service #1</div>
                                     <button type="button"
                                             class="remove-aircon-btn hidden"
-                                            data-aircon="1">
-                                        Remove
+                                            data-aircon="1"
+                                            aria-label="Remove service">
+                                        ×
                                     </button>
                                 </div>
 
@@ -82,11 +82,7 @@
                                                 class="price-tier"
                                                 data-aircon="1"
                                                 required>
-                                            <option value="">Select Tier...</option>
-                                            <option value="basic">Basic (1-2 HP)</option>
-                                            <option value="standard">Standard (2-3 HP)</option>
-                                            <option value="premium">Premium (3+ HP)</option>
-                                            <option value="commercial">Commercial Units</option>
+                                            <option value="">Select Price Tier...</option>
                                         </select>
                                     </div>
 
@@ -96,11 +92,13 @@
                                                 class="aircon-brand"
                                                 data-aircon="1">
                                             <option value="">Select Brand...</option>
-                                            <option value="samsung">Samsung</option>
-                                            <option value="lg">LG</option>
-                                            <option value="panasonic">Panasonic</option>
-                                            <option value="daikin">Daikin</option>
-                                            <option value="koppel">Koppel</option>
+                                            <option value="Samsung">Samsung</option>
+                                            <option value="LG">LG</option>
+                                            <option value="Panasonic">Panasonic</option>
+                                            <option value="Daikin">Daikin</option>
+                                            <option value="Koppel">Koppel</option>
+                                            <option value="Fujidenzo">Fujidenzo</option>
+                                            <option value="Sharp">Sharp</option>
                                             <option value="other">Other</option>
                                         </select>
                                     </div>
@@ -130,22 +128,17 @@
                             </div>
                         </div>
 
-                        <!-- Add Another Aircon -->
-                        <button type="button" class="add-aircon-btn" id="addAirconBtn">
-                            <span>+</span> Add Another Aircon
+                        <button type="button" class="btn-add-aircon primary" id="addAirconBtn">
+                            <span class="plus">+</span>
+                            Add Another Aircon
                         </button>
-
                     </div>
 
 
                     <!-- ============ RIGHT SIDE ============ -->
-                    <div class="panel">
-
-                        <div class="price">
-                            <span>Estimated Price</span>
-                            <strong id="estimatedPrice">₱ 0</strong>
-                        </div>
-
+                    <div class="price-card">
+                        <div class="price-label">Estimated Total</div>
+                        <div class="price-value" id="estimatedPrice">₱ 0</div>
                     </div>
 
                 </div>
@@ -159,29 +152,13 @@
 
                 <!-- ================= LEFT SIDE ================= -->
                 <div class="booking-left">
-
-                    <h2>Services Included</h2>
-
-                    <div id="servicesIncludedList" class="services-list">
-                        <!-- JS renders service_booking_items here -->
-                        <!-- Example item -->
-                       
-                        <div class="service-card">
-                            <div class="svc-title">Pulldown Deep Cleaning</div>
-                            <div class="svc-meta">
-                                Split Type • Basic (1–2 HP) • 2 unit(s)
-                            </div>
-                            <div class="svc-submeta">
-                                Brand: Samsung • Capacity: 1–2 HP
-                            </div>
-                            <div class="svc-price">₱ 2,400</div>
+                    <div class="summary-panel">
+                        <h2>Services Included</h2>
+                        <div id="airconSummaryContainer" class="services-list">
+                            <!-- JS renders service_booking_items here -->
                         </div>
-                      
                     </div>
-
                 </div>
-
-
                 <!-- ================= RIGHT SIDE ================= -->
                 <div class="booking-right">
 
@@ -251,8 +228,7 @@
                     <div class="mb-3">
                         <label class="form-label">Preferred Service Time</label>
                         <input type="time"
-                               name="preferred_time"
-                               class="form-control"
+                               id="preferredTime"
                                min="08:00"
                                max="18:00" />
                     </div>
@@ -288,9 +264,9 @@
                     </div>
 
                     <!-- Book Button -->
-                    <button type="submit" class="btn-primary btn-full">
+                    <!--<button type="submit" class="btn-primary btn-full">
                         Book Service
-                    </button>
+                    </button>-->
 
                 </div>
 
