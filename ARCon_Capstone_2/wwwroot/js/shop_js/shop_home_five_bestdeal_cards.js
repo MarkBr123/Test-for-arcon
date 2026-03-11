@@ -90,17 +90,6 @@ function renderBestDeals(products) {
 
                 </a>
 
-<<<<<<< Updated upstream
-                <button class="btn btn-primary"
-                        onclick="addToCart({
-                            id: ${p.id}, 
-                            name: '${p.productModel}', 
-                            price: ${p.actualPrice}
-                        })">
-                    View Item
-                </button>
-
-=======
                <div class="product-btns">
                     <button class="btn btn-primary view-item-btn"
                         data-bs-toggle="modal"
@@ -119,7 +108,6 @@ function renderBestDeals(products) {
                         🛒
                     </button>
                 </div>
->>>>>>> Stashed changes
             </div>
         `;
 
@@ -141,13 +129,25 @@ function renderBestDeals(products) {
 
             document.getElementById('modalTitle').textContent = `${brand} ${series} ${name}`;
             document.getElementById('modalBody').innerHTML = `
-                <img src="${image}" alt="${name}" class="img-fluid mb-3">
-                <p>${hp} HP</p>
-                <p>₱${formatPrice(originalPrice)} <br> <strong>₱${formatPrice(price)}</strong></p>
-            `;
+            <div class="view-more-content">
+                <img src="${image}" alt="${name}" class="view-more-image img-fluid mb-3">
+
+                <p class="view-more-hp">${hp} HP</p>
+
+                <p class="view-more-price">
+                    <span class="original-price">₱${formatPrice(originalPrice)}</span><br>
+                    <strong class="discount-price">₱${formatPrice(price)}</strong>
+                </p>
+
+                <div class="buttons">
+                    <button class="ar btn btn-primary" id="viewAR">View in AR</button>
+                </div>
+            </div>
+        `;
             const modalAddBtn = document.getElementById('modalAddToCart');
             modalAddBtn.onclick = () => addToCart({ id, name, price });
             document.getElementById('viewMoreBtn').href = `/Shop/Product/Details/${id}`;
+
 
             modalEl.show();
         });

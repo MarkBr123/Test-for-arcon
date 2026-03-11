@@ -835,7 +835,68 @@ body {
     }
 
 .cart-btn {
-    background-color: #0d6efd;
+    background-color: #198754;
     border-color: #0d6efd;
     color: #fff; /* text color */
 }
+
+/* Modal content container */
+.view-more-content {
+    text-align: center;
+    padding: 10px;
+}
+
+/* Product image */
+.view-more-image {
+    max-height: 220px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* HP text */
+.view-more-hp {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+/* Original price */
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Discounted price */
+.discount-price {
+    font-size: 22px;
+    color: #e63946;
+    font-weight: 700;
+}
+
+/* Modal title */
+#modalTitle {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+/* Modal buttons */
+#modalAddToCart {
+    background-color: #198754;
+    border: none;
+}
+
+    #modalAddToCart:hover {
+        background-color: #157347;
+    }
+
+#viewMoreBtn {
+    border: 1px solid #198754;
+    color: #198754;
+}
+
+    #viewMoreBtn:hover {
+        background-color: #198754;
+        color: white;
+    }
