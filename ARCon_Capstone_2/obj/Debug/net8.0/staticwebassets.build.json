@@ -1,14 +1,6 @@
 {
   "Version": 1,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  "Hash": "t5yyywZryO+uf7piDdYD+4+ru7Sld+Hcs7vJ+u2AmFk=",
-=======
-  "Hash": "x6DNx3Nwb+JtecCqOKBTdq/JwLC+WnTCUq3TFL0Of6Y=",
->>>>>>> Stashed changes
-=======
-  "Hash": "x6DNx3Nwb+JtecCqOKBTdq/JwLC+WnTCUq3TFL0Of6Y=",
->>>>>>> Stashed changes
+  "Hash": "dyisuDG1ViWu1vCMROZjiMuA9+TIPLeKCkPS0qRofxQ=",
   "Source": "ARCon_Capstone_2",
   "BasePath": "_content/ARCon_Capstone_2",
   "Mode": "Default",
@@ -840,6 +832,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\app-ui.js"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\Cleaning (Original).js",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "js/Cleaning (Original).js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Cleaning (Original).js"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\Cleaning.js",

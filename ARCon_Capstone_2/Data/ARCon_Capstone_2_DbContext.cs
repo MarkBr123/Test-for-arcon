@@ -709,7 +709,11 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.Property(e => e.id).UseIdentityAlwaysColumn();
             entity.Property(e => e.created_at).HasDefaultValueSql("now()");
 
-            entity.HasOne(d => d.checkout).WithMany(p => p.payment_transactions).HasConstraintName("payment_transactions_checkout_id_fkey");
+            entity.HasOne(d => d.checkout)
+                 .WithMany(p => p.payment_transactions)
+                 .HasForeignKey(d => d.checkout_id)
+                 .IsRequired(false) // ⭐ THIS MAKES IT NULLABLE
+                 .HasConstraintName("payment_transactions_checkout_id_fkey");
         });
 
         modelBuilder.Entity<product>(entity =>

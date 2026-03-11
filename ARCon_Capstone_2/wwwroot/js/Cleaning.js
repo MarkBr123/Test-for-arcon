@@ -94,7 +94,7 @@ async function updatePriceTierDropdown(id) {
         serviceId = svc.id;
         API_CACHE.serviceMap[key] = serviceId;
     }
-
+    priceTier.dataset.serviceId = serviceId;
     const tiers = await fetch(`/api/service-price-tiers/by-service/${serviceId}`)
         .then(r => r.json());
 
@@ -379,6 +379,7 @@ function setupNavigation() {
         document.querySelectorAll('.progress-step')[1].classList.add('active');
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        updateTotal();
     });
 
 
@@ -624,17 +625,25 @@ function getSelectedText(selectId) {
 ///Post///
 async function submitBooking() {
 
+    const btn = document.getElementById('submitBtn');
+
     // ================= BASIC VALIDATION =================
     const addressId = Number(document.getElementById('customerAddressId')?.value);
     const scheduleDate = document.getElementById('scheduleDate')?.value;
     const propertyType = document.querySelector('[name="property_type"]')?.value;
     const paymentMethod = getRadioValue('payment_method');
-    const preferredTimeInput = document.getElementById('preferredTime'); // ✅ renamed for clarity
+    const preferredTimeInput = document.getElementById('preferredTime');
+    const businessNameInput = document.getElementById("businessName");
 
-    if (!addressId) return alert("Please select a service address.");
-    if (!scheduleDate) return alert("Please select schedule date.");
-    if (!propertyType) return alert("Please select property type.");
-    if (!paymentMethod) return alert("Please select payment method.");
+    const showInfo = (msg) => {
+        document.getElementById('infoMessage').textContent = msg;
+        new bootstrap.Modal(document.getElementById('infoModal')).show();
+    };
+
+    if (!addressId) return showInfo("Please select a service address.");
+    if (!scheduleDate) return showInfo("Please select your preferred service date.");
+    if (!propertyType) return showInfo("Please select the property type.");
+    if (!paymentMethod) return showInfo("Please choose a payment method.");
 
     // ================= BUILD PAYLOAD =================
     const payload = {
@@ -642,8 +651,9 @@ async function submitBooking() {
         schedule_date: scheduleDate,
         preferred_time: preferredTimeInput.value
             ? preferredTimeInput.value + ":00"
-            : null, // ✅ read from input (POST flow)
+            : null,
         property_type: propertyType.toUpperCase(),
+        business_name: document.getElementById('businessName')?.value?.trim() || null,
         customer_note: document.querySelector('[name="customer_note"]')?.value || null,
         payment_method: paymentMethod.toUpperCase(),
         sbitems: []
@@ -653,71 +663,121 @@ async function submitBooking() {
     const entries = document.querySelectorAll('.aircon-entry');
 
     if (!entries.length) {
-        alert("Add at least one aircon service.");
-        return;
+        return showInfo("Please add at least one aircon service.");
     }
 
     entries.forEach(entry => {
         const id = entry.dataset.airconId;
-
         const tierSelect = document.getElementById(`priceTier-${id}`);
         const unitsInput = entry.querySelector('.units-input');
         const brandSelect = document.getElementById(`brand-${id}`);
+
+        const customerType = getRadioValue('customer_type');
+        const businessName = document.getElementById('businessName')?.value?.trim();
+
+        if (customerType === "BUSINESS" && !businessName) {
+            return showInfo("Please enter your business name.");
+        }
 
         if (!tierSelect?.value) return;
 
         const selectedOption = tierSelect.selectedOptions[0];
         const price = Number(selectedOption?.dataset.price || 0);
+        const serviceId = Number(tierSelect.dataset.serviceId);
+
+        if (!serviceId) return;
 
         payload.sbitems.push({
-            services_id: Number(tierSelect.dataset.serviceId),
+            services_id: serviceId,
             service_price_tiers_id: Number(tierSelect.value),
-            unit_count: Number(unitsInput?.value || 1),
+            unit_count: Math.max(1, Number(unitsInput?.value || 1)),
             unit_brand: brandSelect?.value || null,
             unit: selectedOption?.dataset.unit || null,
             capacity_range: selectedOption?.textContent || null,
+            business_name: customerType === "BUSINESS" ? businessName : null,
             price: price
         });
     });
 
-    console.log("FINAL BOOKING PAYLOAD:", JSON.stringify(payload, null, 2));
+    if (!payload.sbitems.length) {
+        return showInfo("Please complete the service details before booking.");
+    }
 
-    // ================= DISABLE BUTTON =================
-    const btn = document.getElementById('submitBtn');
+    console.log("📦 BOOKING PAYLOAD:", payload);
+
+    // ================= LOADING STATE =================
     btn.disabled = true;
-    btn.textContent = "Processing...";
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
 
     try {
         const res = await fetch("/api/service-bookings", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            credentials: "include",
+            credentials: "same-origin",
             body: JSON.stringify(payload)
         });
 
-        // 👇 log raw response
-        console.log("STATUS:", res.status);
-
         const text = await res.text();
-        console.log("RAW RESPONSE:", text);
 
         let data;
         try {
             data = JSON.parse(text);
         } catch {
-            throw new Error("Server did not return JSON");
+            throw new Error("Unexpected server response.");
         }
 
+        // ================= SERVER VALIDATION ERROR =================
         if (!res.ok) {
-            alert(data.message || "Booking failed.");
+            document.getElementById('errorMessage').textContent =
+                data.message || "Booking could not be completed.";
+
+            new bootstrap.Modal(
+                document.getElementById('errorModal')
+            ).show();
+
+            btn.disabled = false;
+            btn.textContent = "Book Service";
             return;
         }
 
-        window.location.href = `/Shop/Booking/Success?id=${data.bookingId}`;
+        // ================= SUCCESS =================
+        document.getElementById('successBookingId').textContent =
+            data.reference ?? data.bookingId;
+
+        const successModal = new bootstrap.Modal(
+            document.getElementById('successModal')
+        );
+        successModal.show();
+
+        // Auto redirect after 3s
+        setTimeout(() => {
+            window.location.href =
+                `/Shop/Booking/Success?id=${data.bookingId}`;
+        }, 10000);
+
+        document.getElementById('successOkBtn').onclick = () => {
+            window.location.href =
+                `/Shop/Booking/Success?id=${data.bookingId}`;
+        };
 
     } catch (err) {
-        console.error("FETCH ERROR:", err);
-        alert("Network error. Please try again.");
+        // ================= NETWORK ERROR =================
+        document.getElementById('errorMessage').textContent =
+            err.message || "Network error. Please check your connection.";
+
+        const errorModal = new bootstrap.Modal(
+            document.getElementById('errorModal')
+        );
+        errorModal.show();
+
+        document.getElementById('retryBtn').onclick = () => {
+            bootstrap.Modal.getInstance(
+                document.getElementById('errorModal')
+            ).hide();
+
+            btn.disabled = false;
+            btn.textContent = "Book Service";
+        };
     }
 }
 function getRadioValue(name) {
@@ -732,3 +792,39 @@ document.addEventListener('DOMContentLoaded', () => {
             await submitBooking();
         });
 });
+
+function updateBusinessField() {
+    const selected = document.querySelector('input[name="customer_type"]:checked')?.value;
+    const isBusiness = selected === "BUSINESS";
+
+    businessNameInput.disabled = !isBusiness;
+    businessNameInput.required = isBusiness;
+
+    if (!isBusiness) businessNameInput.value = "";
+}
+
+function updateTotal() {
+    let total = 0;
+
+    document.querySelectorAll('.aircon-entry').forEach(entry => {
+        const id = entry.dataset.airconId;
+        const tier = document.getElementById(`priceTier-${id}`);
+        const units = entry.querySelector('.units-input');
+
+        const price = Number(tier?.selectedOptions[0]?.dataset.price || 0);
+        const count = Math.max(1, Number(units?.value) || 1);
+
+        total += price * count;
+    });
+
+    // Page 1 total
+    const est = document.getElementById('estimatedPrice');
+    if (est) est.textContent = `₱ ${total.toLocaleString()}`;
+
+    // Page 2 total
+    const final = document.getElementById('totalAmount');
+    if (final) final.textContent = `₱ ${total.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })}`;
+}

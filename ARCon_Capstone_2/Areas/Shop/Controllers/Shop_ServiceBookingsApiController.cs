@@ -2,11 +2,8 @@
 using ARCon_Capstone_2.DTOs;
 using ARCon_Capstone_2.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
-
 
 namespace ARCon_Capstone_2.Areas.Shop.Controllers;
 
@@ -21,15 +18,17 @@ public class Shop_ServiceBookingsApiController : ControllerBase
     {
         _context = context;
     }
+
     [HttpPost]
     public async Task<IActionResult> CreateBooking(
-      [FromBody] Shop_CreateServiceBookingDto dto)
+        [FromBody] Shop_CreateServiceBookingDto dto)
     {
         // ================= AUTH =================
         var customerId = HttpContext.Session.GetInt32("UserId");
         if (customerId == null)
             return Unauthorized(new { message = "Login Required" });
 
+        // ================= VALIDATION =================
         if (!ModelState.IsValid)
         {
             var errors = ModelState
@@ -42,7 +41,6 @@ public class Shop_ServiceBookingsApiController : ControllerBase
             return BadRequest(new { message = "Validation failed", errors });
         }
 
-        // ================= VALIDATIONS =================
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         if (dto.schedule_date < today)
             return BadRequest(new { message = "Schedule date cannot be in the past" });
@@ -62,6 +60,24 @@ public class Shop_ServiceBookingsApiController : ControllerBase
 
         try
         {
+            // ================= CREATE PAYMENT FIRST =================
+            var payment = new payment_transaction
+            {
+                payment_method = dto.payment_method,
+                amount = 0, // temp — update later
+                created_at = DateTime.UtcNow
+            };
+
+            if (dto.payment_method == "ONLINE_PAYMENT")
+                payment.paymongo_status = "PENDING";
+            else
+                payment.after_service_status = "PENDING";
+
+            _context.payment_transactions.Add(payment);
+            await _context.SaveChangesAsync(); // ⭐ payment.id generated
+
+
+
             // ================= CREATE BOOKING =================
             var booking = new service_booking
             {
@@ -74,21 +90,25 @@ public class Shop_ServiceBookingsApiController : ControllerBase
 
                 property_type = dto.property_type,
                 customer_note = dto.customer_note,
-
+                business_name = dto.business_name,
                 payment_method = dto.payment_method,
                 payment_status = "PENDING",
 
-                created_at = DateTime.UtcNow
+                payment_transaction_id = payment.id // ⭐ FK satisfied
             };
 
             _context.service_bookings.Add(booking);
-            await _context.SaveChangesAsync(); // get booking.id
+            await _context.SaveChangesAsync(); // ⭐ booking.id generated
 
-            // ================= BOOKING REF =================
+
+
+            // ================= BOOKING REF CODE =================
             booking.booking_ref_code =
                 GenerateBookingRef(customerId.Value, booking.id);
 
             await _context.SaveChangesAsync();
+
+
 
             // ================= BOOKING ITEMS =================
             decimal grandTotal = 0;
@@ -108,37 +128,21 @@ public class Shop_ServiceBookingsApiController : ControllerBase
                     unit_brand = item.unit_brand,
                     unit = item.unit,
                     capacity_range = item.capacity_range,
+                  
                     price = item.price
                 };
-
                 _context.service_booking_items.Add(bookingItem);
             }
 
             await _context.SaveChangesAsync();
 
-            // ================= UPDATE TOTAL =================
+            // ================= UPDATE TOTALS =================
             booking.total_amount = grandTotal;
+            payment.amount = grandTotal;
+
             await _context.SaveChangesAsync();
 
-            // ================= PAYMENT TRANSACTION =================
-            var payment = new payment_transaction
-            {
-                payment_method = dto.payment_method,
-                amount = grandTotal,
-                created_at = DateTime.UtcNow
-            };
 
-            if (dto.payment_method == "ONLINE_PAYMENT")
-                payment.paymongo_status = "PENDING";
-            else
-                payment.after_service_status = "PENDING";
-
-            _context.payment_transactions.Add(payment);
-            await _context.SaveChangesAsync();
-
-            // ================= LINK PAYMENT → BOOKING =================
-            booking.payment_transaction_id = payment.id;
-            await _context.SaveChangesAsync();
 
             // ================= COMMIT =================
             await tx.CommitAsync();
@@ -175,7 +179,3 @@ public class Shop_ServiceBookingsApiController : ControllerBase
         return $"SB-{customerId:D3}{datePart}-{bookingId:D4}";
     }
 }
-        
-   
-
-

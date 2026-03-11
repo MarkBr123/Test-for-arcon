@@ -11,7 +11,7 @@ public partial class payment_transaction
     [Key]
     public int id { get; set; }
 
-    public int checkout_id { get; set; }
+    public int? checkout_id { get; set; }
 
     [StringLength(20)]
     public string payment_method { get; set; } = null!;
@@ -39,7 +39,7 @@ public partial class payment_transaction
 
     [ForeignKey("checkout_id")]
     [InverseProperty("payment_transactions")]
-    public virtual checkout checkout { get; set; } = null!;
+    public virtual checkout? checkout { get; set; }
 
     [InverseProperty("payment_transaction")]
     public virtual ICollection<customer_transaction> customer_transactions { get; set; } = new List<customer_transaction>();

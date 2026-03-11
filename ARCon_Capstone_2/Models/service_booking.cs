@@ -22,10 +22,11 @@ public partial class service_booking
 
     public int customer_addresses_id { get; set; }
 
+    [StringLength(100)]
+    public string? business_name { get; set; }
+    public DateOnly? schedule_date { get; set; }
 
-    public DateOnly schedule_date { get; set; }
-
-    public TimeSpan preferred_time { get; set; }
+    public TimeSpan? preferred_time { get; set; }
     public string? customer_note { get; set; }
 
     [StringLength(50)]
@@ -34,10 +35,8 @@ public partial class service_booking
     [StringLength(50)]
     public string payment_status { get; set; } = null!;
 
-    [StringLength(100)]
-    public string business_name { get; set; } = null!;
 
-    public int payment_transaction_id { get; set; }
+    public int? payment_transaction_id { get; set; }
 
     [StringLength(255)]
     public string? payment_reference { get; set; }
@@ -53,9 +52,6 @@ public partial class service_booking
 
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? created_at { get; set; }
-
-    [Column(TypeName = "timestamp without time zone")]
-    public DateTime? approx_completion_date { get; set; }
 
     public DateTime? date_confirmed { get; set; }
     public DateTime? date_rejected { get; set; }

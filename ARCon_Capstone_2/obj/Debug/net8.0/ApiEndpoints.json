@@ -813,6 +813,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServiceBookingsApiController",
+    "Method": "CreateBooking",
+    "RelativePath": "api/service-bookings",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.Shop_CreateServiceBookingDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ServiceCategoriesApiController",
     "Method": "Create",
     "RelativePath": "api/service-categories",
