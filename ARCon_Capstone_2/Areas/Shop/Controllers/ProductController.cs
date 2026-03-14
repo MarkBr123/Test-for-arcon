@@ -1,17 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-[Area("Shop")]
-public class ProductController : Controller
+namespace ARCon_Capstone_2.Areas.Shop.Controllers
 {
-    public IActionResult Details(int id)
+    [Area("Shop")]
+    public class ProductController : Controller
     {
-        ViewBag.ProductId = id;
+        public IActionResult Details(int id)
+        {
+            ViewBag.ProductId = id;
 
-        var customerId = HttpContext.Session.GetInt32("UserId");
-        var userType = HttpContext.Session.GetString("UserType");
+            var customerId = HttpContext.Session.GetInt32("UserId");
+            var userType = HttpContext.Session.GetString("UserType");
 
-        ViewBag.IsLoggedIn = (customerId != null && userType == "CUSTOMER");
+            ViewBag.IsLoggedIn = (customerId != null && userType == "CUSTOMER");
 
-        return View();
+            return View();
+        }
+
+        // ✅ Add this action
+        public IActionResult Search_results()
+        {
+            // This will look for: Areas/Shop/Views/Product/Search_results.cshtml
+            return View();
+        }
     }
 }

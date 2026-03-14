@@ -104,9 +104,10 @@ function renderBestDeals(products) {
                         data-original-price="${p.originalSellingPrice}">
                         View Item
                     </button>
-                    <button class="btn btn-primary cart-btn" onclick="addToCart({id: ${p.id}, name: '${p.productModel}', price: ${p.actualPrice}})">
-                        🛒
-                    </button>
+                    <button class="btn btn-primary cart-btn"
+onclick="addToCart({id: ${p.id}, name: '${p.productModel}', price: ${p.actualPrice}})">
+    <i class="bi bi-cart-plus-fill cart-icon"></i>
+</button>
                 </div>
             </div>
         `;
