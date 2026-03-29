@@ -1,0 +1,566 @@
+﻿@{
+    ViewData["Title"] = "Scheduled Services";
+    var status = "SCHEDULED";
+}
+<link rel="stylesheet" href="~/css/render-rows.css" />
+
+<style>
+    .expand-arrow {
+        cursor: pointer;
+        font-size: 14px;
+        transition: transform 0.2s ease;
+        display: inline-block;
+    }
+
+        .expand-arrow.open {
+            transform: rotate(90deg);
+        }
+
+    .child-row td {
+        background-color: #f8f9fa;
+        border-top: none;
+    }
+
+    .list-group-item {
+        color: dimgrey;
+    }
+
+        .list-group-item:hover {
+            color: black;
+        }
+
+    procServices .list-group-item {
+        border-radius: 8px;
+        margin-bottom: 8px;
+        border: 1px solid #eee;
+    }
+
+    .tech-card {
+        cursor: pointer;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 10px;
+        transition: all 0.2s ease;
+        background: #fff;
+    }
+
+        .tech-card:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .tech-card.selected {
+            border-color: #0d6efd; /* blue */
+            background: #e7f1ff; /* light blue */
+        }
+
+    .status-dot {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
+
+        /* Online = green */
+        .status-dot.online {
+            background-color: #28a745;
+        }
+
+        /* Offline = gray */
+        .status-dot.offline {
+            background-color: #6c757d;
+        }
+</style>
+
+<div id="loadingSpinner" class="text-center my-3" style="display:none;">
+    <div class="spinner-border text-primary" role="status"></div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Scheduled (Services)</h4>
+
+    <div class="row mb-3">
+        <div class="col-auto">
+            <input type="text"
+                   id="scheduledSearchInput"
+                   class="form-control form-control-sm"
+                   placeholder="Search..."
+                   style="width: 620px;" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary d-flex align-items-center gap-2"
+            onclick="location.href='/Admin/Services/All_Service_Transactions'">
+        <i class="bi bi-plus-circle"></i>
+        Service Transaction History>
+    </button>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div id="scheduledInfo" class="text-muted small mt-1"></div>
+</div>
+
+
+<div class="order-tracker">
+    <a href="/Admin/Services/For_Confirmation"
+       class="step @(status == "FOR_CONFIRMATION" ? "active" : "")">
+        <div class="circle"></div>
+        <span>For Confirmation</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Processing"
+       class="step @(status == "PROCESSING" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Processing</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Tech_Assign"
+       class="step @(status == "TECH_ASSIGN" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Technician Assignment</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Scheduled"
+       class="step @(status == "SCHEDULED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Scheduled</span>
+    </a>
+    <div class="line"></div>
+
+
+    <a href="/Admin/Services/All_Service_Transactions"
+       class="step @(status == "ALL_TRANSACTIONS" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Service History</span>
+    </a>
+</div>
+
+<br>
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th></th> <!-- for arrow -->
+            <th class="text-center small sortable" data-column="stRefCode" onclick="sort('stRefCode')">Service Transaction Code</th>
+            <th class="text-center small sortable" data-column="serviceBookingRefCode" onclick="sort('serviceBookingRefCode')">SB Reference Code</th>
+            <th class="text-center small sortable" data-column="customerName" onclick="sort('customerName')">Customer's Name'</th>
+            <th class="text-center small">Schedule</th>
+            <th class="text-center small sortable" data-column="actualScheduledDate" onclick="sort('actualScheduledDate')">Actual Sched Date</th>
+            <th class="text-center small sortable" data-column="actualSchedTime" onclick="sort('actualSchedTime')">Actual Sched Time</th>
+            <th class="text-center small sortable" data-column="estimatedCompletionDate" onclick="sort('estimatedCompletionDate')">Est. Completion Date</th>
+            <th class="text-center small sortable" data-column="estimatedCompletionTime" onclick="sort('estimatedCompletionTime')">Est. Completion Time</th>
+            <th class="text-center small sortable" data-column="noOfTechnicians" onclick="sort('noOfTechnicians')">Technicians Required</th>
+            <th class="text-center small sortable" data-column="difficultyRate" onclick="sort('difficultyRate')">Work Difficulty</th>
+            <th class="text-center small sortable" data-column="createdAt" onclick="sort('-')">ST Create Date</th>
+            <th class="text-center small">Status</th>
+
+    </thead>
+
+    <tbody id="scheduledServicesTableBody">
+        <!-- injected by JS -->
+    </tbody>
+</table>
+
+
+<nav aria-label=" Scheduled (Service) Pagination" class="mt-3">
+    <ul id="pagination" class="pagination justify-content-center">
+        <!-- pagination injected by JS -->
+    </ul>
+</nav>
+
+
+<!-----------------------------------------------------     Cancel Service Transaction     -------------------------------------------------------->
+<!-- Modal 1: Cancel Transaction -->
+<div class="modal fade" id="cancelModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Cancel Service Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <label class="form-label fw-semibold">Reason for cancellation</label>
+                <textarea id="cancelReason"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Enter reason..."
+                          required></textarea>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Back
+                </button>
+
+                <button id="proceedCancelBtn" class="btn btn-danger">
+                    Cancel Transaction
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2: Final Confirm -->
+<div class="modal fade" id="finalCancelModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Final Confirmation</h5>
+            </div>
+
+            <div class="modal-body text-center">
+
+                <p class="mb-2 fw-semibold">
+                    Are you sure you want to cancel this service transaction?
+                </p>
+
+                <p class="text-muted small mb-3">
+                    This action cannot be reverted.<br>
+                    All assigned technicians will be freed from this schedule.
+                </p>
+
+                <p class="text-danger fw-semibold">
+                    Confirm in <span id="cancelCountdownText">5</span>s
+                </p>
+
+                <div class="progress mt-2" style="height: 6px;">
+                    <div id="cancelCountdownBar"
+                         class="progress-bar bg-danger"
+                         style="width: 0%">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    No
+                </button>
+
+                <button id="confirmCancelBtn"
+                        class="btn btn-danger"
+                        disabled>
+                    Yes, Cancel
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-----------------------------------------------------     Failed Service Transaction     -------------------------------------------------------->
+<!-- Modal 1: Failed Transaction -->
+<div class="modal fade" id="failedModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Failed Service Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <label class="form-label fw-semibold">Reason of failure.</label>
+                <textarea id="failureReason"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Enter reason..."
+                          required></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Back
+                </button>
+
+                <button id="proceedFailedBtn" class="btn btn-danger">
+                    Marks as Failed
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2: Final Confirm -->
+<div class="modal fade" id="finalFailedModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Final Confirmation</h5>
+            </div>
+
+            <div class="modal-body text-center">
+
+                <p class="mb-2 fw-semibold">
+                    Are you sure you want to mark as "Failed" this service transaction?
+                </p>
+
+                <p class="text-muted small mb-3">
+                    This action cannot be reverted.<br>
+                    All assigned technicians will be freed from this schedule.
+                </p>
+
+                <p class="text-danger fw-semibold">
+                    Confirm in <span id="failedCountdownText">5</span>s
+                </p>
+
+                <div class="progress mt-2" style="height: 6px;">
+                    <div id="failedCountdownBar"
+                         class="progress-bar bg-danger"
+                         style="width: 0%">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    No
+                </button>
+
+                <button id="confirmFailedBtn"
+                        class="btn btn-danger"
+                        disabled>
+                    Set as Failed
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-----------------------------------------------------     Partially_Completed Service Transaction     -------------------------------------------------------->
+<!-- Modal 1: Partial Transaction -->
+<div class="modal fade" id="partialModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Partially Completed Service Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <label class="form-label fw-semibold">Tell us the reason why it's partially complete.</label>
+                <textarea id="partialCompleteReason"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Enter reason..."
+                          required></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Back
+                </button>
+
+                <button id="proceedPartialBtn" class="btn btn-danger">
+                    Marks as Partially Complete
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2: Final Confirm -->
+<div class="modal fade" id="finalPartialModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Final Confirmation</h5>
+            </div>
+
+            <div class="modal-body text-center">
+
+                <p class="mb-2 fw-semibold">
+                    Are you sure you want to mark this service transaction as “Partially Completed”?
+                    This action indicates that the service will need to be processed again.
+                </p>
+
+                <p class="text-muted small mb-3">
+                    This action cannot be reverted.<br>
+                </p>
+
+                <p class="text-danger fw-semibold">
+                    Confirm in <span id="partialCountdownText">5</span>s
+                </p>
+
+                <div class="progress mt-2" style="height: 6px;">
+                    <div id="partialCountdownBar"
+                         class="progress-bar bg-danger"
+                         style="width: 0%">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    No
+                </button>
+
+                <button id="confirmPartialBtn"
+                        class="btn btn-danger"
+                        disabled>
+                    Set as partially completed
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-----------------------------------------            Mark as Ongoing          ---------------------------------------------------->
+
+<div class="modal fade" id="ongoingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Start Service</h5>
+            </div>
+
+            <div class="modal-body text-center">
+                <p class="mb-2">Mark this service as ongoing?</p>
+                <p class="text-muted small">
+                    Technicians are now working on-site.
+                </p>
+
+                <p class="text-muted small">
+                    Please wait <span id="ongoingCountdownText">5</span> seconds...
+                </p>
+
+                <!-- Progress bar -->
+                <div class="progress mt-3" style="height: 6px;">
+                    <div id="ongoingCountdownBar"
+                         class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                         style="width: 0%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button id="confirmOngoingBtn"
+                        class="btn btn-success"
+                        disabled>
+                    Confirm
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!------------------------------------------------------------ Complete ----------------------------------------------------------------->
+<!-- Modal 1: Complete Transaction -->
+<div class="modal fade" id="completeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Complete Service Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body text-center">
+
+                <!-- Dynamic content -->
+                <div id="completeMessage"></div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Back
+                </button>
+
+                <button id="proceedCompleteBtn" class="btn btn-success">
+                    Proceed
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal 2: Final Confirm -->
+<div class="modal fade" id="finalCompleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Final Confirmation</h5>
+            </div>
+
+            <div class="modal-body text-center">
+
+                <p class="mb-2 fw-semibold">
+                    Are you sure you want to mark this service transaction as COMPLETED?
+                </p>
+
+                <p class="text-muted small mb-3">
+                    This action cannot be reverted.
+                </p>
+
+                <p class="fw-semibold">
+                    Confirm in <span id="completeCountdownText">5</span>s
+                </p>
+
+                <div class="progress mt-2" style="height: 6px;">
+                    <div id="completeCountdownBar"
+                         class="progress-bar bg-success"
+                         style="width: 0%">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button id="confirmCompleteBtn"
+                        class="btn btn-success"
+                        disabled>
+                    Yes, Complete
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/js/st-scheduled.js"></script>

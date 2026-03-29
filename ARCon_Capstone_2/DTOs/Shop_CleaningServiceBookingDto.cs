@@ -2,7 +2,7 @@
 
 namespace ARCon_Capstone_2.DTOs
 {
-    public class Shop_CreateServiceBookingDto
+    public class Shop_CleaningServiceBookingDto
     {
         public int customer_addresses_id { get; set; }
         public DateOnly? schedule_date { get; set; }
@@ -12,8 +12,8 @@ namespace ARCon_Capstone_2.DTOs
         public string? customer_note { get; set; }
 
         public string payment_method { get; set; }
-        public string business_name { get; set; }
+        public string? business_name { get; set; }
 
-        public List<Shop_CreateServiceBookingItemDto> sbitems { get; set; } = new();
+        public List<Shop_CleaningServiceBookingItemDto> sbitems { get; set; } = new();
     }
 }

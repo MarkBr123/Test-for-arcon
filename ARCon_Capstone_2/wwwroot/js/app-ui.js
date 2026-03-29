@@ -42,3 +42,4 @@ function showToast(title, message, headerClass) {
 
     new bootstrap.Toast(toastEl).show();
 }
+

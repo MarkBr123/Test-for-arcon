@@ -3,7 +3,7 @@
 namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class TransactionsController : Controller
+    public class TransactionsController : BaseAdminController
     {
         public IActionResult Index()
         {

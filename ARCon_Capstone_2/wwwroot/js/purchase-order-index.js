@@ -1,4 +1,6 @@
-﻿let currentPage = 1;
+﻿
+
+let currentPage = 1;
 let pageSize = 24;
 let currentSortBy = "date";
 let currentSortDir = "desc";
@@ -71,39 +73,49 @@ function renderPurchaseOrders(items) {
             <td>${formatDateTime(po.created_at)}</td>
             <td>${formatDateTime(po.updated_at)}</td>
 
+            <td class="text-center">
+    <div class="action-wrapper" onclick="event.stopPropagation();">
 
-             <td class="text-center">
-                <div class="action-wrapper">
-                    <button class="btn btn-outline-secondary btn-sm"
-                            onclick="togglePoMenu(this);">
-                        ⋮
+        <button class="btn btn-outline-secondary btn-sm"
+                onclick="togglePoMenu(this, event)">
+            ⋮
+        </button>
+
+        <div class="action-menu">
+
+            <button onclick="downloadPoPdf(${po.id})">
+                PDF
+            </button>
+
+            <button onclick="openPoSummary(${po.id})">
+                Details
+            </button>
+
+            <!-- WITH SUBMENU -->
+            <div class="menu-item has-submenu">
+                More ▸
+
+                <div class="submenu">
+                    <button onclick="editPo(${po.id})"
+                            ${po.status !== "DRAFT" ? "disabled" : ""}>
+                        Edit
                     </button>
 
-                    <div class="action-menu" onclick="event.stopPropagation();">
-                        <button onclick="downloadPoPdf(${po.id})">
-                            PDF
-                        </button>
+                    <button onclick="sendPo(${po.id})"
+                            ${po.status !== "DRAFT" ? "disabled" : ""}>
+                        Mark as Sent
+                    </button>
 
-                        <button onclick="openPoSummary(${po.id})">
-                            Details
-                        </button>
-
-                        <button onclick="editPo(${po.id})"
-                                ${po.status !== "DRAFT" ? "disabled" : ""}>
-                            Edit
-                        </button>
-                        <button onclick="sendPo(${po.id})"
-                                    ${po.status !== "DRAFT" ? "disabled" : ""}>
-                                Mark as Sent
-                            </button>
-
-                        <button onclick="archivePo(${po.id})"
-                                ${po.status !== "DRAFT" ? "disabled" : ""}>
-                            Archive
-                        </button>
-                    </div>
+                    <button onclick="archivePo(${po.id})"
+                            ${po.status !== "DRAFT" ? "disabled" : ""}>
+                        Archive
+                    </button>
                 </div>
-            </td>
+            </div>
+
+        </div>
+    </div>
+</td>
             `;
 
 
@@ -329,19 +341,20 @@ function downloadPoPdf(id) {
 }
 
 ///action button
-function togglePoMenu(btn) {
-    event.stopPropagation();
-    // Close all open menus
+function togglePoMenu(btn, e) {
+    e.stopPropagation();
+
+    // close all
     document.querySelectorAll('.action-menu')
-        .forEach(m => m.style.display = 'none');
+        .forEach(m => m.classList.remove('show'));
 
     const menu = btn.nextElementSibling;
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    menu.classList.toggle('show');
 }
 
 // Close menu when clicking outside
-document.addEventListener('click', () => {
+document.addEventListener("click", () => {
     document.querySelectorAll('.action-menu')
-        .forEach(m => m.style.display = 'none');
+        .forEach(m => m.classList.remove('show'));
 });
 

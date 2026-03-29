@@ -34,6 +34,14 @@ public partial class service_booking_item
     [StringLength(2)]
     public string unit { get; set; }
 
+
+    [StringLength(10)]
+    public string? refrigerant_type { get; set; }
+
+    public DateOnly? last_charge_date { get; set; }
+
+    public string? repair_problem_desc { get; set; }
+
     // 🔗 Booking
     [ForeignKey(nameof(service_bookings_id))]
     [InverseProperty(nameof(service_booking.service_booking_items))]
@@ -48,4 +56,8 @@ public partial class service_booking_item
     [ForeignKey(nameof(service_price_tier_id))]
     [InverseProperty(nameof(service_price_tier.service_booking_items))]
     public virtual service_price_tier service_price_tier { get; set; } = null!;
+
+    [InverseProperty("service_booking_items")]
+    public virtual ICollection<service_transaction_item> service_transaction_items { get; set; }
+    = new List<service_transaction_item>();
 }

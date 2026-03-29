@@ -1,0 +1,193 @@
+﻿@{
+    ViewData["Title"] = "Service Booking Summary";
+    var bookingId = ViewBag.BookingId;
+}
+<link rel="stylesheet" href="~/css/render-rows.css" />
+
+<div class="container mt-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-0 fw-bold">Service Booking Summary</h4>
+            <small class="text-muted">Detailed view of customer booking</small>
+        </div>
+
+        <button class="btn btn-outline-secondary"
+                onclick="location.href='/Admin/Services/For_Confirmation'">
+            ← Back
+        </button>
+    </div>
+
+    <!-- BOOKING INFO -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-white fw-semibold">
+            📄 Booking Information
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-md-3 text-muted">Reference Code</div>
+                <div class="col-md-9 fw-bold fs-4 text-primary" id="summaryRefCode"></div>
+            </div>
+
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Failure Count</div>
+                <div class="col-md-9 fw-bold fs-4 text-primary" id="summaryFailureCount"></div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Placed At</div>
+                <div class="col-md-9" id="summaryCreatedAt"></div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Status</div>
+                <div class="col-md-9">
+                    <span id="summaryStatus" class="badge bg-warning text-dark px-3 py-2"></span>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Schedule</div>
+                <div class="col-md-9">
+                    <span class="badge bg-light text-dark border">
+                        <span id="summaryDate"></span> • <span id="summaryTime"></span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Property Type</div>
+                <div class="col-md-9">
+                    <span id="summaryPropertyType" class="badge bg-info text-dark"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CUSTOMER -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-white fw-semibold">
+            👤 Customer Information
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Customer Name</div>
+                <div class="col-md-9 fw-semibold" id="summaryCustomerName"></div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Business Name</div>
+                <div class="col-md-9" id="summaryBusinessName"></div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Contact</div>
+                <div class="col-md-9" id="summaryCustomerContact"></div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Address</div>
+                <div class="col-md-9" id="summaryAddress"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 text-muted">Customer Note</div>
+                <div class="col-md-9 fst-italic text-muted" id="summaryCustomerNote"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-white fw-semibold">
+            💳 Payment Information
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-2">
+                <div class="col-md-3 text-muted">Payment Method</div>
+                <div class="col-md-9">
+                    <span id="summaryPaymentMethod" class="badge bg-secondary"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 text-muted">Payment Status</div>
+                <div class="col-md-9">
+                    <span id="summaryPaymentStatus" class="badge"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-white fw-semibold">
+            🛠 Service Details
+        </div>
+
+        <div class="card-body p-0">
+
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Service</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Capacity</th>
+                        <th class="text-center">Brand</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Price</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+
+                <tbody id="summaryItemsBody"></tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white fw-semibold">
+            📊 Summary
+        </div>
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Total Services</span>
+                <span id="summaryTotalServices" class="fw-semibold"></span>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Total Units</span>
+                <span id="summaryTotalUnits" class="fw-semibold"></span>
+            </div>
+
+            <hr />
+
+            <div class="d-flex justify-content-between fs-5 fw-bold">
+                <span>Total Amount</span>
+                <span id="summaryTotalAmount" class="text-success"></span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const bookingId = @Html.Raw(ViewBag.BookingId ?? "null");
+</script>
+<script src="~/js/st-pending_summary.js"></script>

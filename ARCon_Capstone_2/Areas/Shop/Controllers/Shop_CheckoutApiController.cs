@@ -262,17 +262,11 @@ public class Shop_CheckoutApiController: ControllerBase
 
                 _context.checkout_items.Add(checkoutItem);
             }
-
-
-
-
             await _context.SaveChangesAsync();
 
             decimal grandTotal = totalItemCost + deliveryCost;
 
-
-            // 8Create Payment Transaction
-
+            // Create Payment Transaction
             var paymentTransaction = new payment_transaction
             {
                 checkout_id = checkout.id,
@@ -280,14 +274,13 @@ public class Shop_CheckoutApiController: ControllerBase
                 amount = grandTotal,
                 cod_status= dto.PaymentMethod == "CASH_ON_DELIVERY" ? "PENDING" : null,
                 paymongo_status = dto.PaymentMethod == "ONLINE_PAYMENT" ? "PENDING" : null,
+                after_service_status = "UNAVAILABLE".ToUpper(),
             };
 
             _context.payment_transactions.Add(paymentTransaction);
             await _context.SaveChangesAsync();
 
-
             // Create Customer Transaction (ONLY FOR COD) //////////////////////////////////////////
-
             if (dto.PaymentMethod == "CASH_ON_DELIVERY")
             {
                 var customerTransaction = new customer_transaction
@@ -305,9 +298,7 @@ public class Shop_CheckoutApiController: ControllerBase
                 _context.customer_transactions.Add(customerTransaction);
                 await _context.SaveChangesAsync(); // get DB id
 
-
                 // Build Transaction Code
-
                 // Get customer
                 var customer = await _context.customers
                     .Where(c => c.id == customerId)
@@ -340,7 +331,6 @@ public class Shop_CheckoutApiController: ControllerBase
 
                 await _context.SaveChangesAsync();
             }
-
 
             // Create Customer Transaction (Online Payment) //////////////////////////////////////////////
             // if online payment

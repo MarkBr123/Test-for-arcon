@@ -115,8 +115,8 @@ public partial class admin_user
     [InverseProperty("received_byNavigation")]
     public virtual ICollection<purchased_order_received> purchased_order_receiveds { get; set; } = new List<purchased_order_received>();
 
-    [InverseProperty("admin_users")]
-    public virtual ICollection<service_booking_technician> service_booking_technicians { get; set; } = new List<service_booking_technician>();
+    [InverseProperty("admin_user")]
+    public virtual ICollection<service_transaction_technician> service_transaction_technicians { get; set; }
 
     [InverseProperty("created_byNavigation")]
     public virtual ICollection<supplier_return> supplier_returns { get; set; } = new List<supplier_return>();

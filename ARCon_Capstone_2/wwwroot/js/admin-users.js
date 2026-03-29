@@ -45,8 +45,8 @@ function toggleRestDay(cb) {
 function buildScheduleTable()
 {
     const days = [
-        "Monday", "Tuesday", "Wednesday",
-        "Thursday", "Friday", "Saturday", "Sunday"
+        "MONDAY", "TUESDAY", "WEDNESDAY",
+        "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"
     ];
 
     const tbody = document.getElementById("scheduleBody");

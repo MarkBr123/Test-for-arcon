@@ -31,6 +31,8 @@ public partial class chat_conversation
 
     public DateTime? closed_at { get; set; }
 
+    public string? chat_type { get; set; } // INTERNAL OR EXTERNAL
+
     [ForeignKey("assigned_csm_id")]
     [InverseProperty("chat_conversations")]
     public virtual admin_user? assigned_csm { get; set; }
@@ -44,4 +46,8 @@ public partial class chat_conversation
     [ForeignKey("customer_id")]
     [InverseProperty("chat_conversations")]
     public virtual customer customer { get; set; } = null!;
+
+
+    [InverseProperty("conversation")]
+    public virtual ICollection<chat_participant> chat_participants { get; set; } = new List<chat_participant>();
 }

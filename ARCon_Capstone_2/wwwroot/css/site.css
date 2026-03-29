@@ -1,428 +1,238 @@
 ﻿/* =====================================================
-   BASE / GLOBAL
+   GLOBAL (INTER + COMPACT)
 ===================================================== */
-html {
-    font-size: 14px;
-    position: relative;
-    min-height: 100%;
-}
 
-@media (min-width: 768px) {
-    html {
-        font-size: 15px;
-    }
+html {
+    font-size: 13px;
 }
 
 body {
-    margin-bottom: 60px;
-    background-color: #f8f9fa;
-    font-family: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
-    font-size: 0.875rem;
-    line-height: 1.45;
-}
-
-/* Bootstrap focus override */
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem #ffffff, 0 0 0 0.2rem #258cfb;
+    margin: 0;
+    background-color: #f5f7fb;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: #1f2937;
 }
 
 /* =====================================================
    LAYOUT
 ===================================================== */
+
 .admin-wrapper {
     display: flex;
-    min-height: 100vh;
-}
-
-/* =====================================================
-   MAIN CONTENT
-===================================================== */
-.content {
-    margin-left: 260px;
-    width: 100%;
-}
-
-/* =====================================================
-   TOP NAVBAR
-===================================================== */
-.top-navbar {
-    background-color: #ffffff;
-    border-bottom: 1px solid #dee2e6;
-    padding: 8px 16px;
-    font-size: 0.8rem;
-}
-
-/* =====================================================
-   FORMS
-===================================================== */
-.form-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: #6c757d;
-}
-
-.form-control,
-.form-select {
-    font-size: 0.8rem;
-    padding: 6px 10px;
-}
-
-    .form-control::placeholder {
-        font-size: 0.75rem;
-        color: #adb5bd;
-    }
-
-.form-check-label {
-    font-size: 0.75rem;
-}
-
-/* Validation */
-.input-error,
-.is-invalid {
-    border-color: #dc3545 !important;
-}
-
-    .input-error:focus,
-    .is-invalid:focus {
-        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-    }
-
-/* =====================================================
-   TABLES (CONSISTENT & COMPACT)
-===================================================== */
-.table {
-    font-size: 0.8rem;
-}
-
-    .table thead th {
-        font-size: 0.7rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #6c757d;
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #dee2e6;
-        padding: 8px 10px;
-    }
-
-    .table tbody td {
-        padding: 8px 10px;
-        vertical-align: middle;
-    }
-
-.table-hover tbody tr:hover {
-    background-color: #f1f3f5;
-}
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-.btn {
-    font-size: 0.75rem;
-    padding: 6px 12px;
-    border-radius: 6px;
-}
-
-.btn-sm {
-    font-size: 0.7rem;
-    padding: 4px 10px;
-}
-
-/* =====================================================
-   TAG PILLS
-===================================================== */
-.tag-pill {
-    max-width: 220px;
-    padding: 4px 12px;
-    border-radius: 16px;
-    background-color: #e9f5ff;
-    color: #0d6efd;
-    font-size: 0.7rem;
-    font-weight: 500;
-    white-space: nowrap;
+    height: 100vh;
     overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: default;
 }
 
 /* =====================================================
-   SECTION TITLES
+   SIDEBAR
 ===================================================== */
-.product-section-title {
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    font-size: 0.7rem;
-    color: #6c757d;
-    border-bottom: 1px solid #e9ecef;
-    padding-bottom: 6px;
-    margin-bottom: 12px;
-    text-transform: uppercase;
+
+.sidebar {
+    width: 220px;
+    background: linear-gradient(180deg, #0d3b66, #0a2c4a);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+/* LOGO */
+.logo-placeholder {
+    padding: 14px;
+    text-align: center;
+}
+
+    .logo-placeholder img {
+        max-width: 110px;
+    }
+
+/* MENU */
+.menu {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* MENU ITEMS */
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #dce3ea;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+    .menu-item i {
+        font-size: 14px;
+    }
+
+    /* hover */
+    .menu-item:hover {
+        background: rgba(255,255,255,0.08);
+        color: #ffffff;
+    }
+
+    /* active */
+    .menu-item.active {
+        background: #0d6efd;
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+/* scrollbar */
+.menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.menu::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+}
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #f5f7fb;
+}
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.top-navbar {
+    height: 52px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-size: 0.75rem;
+}
+
+/* =====================================================
+   BODY
+===================================================== */
+
+.admin-body {
+    flex: 1;
+    overflow: auto;
+}
+
+    /* FULL HEIGHT MODE (for chat pages) */
+    .admin-body.full-height {
+        height: calc(100vh - 52px);
+        overflow: hidden;
+    }
+
+        .admin-body.full-height > * {
+            height: 100%;
+        }
+
+/* =====================================================
+   UI POLISH
+===================================================== */
+
+/* dropdown */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border: none;
+    font-size: 0.75rem;
+}
+
+/* buttons */
+.btn {
+    border-radius: 6px;
+    font-size: 0.72rem;
+    padding: 5px 10px;
+}
+
+/* subtle spacing fix */
+.p-4 {
+    padding: 16px !important;
 }
 
 /* =====================================================
    RESPONSIVE
 ===================================================== */
+
+/* TABLET */
 @media (max-width: 991px) {
-    .content {
-        margin-left: 220px;
+
+    .sidebar {
+        width: 200px;
+    }
+
+    .menu-item {
+        font-size: 0.75rem;
+        padding: 9px 12px;
+    }
+
+    .top-navbar {
+        height: 48px;
+        padding: 0 10px;
+    }
+
+    .admin-body.full-height {
+        height: calc(100vh - 48px);
     }
 }
 
+/* MOBILE */
+@media (max-width: 768px) {
 
-/* Sidebar */
-.sidebar {
-    width: 210px;
-    background: #212529;
-    color: #fff;
-    padding-top: 20px;
-    position: fixed;
-    height: 100vh;
-}
-
-.logo-placeholder {
-    height: 60px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.8rem;
-    color: #0d6efd;
-}
-
-.list-group-item {
-    background: transparent;
-    color: #fff;
-    border: none;
-    font-weight: 450;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-}
-
-    .list-group-item:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #0d6efd;
+    .sidebar {
+        position: fixed;
+        left: -220px;
+        top: 0;
+        height: 100%;
+        z-index: 1050;
     }
 
-/* Submenu */
-.submenu {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    background-color: #212529;
-    min-width: 220px;
-    display: none;
-    flex-direction: column;
-    border-left: 2px solid #0d6efd;
-    z-index: 100;
-}
-
-    .submenu a {
-        color: #ccc;
-        padding: 10px 15px;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-        .submenu a:hover {
-            color: #0d6efd;
-            background-color: rgba(255, 255, 255, 0.1);
+        .sidebar.active {
+            left: 0;
         }
 
-.has-submenu:hover > .submenu {
-    display: flex;
-}
-
-
-.action-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.action-btn {
-    background: none;
-    border: 1px solid #ced4da;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.action-menu {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 6px;
-    min-width: 150px;
-    display: none;
-    z-index: 1000;
-    box-shadow: 0 6px 18px rgba(0,0,0,.1);
-}
-
-.action-menu button {
-    width: 100%;
-    border: none;
-    background: none;
-    padding: 8px 12px;
-    text-align: left;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.action-menu button:hover {
-    background: #f8f9fa;
-}
-
-.action-menu button:disabled {
-    color: #adb5bd;
-    cursor: not-allowed;
-}
-
-.toast-header.bg-success {
-    background-color: #198754;
-}
-
-.toast-header.bg-danger {
-    background-color: #dc3545;
-}
-
-.toast-header.bg-primary {
-    background-color: #0d6efd;
-}
-
-/*Child Row (Inventory Index)*/
-.inventory-child-content {
-    padding-left: 48px;
-    border-left: 3px solid #dee2e6;
-}
-
-.inventory-child-scroll {
-    max-height: 220px; /* ≈ 5 rows */
-    overflow-y: auto;
-}
-
-    .inventory-child-scroll thead th {
-        position: sticky;
-        top: 0;
-        background: #f8f9fa; /* matches Bootstrap table-light */
-        z-index: 1;
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: 1040;
+        display: none;
     }
 
+        .sidebar-overlay.active {
+            display: block;
+        }
 
-
-/*Loading*/
-
-#loadingOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255,255,255,0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.spinner-wrapper {
-    position: relative;
-    width: 140px;
-    height: 140px;
-}
-
-/* Rotating Ring */
-.spinner-ring {
-    width: 100%;
-    height: 100%;
-    border: 6px solid #e0e0e0;
-    border-top: 6px solid #007bff; /* Change to your brand color */
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-/* Logo in Center (NOT rotating) */
-.logo-center {
-    position: absolute;
-    width: 150px;
-    height: 70px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
+    .main {
+        width: 100%;
     }
 
-    100% {
-        transform: rotate(360deg);
+    .top-navbar {
+        height: 46px;
+        font-size: 0.72rem;
     }
+
+        .top-navbar .btn {
+            padding: 3px 8px;
+        }
 }
 
-.hidden {
-    display: none;
+/* =====================================================
+   MICRO-IMPROVEMENTS (PREMIUM FEEL)
+===================================================== */
+
+* {
+    letter-spacing: -0.2px;
 }
-
-
-
-/*Navigations */
-.order-tracker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px auto;
-}
-
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    font-size: 12px;
-    color: #999;
-}
-
-.circle {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #ccc;
-    margin-bottom: 3px;
-}
-
-.line {
-    width: 40px;
-    height: 2px;
-    background: #ccc;
-}
-
-.divider {
-    font-size: 16px;
-    color: #ccc;
-    margin: 0 4px;
-}
-
-.step.active {
-    color: #0d6efd;
-    font-weight: 600;
-}
-
-    .step.active .circle {
-        background: #0d6efd;
-    }

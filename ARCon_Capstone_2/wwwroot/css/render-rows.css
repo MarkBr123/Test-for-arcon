@@ -1,0 +1,438 @@
+﻿/* =====================================================
+   TABLE SYSTEM (ADMIN USERS)
+===================================================== */
+
+.table {
+    font-size: 0.8rem;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+    /* HEADER */
+    .table thead th {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #6b7280;
+        background: #f8fafc;
+        padding: 8px 10px;
+        border-bottom: 1px solid #e5e7eb;
+        cursor: default;
+    }
+
+/* SORTABLE */
+.sortable {
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+    .sortable:hover {
+        color: #0d6efd;
+    }
+
+/* BODY */
+.table tbody td {
+    font-size: 0.78rem;
+    padding: 8px 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f3f5;
+    color: #1f2937;
+}
+
+/* ROW HOVER */
+.table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.table-responsive,
+.table {
+    overflow: visible !important;
+}
+
+/* =====================================================
+   STATUS BADGES
+===================================================== */
+
+.status-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-active {
+    background: #e6f7ee;
+    color: #198754;
+}
+
+.status-suspended {
+    background: #fdecea;
+    color: #dc3545;
+}
+
+/* =====================================================
+   ROLE TAGS
+===================================================== */
+
+.role-pill {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 0.7rem;
+    border-radius: 999px;
+    background: #e7f1ff;
+    color: #0d6efd;
+    margin-right: 4px;
+}
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.action-btn {
+    border: 1px solid #dee2e6;
+    background: #fff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+    .action-btn:hover {
+        background: #f1f3f5;
+    }
+
+    .action-btn.primary {
+        background: #0d6efd;
+        color: #fff;
+        border: none;
+    }
+
+        .action-btn.primary:hover {
+            background: #0b5ed7;
+        }
+
+/* =====================================================
+   HEADER (SEARCH + BUTTON)
+===================================================== */
+
+#searchInput {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+}
+
+#btnOpenCreateUser {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+}
+
+/* =====================================================
+   MODAL (CENTERED + CLEAN)
+===================================================== */
+
+.modal-dialog {
+    max-width: 900px;
+}
+
+.modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* HEADER */
+.modal-header {
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* TITLE */
+.modal-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* BODY */
+.modal-body {
+    font-size: 0.8rem;
+    padding: 20px;
+}
+
+    /* CENTER FORM CONTENT */
+    .modal-body .row {
+        justify-content: center;
+    }
+
+        /* CONTROL FORM WIDTH */
+        .modal-body .row > div {
+            max-width: 420px;
+        }
+
+/* LABELS */
+.form-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* INPUTS */
+.form-control,
+.form-select {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+}
+
+/* TABS */
+.nav-tabs {
+    justify-content: center;
+}
+
+    .nav-tabs .nav-link {
+        font-size: 0.8rem;
+    }
+
+        .nav-tabs .nav-link.active {
+            font-weight: 600;
+        }
+
+/* =====================================================
+   PAGINATION
+===================================================== */
+
+.pagination .page-link {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    /* scrollable table */
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+        .table tbody td,
+        .table thead th {
+            padding: 6px 8px;
+        }
+
+    /* modal full width on mobile */
+    .modal-dialog {
+        max-width: 95%;
+        margin: auto;
+    }
+
+    .modal-body .row > div {
+        max-width: 100%;
+    }
+}
+
+/* =====================================================
+   BUTTON SYSTEM (MODERN + COMPACT)
+===================================================== */
+
+.btn {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* PRIMARY */
+.btn-primary {
+    background: #0d6efd;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background: #0b5ed7;
+    }
+
+/* SUCCESS */
+.btn-success {
+    background: #198754;
+    border: none;
+}
+
+    .btn-success:hover {
+        background: #157347;
+    }
+
+/* SECONDARY */
+.btn-secondary {
+    background: #e5e7eb;
+    color: #374151;
+    border: none;
+}
+
+    .btn-secondary:hover {
+        background: #d1d5db;
+    }
+
+/* DANGER */
+.btn-danger {
+    background: #dc3545;
+    border: none;
+}
+
+    .btn-danger:hover {
+        background: #bb2d3b;
+    }
+
+/* OUTLINE STYLE (clean) */
+.btn-outline {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    color: #374151;
+}
+
+    .btn-outline:hover {
+        background: #f3f4f6;
+    }
+
+/* SMALL BUTTON (tables) */
+.btn-sm {
+    font-size: 0.72rem;
+    padding: 4px 8px;
+}
+
+/* ICON BUTTON */
+.btn-icon {
+    padding: 6px;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+}
+
+/* DISABLED */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =====================================================
+   TOGGLE SWITCH (PREMIUM COMPACT)
+===================================================== */
+
+.toggle-switch {
+    position: relative;
+    width: 34px;
+    height: 18px;
+    display: inline-block;
+}
+
+    /* hide default */
+    .toggle-switch input {
+        display: none;
+    }
+
+/* track */
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #e5e7eb;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+}
+
+    /* knob */
+    .toggle-slider::before {
+        content: "";
+        position: absolute;
+        height: 14px;
+        width: 14px;
+        top: 2px;
+        left: 2px;
+        background: #ffffff;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+/* ACTIVE */
+.toggle-switch input:checked + .toggle-slider {
+    background: #0d6efd;
+}
+
+    .toggle-switch input:checked + .toggle-slider::before {
+        transform: translateX(16px);
+    }
+
+/* HOVER */
+.toggle-switch:hover .toggle-slider {
+    background: #d1d5db;
+}
+
+.toggle-switch input:checked:hover + .toggle-slider {
+    background: #0b5ed7;
+}
+
+
+/* =====================================================
+   ACTION MENU (MODERN DROPDOWN)
+===================================================== */
+
+.action-wrapper {
+    position: relative;
+    overflow: visible;
+}
+
+.action-menu {
+    position: absolute;
+    right: 0;
+    bottom: 110%;       
+    min-width: 140px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    opacity: 0;
+    transform: translateY(6px);
+    visibility: hidden; /* ✅ use this instead */
+
+    transition: all 0.15s ease;
+    z-index: 9999;
+}
+
+    /* SHOW */
+    .action-menu.show {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+/* buttons inside */
+.action-menu button {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+/* hover */
+.action-menu button:hover {
+    background: #f3f4f6;
+}
+
+/* disabled */
+.action-menu button:disabled {
+    color: #adb5bd;
+    cursor: not-allowed;
+}
+

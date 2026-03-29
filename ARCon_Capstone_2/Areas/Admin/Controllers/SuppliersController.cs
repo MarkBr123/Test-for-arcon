@@ -7,7 +7,7 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
-    public class SupplierController : Controller
+    public class SupplierController : BaseAdminController
     {
         private readonly ARCon_Capstone_2_DbContext _context;
         public SupplierController(ARCon_Capstone_2_DbContext context)

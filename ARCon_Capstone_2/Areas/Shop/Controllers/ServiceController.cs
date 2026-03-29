@@ -23,7 +23,7 @@ public class ServiceController : Controller
         return View();
     }
 
-    public IActionResult FreonCharging()
+    public IActionResult Freoncharging()
     {
         SetLoginState();
         return View();

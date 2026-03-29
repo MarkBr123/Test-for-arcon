@@ -704,7 +704,7 @@ public class DeliveryApiController : ControllerBase
 
                 if (payment != null)
                 {
-                    payment.cod_status = "COLLECTED";
+                    payment.cod_status = "PAID";
                 }
             }
 

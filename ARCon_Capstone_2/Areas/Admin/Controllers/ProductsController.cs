@@ -1,9 +1,10 @@
-﻿using ARCon_Capstone_2.Data;
+﻿using ARCon_Capstone_2.Areas.Admin.Controllers;
+using ARCon_Capstone_2.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 [Area("Admin")]
-public class ProductsController : Controller
+public class ProductsController : BaseAdminController
 {
     private readonly ARCon_Capstone_2_DbContext _context;
 

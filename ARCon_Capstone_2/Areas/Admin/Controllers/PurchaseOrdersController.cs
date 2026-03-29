@@ -6,7 +6,7 @@ using ARCon_Capstone_2.Data;
 namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class PurchaseOrdersController : Controller
+    public class PurchaseOrdersController : BaseAdminController
     {
         public IActionResult Index() => View();
 

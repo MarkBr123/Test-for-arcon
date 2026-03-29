@@ -29,7 +29,6 @@ public class TransactionsApiController : ControllerBase
     }
 
     [HttpGet("pending-transactions")]
-
     public async Task<IActionResult> GetPendingTransaction(int page = 1, int pageSize = 24, string sortBy = "createdAt", string sortDir = "asc", string? search = null)
     {
         var query = _context.customer_transactions

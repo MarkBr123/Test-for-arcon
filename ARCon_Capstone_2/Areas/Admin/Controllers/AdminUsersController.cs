@@ -6,7 +6,7 @@ using ARCon_Capstone_2.Data;
 namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class AdminUsersController : Controller
+    public class AdminUsersController : BaseAdminController
     {
         private readonly ARCon_Capstone_2_DbContext _context;
 

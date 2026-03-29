@@ -84,11 +84,11 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<service_aircon_type> service_aircon_types { get; set; }
 
-    public virtual DbSet<service_booking> service_bookings { get; set; }
+    
 
     public virtual DbSet<service_booking_item> service_booking_items { get; set; }
 
-    public virtual DbSet<service_booking_technician> service_booking_technicians { get; set; }
+    public virtual DbSet<service_transaction_technician> service_transaction_technicians { get; set; }
 
     public virtual DbSet<service_category> service_categories { get; set; }
 
@@ -127,6 +127,13 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
     public virtual DbSet<delivery> deliveries { get; set; }
     public virtual DbSet<delivery_item> delivery_items { get; set; }
 
+    public virtual DbSet<service_transaction> service_transactions { get; set; }
+    public virtual DbSet<service_transaction_item> service_transaction_items { get; set; }
+
+    public virtual DbSet<service_booking> service_bookings { get; set; }
+
+    public virtual DbSet<chat_participant> chat_participants { get; set; }
+
     //end manually added
 
 
@@ -137,7 +144,7 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql(
-            "Host=db.heewbpxkrriugzyujggg.supabase.co;Database=postgres;Username=postgres;Password=Airconi123.;SSL Mode=Require;Trust Server Certificate=true"
+           "Host=localhost;Port=5432;Database=airconi_trading_db;Username=postgres;Password=50!20/OMEGA"
         );
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -305,12 +312,98 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                           .OnDelete(DeleteBehavior.Restrict);
         });
 
+        modelBuilder.Entity<service_transaction>(entity =>
+        {
+            entity.HasKey(e => e.id).HasName("service_transaction_pkey");
+            entity.ToTable("service_transaction");
+            entity.Property(e => e.id)
+                .UseIdentityAlwaysColumn();
+            entity.Property(e => e.st_ref_code)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.created_at)
+                .HasDefaultValueSql("now()");
+            entity.Property(e => e.difficulty_rate)
+                .HasPrecision(2, 1);
+            entity.Property(e => e.service_rating)
+                .HasPrecision(2, 1);
+            entity.Property(e => e.reservice_fee)
+                .HasPrecision(12, 2);
+            entity.Property(e => e.status)
+                .HasMaxLength(30);
+
+            // Relationship
+            entity.HasOne(d => d.service_booking)
+                .WithMany(p => p.service_transactions)
+                .HasForeignKey(d => d.service_booking_id)
+                .HasConstraintName("service_transaction_service_booking_id_fkey");
+
+            // Indexes for scheduling queries
+            entity.HasIndex(e => e.actual_scheduled_date)
+                .HasDatabaseName("idx_service_transaction_schedule_date");
+
+            entity.HasIndex(e => e.actual_scheduled_time)
+                .HasDatabaseName("idx_service_transaction_schedule_time");
+        });
+
+        modelBuilder.Entity<service_transaction_item>(entity =>
+        {
+            entity.HasKey(e => e.id).HasName("service_transaction_item_pkey");
+
+            entity.ToTable("service_transaction_item");
+
+            entity.Property(e => e.id)
+                .UseIdentityAlwaysColumn();
+
+            entity.Property(e => e.created_at)
+                .HasDefaultValueSql("now()");
+
+            entity.HasOne(d => d.service_transaction)
+                .WithMany(p => p.service_transaction_items)
+                .HasForeignKey(d => d.service_transaction_id)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("service_transaction_item_service_transaction_id_fkey");
+
+            entity.HasOne(d => d.service_booking_items)
+                .WithMany(p => p.service_transaction_items)
+                .HasForeignKey(d => d.service_booking_items_id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("service_transaction_item_service_booking_items_id_fkey");
+
+            entity.HasIndex(e => new { e.service_transaction_id, e.service_booking_items_id })
+                .IsUnique()
+                .HasDatabaseName("unique_transaction_service");
+        });
 
 
-        //End Manually Added
+        modelBuilder.Entity<chat_participant>(entity =>
+        {
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.user_type)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            entity.Property(e => e.joined_at)
+                .HasColumnType("timestamp with time zone");
+
+            // 🔗 Relationship: chat_participant → chat_conversation
+            entity.HasOne(e => e.conversation)
+                .WithMany(c => c.chat_participants)
+                .HasForeignKey(e => e.conversation_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // ⚡ Optional: prevent duplicate participants in same conversation
+            entity.HasIndex(e => new { e.conversation_id, e.user_type, e.user_id })
+                .IsUnique();
+        });
+    
 
 
-        modelBuilder.Entity<admin_user>(entity =>
+             //End Manually Added
+
+
+    modelBuilder.Entity<admin_user>(entity =>
         {
             entity.HasKey(e => e.id).HasName("admin_users_pkey");
 
@@ -408,6 +501,10 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasConstraintName("chat_conversations_assigned_csm_id_fkey");
 
             entity.HasOne(d => d.customer).WithMany(p => p.chat_conversations).HasConstraintName("chat_conversations_customer_id_fkey");
+            entity.HasMany(d => d.chat_participants)
+                .WithOne(p => p.conversation)
+                .HasForeignKey(p => p.conversation_id)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<chat_conversation_read>(entity =>
@@ -954,18 +1051,29 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                   .HasConstraintName("service_booking_items_service_price_tiers_id_fkey");
         });
 
-        modelBuilder.Entity<service_booking_technician>(entity =>
+        modelBuilder.Entity<service_transaction_technician>(entity =>
         {
-            entity.HasKey(e => e.id).HasName("service_booking_technicians_pkey");
+            entity.HasKey(e => e.id)
+                .HasName("service_transaction_technicians_pkey"); // ✅ fix name
 
             entity.Property(e => e.id).UseIdentityAlwaysColumn();
-            entity.Property(e => e.assigned_at).HasDefaultValueSql("now()");
 
-            entity.HasOne(d => d.admin_users).WithMany(p => p.service_booking_technicians)
+            entity.Property(e => e.assigned_at)
+                .HasDefaultValueSql("now()");
+
+            // 🔹 Technician FK
+            entity.HasOne(d => d.admin_user)
+                .WithMany(p => p.service_transaction_technicians)
+                .HasForeignKey(d => d.technician_id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("service_booking_technicians_admin_users_id_fkey");
+                .HasConstraintName("service_transaction_technicians_technician_id_fkey");
 
-            entity.HasOne(d => d.booking).WithMany(p => p.service_booking_technicians).HasConstraintName("service_booking_technicians_booking_id_fkey");
+            // 🔹 Transaction FK (FIXED)
+            entity.HasOne(d => d.service_transaction)
+                .WithMany(p => p.service_transaction_technicians)
+                .HasForeignKey(d => d.service_transaction_id) // ✅ REQUIRED
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("service_transaction_technicians_transaction_id_fkey"); // ✅ fix name
         });
 
         modelBuilder.Entity<service_category>(entity =>

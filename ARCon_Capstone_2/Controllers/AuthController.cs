@@ -95,7 +95,7 @@ public class AuthController : Controller
             customer.is_online  = true;
             await _context.SaveChangesAsync();
 
-            // ✅ CREATE CUSTOMER SESSION
+            //CREATE CUSTOMER SESSION
             HttpContext.Session.SetInt32("UserId", customer.id);
             HttpContext.Session.SetString("UserType", "CUSTOMER");
             HttpContext.Session.SetString("CustomerFirstName", customer.first_name);
@@ -114,9 +114,9 @@ public class AuthController : Controller
         return RedirectToAction("Login", "Home", new { area = "Shop" });
     }
 
-    // ==========================
+
     // FAILED ADMIN LOGIN HANDLER
-    // ==========================
+
     private async Task HandleFailedAdminLogin(admin_user admin)
     {
         admin.login_attempts++;
@@ -128,9 +128,8 @@ public class AuthController : Controller
         await _context.SaveChangesAsync();
     }
 
-    // ==========================
+
     // LOGOUT
-    // ==========================
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();

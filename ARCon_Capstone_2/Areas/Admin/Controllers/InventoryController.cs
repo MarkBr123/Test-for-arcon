@@ -8,7 +8,7 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("Admin/Inventory")]
-    public class InventoryController : Controller
+    public class InventoryController : BaseAdminController
     {
         // GET: /Admin/Inventory
         [HttpGet("")]

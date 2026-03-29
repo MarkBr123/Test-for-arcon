@@ -710,7 +710,7 @@ async function submitBooking() {
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
 
     try {
-        const res = await fetch("/api/service-bookings", {
+        const res = await fetch("/api/service-bookings/cleaning", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "same-origin",
@@ -779,7 +779,14 @@ async function submitBooking() {
             btn.textContent = "Book Service";
         };
     }
+    location.reload();
 }
+
+
+
+
+
+
 function getRadioValue(name) {
     return document.querySelector(`input[name="${name}"]:checked`)?.value || null;
 }

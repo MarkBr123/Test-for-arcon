@@ -94,7 +94,7 @@ public class AdminUsersApiController : ControllerBase
             _context.work_schedules.Add(new work_schedule
             {
                 employee_id = user.id,
-                day_of_week = s.DayOfWeek,
+                day_of_week = s.DayOfWeek.ToUpper(),
                 login_time = s.IsRestday ? null : s.LoginTime,
                 logout_time = s.IsRestday ? null : s.LogoutTime,
                 is_restday = s.IsRestday,
@@ -285,6 +285,71 @@ public class AdminUsersApiController : ControllerBase
             return BadRequest("Email address already exists.");
         }
 
+        // =========================
+        // 🔥 VALIDATE SCHEDULE AGAINST ACTIVE ASSIGNMENTS
+        // =========================
+        var activeAssignments = await _context.service_transaction_technicians
+            .Where(stt => stt.technician_id == au.id && stt.isactiveservicetransac)
+            .Select(stt => stt.service_transaction)
+            .ToListAsync();
+
+        foreach (var st in activeAssignments)
+        {
+            var start = st.actual_scheduled_date
+                .ToDateTime(TimeOnly.FromTimeSpan(st.actual_scheduled_time));
+
+            var end = st.estimated_completion_date
+                .ToDateTime(TimeOnly.FromTimeSpan(st.estimated_completion_time));
+
+            var day = start.ToString("dddd").ToUpper();
+
+            var newSchedule = dto.Schedule
+                .FirstOrDefault(s => s.DayOfWeek.ToUpper() == day);
+
+            // ❌ No schedule for that day
+            if (newSchedule == null)
+            {
+                return BadRequest(
+                    $"Schedule conflict: Technician has an assigned service on {day}.");
+            }
+
+            // ❌ Rest day conflict
+            if (newSchedule.IsRestday)
+            {
+                return BadRequest(
+                    $"Schedule conflict: {day} is set as rest day but technician has an assigned service.");
+            }
+
+            // ❌ Time conflict
+            if (newSchedule.LoginTime.HasValue && newSchedule.LogoutTime.HasValue)
+            {
+                var login = newSchedule.LogoutTime.Value;
+                var logout = newSchedule.LogoutTime.Value;
+
+                var startTime = start.TimeOfDay;
+                var endTime = end.TimeOfDay; ;
+
+                bool isValid;
+
+                if (login <= logout)
+                {
+                    // Normal shift
+                    isValid = startTime >= login && endTime <= logout;
+                }
+                else
+                {
+                    // Night shift
+                    isValid = startTime >= login || endTime <= logout;
+                }
+
+                if (!isValid)
+                {
+                    return BadRequest(
+                        $"Schedule conflict: Existing service on {day} is outside new working hours.");
+                }
+            }
+        }
+
         au.user_name = dto.UserName;
         au.first_name = dto.FirstName;
         au.last_name = dto.LastName;
@@ -314,7 +379,7 @@ public class AdminUsersApiController : ControllerBase
             _context.work_schedules.Add(new work_schedule
             {
                 employee_id = au.id,
-                day_of_week = s.DayOfWeek,
+                day_of_week = s.DayOfWeek.ToUpper(),
                 login_time = s.IsRestday ? null : s.LoginTime,
                 logout_time = s.IsRestday ? null : s.LogoutTime,
                 is_restday = s.IsRestday

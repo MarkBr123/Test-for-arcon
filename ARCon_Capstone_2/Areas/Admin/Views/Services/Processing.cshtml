@@ -1,0 +1,487 @@
+﻿@{
+    ViewData["Title"] = "Processing";
+    var status = "PROCESSING";
+}
+<link rel="stylesheet" href="~/css/render-rows.css" />
+
+
+<style>
+    .expand-arrow {
+        cursor: pointer;
+        font-size: 14px;
+        transition: transform 0.2s ease;
+        display: inline-block;
+    }
+
+        .expand-arrow.open {
+            transform: rotate(90deg);
+        }
+
+    .child-row td {
+        background-color: #f8f9fa;
+        border-top: none;
+    }
+
+    .list-group-item {
+        color: dimgrey;
+    }
+
+        .list-group-item:hover {
+            color: black;
+        }
+
+    procServices .list-group-item {
+        border-radius: 8px;
+        margin-bottom: 8px;
+        border: 1px solid #eee;
+    }
+</style>
+
+
+
+
+
+<div id="loadingSpinner" class="text-center my-3" style="display:none;">
+    <div class="spinner-border text-primary" role="status"></div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Processing (Service)</h4>
+
+    <div class="row mb-3">
+        <div class="col-auto">
+            <input type="text"
+                   id="processingSearchInput"
+                   class="form-control form-control-sm"
+                   placeholder="Search..."
+                   style="width: 620px;" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary d-flex align-items-center gap-2"
+            onclick="location.href='/Admin/Services/Tech_Assign'">
+        <i class="bi bi-plus-circle"></i>
+        Go to Technician Assignment >
+    </button>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div id="serviceProcessingInfo" class="text-muted small mt-1"></div>
+</div>
+
+
+<div class="order-tracker">
+    <a href="/Admin/Services/For_Confirmation"
+       class="step @(status == "FOR_CONFIRMATION" ? "active" : "")">
+        <div class="circle"></div>
+        <span>For Confirmation</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Processing"
+       class="step @(status == "PROCESSING" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Processing</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Tech_Assign"
+       class="step @(status == "TECH_ASSIGN" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Technician Assignment</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Scheduled"
+       class="step @(status == "SCHEDULED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Scheduled</span>
+    </a>
+    <div class="line"></div>
+
+
+    <a href="/Admin/Services/All_Service_Transactions"
+       class="step @(status == "ALL_TRANSACTIONS" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Service History</span>
+    </a>
+</div>
+
+<br>
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th></th> <!-- for arrow -->
+            <th class="text-center small sortable" data-column="referenceCode" onclick="sort('referenceCode')">Reference Code</th>
+            <th class="text-center small sortable" data-column="customerName" onclick="sort('customerName')">Customer Name</th>
+            <th class="text-center small sortable" data-column="businessName" onclick="sort('businessName')">Business Name</th>
+            <th class="text-center small sortable" data-column="scheduledDate" onclick="sort('scheduledDate')">Schedule Date</th>
+            <th class="text-center small sortable" data-column="preferredTime" onclick="sort('preferredTime')">Preferred Time</th>
+            <th class="text-center small sortable" data-column="paymentMethod" onclick="sort('paymentMethod')">Payment Method</th>
+            <th class="text-center small sortable" data-column="totalAmount" onclick="sort('totalAmount')">Total Amount</th>
+            <th class="text-center small sortable" data-column="propertyType" onclick="sort('propertyType')">Property Type</th>
+            <th class="text-center small sortable" data-column="createdAt" onclick="sort('createdAt')">Order Placed At</th>
+            <th class="text-center small">Status</th>
+            <th class="text-center small sortable" data-column="confirmedAt" onclick="sort('confirmedAt')">Date Confirmed</th>
+    </thead>
+    
+    <tbody id="pendingServicesTableBody">
+        <!-- injected by JS -->
+    </tbody>
+</table>
+<tr class="blank-row">
+    <td colspan="13"></td>
+</tr>
+<nav aria-label=" Processing (Service) Pagination" class="mt-3">
+    <ul id="pagination" class="pagination justify-content-center">
+        <!-- pagination injected by JS -->
+    </ul>
+</nav>
+
+
+<!--START This is the processing modal-->
+<div class="modal fade" id="processBookingModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">Process Booking</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <!-- 🔹 SECTION 1: BOOKING SUMMARY -->
+                    <div class="col-md-6 border-end">
+
+                        <h5 class="fw-bold mb-3">📄 Booking Summary</h5>
+                        <h6 class="fst-italic text-muted mb-4" style="font-size: 0.8rem;">
+                            This is the customer's request, used as a reference.
+                        </h6>
+                        <!-- 🔸 BASIC INFO -->
+                        <div class="mb-3">
+                            <small class="text-muted">Reference Code</small>
+                            <div id="procRefCode" class="fw-semibold"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Failure Count</small>
+                            <div id="procFailCount" class="fw-semibold"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Customer Name</small>
+                            <div id="procCustomer"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Business Name</small>
+                            <div id="procBusinessName"></div>
+                        </div>
+
+                        <!-- 🔸 CONTACT INFO -->
+                        <div class="mb-3">
+                            <small class="text-muted">Contact Number</small>
+                            <div id="procContactNo"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Service Address</small>
+                            <div id="procAddress"></div>
+                        </div>
+
+                        <!-- 🔸 BOOKING DETAILS -->
+                        <div class="mb-3">
+                            <small class="text-muted">Preferred Schedule</small>
+                            <div id="procSchedule"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Property Type</small>
+                            <div id="procPropType"></div>
+                        </div>
+
+                        <!-- 🔸 PAYMENT -->
+                        <div class="mb-3">
+                            <small class="text-muted">Payment Method</small>
+                            <div id="procPaymentMethod"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Payment Status</small>
+                            <div id="procPaymentStatus" class="fw-semibold"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="text-muted">Customer Note</small>
+                            <div id="procCustomerNote" class="fw-semibold"></div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <!-- 🔸 SERVICES -->
+                        <h6 class="fw-bold mb-2">Service/s Requested</h6>
+                        <table class="table table-sm align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 25%;">Service</th>
+                                    <th style="width: 45%;">Details</th>
+                                    <th style="width: 30%;" class="text-end">Pricing</th>
+                                </tr>
+                            </thead>
+                            <tbody id="procServices">
+                                <!-- injected -->
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <!-- 🔹 SECTION 2: SERVICE TRANSACTION INPUT -->
+                    <div class="col-md-6">
+
+                        <h5 class="fw-bold mb-3">⚙ Service Transaction Details</h5>
+                        <h6 class="fst-italic text-muted mb-4" style="font-size: 0.8rem;">
+                            This outlines the service transaction process as agreed upon by the customer and Airconi.
+                        </h6>
+
+                        <!-- 🔸 TECHNICIAN + DIFFICULTY -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">No. of Technicians</label>
+                                <input type="number" id="procTechnicians" class="form-control" min="1" step="1" required>
+                                <div class="invalid-feedback">Enter a valid whole number (at least 1).</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Difficulty Rate (1.0 - 5.0)</label>
+                                <input type="number" id="procDifficulty" class="form-control"
+                                       min="1" max="5" step="0.1">
+                            </div>
+                        </div>
+
+                        <!-- 🔸 SCHEDULING -->
+                        <div class="mb-2 fw-semibold text-muted">Actual Schedule</div>
+                        <h6 class="fst-italic text-muted mb-4" style="font-size: 0.8rem;">
+                            This is the agreed service schedule, as agreed upon by the customer and Airconi.
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Scheduled Date</label>
+                                <input type="date" id="procDate" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Please select a valid date (must not be in the past).
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Scheduled Time</label>
+                                <input type="time" id="procTime" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Please select a valid time.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 🔸 ESTIMATED COMPLETION -->
+                        <div class="mb-2 fw-semibold text-muted">Estimated Completion</div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Completion Date</label>
+                                <input type="date" id="procEstDate" class="form-control">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Completion Time</label>
+                                <input type="time" id="procEstTime" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- 🔸 COST -->
+                        <div class="mb-3">
+                            <label class="form-label">Reservice Fee</label>
+                            <<input type="number" id="procFee" class="form-control" min="0" step="0.01" required>
+                            <div class="invalid-feedback">
+                                Fee is required and must be 0 or higher.
+                            </div>
+                        </div>
+
+                        <!-- 🔸 REQUIREMENTS -->
+                        <div class="mb-2 fw-semibold text-muted">Requirements</div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Parts Needed</label>
+                            <textarea id="procParts" class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tools Needed</label>
+                            <textarea id="procTools" class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <!-- 🔸 NOTES -->
+                        <div class="mb-3">
+                            <label class="form-label">Notes to Technicians</label>
+                            <textarea id="procNotes" class="form-control" rows="3"></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button class="btn btn-success" onclick="openConfirmModal()">
+                    Submit
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--Confirmation Modal--> 
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Service Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center">
+                <p class="mb-2">Are you sure you want to proceed?</p>
+
+                <p class="text-muted small">
+                    Please wait <span id="countdownText">5</span> seconds...
+                </p>
+
+                <!-- Progress bar -->
+                <div class="progress mt-3" style="height: 6px;">
+                    <div id="countdownBar"
+                         class="progress-bar bg-success"
+                         style="width: 0%">
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button id="confirmSubmitBtn"
+                        class="btn btn-success"
+                        disabled>
+                    Confirm
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--END This is the processing modal-->
+
+
+<!--Cancel Modals 2 steps-->
+
+<div class="modal fade" id="cancelStep1Modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-3 shadow-sm">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">
+                    Cancel Service
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <p class="mb-0">
+                    Are you sure you want to cancel this service booking?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    No
+                </button>
+                <button class="btn btn-danger"
+                        onclick="handleCancelStep1Yes()">
+                    Yes, Cancel it.
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- REJECT STEP 2 -->
+<div class="modal fade" id="cancelStep2Modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-3 shadow-sm">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">
+                    Final Warning
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <p class="mb-2">
+                    This action will cancel the booking.<br>
+                    Please ensure the customer has been notified.
+                </p>
+
+                <small class="text-danger">
+                    Please wait <span id="cancelCountdown">5</span> seconds before proceeding.
+                </small>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button class="btn btn-danger"
+                        id="cancelFinalBtn"
+                        onclick="executeCancel()"
+                        disabled>
+                    Yes, Cancel this Service Booking
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="~/js/st-for_processing.js"></script>
