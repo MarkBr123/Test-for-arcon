@@ -1,0 +1,551 @@
+﻿/* =====================================================
+   MAIN CONTAINER (CENTERED + SLIGHTLY HIGHER)
+===================================================== */
+
+.marvin-messenger {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f3f4f6;
+    /* 🔥 MOVE UP */
+    transform: translateY(-6%);
+}
+
+    /* WRAPPER (MAIN CARD - STRETCHED) */
+    .marvin-messenger .mm-wrapper {
+        width: 98%;
+        max-width: 1700px;
+        height: 90vh;
+        display: flex;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    /* =====================================================
+   SIDEBAR
+===================================================== */
+
+    .marvin-messenger .mm-sidebar {
+        width: 30%;
+        min-width: 260px;
+        height: 100%;
+        border-right: 1px solid #e5e7eb;
+        display: flex;
+        flex-direction: column;
+        background: #ffffff;
+        font-size: 0.9rem;
+    }
+
+    /* =====================================================
+   TABS
+===================================================== */
+
+    .marvin-messenger .mm-tabs {
+        display: flex;
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .marvin-messenger .mm-tab {
+        flex: 1;
+        padding: 6px;
+        border: none;
+        border-radius: 20px;
+        background: #eef1f5;
+        cursor: pointer;
+        font-size: 0.75rem;
+        transition: all 0.2s ease;
+    }
+
+        .marvin-messenger .mm-tab:hover {
+            background: #e5e7eb;
+        }
+
+        .marvin-messenger .mm-tab.active {
+            background: #2f7ea7;
+            color: #fff;
+            font-weight: 600;
+        }
+
+    /* =====================================================
+   SEARCH
+===================================================== */
+
+    .marvin-messenger .mm-search {
+        padding: 8px;
+    }
+
+        .marvin-messenger .mm-search input {
+            width: 100%;
+            padding: 6px 10px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            font-size: 0.75rem;
+            background: #f9fafb;
+        }
+
+    /* =====================================================
+   USERS
+===================================================== */
+
+    .marvin-messenger .mm-users {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .marvin-messenger .mm-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        margin: 4px 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+        .marvin-messenger .mm-user:hover {
+            background: #f3f4f6;
+        }
+
+        .marvin-messenger .mm-user.active {
+            background: #e7f1ff;
+        }
+
+    /* avatar */
+    .marvin-messenger .mm-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #dee2e6;
+    }
+
+    /* user text */
+    .marvin-messenger .mm-user strong {
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .marvin-messenger .mm-user small {
+        font-size: 0.75rem;
+        color: #6b7280;
+    }
+
+    /* =====================================================
+   CHAT AREA
+===================================================== */
+
+    .marvin-messenger .mm-chat {
+        width: 70%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* header */
+    .marvin-messenger .mm-header {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 1rem;
+        font-weight: 700;
+        background: #ffffff;
+    }
+
+    /* =====================================================
+   MESSAGES
+===================================================== */
+
+    .marvin-messenger .mm-messages {
+        flex: 1;
+        padding: 12px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background: #f9fafb;
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    /* 🔥 BACKGROUND ON CHAT (NOT SCROLL AREA) */
+    .marvin-messenger .mm-chat::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('/assets/airconi-logo.png');
+        background-repeat: repeat;
+        background-size: 140px 140px;
+        opacity: 0.04;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* rows */
+    .marvin-messenger .mm-row {
+        display: flex;
+        width: 100%;
+        margin: 4px 0;
+    }
+
+        .marvin-messenger .mm-row.received {
+            justify-content: flex-start;
+        }
+
+        .marvin-messenger .mm-row.sent {
+            justify-content: flex-end;
+        }
+
+    /* =====================================================
+   CHAT BUBBLES
+===================================================== */
+
+    .marvin-messenger .mm-message {
+        max-width: 65%;
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        word-wrap: break-word;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+
+    /* sent */
+    .marvin-messenger .mm-sent {
+        background: #359bfe;
+        color: #fff;
+        border-bottom-right-radius: 4px;
+    }
+
+    /* received */
+    .marvin-messenger .mm-received {
+        background: #ced2d7;
+        color: #000000;
+        border-bottom-left-radius: 4px;
+    }
+
+    /* time */
+    .marvin-messenger .mm-time {
+        font-size: 10px;
+        margin-top: 4px;
+        text-align: right;
+        opacity: 0.7;
+    }
+
+    /* =====================================================
+   INPUT
+===================================================== */
+
+    .marvin-messenger .mm-input {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+        border-top: 1px solid #e5e7eb;
+        background: #ffffff;
+    }
+
+        .marvin-messenger .mm-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            font-size: 0.85rem;
+            background: #f9fafb;
+        }
+
+    /* =====================================================
+   BUTTONS
+===================================================== */
+
+    .marvin-messenger .mm-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .marvin-messenger .mm-attach {
+        background: #f1f3f5;
+        color: #6b7280;
+    }
+
+    .marvin-messenger .mm-send {
+        background: #2f7ea7;
+        color: #fff;
+    }
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.mm-online {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.mm-offline {
+    color: #9ca3af;
+    font-weight: 600;
+}
+
+/* unread */
+.mm-unread-text {
+    font-size: 0.75rem;
+    color: #ef4444;
+    margin-top: 2px;
+    font-weight: 600;
+}
+
+/*For Upload file*/
+.mm-message img {
+    display: block;
+}
+
+.mm-input-wrapper {
+    padding: 8px 10px;
+    border-top: 1px solid #eee;
+    background: #fff;
+}
+/*Media*/
+.mm-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+}
+
+.mm-modal-content {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.mm-modal img,
+.mm-modal video {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 10px;
+}
+
+.mm-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.mm-summary-btn {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+    .mm-summary-btn:hover {
+        background: #0056b3;
+    }
+
+.mm-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.mm-modal-content {
+    background: #fff;
+    padding: 20px;
+    width: 400px;
+    border-radius: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.mm-close {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* ==============================
+   WRAPPER
+============================== */
+.mm-summary-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ==============================
+   CARD
+============================== */
+.mm-summary-card {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+    .mm-summary-card h4 {
+        margin-bottom: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+    }
+
+/* ==============================
+   GRID (BETTER READABILITY)
+============================== */
+.mm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+    .mm-grid > div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mm-grid label {
+        font-size: 11px;
+        color: #888;
+        margin-bottom: 2px;
+    }
+
+    .mm-grid div div {
+        font-size: 14px;
+        font-weight: 500;
+        color: #222;
+    }
+
+/* ==============================
+   BADGES
+============================== */
+.mm-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* COLORS */
+.mm-blue {
+    background: #e7f1ff;
+    color: #0d6efd;
+}
+
+.mm-green {
+    background: #e6f7ec;
+    color: #198754;
+}
+
+.mm-gray {
+    background: #f1f3f5;
+    color: #666;
+}
+
+.mm-badge-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* ==============================
+   SCHEDULE
+============================== */
+.mm-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mm-schedule-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    transition: all 0.2s ease;
+}
+
+    /* HOVER EFFECT */
+    .mm-schedule-row:hover {
+        background: #f1f5ff;
+        transform: scale(1.01);
+    }
+
+.mm-day {
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+}
+
+.mm-time {
+    font-size: 13px;
+    color: #555;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+    .mm-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/*Role Colors*/
+.mm-role {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+/* ADMIN - BLUE */
+.mm-role-admin {
+    background: #e7f1ff;
+    color: #d3af04;
+}
+
+/* CSM - ORANGE */
+.mm-role-csm {
+    background: #e7f1ff;
+    color: #ff8c00;
+}
+
+/* TECHNICIAN - MAROON */
+.mm-role-tech {
+    background: #e7f1ff;
+    color: #0d6efd;
+}
+
+/* DEFAULT */
+.mm-role-default {
+    background: #eee;
+    color: #666;
+}

@@ -11,7 +11,7 @@ public partial class chat_conversation
     [Key]
     public int id { get; set; }
 
-    public int customer_id { get; set; }
+    public int? customer_id { get; set; }
 
     public int? assigned_csm_id { get; set; }
 
@@ -32,6 +32,8 @@ public partial class chat_conversation
     public DateTime? closed_at { get; set; }
 
     public string? chat_type { get; set; } // INTERNAL OR EXTERNAL
+
+    public string? pair_key { get; set; }
 
     [ForeignKey("assigned_csm_id")]
     [InverseProperty("chat_conversations")]

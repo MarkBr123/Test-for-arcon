@@ -22,11 +22,11 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
                 .ToListAsync();
 
             return View();
+
         }
 
-  
-    }
 
+    }
     
 }
 

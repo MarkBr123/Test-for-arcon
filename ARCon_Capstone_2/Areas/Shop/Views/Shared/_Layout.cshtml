@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ARCon_Capstone_2.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ecommerce-chat.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -260,12 +261,59 @@
     </footer>
 
 
+
+    <!-- Chat -->
+
+    <div id="chatFloatingBtn">
+        <i class="bi bi-chat-dots-fill"></i>
+        <span id="chatBadge" class="chat-badge" style="display:none;">0</span>
+    </div>
+
+    <div id="chatSidebar" class="chat-sidebar">
+        <div class="chat-header">
+            <div>
+                <strong>Customer Support</strong><br>
+                <small>We’re here to help</small>
+            </div>
+            <span onclick="closeChatSidebar()">✕</span>
+        </div>
+
+        <div class="chat-body" id="chatMessages">
+            <div class="chat-row received">
+                <div class="chat-bubble">
+                    Hello! How can we help you today?
+                    <div class="chat-time">10:30 AM</div>
+                </div>
+            </div>
+
+            <div class="chat-row sent">
+                <div class="chat-bubble">
+                    I need help with my order.
+                    <div class="chat-time">10:31 AM</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <textarea id="chatInput" placeholder="Type a message..."></textarea>
+            <button onclick="sendCustomerMessage()">Send</button>
+        </div>
+    </div>
+
+
+
+
+
   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
     <script>
+        window.chatUserId = '@(Context.Session.GetInt32("UserId") ?? 0)';
+        window.chatUserType = '@(Context.Session.GetString("UserType") ?? "")';
+
+
         window.addEventListener("load", function () {
             var loader = document.getElementById("loadingOverlay");
             if (loader) {
@@ -274,9 +322,16 @@
 
             // to show
             // document.getElementById("loadingOverlay").style.display = "flex";
+        });
 
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward") {
+                window.location.reload();
+            }
         });
     </script>
+    <script src="~/js/customer-chat.js" asp-append-version="true"></script>
+
 </body>
 </html>
 

@@ -29,10 +29,10 @@ public partial class chat_message
 
     public DateTime? created_at { get; set; }
 
-    [InverseProperty("chat_message")]
-    public virtual ICollection<chat_message_medium> chat_message_media { get; set; } = new List<chat_message_medium>();
 
     [ForeignKey("conversation_id")]
     [InverseProperty("chat_messages")]
     public virtual chat_conversation conversation { get; set; } = null!;
+
+    public ICollection<chat_message_media> media { get; set; } = new List<chat_message_media>();
 }

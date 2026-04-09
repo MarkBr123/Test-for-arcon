@@ -34,4 +34,8 @@
     <Folder Include="wwwroot\assets\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="DTOs\UploadChatFileDto.cs" />
+  </ItemGroup>
+
 </Project>

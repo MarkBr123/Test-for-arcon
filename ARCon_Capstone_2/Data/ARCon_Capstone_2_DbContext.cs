@@ -30,7 +30,6 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<chat_message> chat_messages { get; set; }
 
-    public virtual DbSet<chat_message_medium> chat_message_media { get; set; }
 
     public virtual DbSet<checkout> checkouts { get; set; }
 
@@ -133,6 +132,8 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
     public virtual DbSet<service_booking> service_bookings { get; set; }
 
     public virtual DbSet<chat_participant> chat_participants { get; set; }
+
+    public virtual DbSet<chat_message_media> chat_message_medias { get; set; }
 
     //end manually added
 
@@ -397,13 +398,28 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.HasIndex(e => new { e.conversation_id, e.user_type, e.user_id })
                 .IsUnique();
         });
-    
+        modelBuilder.Entity<chat_message_media>(entity =>
+        {
+            entity.ToTable("chat_message_media"); // 🔥 FIX
+
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.file_url).IsRequired();
+            entity.Property(e => e.file_name).HasMaxLength(255);
+            entity.Property(e => e.file_type).HasMaxLength(50);
+            entity.Property(e => e.file_size).HasColumnType("numeric(5,2)");
+            entity.Property(e => e.created_at).HasDefaultValueSql("NOW()");
+
+            entity.HasOne(e => e.chat_message)
+                .WithMany(m => m.media)
+                .HasForeignKey(e => e.chat_message_id)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        //End Manually Added
 
 
-             //End Manually Added
-
-
-    modelBuilder.Entity<admin_user>(entity =>
+        modelBuilder.Entity<admin_user>(entity =>
         {
             entity.HasKey(e => e.id).HasName("admin_users_pkey");
 
@@ -526,18 +542,17 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.Property(e => e.is_deleted).HasDefaultValue(false);
             entity.Property(e => e.message_type).HasDefaultValueSql("'TEXT'::character varying");
 
-            entity.HasOne(d => d.conversation).WithMany(p => p.chat_messages).HasConstraintName("chat_messages_conversation_id_fkey");
+            entity.HasOne(d => d.conversation)
+                .WithMany(p => p.chat_messages)
+                .HasConstraintName("chat_messages_conversation_id_fkey");
+
+            // 🔥 FIXED RELATION
+            entity.HasMany(e => e.media)
+                .WithOne(m => m.chat_message)
+                .HasForeignKey(m => m.chat_message_id)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
-        modelBuilder.Entity<chat_message_medium>(entity =>
-        {
-            entity.HasKey(e => e.id).HasName("chat_message_media_pkey");
-
-            entity.Property(e => e.id).UseIdentityAlwaysColumn();
-            entity.Property(e => e.created_at).HasDefaultValueSql("now()");
-
-            entity.HasOne(d => d.chat_message).WithMany(p => p.chat_message_media).HasConstraintName("chat_message_media_chat_message_id_fkey");
-        });
 
         modelBuilder.Entity<checkout>(entity =>
         {

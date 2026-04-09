@@ -9,6 +9,10 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
         {
             return View();
         }
+        public IActionResult Customer_Payments()
+        {
+            return View();
+        }
 
         [HttpGet]
         public IActionResult Summary(int id)
@@ -49,4 +53,5 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
                 return View();
             }
         }
+
 }

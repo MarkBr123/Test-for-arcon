@@ -1,67 +1,113 @@
 ﻿/* =====================================================
-   TABLE SYSTEM (ADMIN USERS)
+   GLOBAL SCALE (OPTIONAL BUT RECOMMENDED)
+===================================================== */
+
+html {
+    font-size: 14px; /* slight global increase */
+}
+
+/* =====================================================
+   TABLE SYSTEM
+===================================================== */
+
+/* =====================================================
+   TABLE SYSTEM (PADDED + CLEAN + ZEBRA)
 ===================================================== */
 
 .table {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     background: #fff;
     border-radius: 8px;
     overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-    /* HEADER */
+    /* =====================================================
+   HEADER
+===================================================== */
+
     .table thead th {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.04em;
         color: #6b7280;
         background: #f8fafc;
-        padding: 8px 10px;
+        padding: 10px 12px;
         border-bottom: 1px solid #e5e7eb;
-        cursor: default;
     }
 
-/* SORTABLE */
-.sortable {
-    cursor: pointer;
-    position: relative;
-    transition: color 0.2s ease;
-}
+    /* =====================================================
+   BODY
+===================================================== */
 
-    .sortable:hover {
-        color: #0d6efd;
+    .table tbody td {
+        font-size: 0.86rem;
+        padding: 10px 12px;
+        vertical-align: middle;
+        color: #1f2937;
+        border-bottom: 1px solid #f1f3f5;
     }
 
-/* BODY */
-.table tbody td {
-    font-size: 0.78rem;
-    padding: 8px 10px;
-    vertical-align: middle;
-    border-bottom: 1px solid #f1f3f5;
-    color: #1f2937;
-}
+    /* =====================================================
+   ZEBRA ROWS (FIXED)
+===================================================== */
 
-/* ROW HOVER */
-.table tbody tr:hover {
-    background: #f9fafb;
-}
+    .table tbody tr:nth-child(odd) td {
+        background: #ffffff;
+    }
+
+    .table tbody tr:nth-child(even) td {
+        background: #fafbfc;
+    }
+
+    /* =====================================================
+   ROW HOVER (OVERRIDE ZEBRA)
+===================================================== */
+
+    .table tbody tr:hover td {
+        background: #f1f5f9 !important;
+    }
+
+    /* =====================================================
+   ROW SPACING (CARD EFFECT SAFE)
+===================================================== */
+
+    .table tbody tr {
+        transition: background 0.15s ease;
+    }
+
+        /* spacing using pseudo row gap illusion */
+        .table tbody tr + tr td {
+            border-top: 6px solid #f5f7fb; /* 🔥 safe spacing */
+        }
+
+        /* =====================================================
+   FIX LAST ROW
+===================================================== */
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+/* =====================================================
+   DROPDOWN FIX
+===================================================== */
 
 .table-responsive,
 .table {
     overflow: visible !important;
 }
-
 /* =====================================================
    STATUS BADGES
 ===================================================== */
 
 .status-badge {
-    font-size: 0.7rem;
-    padding: 3px 8px;
+    font-size: 0.78rem;
+    padding: 4px 9px;
     border-radius: 999px;
     font-weight: 600;
-    display: inline-block;
 }
 
 .status-active {
@@ -79,59 +125,72 @@
 ===================================================== */
 
 .role-pill {
-    display: inline-block;
-    padding: 3px 8px;
-    font-size: 0.7rem;
+    padding: 4px 9px;
+    font-size: 0.78rem;
     border-radius: 999px;
     background: #e7f1ff;
     color: #0d6efd;
-    margin-right: 4px;
 }
 
 /* =====================================================
-   ACTION BUTTONS
+   BUTTON SYSTEM
 ===================================================== */
 
-.action-btn {
-    border: 1px solid #dee2e6;
-    background: #fff;
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-    .action-btn:hover {
-        background: #f1f3f5;
-    }
-
-    .action-btn.primary {
-        background: #0d6efd;
-        color: #fff;
-        border: none;
-    }
-
-        .action-btn.primary:hover {
-            background: #0b5ed7;
-        }
-
-/* =====================================================
-   HEADER (SEARCH + BUTTON)
-===================================================== */
-
-#searchInput {
-    font-size: 0.8rem;
-    padding: 6px 10px;
-}
-
-#btnOpenCreateUser {
-    font-size: 0.8rem;
+.btn {
+    font-size: 0.9rem;
     padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background: #0d6efd;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background: #0b5ed7;
+    }
+
+.btn-success {
+    background: #198754;
+    border: none;
+}
+
+    .btn-success:hover {
+        background: #157347;
+    }
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #374151;
+    border: none;
+}
+
+    .btn-secondary:hover {
+        background: #d1d5db;
+    }
+
+.btn-danger {
+    background: #dc3545;
+    border: none;
+}
+
+    .btn-danger:hover {
+        background: #bb2d3b;
+    }
+
+/* small */
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 4px 8px;
 }
 
 /* =====================================================
-   MODAL (CENTERED + CLEAN)
+   MODAL (JUSTIFIED + CLEAN)
 ===================================================== */
 
 .modal-dialog {
@@ -140,57 +199,58 @@
 
 .modal-content {
     border-radius: 10px;
-    overflow: hidden;
 }
 
-/* HEADER */
 .modal-header {
     align-items: center;
     justify-content: space-between;
 }
 
-/* TITLE */
 .modal-title {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 600;
 }
 
-/* BODY */
 .modal-body {
-    font-size: 0.8rem;
-    padding: 20px;
+    font-size: 0.9rem;
+    padding: 24px;
 }
 
-    /* CENTER FORM CONTENT */
+    /* JUSTIFIED GRID */
     .modal-body .row {
-        justify-content: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
     }
 
-        /* CONTROL FORM WIDTH */
         .modal-body .row > div {
-            max-width: 420px;
+            flex: 1 1 calc(50% - 12px);
         }
 
-/* LABELS */
+        .modal-body .row > .col-12 {
+            flex: 1 1 100%;
+        }
+
+/* form */
 .form-label {
-    font-size: 0.75rem;
+    font-size: 0.82rem;
     font-weight: 600;
+    margin-bottom: 4px;
 }
 
-/* INPUTS */
 .form-control,
 .form-select {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     padding: 6px 10px;
 }
 
-/* TABS */
+/* tabs */
 .nav-tabs {
     justify-content: center;
 }
 
     .nav-tabs .nav-link {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
         .nav-tabs .nav-link.active {
@@ -202,166 +262,43 @@
 ===================================================== */
 
 .pagination .page-link {
-    font-size: 0.75rem;
-    padding: 4px 8px;
+    font-size: 0.85rem;
+    padding: 5px 10px;
 }
 
 /* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 768px) {
-
-    /* scrollable table */
-    .table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-        .table tbody td,
-        .table thead th {
-            padding: 6px 8px;
-        }
-
-    /* modal full width on mobile */
-    .modal-dialog {
-        max-width: 95%;
-        margin: auto;
-    }
-
-    .modal-body .row > div {
-        max-width: 100%;
-    }
-}
-
-/* =====================================================
-   BUTTON SYSTEM (MODERN + COMPACT)
-===================================================== */
-
-.btn {
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: all 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-/* PRIMARY */
-.btn-primary {
-    background: #0d6efd;
-    border: none;
-}
-
-    .btn-primary:hover {
-        background: #0b5ed7;
-    }
-
-/* SUCCESS */
-.btn-success {
-    background: #198754;
-    border: none;
-}
-
-    .btn-success:hover {
-        background: #157347;
-    }
-
-/* SECONDARY */
-.btn-secondary {
-    background: #e5e7eb;
-    color: #374151;
-    border: none;
-}
-
-    .btn-secondary:hover {
-        background: #d1d5db;
-    }
-
-/* DANGER */
-.btn-danger {
-    background: #dc3545;
-    border: none;
-}
-
-    .btn-danger:hover {
-        background: #bb2d3b;
-    }
-
-/* OUTLINE STYLE (clean) */
-.btn-outline {
-    background: #fff;
-    border: 1px solid #dee2e6;
-    color: #374151;
-}
-
-    .btn-outline:hover {
-        background: #f3f4f6;
-    }
-
-/* SMALL BUTTON (tables) */
-.btn-sm {
-    font-size: 0.72rem;
-    padding: 4px 8px;
-}
-
-/* ICON BUTTON */
-.btn-icon {
-    padding: 6px;
-    width: 32px;
-    height: 32px;
-    justify-content: center;
-}
-
-/* DISABLED */
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* =====================================================
-   TOGGLE SWITCH (PREMIUM COMPACT)
+   TOGGLE SWITCH
 ===================================================== */
 
 .toggle-switch {
     position: relative;
-    width: 34px;
-    height: 18px;
-    display: inline-block;
+    width: 36px;
+    height: 20px;
 }
 
-    /* hide default */
     .toggle-switch input {
         display: none;
     }
 
-/* track */
 .toggle-slider {
     position: absolute;
     inset: 0;
     background: #e5e7eb;
     border-radius: 999px;
-    transition: all 0.2s ease;
 }
 
-    /* knob */
     .toggle-slider::before {
         content: "";
         position: absolute;
-        height: 14px;
-        width: 14px;
-        top: 2px;
+        height: 15px;
+        width: 15px;
+        top: 2.5px;
         left: 2px;
-        background: #ffffff;
+        background: #fff;
         border-radius: 50%;
-        transition: all 0.2s ease;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        transition: 0.2s;
     }
 
-/* ACTIVE */
 .toggle-switch input:checked + .toggle-slider {
     background: #0d6efd;
 }
@@ -370,69 +307,96 @@
         transform: translateX(16px);
     }
 
-/* HOVER */
-.toggle-switch:hover .toggle-slider {
-    background: #d1d5db;
-}
-
-.toggle-switch input:checked:hover + .toggle-slider {
-    background: #0b5ed7;
-}
-
-
 /* =====================================================
-   ACTION MENU (MODERN DROPDOWN)
+   ACTION MENU
 ===================================================== */
 
 .action-wrapper {
     position: relative;
-    overflow: visible;
 }
 
 .action-menu {
     position: absolute;
     right: 0;
-    bottom: 110%;       
-    min-width: 140px;
-    background: #ffffff;
+    bottom: 110%;
+    min-width: 150px;
+    background: #fff;
     border-radius: 8px;
     border: 1px solid #e5e7eb;
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     opacity: 0;
     transform: translateY(6px);
-    visibility: hidden; /* ✅ use this instead */
-
-    transition: all 0.15s ease;
+    visibility: hidden;
+    transition: 0.15s ease;
     z-index: 9999;
 }
 
-    /* SHOW */
     .action-menu.show {
         opacity: 1;
         transform: translateY(0);
         visibility: visible;
     }
 
-/* buttons inside */
-.action-menu button {
-    width: 100%;
-    border: none;
-    background: none;
-    padding: 8px 12px;
-    text-align: left;
-    font-size: 0.75rem;
+    .action-menu button {
+        width: 100%;
+        padding: 8px 12px;
+        text-align: left;
+        font-size: inherit; /* matches table */
+        border: none;
+        background: none;
+        cursor: pointer;
+        line-height: 1.4;
+    }
+
+        .action-menu button:hover {
+            background: #f3f4f6;
+        }
+
+        .action-menu button:disabled {
+            color: #adb5bd;
+        }
+
+/* =====================================================
+   EXPAND ROW
+===================================================== */
+
+.expand-arrow {
     cursor: pointer;
-    transition: background 0.15s ease;
+    font-size: 15px;
+    transition: transform 0.2s ease;
+    display: inline-block;
 }
 
-/* hover */
-.action-menu button:hover {
-    background: #f3f4f6;
+    .expand-arrow.open {
+        transform: rotate(90deg);
+    }
+
+.child-row td {
+    background-color: #f8f9fa;
+    border-top: none;
 }
 
-/* disabled */
-.action-menu button:disabled {
-    color: #adb5bd;
-    cursor: not-allowed;
+.selected-row {
+    background-color: #e7f1ff !important;
 }
 
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .modal-dialog {
+        max-width: 95%;
+    }
+
+    .modal-body .row > div {
+        flex: 1 1 100%;
+    }
+}

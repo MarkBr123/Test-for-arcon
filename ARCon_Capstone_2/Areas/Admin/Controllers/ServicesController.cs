@@ -13,11 +13,15 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
         {
             return View();
         }
-        public IActionResult For_Confirmation() //done
+        public IActionResult For_Confirmation() 
         {
             return View();
         }
-        public IActionResult Processing() //done
+        public IActionResult Processing() 
+        {
+            return View();
+        }
+        public IActionResult Service_Payments() 
         {
             return View();
         }

@@ -153,6 +153,14 @@
       "PackagePath": "staticwebassets\\css\\Search.css"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\chat-window.css",
+      "PackagePath": "staticwebassets\\css\\chat-window.css"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\ecommerce-chat.css",
+      "PackagePath": "staticwebassets\\css\\ecommerce-chat.css"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\render-rows.css",
       "PackagePath": "staticwebassets\\css\\render-rows.css"
     },
@@ -201,6 +209,10 @@
       "PackagePath": "staticwebassets\\js\\View-js\\Search.js"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-chat.js",
+      "PackagePath": "staticwebassets\\js\\admin-chat.js"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
       "PackagePath": "staticwebassets\\js\\admin-users.js"
     },
@@ -211,6 +223,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\create_customer.js",
       "PackagePath": "staticwebassets\\js\\create_customer.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\customer-chat.js",
+      "PackagePath": "staticwebassets\\js\\customer-chat.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\inventory-index.js",

@@ -6,56 +6,35 @@
 }
 
 
-
-<style>
-    .expand-arrow {
-        cursor: pointer;
-        font-size: 14px;
-        transition: transform 0.2s ease;
-        display: inline-block;
-    }
-
-        .expand-arrow.open {
-            transform: rotate(90deg);
-        }
-
-    .child-row td {
-        background-color: #f8f9fa;
-        border-top: none;
-    }
-
-    .selected-row {
-        background-color: #e7f1ff !important; /* light blue */
-    }
-</style>
-
-
-
-
-
 <div id="loadingSpinner" class="text-center my-3" style="display:none;">
     <div class="spinner-border text-primary" role="status"></div>
 </div>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">For Confirmation (Service)</h4>
+            <div class="header-bar">
 
-    <div class="row mb-3">
-        <div class="col-auto">
-            <input type="text"
-                   id="forConfirmationSearchInput"
-                   class="form-control form-control-sm"
-                   placeholder="Search..."
-                   style="width: 620px;" />
-        </div>
-    </div>
+                <!-- LEFT -->
+                <div class="header-left">
+                    <h4 class="mb-0">For Confirmation (Service)</h4>
+                </div>
 
-    <button class="btn btn-primary d-flex align-items-center gap-2"
-            onclick="location.href='/Admin/Services/Processing'">
-        <i class="bi bi-plus-circle"></i>
-        Go to Processing >
-    </button>
-</div>
+                <!-- CENTER -->
+                <div class="header-center">
+                    <input type="text"
+                           id="forConfirmationSearchInput"
+                           class="form-control"
+                           placeholder="Search..." />
+                </div>
+
+                <!-- RIGHT -->
+                <div class="header-right">
+                    <button class="btn btn-primary d-flex align-items-center gap-2"
+                            onclick="location.href='/Admin/Services/Processing'">
+                        <i class="bi bi-plus-circle"></i>
+                        Go to Processing >
+                    </button>
+                </div>
+
+            </div>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div id="serviceForConfirmationInfo" class="text-muted small mt-1"></div>
@@ -101,6 +80,8 @@
         <span>Service History</span>
     </a>
 </div>
+
+
 <br>
 <table class="table table-hover align-middle">
     <thead class="table-light">

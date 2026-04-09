@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "qZkR7ogj+/dJUe4F6eG9YUCVwIcNTW33VmeWHtiWXYQ=",
+  "Hash": "aWEtYnWHLFRqBm2i2/N1NqDoN6yLQS52e0pifwaMNnU=",
   "Source": "ARCon_Capstone_2",
   "BasePath": "_content/ARCon_Capstone_2",
   "Mode": "Default",
@@ -112,6 +112,25 @@
       "OriginalItemSpec": "wwwroot\\css\\Cart.css"
     },
     {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\chat-window.css",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "css/chat-window.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\chat-window.css"
+    },
+    {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\Checkout.css",
       "SourceId": "ARCon_Capstone_2",
       "SourceType": "Discovered",
@@ -148,6 +167,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\Cleaning.css"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\ecommerce-chat.css",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "css/ecommerce-chat.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\ecommerce-chat.css"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\FreonCharge.css",
@@ -815,6 +853,25 @@
       "OriginalItemSpec": "wwwroot\\ImageSources\\Service\\repairing.jpg"
     },
     {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-chat.js",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "js/admin-chat.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\admin-chat.js"
+    },
+    {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-users.js",
       "SourceId": "ARCon_Capstone_2",
       "SourceType": "Discovered",
@@ -908,6 +965,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\create_customer.js"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\customer-chat.js",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "js/customer-chat.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\customer-chat.js"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\FreonCharge.js",

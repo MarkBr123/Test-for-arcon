@@ -3,136 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\utilities\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\utilities\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\admin-chat.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\admin-chat.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\summary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\summary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\customer-chat.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\customer-chat.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\processing.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\processing.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\shop\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\shop\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\intransit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\intransit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\forshipping.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\forshipping.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\delivered.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\delivered.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\createdelivery.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\createdelivery.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\transactions\\cancelled_failed.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\transactions\\cancelled_failed.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\supplier\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\supplier\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\services\\tech_assign.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\services\\tech_assign.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\css\\render-rows.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\css\\render-rows.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\services\\processing.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\services\\processing.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\services\\scheduled.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\services\\scheduled.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\services\\sbooking_summary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\services\\sbooking_summary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\services\\sb_st_summary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\services\\sb_st_summary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\conversations\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\conversations\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\purchaseorders\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\purchaseorders\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\inventory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\inventory\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\adminusers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\adminusers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\app-ui.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\app-ui.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\conversationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\conversationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\purchase-order-index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\purchase-order-index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\models\\chat_conversation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:models\\chat_conversation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\data\\arcon_capstone_2_dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:data\\arcon_capstone_2_dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\models\\chat_participant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:models\\chat_participant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\conversationadminapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\conversationadminapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -145,433 +29,59 @@
           "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Conversations\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Conversations\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Conversations\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Conversations\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T15:28:23.865Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Utilities\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Utilities\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Utilities\\Index.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Utilities\\Index.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:44.37Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Summary.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Summary.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\Summary.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Summary.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\Summary.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:40.052Z",
+              "Title": "admin-chat.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-chat.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\admin-chat.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-chat.js",
+              "RelativeToolTip": "wwwroot\\js\\admin-chat.js",
+              "ViewState": "AgIAABgDAAAAAAAAAAAYwLQCAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-06T09:18:02.873Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Processing.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Processing.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\Processing.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Processing.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\Processing.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Shop\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Areas\\Shop\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:36.498Z",
+              "WhenOpened": "2026-04-06T07:20:11.315Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "customer-chat.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\customer-chat.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\customer-chat.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\customer-chat.js",
+              "RelativeToolTip": "wwwroot\\js\\customer-chat.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-03T16:59:17.855Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "InTransit.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\InTransit.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\InTransit.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\InTransit.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\InTransit.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:33.043Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Index.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\Index.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:29.423Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ForShipping.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\ForShipping.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\ForShipping.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\ForShipping.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\ForShipping.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:25.457Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Details.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\Details.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Details.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\Details.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:22.137Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Delivered.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Delivered.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\Delivered.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Delivered.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\Delivered.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:18.599Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CreateDelivery.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\CreateDelivery.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\CreateDelivery.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\CreateDelivery.cshtml*",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\CreateDelivery.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:20:14.632Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Cancelled_Failed.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Cancelled_Failed.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Transactions\\Cancelled_Failed.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Transactions\\Cancelled_Failed.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Transactions\\Cancelled_Failed.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:19:54.835Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Supplier\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Supplier\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Supplier\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Supplier\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:18:07.209Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Tech_Assign.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Tech_Assign.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Services\\Tech_Assign.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Tech_Assign.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Services\\Tech_Assign.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:09:27.126Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Scheduled.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Scheduled.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Services\\Scheduled.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Scheduled.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Services\\Scheduled.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:09:22.949Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "SBooking_Summary.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\SBooking_Summary.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Services\\SBooking_Summary.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\SBooking_Summary.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Services\\SBooking_Summary.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:09:18.107Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "SB_ST_Summary.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\SB_ST_Summary.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Services\\SB_ST_Summary.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\SB_ST_Summary.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Services\\SB_ST_Summary.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:09:14.05Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Processing.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Processing.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Services\\Processing.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Processing.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Services\\Processing.cshtml",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAAAIMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:09:04.497Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Services\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Services\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Services\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:08:58.572Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Dashboard\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:02:48.391Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\AdminUsers\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\AdminUsers\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\AdminUsers\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\AdminUsers\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T17:02:14.73Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Products\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T16:59:54.75Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Inventory\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Inventory\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Inventory\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Inventory\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T16:57:52.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "purchase-order-index.js",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\purchase-order-index.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\purchase-order-index.js",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\purchase-order-index.js",
-              "RelativeToolTip": "wwwroot\\js\\purchase-order-index.js",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAAAGYBAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-03-29T16:44:34.565Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\PurchaseOrders\\Index.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\PurchaseOrders\\Index.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\PurchaseOrders\\Index.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\PurchaseOrders\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T16:33:41.542Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "render-rows.css",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\render-rows.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\render-rows.css",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\render-rows.css",
-              "RelativeToolTip": "wwwroot\\css\\render-rows.css",
-              "ViewState": "AgIAAFcBAAAAAAAAAADwv4oBAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-03-29T16:23:21.835Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "app-ui.js",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\app-ui.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\app-ui.js",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\app-ui.js",
-              "RelativeToolTip": "wwwroot\\js\\app-ui.js",
-              "ViewState": "AgIAABEAAAAAAAAAAAAQwCwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-03-29T16:16:41.612Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "wwwroot\\css\\site.css",
-              "ViewState": "AgIAALYAAAAAAAAAAAAiwM8AAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-03-29T16:08:55.926Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "TransactionsController.cs",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\TransactionsController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\TransactionsController.cs",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\TransactionsController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\TransactionsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAaAAAAAAAAAA==",
+              "Title": "ConversationAdminApiController.cs",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ConversationAdminApiController.cs",
+              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ConversationAdminApiController.cs",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ConversationAdminApiController.cs",
+              "RelativeToolTip": "Areas\\Admin\\Controllers\\ConversationAdminApiController.cs",
+              "ViewState": "AgIAAEECAAAAAAAAAAAuwDUCAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-29T14:46:22.135Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "ConversationsController.cs",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ConversationsController.cs",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ConversationsController.cs",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ConversationsController.cs",
-              "RelativeToolTip": "Areas\\Admin\\Controllers\\ConversationsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-29T14:45:10.893Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "ARCon_Capstone_2_DbContext.cs",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Data\\ARCon_Capstone_2_DbContext.cs",
-              "RelativeDocumentMoniker": "Data\\ARCon_Capstone_2_DbContext.cs",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Data\\ARCon_Capstone_2_DbContext.cs",
-              "RelativeToolTip": "Data\\ARCon_Capstone_2_DbContext.cs",
-              "ViewState": "AgIAAJ8BAAAAAAAAAAAAAPUBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-29T14:30:22.656Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "chat_participant.cs",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\chat_participant.cs",
-              "RelativeDocumentMoniker": "Models\\chat_participant.cs",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\chat_participant.cs",
-              "RelativeToolTip": "Models\\chat_participant.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-29T14:26:27.269Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "chat_conversation.cs",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\chat_conversation.cs",
-              "RelativeDocumentMoniker": "Models\\chat_conversation.cs",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Models\\chat_conversation.cs",
-              "RelativeToolTip": "Models\\chat_conversation.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAuwC8AAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-29T14:21:30.815Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "_AdminLayout.cshtml",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "ViewState": "AgIAAIEAAAAAAAAAAAAAAKwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-29T11:19:08.229Z",
+              "WhenOpened": "2026-04-01T18:40:47.918Z",
               "EditorCaption": ""
             }
           ]

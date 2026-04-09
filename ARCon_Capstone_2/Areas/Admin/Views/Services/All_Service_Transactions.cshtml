@@ -3,76 +3,7 @@
     var status = "ALL_TRANSACTIONS";
 }
 <link rel="stylesheet" href="~/css/render-rows.css" />
-<style>
-    .expand-arrow {
-        cursor: pointer;
-        font-size: 14px;
-        transition: transform 0.2s ease;
-        display: inline-block;
-    }
 
-        .expand-arrow.open {
-            transform: rotate(90deg);
-        }
-
-    .child-row td {
-        background-color: #f8f9fa;
-        border-top: none;
-    }
-
-    .list-group-item {
-        color: dimgrey;
-    }
-
-        .list-group-item:hover {
-            color: black;
-        }
-
-    procServices .list-group-item {
-        border-radius: 8px;
-        margin-bottom: 8px;
-        border: 1px solid #eee;
-    }
-
-    .tech-card {
-        cursor: pointer;
-        border: 1px solid #dee2e6;
-        border-radius: 8px;
-        padding: 10px;
-        transition: all 0.2s ease;
-        background: #fff;
-    }
-
-        .tech-card:hover {
-            background: #f8f9fa;
-            transform: translateY(-2px);
-        }
-
-        .tech-card.selected {
-            border-color: #0d6efd; /* blue */
-            background: #e7f1ff; /* light blue */
-        }
-
-    .status-dot {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        border: 2px solid #fff;
-    }
-
-        /* Online = green */
-        .status-dot.online {
-            background-color: #28a745;
-        }
-
-        /* Offline = gray */
-        .status-dot.offline {
-            background-color: #6c757d;
-        }
-</style>
 
 <div id="loadingSpinner" class="text-center my-3" style="display:none;">
     <div class="spinner-border text-primary" role="status"></div>

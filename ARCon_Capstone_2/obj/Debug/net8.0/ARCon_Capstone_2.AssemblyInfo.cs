@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ARCon_Capstone_2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7992fdcea7d59b9f945803d5507f3d8f2ef3299a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8be0a6d4b484228fa6f0a13c09d4f6492efb6471")]
 [assembly: System.Reflection.AssemblyProductAttribute("ARCon_Capstone_2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ARCon_Capstone_2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
