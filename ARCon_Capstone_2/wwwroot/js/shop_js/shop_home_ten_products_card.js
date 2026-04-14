@@ -147,11 +147,12 @@
 // Create cart button (clean helper)
 function createCartBtn(p) {
     return `
-        <button class="btn btn-primary cart-btn id="cartTen""
+        <button class="btn btn-primary cart-btn"
+            id="cartTen"
             data-id="${p.id}"
             data-name="${p.productModel}"
             data-price="${p.actualSellingPrice}">
-            <i class="bi bi-cart-plus-fill"></i>
+            <i class="bi bi-cart-plus-fill cart-icon"></i>
         </button>
     `;
 }

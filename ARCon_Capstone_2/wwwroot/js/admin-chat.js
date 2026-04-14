@@ -690,7 +690,7 @@ function uploadFile(file) {
             }
         };
 
-        // ERROR
+        //  ERROR
         xhr.onerror = function () {
             bar.style.display = "none";
             status.innerText = "❌ Upload error";

@@ -844,10 +844,8 @@ body {
         background-color: #0d6efd;
     }
 
-    .cart-btn i {
-        font-size: 18px;
-        color: #0d6efd;
-        padding:2px;
+    cart-btn:hover .cart-btn i{
+        color:white;
     }
 
     
@@ -858,10 +856,6 @@ body {
     border-radius: 6px;
 }
 .cart-btn:hover .cart-icon {
-    color: white;
-}
-
-.cart-btn:hover .cart-btn i {
     color: white;
 }
 
