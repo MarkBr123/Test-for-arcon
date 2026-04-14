@@ -235,33 +235,6 @@
         </div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay">
-        <div class="spinner-wrapper">
-            <div class="spinner-ring"></div>
-            <img src="~/ImageSources/Logo/aircon.PNG" alt="Loading..." class="logo-center" />
-        </div>
-    </div>
-
-
-    <!-- Toast container -->
-    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-
-    <div class="container-fluid p-0">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - ARCon_Capstone_2 -
-            <a asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-
-
-
     <!-- Chat -->
 
     <div id="chatFloatingBtn">
@@ -291,6 +264,7 @@
                     I need help with my order.
                     <div class="chat-time">10:31 AM</div>
                 </div>
+
             </div>
         </div>
 
@@ -301,6 +275,29 @@
     </div>
 
 
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div class="spinner-wrapper">
+            <div class="spinner-ring"></div>
+            <img src="~/ImageSources/Logo/aircon.PNG" alt="Loading..." class="logo-center" />
+        </div>
+    </div>
+
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+        <div class="container-fluid p-0">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ARCon_Capstone_2 -
+            <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
 
 
 

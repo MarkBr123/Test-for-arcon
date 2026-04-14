@@ -1,11 +1,38 @@
-﻿/*top part*/
+﻿/* TOP PART */
 .top-part {
+    height: 75vh;
+}
+
+#top-part-divider {
+    background-color: white;
+    width: 100%;
+    height: 10vh;
+    display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+    #top-part-divider .col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        #top-part-divider .col h6,
+        #top-part-divider .col p {
+            margin: 0;
+        }
+
+.bg-image-front {
+    width: 600px;
+    height: 350px;
+    position: relative;
+    left: 850px;
 }
 
 .bg-image {
     width: 100%;
-    height: 75vh; 
+    height: 100%;
     object-fit: cover;
     /*opacity: 50%;*/
 }
@@ -23,32 +50,78 @@
 .image-wrapper {
     position: relative;
     width: 100%;
-    height: 75vh; 
+    height: 65vh;
     overflow: hidden;
+    background-color: lightblue;
 }
 
-.image-wrapper::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-}
+    .image-wrapper::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1;
+    }
 
-
-/*bottom part*/
-
+/* BOTTOM PART */
 .bottom-part {
     background-color: #fff;
     width: 100%;
     height: 100vh;
-    object-fit: cover;
     text-align: center;
-
 }
 
 .hero_1-text {
     transform: translate(0%, 500%);
-    top: 50%;
-    left: 50%;
 }
+
+/* THREE COLUMNS */
+.three-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-top: 100px;
+}
+
+/* FLIP CARD */
+.flip-card {
+    height: 350px;
+    perspective: 1000px;
+}
+
+.flip-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.flip-card:hover .flip-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-front,
+.flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.flip-front {
+    background: red;
+}
+
+.flip-back {
+    background: gray;
+    transform: rotateY(180deg);
+}
+
+    .flip-back p {
+        color: white;
+    }

@@ -1,4 +1,4 @@
-﻿    @page
+﻿@page
 @model ARCon_Capstone_2.Views.Home.AboutModel
 @{
 }
@@ -8,8 +8,14 @@
 }
 
 <section class="top-part">
+    <div id="top-part-divider">
+        <div class="col">
+            <h6>LEARN SOMETHING ABOUT US</h6>
+            <p>Explore Aircon-i</p>
+        </div>
+    </div>
     <div class="image-wrapper">
-        <img class="bg-image" src="~/ImageSources/Background/owner.jpg" alt="background image">
+        <img class="bg-image-front" src="~/ImageSources/Background/owner.jpg" alt="background image">
 
         <div class="hero-text">
             <h1>About Us</h1>
@@ -20,9 +26,40 @@
 
 <section class="bottom-part">
     <div class="container">
-        <div class="hero_1-text">
-            <h1>About Us</h1>
-            <p>Clear text on image</p>
+        <div class="three-columns">
+
+            <div class="flip-card" id="c1">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <img class="bg-image" src="~/ImageSources/Background/owner.jpg" alt="background image">
+                    </div>
+                    <div class="flip-back">
+                        <p>Hidden content 1</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card" id="c2">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <img class="bg-image" src="~/ImageSources/Background/owner.jpg" alt="background image">
+                    </div>
+                    <div class="flip-back">
+                        <p>Hidden content 2</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" id="c3">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <img class="bg-image" src="~/ImageSources/Background/owner.jpg" alt="background image">
+                    </div>
+                    <div class="flip-back">
+                        <p>Hidden content 3</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
