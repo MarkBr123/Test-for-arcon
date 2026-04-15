@@ -491,13 +491,14 @@ body {
 
 /* SERVICES SECTION */
 .services {
-    padding: 60px 6%;
+    padding: 30px 9%;
     background: #eef5ff;
 }
 
     .services h2 {
         text-align: center;
         font-size: 28px;
+        margin-bottom: 60px;
     }
 
 .service-grid {
@@ -521,7 +522,7 @@ body {
         }
 
     .service-grid img {
-        width: 60px;
+        width: 90px;
         margin-bottom: 10px;
     }
 
@@ -919,4 +920,3 @@ body {
     border: 1px solid #198754;
     color: white;
 }
-
