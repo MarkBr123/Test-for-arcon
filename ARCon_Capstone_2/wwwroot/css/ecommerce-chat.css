@@ -35,7 +35,7 @@
     resize: vertical; 
 }
 
-/* ================= CUSTOM RESIZE HANDLE ================= */
+/* USTOM RESIZE HANDLE */
 .chat-resize-handle {
     position: absolute;
     top: 0;
@@ -55,7 +55,7 @@
         right: 5px;
     }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .chat-header {
     background: #0d6efd;
     color: #fff;
@@ -65,7 +65,7 @@
     align-items: center;
 }
 
-/* ================= BODY ================= */
+/* BODY */
 .chat-body {
     flex: 1;
     padding: 10px;
@@ -77,10 +77,10 @@
     scroll-behavior: smooth;
 }
 
-/* ================= FOOTER ================= */
+/* FOOTER */
 .chat-footer {
     display: flex;
-    align-items: flex-end; /* 🔥 prevents button stretch */
+    align-items: flex-end; /*  prevents button stretch */
     border-top: 1px solid #ddd;
     padding: 6px;
     gap: 6px;
@@ -110,7 +110,7 @@
         border-radius: 6px;
     }
 
-/* ================= MESSAGES ================= */
+/* MESSAGES */
 .chat-row {
     display: flex;
     width: 100%;
@@ -124,7 +124,7 @@
         justify-content: flex-start;
     }
 
-/* ================= BUBBLES ================= */
+/* BUBBLES */
 .chat-bubble {
     max-width: 70%;
     padding: 8px 12px;
@@ -148,7 +148,7 @@
     border-bottom-right-radius: 4px;
 }
 
-/* ================= TIME ================= */
+/* TIME */
 .chat-time {
     font-size: 9px;
     color: #414141;
@@ -156,7 +156,6 @@
     text-align: right;
     opacity: 0.8;
 }
-
 
 #chat_logo{
     width: 90px;
