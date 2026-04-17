@@ -13,20 +13,20 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
+    <script src="https://cdn.tailwindcss.com"></script>
     @RenderSection("Styles", required: false)
 </head>
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow">
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow bg-white">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse d-sm-inline-flex justify-content-between collapse">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="About">About</a>
@@ -64,7 +64,7 @@
 
 
         <!-- Notification, Cart, & Login -->
-        <div class="d-flex align-items-center gap-3 ms-3">
+        <div class="d-flex align-items-center ms-3 gap-3">
 
             <!--Notifications are only available when logged in-->
             @{
@@ -82,7 +82,7 @@
                    id="notificationButton">
                     🔔
                     <span id="notificationCount"
-                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                          class="position-absolute start-100 translate-middle badge rounded-pill bg-danger top-0"
                           style="display:none;">
                         0
                     </span>
@@ -197,7 +197,7 @@
                 <!-- Body -->
                 <div class="modal-body p-0">
                     <!-- Empty state (show when no notifications) -->
-                <div class="text-center text-muted py-4">
+                <div class="text-muted py-4 text-center">
                     No notifications yet
                 </div>
 
