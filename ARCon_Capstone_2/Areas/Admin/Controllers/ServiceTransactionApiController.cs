@@ -1087,7 +1087,7 @@ public class ServiceTransactionApiController : ControllerBase
         if (st == null)
             return NotFound("Service transaction not found");
 
-        // ✅ Combine start + end
+        // Combine start + end
         var start = st.actual_scheduled_date
             .ToDateTime(TimeOnly.FromTimeSpan(st.actual_scheduled_time));
 

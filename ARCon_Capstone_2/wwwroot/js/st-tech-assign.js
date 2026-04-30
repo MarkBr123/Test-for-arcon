@@ -526,3 +526,37 @@ function getScheduleLabel(dateStr) {
 
     return `In ${diffDays} days`;
 }
+
+function showToast(message, type = "success", delay = 3000) {
+
+    const container = document.getElementById("toastContainer");
+
+    const bgClass = {
+        success: "bg-success",
+        error: "bg-danger",
+        warning: "bg-warning",
+        info: "bg-info"
+    }[type] || "bg-secondary";
+
+    const toastEl = document.createElement("div");
+    toastEl.className = `toast align-items-center text-white ${bgClass} border-0`;
+    toastEl.role = "alert";
+    toastEl.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+
+    container.appendChild(toastEl);
+
+    const toast = new bootstrap.Toast(toastEl, { delay });
+    toast.show();
+
+    // Remove after hidden
+    toastEl.addEventListener("hidden.bs.toast", () => {
+        toastEl.remove();
+    });
+}

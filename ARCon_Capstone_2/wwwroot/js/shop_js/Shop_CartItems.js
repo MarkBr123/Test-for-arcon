@@ -1,4 +1,8 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+﻿//Shop/Controllers/Shop_CartApiController.cs
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
     loadCartItems();
 });
 
