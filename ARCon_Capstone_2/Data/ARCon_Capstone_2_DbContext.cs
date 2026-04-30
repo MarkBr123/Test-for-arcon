@@ -135,18 +135,31 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<chat_message_media> chat_message_medias { get; set; }
 
-    //end manually added
+    public virtual DbSet<auth_otp> auth_otps { get; set; }
 
+    public virtual DbSet<customer_rating> customer_ratings { get; set; }
+
+    //end manually added
 
     public virtual DbSet<work_schedule> work_schedules { get; set; }
 
     public virtual DbSet<products_media> products_medias { get; set; }
 
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+         => optionsBuilder.UseNpgsql(
+            "Host=dpg-d7oethosfn5c739bjk10-a.singapore-postgres.render.com;Port=5432;Database=arcon_db;Username=arcon_db_user;Password=NTa14fwUh7O4wq5eKCBxJb3sSLbKQ1Vz;SSL Mode=Require;"
+         );*/
+
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql(
-           "Host=localhost;Port=5432;Database=airconi_trading_db;Username=postgres;Password=inoh08"
-        );
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseNpgsql("Host=dpg-d7oethosfn5c739bjk10-a.singapore-postgres.render.com;Port=5432;Database=arcon_db;Username=arcon_db_user;Password=NTa14fwUh7O4wq5eKCBxJb3sSLbKQ1Vz;SSL Mode=Require;Trust Server Certificate=true");
+        }
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -311,7 +324,14 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                           .WithOne(i => i.delivery_item)
                           .HasForeignKey<delivery_item>(di => di.inventory_id)
                           .OnDelete(DeleteBehavior.Restrict);
-        });
+
+            entity.HasMany(d => d.customer_ratings)
+                .WithOne(r => r.delivery_item)
+                .HasForeignKey(r => r.delivery_item_id)
+                .IsRequired(false) // nullable
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("customer_ratings_delivery_item_id_fkey");
+                    });
 
         modelBuilder.Entity<service_transaction>(entity =>
         {
@@ -415,6 +435,90 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasForeignKey(e => e.chat_message_id)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+
+
+
+        modelBuilder.Entity<auth_otp>(entity =>
+        {
+            entity.ToTable("auth_otp");
+
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.id)
+                .UseIdentityAlwaysColumn();
+
+            entity.Property(e => e.user_id)
+                .IsRequired();
+
+            entity.Property(e => e.user_type)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            entity.Property(e => e.otp_code)
+                .HasMaxLength(255)
+                .IsRequired();
+
+            entity.Property(e => e.expires_at)
+                .IsRequired();
+
+            entity.Property(e => e.attempt_count)
+                .HasDefaultValue(0);
+
+            entity.Property(e => e.locked_until)
+                .IsRequired(false);
+
+            entity.Property(e => e.created_at)
+                .HasDefaultValueSql("NOW()");
+
+            // 🔥 Optional but recommended index (faster lookup)
+            entity.HasIndex(e => new { e.user_id, e.user_type });
+        });
+
+
+        modelBuilder.Entity<customer_rating>(entity =>
+        {
+            entity.HasKey(e => e.id).HasName("customer_ratings_pkey");
+
+            entity.Property(e => e.id).UseIdentityAlwaysColumn();
+            entity.Property(e => e.created_at).HasDefaultValueSql("now()");
+            entity.Property(e => e.isposted).HasDefaultValue(false);
+
+            entity.Property(e => e.rating)
+                .IsRequired();
+
+            entity.HasOne(d => d.customer)
+                .WithMany(p => p.customer_ratings)
+                .HasForeignKey(d => d.customer_id)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("customer_ratings_customer_id_fkey");
+
+            entity.HasOne(d => d.product)
+                .WithMany(p => p.customer_ratings)
+                .HasForeignKey(d => d.product_id)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("customer_ratings_product_id_fkey");
+
+     
+            entity.HasOne(d => d.customer_transaction)
+                .WithMany(p => p.customer_ratings)
+                .HasForeignKey(d => d.transaction_id)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("customer_ratings_transaction_id_fkey");
+
+            entity.HasOne(d => d.delivery_item)
+                .WithMany(p => p.customer_ratings)
+                .HasForeignKey(d => d.delivery_item_id)
+                .IsRequired(false) 
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("customer_ratings_delivery_item_id_fkey");
+
+            entity.HasIndex(e => new { e.customer_id, e.transaction_id, e.product_id })
+                .IsUnique()
+                .HasDatabaseName("ux_customer_ratings_unique");
+        });
+
+
+
 
         //End Manually Added
 
@@ -604,6 +708,13 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.HasOne(d => d.customer_avatar_media).WithMany(p => p.customers)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("customers_customer_avatar_media_id_fkey");
+
+            entity.HasMany(d => d.customer_ratings)
+                .WithOne(r => r.customer)
+                .HasForeignKey(r => r.customer_id)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("customer_ratings_customer_id_fkey");
+
         });
 
         modelBuilder.Entity<customer_address>(entity =>
@@ -677,6 +788,12 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasForeignKey(d => d.customer_transaction_id)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("deliveries_customer_transaction_id_fkey");
+
+            entity.HasMany(d => d.customer_ratings)
+                .WithOne(r => r.customer_transaction)
+                .HasForeignKey(r => r.transaction_id)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("customer_ratings_transaction_id_fkey");
         });
 
         modelBuilder.Entity<form_factor>(entity =>
@@ -859,6 +976,13 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                    .WithOne(p => p.product)
                    .HasForeignKey(p => p.product_id)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(d => d.customer_ratings)
+                .WithOne(r => r.product)
+                .HasForeignKey(r => r.product_id)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("customer_ratings_product_id_fkey");
+
         });
 
         modelBuilder.Entity<products_media>(entity =>

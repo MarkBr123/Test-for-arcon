@@ -13,22 +13,22 @@ namespace ARCon_Capstone_2.Areas.Shop.Controllers;
 public class Shop_ServiceBookingsApiController : ControllerBase
 {
     private readonly ARCon_Capstone_2_DbContext _context;
+    private readonly PayMongoService _payMongoService;
 
-    public Shop_ServiceBookingsApiController(ARCon_Capstone_2_DbContext context)
+    public Shop_ServiceBookingsApiController(ARCon_Capstone_2_DbContext context, PayMongoService payMongoService)
     {
         _context = context;
+        _payMongoService = payMongoService;
     }
 
     [HttpPost("cleaning")]
     public async Task<IActionResult> CreateCleaningBooking(
         [FromBody] Shop_CleaningServiceBookingDto dto)
     {
-        // ================= AUTH =================
         var customerId = HttpContext.Session.GetInt32("UserId");
         if (customerId == null)
             return Unauthorized(new { message = "Login Required" });
 
-        // ================= VALIDATION =================
         if (!ModelState.IsValid)
         {
             var errors = ModelState
@@ -57,63 +57,51 @@ public class Shop_ServiceBookingsApiController : ControllerBase
             return BadRequest(new { message = "No booking items" });
 
         if (dto.business_name == "")
-            dto.business_name = "PERSONAL".ToUpper();
+            dto.business_name = "PERSONAL";
 
         await using var tx = await _context.Database.BeginTransactionAsync();
 
         try
         {
-            // ================= CREATE PAYMENT FIRST =================
+            //create payment
             var payment = new payment_transaction
             {
                 payment_method = dto.payment_method,
-                amount = 0, // temp — update later
-                created_at = DateTime.UtcNow
+                amount = 0,
+                created_at = DateTime.UtcNow,
+                paymongo_status = dto.payment_method == "ONLINE_PAYMENT" ? "PENDING" : null,
+                after_service_status = dto.payment_method == "AFTER_SERVICE" ? "PENDING" : null
             };
 
-            if (dto.payment_method == "ONLINE_PAYMENT")
-                payment.paymongo_status = "PENDING";
-            else
-                payment.after_service_status = "PENDING";
-
             _context.payment_transactions.Add(payment);
-            await _context.SaveChangesAsync(); // ⭐ payment.id generated
+            await _context.SaveChangesAsync();
 
-
-
-            // ================= CREATE BOOKING =================
+            // creating service bookings
             var booking = new service_booking
             {
                 customer_id = customerId.Value,
                 status = "PENDING",
-
                 customer_addresses_id = dto.customer_addresses_id,
                 schedule_date = dto.schedule_date,
                 preferred_time = dto.preferred_time,
-
                 property_type = dto.property_type,
                 customer_note = dto.customer_note,
                 business_name = dto.business_name,
                 payment_method = dto.payment_method,
                 payment_status = "PENDING",
-
-                payment_transaction_id = payment.id // ⭐ FK satisfied
+                payment_transaction_id = payment.id
             };
 
             _context.service_bookings.Add(booking);
-            await _context.SaveChangesAsync(); // ⭐ booking.id generated
+            await _context.SaveChangesAsync();
 
-
-
-            // ================= BOOKING REF CODE =================
+            //reference code
             booking.booking_ref_code =
                 GenerateBookingRef(customerId.Value, booking.id);
 
             await _context.SaveChangesAsync();
 
-
-
-            // ================= BOOKING ITEMS =================
+            // services picked
             decimal grandTotal = 0;
 
             foreach (var item in dto.sbitems)
@@ -121,33 +109,53 @@ public class Shop_ServiceBookingsApiController : ControllerBase
                 var total = item.price * item.unit_count;
                 grandTotal += total;
 
-                var bookingItem = new service_booking_item
+                _context.service_booking_items.Add(new service_booking_item
                 {
                     service_bookings_id = booking.id,
                     services_id = item.services_id,
                     service_price_tier_id = item.service_price_tiers_id,
-
                     unit_count = item.unit_count,
                     unit_brand = item.unit_brand,
                     unit = item.unit,
                     capacity_range = item.capacity_range,
-                  
                     price = item.price
-                };
-                _context.service_booking_items.Add(bookingItem);
+                });
             }
 
             await _context.SaveChangesAsync();
 
-            // ================= UPDATE TOTALS =================
+            // update total
             booking.total_amount = grandTotal;
             payment.amount = grandTotal;
 
             await _context.SaveChangesAsync();
 
+            // if online payment
+            if (dto.payment_method == "ONLINE_PAYMENT")
+            {
+                if (string.IsNullOrEmpty(dto.PaymentMethodId))
+                    throw new Exception("Payment method is required.");
 
+                // Create intent
+                var paymentIntent = await _payMongoService.CreatePaymentIntent(grandTotal);
 
-            // ================= COMMIT =================
+                // Save intent ID
+                payment.paymongo_payment_intent_id = paymentIntent.Id;
+                await _context.SaveChangesAsync();
+
+                // Attach → triggers payment + webhook
+                await _payMongoService.AttachPaymentMethod(
+                    paymentIntent.Id,
+                    dto.PaymentMethodId
+                );
+            }
+            // if after service
+            else
+            {
+                payment.after_service_status = "PENDING";   
+                payment.paymongo_status = null;             
+            }
+
             await tx.CommitAsync();
 
             return Ok(new
@@ -164,14 +172,9 @@ public class Shop_ServiceBookingsApiController : ControllerBase
 
             var fullError = ex.InnerException?.Message ?? ex.Message;
 
-            Console.WriteLine("========== FULL ERROR ==========");
-            Console.WriteLine(ex.ToString());
-            Console.WriteLine("================================");
-
             return StatusCode(500, new
             {
-                message = fullError,
-                error = ex.Message
+                message = fullError
             });
         }
     }
@@ -183,14 +186,12 @@ public class Shop_ServiceBookingsApiController : ControllerBase
 
     [HttpPost("freon-charging")]
     public async Task<IActionResult> CreateFreonChargingBooking(
-       [FromBody] Shop_FreonServiceBookingDto dto)
+        [FromBody] Shop_FreonServiceBookingDto dto)
     {
-        // ================= AUTH =================
         var customerId = HttpContext.Session.GetInt32("UserId");
         if (customerId == null)
             return Unauthorized(new { message = "Login Required" });
 
-        // ================= VALIDATION =================
         if (!ModelState.IsValid)
         {
             var errors = ModelState
@@ -219,63 +220,51 @@ public class Shop_ServiceBookingsApiController : ControllerBase
             return BadRequest(new { message = "No booking items" });
 
         if (dto.business_name == "")
-            dto.business_name = "PERSONAL".ToUpper();
+            dto.business_name = "PERSONAL";
 
         await using var tx = await _context.Database.BeginTransactionAsync();
 
         try
         {
-            // ================= CREATE PAYMENT FIRST =================
+            //create payment
             var payment = new payment_transaction
             {
                 payment_method = dto.payment_method,
-                amount = 0, // temp — update later
-                created_at = DateTime.UtcNow
+                amount = 0,
+                created_at = DateTime.UtcNow,
+                paymongo_status = dto.payment_method == "ONLINE_PAYMENT" ? "PENDING" : null,
+                after_service_status = dto.payment_method == "AFTER_SERVICE" ? "PENDING" : null
             };
 
-            if (dto.payment_method == "ONLINE_PAYMENT")
-                payment.paymongo_status = "PENDING";
-            else
-                payment.after_service_status = "PENDING";
-
             _context.payment_transactions.Add(payment);
-            await _context.SaveChangesAsync(); // ⭐ payment.id generated
+            await _context.SaveChangesAsync();
 
-
-
-            // ================= CREATE BOOKING =================
+            // creating service bookings
             var booking = new service_booking
             {
                 customer_id = customerId.Value,
                 status = "PENDING",
-
                 customer_addresses_id = dto.customer_addresses_id,
                 schedule_date = dto.schedule_date,
                 preferred_time = dto.preferred_time,
-
                 property_type = dto.property_type,
                 customer_note = dto.customer_note,
                 business_name = dto.business_name,
                 payment_method = dto.payment_method,
                 payment_status = "PENDING",
-
-                payment_transaction_id = payment.id // ⭐ FK satisfied
+                payment_transaction_id = payment.id
             };
 
             _context.service_bookings.Add(booking);
-            await _context.SaveChangesAsync(); // ⭐ booking.id generated
+            await _context.SaveChangesAsync();
 
-
-
-            // ================= BOOKING REF CODE =================
+            //reference code
             booking.booking_ref_code =
                 GenerateBookingRef(customerId.Value, booking.id);
 
             await _context.SaveChangesAsync();
 
-
-
-            // ================= BOOKING ITEMS =================
+            // services picked
             decimal grandTotal = 0;
 
             foreach (var item in dto.sbitems)
@@ -304,15 +293,38 @@ public class Shop_ServiceBookingsApiController : ControllerBase
 
             await _context.SaveChangesAsync();
 
-            // ================= UPDATE TOTALS =================
+            // update total
             booking.total_amount = grandTotal;
             payment.amount = grandTotal;
 
             await _context.SaveChangesAsync();
 
+            // if online payment
+            if (dto.payment_method == "ONLINE_PAYMENT")
+            {
+                if (string.IsNullOrEmpty(dto.PaymentMethodId))
+                    throw new Exception("Payment method is required.");
 
+                // Create intent
+                var paymentIntent = await _payMongoService.CreatePaymentIntent(grandTotal);
 
-            // ================= COMMIT =================
+                // Save intent ID
+                payment.paymongo_payment_intent_id = paymentIntent.Id;
+                await _context.SaveChangesAsync();
+
+                // Attach → triggers payment + webhook
+                await _payMongoService.AttachPaymentMethod(
+                    paymentIntent.Id,
+                    dto.PaymentMethodId
+                );
+            }
+            // if after service
+            else
+            {
+                payment.after_service_status = "PENDING";
+                payment.paymongo_status = null;
+            }
+
             await tx.CommitAsync();
 
             return Ok(new
@@ -329,29 +341,25 @@ public class Shop_ServiceBookingsApiController : ControllerBase
 
             var fullError = ex.InnerException?.Message ?? ex.Message;
 
-            Console.WriteLine("========== FULL ERROR ==========");
-            Console.WriteLine(ex.ToString());
-            Console.WriteLine("================================");
-
             return StatusCode(500, new
             {
-                message = fullError,
-                error = ex.Message
+                message = fullError
             });
         }
     }
 
 
+
+
+
     [HttpPost("repair")]
     public async Task<IActionResult> CreateRepairBooking(
-   [FromBody] Shop_RepairServiceBookingDto dto)
+        [FromBody] Shop_RepairServiceBookingDto dto)
     {
-        // ================= AUTH =================
         var customerId = HttpContext.Session.GetInt32("UserId");
         if (customerId == null)
             return Unauthorized(new { message = "Login Required" });
 
-        // ================= VALIDATION =================
         if (!ModelState.IsValid)
         {
             var errors = ModelState
@@ -380,63 +388,51 @@ public class Shop_ServiceBookingsApiController : ControllerBase
             return BadRequest(new { message = "No booking items" });
 
         if (dto.business_name == "")
-            dto.business_name = "PERSONAL".ToUpper();
+            dto.business_name = "PERSONAL";
 
         await using var tx = await _context.Database.BeginTransactionAsync();
 
         try
         {
-            // ================= CREATE PAYMENT FIRST =================
+            //create payment
             var payment = new payment_transaction
             {
                 payment_method = dto.payment_method,
-                amount = 0, // temp — update later
-                created_at = DateTime.UtcNow
+                amount = 0,
+                created_at = DateTime.UtcNow,
+                paymongo_status = dto.payment_method == "ONLINE_PAYMENT" ? "PENDING" : null,
+                after_service_status = dto.payment_method == "AFTER_SERVICE" ? "PENDING" : null
             };
 
-            if (dto.payment_method == "ONLINE_PAYMENT")
-                payment.paymongo_status = "PENDING";
-            else
-                payment.after_service_status = "PENDING";
-
             _context.payment_transactions.Add(payment);
-            await _context.SaveChangesAsync(); // ⭐ payment.id generated
+            await _context.SaveChangesAsync();
 
-
-
-            // ================= CREATE BOOKING =================
+            // creating service bookings
             var booking = new service_booking
             {
                 customer_id = customerId.Value,
                 status = "PENDING",
-
                 customer_addresses_id = dto.customer_addresses_id,
                 schedule_date = dto.schedule_date,
                 preferred_time = dto.preferred_time,
-
                 property_type = dto.property_type,
                 customer_note = dto.customer_note,
                 business_name = dto.business_name,
                 payment_method = dto.payment_method,
                 payment_status = "PENDING",
-
-                payment_transaction_id = payment.id // ⭐ FK satisfied
+                payment_transaction_id = payment.id
             };
 
             _context.service_bookings.Add(booking);
-            await _context.SaveChangesAsync(); // ⭐ booking.id generated
+            await _context.SaveChangesAsync();
 
-
-
-            // ================= BOOKING REF CODE =================
+            //reference code
             booking.booking_ref_code =
                 GenerateBookingRef(customerId.Value, booking.id);
 
             await _context.SaveChangesAsync();
 
-
-
-            // ================= BOOKING ITEMS =================
+            // services picked
             decimal grandTotal = 0;
 
             foreach (var item in dto.sbitems)
@@ -464,15 +460,38 @@ public class Shop_ServiceBookingsApiController : ControllerBase
 
             await _context.SaveChangesAsync();
 
-            // ================= UPDATE TOTALS =================
+            // update total
             booking.total_amount = grandTotal;
             payment.amount = grandTotal;
 
             await _context.SaveChangesAsync();
 
+            // if online payment
+            if (dto.payment_method == "ONLINE_PAYMENT")
+            {
+                if (string.IsNullOrEmpty(dto.PaymentMethodId))
+                    throw new Exception("Payment method is required.");
 
+                // Create intent
+                var paymentIntent = await _payMongoService.CreatePaymentIntent(grandTotal);
 
-            // ================= COMMIT =================
+                // Save intent ID
+                payment.paymongo_payment_intent_id = paymentIntent.Id;
+                await _context.SaveChangesAsync();
+
+                // Attach → triggers payment + webhook
+                await _payMongoService.AttachPaymentMethod(
+                    paymentIntent.Id,
+                    dto.PaymentMethodId
+                );
+            }
+            // if after service
+            else
+            {
+                payment.after_service_status = "PENDING";
+                payment.paymongo_status = null;
+            }
+
             await tx.CommitAsync();
 
             return Ok(new
@@ -489,17 +508,13 @@ public class Shop_ServiceBookingsApiController : ControllerBase
 
             var fullError = ex.InnerException?.Message ?? ex.Message;
 
-            Console.WriteLine("========== FULL ERROR ==========");
-            Console.WriteLine(ex.ToString());
-            Console.WriteLine("================================");
-
             return StatusCode(500, new
             {
-                message = fullError,
-                error = ex.Message
+                message = fullError
             });
         }
     }
+
 
     //Service-Booking RefCode Generator
     private string GenerateBookingRef(int customerId, int bookingId)

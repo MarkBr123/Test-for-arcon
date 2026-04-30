@@ -1,7 +1,11 @@
-﻿document.addEventListener("DOMContentLoaded", async () => {
-    loadTransactionSummary();
+﻿
+let transactionId = null;
+
+document.addEventListener("DOMContentLoaded", async () => {
     const pathParts = window.location.pathname.split("/");
-    const transactionId = pathParts[pathParts.length - 1];
+    transactionId = pathParts[pathParts.length - 1];
+
+    loadTransactionSummary();
 
     const response = await fetch(`/api/transaction/${transactionId}/summary`);
     const data = await response.json();

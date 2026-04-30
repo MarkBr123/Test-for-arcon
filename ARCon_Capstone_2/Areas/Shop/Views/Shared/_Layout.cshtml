@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ARCon_Capstone_2</title>
+    <title>@ViewData["Title"] - Airconi Aircon Trading</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -120,8 +120,8 @@
                             <a class="dropdown-item"
                                asp-area="Shop"
                                asp-controller="Profile"
-                               asp-action="Index">
-                                Profile
+                               asp-action="MyProfile">
+                                My Profile
                             </a>
                         </li>
 
@@ -129,15 +129,15 @@
                             <a class="dropdown-item"
                                asp-area="Shop"
                                asp-controller="Orders"
-                               asp-action="Index">
+                               asp-action="MyPurchases">
                                 My Purchases
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item"
                                asp-area="Shop"
-                               asp-controller="Service"
-                               asp-action="Index">
+                               asp-controller="Orders"
+                               asp-action="MyServices">
                                 My Services
                             </a>
                         </li>
@@ -151,8 +151,6 @@
                                asp-action="Logout">
                                 Logout
                             </a>
-
-
                         </li>
                     </ul>
                 </div>

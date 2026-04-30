@@ -19,6 +19,13 @@ namespace ARCon_Capstone_2.Areas.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult VerifyOtp()
+        {
+            return View();
+        }
+
+
         public IActionResult Contact()
         {
             return View();

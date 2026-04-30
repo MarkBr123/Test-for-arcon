@@ -93,6 +93,12 @@
                     <div id="technologiesContainer"></div>
                 </div>
 
+                <!-- TECHNOLOGIES -->
+                <div class="feature-block">
+                    <strong>Customer Ratings:</strong>
+                    <div id="ratingsContainer"></div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -159,8 +165,8 @@
 
 @section Scripts {
     <script>
-        const productId = @ViewBag.ProductId;
-        const isLoggedIn = @ViewBag.IsLoggedIn.ToString().ToLower();
+        window.productId = @ViewBag.ProductId;
+        window.isLoggedIn = @ViewBag.IsLoggedIn.ToString().ToLower();
     </script>
 
     <script src="~/js/shop_js/shop_product-details.js"></script>

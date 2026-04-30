@@ -248,13 +248,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 
-//////////////// FINAL POST JS (Place Order)  /////////////////
+//////////////// FINAL POST JS (Place Order) //////////////////
 
 document.getElementById("placeOrderBtn")
     .addEventListener("click", async function () {
 
         const btn = this;
-        btn.disabled = true; // prevent double click
+        btn.disabled = true;
 
         try {
 
@@ -289,7 +289,46 @@ document.getElementById("placeOrderBtn")
                 return;
             }
 
-            // 🔹 Call API
+            // =========================
+            // 🔥 ONLINE PAYMENT FLOW
+            // =========================
+            let paymentMethodId = null;
+
+            if (paymentMethod === "ONLINE_PAYMENT") {
+
+                const cardNumber = document.getElementById("cardNumber").value;
+                const expMonth = document.getElementById("expMonth").value;
+                const expYear = document.getElementById("expYear").value;
+                const cvc = document.getElementById("cvc").value;
+
+                if (!cardNumber || !expMonth || !expYear || !cvc) {
+                    alert("Please complete card details.");
+                    btn.disabled = false;
+                    return;
+                }
+
+                const paymongo = Paymongo("pk_test_Yg5DNu2XYgqhsoVBJL8nmXjY");
+
+                const resultPM = await paymongo.createPaymentMethod({
+                    type: "card",
+                    details: {
+                        card_number: cardNumber.replace(/\s/g, ""),
+                        exp_month: parseInt(expMonth),
+                        exp_year: parseInt(expYear),
+                        cvc: cvc
+                    }
+                });
+
+                console.log("PM RESULT:", resultPM);
+
+                // 🔴 Handle error
+                if (!resultPM || resultPM.errors) {
+                    alert(resultPM?.errors?.[0]?.detail || "Payment failed.");
+                    btn.disabled = false;
+                    return;
+                }
+                paymentMethodId = resultPM.id;
+            }
             const response = await fetch("/api/shop/checkout/create-checkout", {
                 method: "POST",
                 headers: {
@@ -301,7 +340,8 @@ document.getElementById("placeOrderBtn")
                     shippingMethod: shippingMethod,
                     deliveryAddressId: deliveryAddressId
                         ? parseInt(deliveryAddressId)
-                        : null
+                        : null,
+                    paymentMethodId: paymentMethodId
                 })
             });
 
@@ -315,17 +355,31 @@ document.getElementById("placeOrderBtn")
             } catch (e) {
                 console.error("Response is not JSON:", text);
                 alert("Server error occurred.");
+                btn.disabled = false;
                 return;
             }
 
             if (!response.ok) {
-                alert(result.message || "Checkout failed.");
+                console.log("ERROR RESPONSE:", result);
+
+                alert(result.message || result.error || "Payment failed.");
+                btn.disabled = false;
                 return;
             }
 
+            // =========================
             // SUCCESS
-            alert("Order placed successfully!");
-            window.location.href = "/shop/order-summary/" + result.checkoutId;
+            // =========================
+            if (paymentMethod === "ONLINE_PAYMENT") {
+
+                alert("Order placed successfully! Process to Details >");
+                window.location.href = "/shop/cart/ordersummary/" + result.checkoutId;
+
+            } else {
+
+                alert("Order placed successfully! Process to Details >");
+                window.location.href = "/shop/cart/ordersummary/" + result.checkoutId;
+            }
 
         } catch (err) {
             console.error("Checkout error:", err);
@@ -333,3 +387,41 @@ document.getElementById("placeOrderBtn")
             btn.disabled = false;
         }
     });
+
+
+
+/// Toggle Online Payment Entries
+//  Toggle Online Payment UI
+document.querySelectorAll(".payment-option").forEach(radio => {
+    radio.addEventListener("change", togglePaymentUI);
+});
+
+function togglePaymentUI() {
+
+    const selected = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+    const section = document.getElementById("onlinePaymentSection");
+
+    const inputs = [
+        document.getElementById("cardNumber"),
+        document.getElementById("expMonth"),
+        document.getElementById("expYear"),
+        document.getElementById("cvc")
+    ];
+
+    if (selected === "ONLINE_PAYMENT") {
+
+        section.style.display = "block";
+
+        inputs.forEach(i => i.disabled = false);
+
+    } else {
+
+        section.style.display = "none";
+
+        inputs.forEach(i => {
+            i.disabled = true;
+            i.value = "";
+        });
+    }
+}

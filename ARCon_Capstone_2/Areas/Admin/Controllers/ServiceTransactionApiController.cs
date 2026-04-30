@@ -310,13 +310,10 @@ public class ServiceTransactionApiController : ControllerBase
         if (booking == null)
             return NotFound(new { message = "Booking not found" });
 
-        // BLOCK REJECTION IF PAID ONLINE
+        // Optional: mark refund needed
         if (booking.payment_method == "ONLINE_PAYMENT" && booking.payment_status == "PAID")
         {
-            return Ok(new
-            {
-                message = "This booking has already been paid online. Please notify the customer and process the refund manually."
-            });
+            booking.payment_status = "REFUND_PENDING";
         }
 
         if (booking.status == "REJECTED")
@@ -1104,7 +1101,7 @@ public class ServiceTransactionApiController : ControllerBase
                 au.status == "ACTIVE" &&
 
                 //Only AIRCON TECHNICIAN
-                au.user_roles.Any(ur => ur.Role.role_name == "AIRCON TECHNICIAN") &&
+                au.user_roles.Any(ur => ur.Role.role_name == "AIRCON_TECHNICIAN") &&
 
                 //Work schedule check (day + shift + rest day)
                 au.work_scheduleemployees.Any(ws =>

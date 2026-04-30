@@ -14,6 +14,9 @@ namespace ARCon_Capstone_2.DTOs
         public string payment_method { get; set; }
         public string? business_name { get; set; }
 
+        public string?  PaymentMethodId { get; set; }
+
+
         public List<Shop_FreonServiceBookingItemDto> sbitems { get; set; } = new();
     }
 }

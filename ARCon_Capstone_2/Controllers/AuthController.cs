@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using ARCon_Capstone_2.Data;
 using ARCon_Capstone_2.Extensions;
+using System.Net.Mail;
+using System.Net;
 
 public class AuthController : Controller
 {
@@ -77,23 +79,40 @@ public class AuthController : Controller
 
             await _context.SaveChangesAsync();
 
-            // Store session (CRITICAL for chat system)
-            HttpContext.Session.SetInt32("UserId", admin.id);
-            HttpContext.Session.SetString("UserType", primaryRole); // 🔥 FIXED
-            HttpContext.Session.SetString("Roles", string.Join(",", roles));
 
-            // Redirect
-            return RedirectToAction(
-                "Index",
-                "Dashboard",
-                new { area = "Admin" }
-            );
+            ///OTP Insertion for admin users
+            var otp = GenerateOtp();
+
+            // delete old OTP
+            var oldOtp = _context.auth_otps
+                .Where(x => x.user_id == admin.id && x.user_type == primaryRole);
+
+            _context.auth_otps.RemoveRange(oldOtp);
+
+            // insert new OTP
+            _context.auth_otps.Add(new auth_otp
+            {
+                user_id = admin.id,
+                user_type = primaryRole,
+                otp_code = otp,
+                expires_at = DateTime.UtcNow.AddMinutes(5),
+                attempt_count = 0
+            });
+
+            await _context.SaveChangesAsync();
+
+            // send email
+            await SendOtpEmail(admin.email_address, otp);
+
+            // temp session
+            HttpContext.Session.SetInt32("OtpUserId", admin.id);
+            HttpContext.Session.SetString("OtpUserType", primaryRole);
+            HttpContext.Session.SetString("OtpRoles", string.Join(",", roles));
+
+            return RedirectToAction("VerifyOtp", "Home", new { area = "Shop" });
         }
 
-
         // TRY CUSTOMER LOGIN
-
-
         var customerQuery = _context.customers.AsQueryable();
 
         customerQuery = isEmail
@@ -113,25 +132,53 @@ public class AuthController : Controller
 
             await _context.SaveChangesAsync();
 
-            //Store session
-            HttpContext.Session.SetInt32("UserId", customer.id);
-            HttpContext.Session.SetString("UserType", "CUSTOMER");
-            HttpContext.Session.SetString("CustomerFirstName", customer.first_name);
 
-            return RedirectToAction("Index", "Home");
+            //OTP insertion for customers
+            var otp = GenerateOtp();
+
+            // delete old OTP
+            var oldOtp = _context.auth_otps
+                .Where(x => x.user_id == customer.id && x.user_type == "CUSTOMER");
+
+            _context.auth_otps.RemoveRange(oldOtp);
+
+            // insert OTP
+            _context.auth_otps.Add(new auth_otp
+            {
+                user_id = customer.id,
+                user_type = "CUSTOMER",
+                otp_code = otp,
+                expires_at = DateTime.UtcNow.AddMinutes(5),
+                attempt_count = 0
+            });
+
+            await _context.SaveChangesAsync();
+
+            // send email
+            await SendOtpEmail(customer.email, otp);
+
+            // temp session
+            HttpContext.Session.SetInt32("OtpUserId", customer.id);
+            HttpContext.Session.SetString("OtpUserType", "CUSTOMER");
+
+            return RedirectToAction("VerifyOtp", "Home", new { area = "Shop" });
         }
 
         //If both fail
         return InvalidLogin();
     }
 
-    // INVALID LOGIN (CENTRALIZED)
 
+
+
+    // INVALID LOGIN (CENTRALIZED)
     private IActionResult InvalidLogin()
     {
         TempData["Error"] = "Invalid credentials";
         return RedirectToAction("Login", "Home", new { area = "Shop" });
     }
+
+
 
 
     // FAILED ADMIN LOGIN HANDLER
@@ -146,6 +193,7 @@ public class AuthController : Controller
 
         await _context.SaveChangesAsync();
     }
+
 
 
     [HttpGet]
@@ -180,6 +228,9 @@ public class AuthController : Controller
         );
     }
 
+
+
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> LogoutPost()
@@ -209,11 +260,140 @@ public class AuthController : Controller
     }
 
 
+
+
     [HttpGet]
     [ResponseCache(NoStore = false, Location = ResponseCacheLocation.Any)]
     public IActionResult Login()
     {
         return View("~/Areas/Shop/Views/Home/Login.cshtml");
+    }
+
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> VerifyOtp(string code)
+    {
+        var userId = HttpContext.Session.GetInt32("OtpUserId");
+        var userType = HttpContext.Session.GetString("OtpUserType");
+
+        if (userId == null || userType == null)
+            return RedirectToAction("Login");
+
+        var otpRecord = await _context.auth_otps
+            .Where(x => x.user_id == userId && x.user_type == userType)
+            .OrderByDescending(x => x.created_at)
+            .FirstOrDefaultAsync();
+
+        if (otpRecord == null)
+        {
+            TempData["Error"] = "Too many attempts. Try again later.";
+            return RedirectToAction("VerifyOtp", "Home", new { area = "Shop" }); 
+        }
+
+        // 🔒 LOCK
+        if (otpRecord.locked_until != null &&
+            otpRecord.locked_until > DateTime.UtcNow)
+        {
+            TempData["Error"] = "Too many attempts. Try again later.";
+            return RedirectToAction("VerifyOtp", "Home", new { area = "Shop" }); 
+        }
+
+        // EXPIRY
+        if (otpRecord.expires_at < DateTime.UtcNow)
+        {
+            _context.auth_otps.Remove(otpRecord);
+            await _context.SaveChangesAsync();
+
+            TempData["Error"] = "OTP expired. Please login again.";
+            return RedirectToAction("Login");
+        }
+
+        // WRONG OTP
+        if (otpRecord.otp_code != code)
+        {
+            otpRecord.attempt_count++;
+
+            if (otpRecord.attempt_count >= 3)
+            {
+                otpRecord.locked_until = DateTime.UtcNow.AddMinutes(3);
+                otpRecord.attempt_count = 0;
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["Error"] = "Invalid OTP";
+            return RedirectToAction("VerifyOtp", "Home", new { area = "Shop" }); 
+        }
+
+        // SUCCESS
+        _context.auth_otps.Remove(otpRecord);
+        await _context.SaveChangesAsync();
+
+        HttpContext.Session.Remove("OtpUserId");
+        HttpContext.Session.Remove("OtpUserType");
+
+        HttpContext.Session.SetInt32("UserId", userId.Value);
+        HttpContext.Session.SetString("UserType", userType);
+
+
+        if (userType == "CUSTOMER")
+        {
+            var customer = await _context.customers.FindAsync(userId.Value);
+
+            HttpContext.Session.SetString("CustomerFirstName", customer.first_name);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        if (userType != "CUSTOMER")
+        {
+            var roles = HttpContext.Session.GetString("OtpRoles");
+            HttpContext.Session.SetString("Roles", roles ?? "");
+            return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+        }
+
+        return RedirectToAction("Index", "Home");
+    }
+
+
+
+
+    /// <summary>
+    /// OPT Generator
+    /// </summary>
+    /// <returns></returns>
+    private string GenerateOtp()
+    {
+        return new Random().Next(100000, 999999).ToString();
+    }
+
+
+
+
+    /// <summary>
+    /// Send OTP thru email
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="otp"></param>
+    /// <returns></returns>
+    public async Task SendOtpEmail(string email, string otp)
+    {
+        var message = new MailMessage();
+
+        message.From = new MailAddress("marvincayobit@gmail.com"); // 🔥 REQUIRED
+        message.To.Add(email);
+        message.Subject = "Your OTP Code";
+        message.Body = $"Your OTP is: {otp}";
+
+        using var smtp = new SmtpClient("smtp.gmail.com", 587)
+        {
+            Credentials = new NetworkCredential("marvincayobit@gmail.com", "uiovnfytnmjfpnxo"),
+            EnableSsl = true
+        };
+
+        await smtp.SendMailAsync(message);
     }
 
 }

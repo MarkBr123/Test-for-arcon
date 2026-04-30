@@ -73,6 +73,26 @@
       "PackagePath": "staticwebassets\\ImageSources\\Logo\\aircon.PNG"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Logo\\chat-logo.gif",
+      "PackagePath": "staticwebassets\\ImageSources\\Logo\\chat-logo.gif"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Logo\\chatlogo.gif",
+      "PackagePath": "staticwebassets\\ImageSources\\Logo\\chatlogo.gif"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Logo\\chatlogo.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Logo\\chatlogo.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Logo\\pad.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Logo\\pad.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Logo\\shopee gif.gif",
+      "PackagePath": "staticwebassets\\ImageSources\\Logo\\shopee gif.gif"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Product\\LG.webp",
       "PackagePath": "staticwebassets\\ImageSources\\Product\\LG.webp"
     },
@@ -103,6 +123,18 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\airconi-logo.png",
       "PackagePath": "staticwebassets\\assets\\airconi-logo.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\for-confirm.png",
+      "PackagePath": "staticwebassets\\assets\\for-confirm.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\processing.png",
+      "PackagePath": "staticwebassets\\assets\\processing.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\to-ship.png",
+      "PackagePath": "staticwebassets\\assets\\to-ship.png"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\About.css",
@@ -161,6 +193,10 @@
       "PackagePath": "staticwebassets\\css\\ecommerce-chat.css"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\log.css",
+      "PackagePath": "staticwebassets\\css\\log.css"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\render-rows.css",
       "PackagePath": "staticwebassets\\css\\render-rows.css"
     },
@@ -207,6 +243,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\View-js\\Search.js",
       "PackagePath": "staticwebassets\\js\\View-js\\Search.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\View-js\\otp.js",
+      "PackagePath": "staticwebassets\\js\\View-js\\otp.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-chat.js",
@@ -261,6 +301,14 @@
       "PackagePath": "staticwebassets\\js\\shop_js\\Shop_CartItems.js"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\order-summary.js",
+      "PackagePath": "staticwebassets\\js\\shop_js\\order-summary.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\order_online-payment.js",
+      "PackagePath": "staticwebassets\\js\\shop_js\\order_online-payment.js"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_checkout.js",
       "PackagePath": "staticwebassets\\js\\shop_js\\shop_checkout.js"
     },
@@ -271,6 +319,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_home_ten_products_card.js",
       "PackagePath": "staticwebassets\\js\\shop_js\\shop_home_ten_products_card.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js",
+      "PackagePath": "staticwebassets\\js\\shop_js\\shop_my-puchases-for-confirmation.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_product-details.js",

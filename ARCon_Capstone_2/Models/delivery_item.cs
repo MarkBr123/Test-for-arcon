@@ -36,4 +36,7 @@ public class delivery_item
     [ForeignKey("inventory_id")]
     [InverseProperty("delivery_item")]  // must match property name in inventory
     public virtual inventory? inventory { get; set; }
+
+    [InverseProperty("delivery_item")]
+    public virtual ICollection<customer_rating> customer_ratings { get; set; }
 }

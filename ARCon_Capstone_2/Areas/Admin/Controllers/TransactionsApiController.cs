@@ -249,20 +249,95 @@ public class TransactionsApiController : ControllerBase
 
             return Ok();
         }
-    //this will make trasaction status = rejected
+    //this will make transaction status = rejected if COD and
+    //this will make transaction status = rejected_for_refund if online_Payment
+
     [HttpPut("{id}/reject")]
-        public async Task<IActionResult> RejectOrder(int id)
-        {
-        await _context.customer_transactions
-             .Where(t => t.id == id)
-             .ExecuteUpdateAsync(s =>
-                 s.SetProperty(t => t.status, "REJECTED")
-                 .SetProperty(t => t.date_rejected, DateTime.UtcNow));
+    public async Task<IActionResult> RejectOrder(int id)
+            {
+                var transaction = await _context.customer_transactions
+                    .Include(t => t.payment_transaction) 
+                    .FirstOrDefaultAsync(t => t.id == id);
+
+                if (transaction == null)
+                    return NotFound();
+
+                // Default status
+                string newStatus = "REJECTED";
+
+                if (transaction.payment_method == "ONLINE_PAYMENT" &&
+                    transaction.payment_transaction != null &&
+                    transaction.payment_transaction.paymongo_status == "PAID")
+                {
+                    newStatus = "REJECTED_FOR_REFUND";
+                }
+
+                // Update transaction
+                transaction.status = newStatus;
+                transaction.date_rejected = DateTime.UtcNow;
+                transaction.rejectedby = "AIRCONI_ADMIN";
 
                 await _context.SaveChangesAsync();
 
-            return Ok();
+                return Ok(new
+                {
+                    message = "Transaction updated",
+                    status = newStatus
+                });
+            }
+
+
+
+    //Cancel service transaction
+    [HttpPut("{id}/cancel-admin")]
+    public async Task<IActionResult> CancelOrderByAdmin(int id, [FromBody] CancelOrderDto dto)
+    {
+        var transaction = await _context.customer_transactions
+            .Include(t => t.payment_transaction)
+            .FirstOrDefaultAsync(t => t.id == id);
+
+        if (transaction == null)
+            return NotFound();
+
+        // ❌ Prevent invalid states
+        if (transaction.status == "COMPLETED")
+            return BadRequest("Completed orders cannot be cancelled.");
+
+        if (transaction.status == "CANCELLED" || transaction.status == "CANCELLED_FOR_REFUND")
+            return BadRequest("Order is already cancelled.");
+
+        // ❌ Require reason (ADMIN should always explain)
+        if (string.IsNullOrWhiteSpace(dto.CancellationReason))
+            return BadRequest("Cancellation reason is required.");
+
+        // 🔥 Determine status (refund logic)
+        string newStatus = "CANCELLED";
+
+        if (transaction.payment_method == "ONLINE_PAYMENT" &&
+            transaction.payment_transaction != null &&
+            transaction.payment_transaction.paymongo_status == "PAID")
+        {
+            newStatus = "CANCELLED_FOR_REFUND";
         }
+
+        // ✅ Force ADMIN (no override allowed)
+        transaction.status = newStatus;
+        transaction.cancelled_at = DateTime.UtcNow;
+        transaction.cancelled_by = "ADMIN";
+        transaction.cancellation_reason = dto.CancellationReason;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            message = "Order cancelled by admin",
+            status = newStatus,
+            cancelledBy = "ADMIN",
+            cancelledAt = transaction.cancelled_at,
+            reason = transaction.cancellation_reason
+        });
+    }
+
 
 
     [HttpGet("processing-transactions")]

@@ -345,7 +345,7 @@ function setupNavigation() {
 
     nextBtn.addEventListener('click', () => {
 
-        // 🚫 Not logged in
+        //  Not logged in
         if (!IS_LOGGED_IN) {
             const returnUrl = encodeURIComponent(window.location.pathname);
             window.location.href = `/Shop/Home/Login?returnUrl=${returnUrl}`;
@@ -354,13 +354,13 @@ function setupNavigation() {
 
         const entries = document.querySelectorAll('.aircon-entry');
 
-        // 🚫 No aircon
+        //  No aircon
         if (entries.length === 0) {
             alert('Please add at least one aircon service.');
             return;
         }
 
-        // 🚫 Validate each
+        //  Validate each
         for (const entry of entries) {
             const id = entry.dataset.airconId;
 
@@ -389,11 +389,11 @@ function setupNavigation() {
                 return;
             }
         }
-        // ✅ Merge same configs
+        //  Merge same configs
         mergeDuplicateAircons();
-        // ✅ Then render summary
+        //  Then render summary
         renderAirconSummary();
-        // ✅ Proceed
+        //  Proceed
         document.getElementById('page1').classList.remove('active');
         document.getElementById('page2').classList.add('active');
 
@@ -463,7 +463,9 @@ document.addEventListener('DOMContentLoaded', () => {
     customerTypeRadios.forEach(radio => {
         radio.addEventListener("change", updateBusinessField);
     });
-
+    //Listener for toggleOnlinePayment
+    document.querySelectorAll('input[name="payment_method"]')
+        .forEach(r => r.addEventListener('change', togglePaymentUI));
 });
 
 
@@ -556,7 +558,7 @@ async function loadCustomerAddresses() {
 // ================= SELECT ADDRESS =================
 function selectAddress(addr) {
 
-    // ✅ Normalize casing
+    //  Normalize casing
     const barangay = addr.barangay ?? addr.Barangay ?? '';
     const municipality = addr.municipality ?? addr.Municipality ?? '';
     const province = addr.province ?? addr.Province ?? '';
@@ -655,6 +657,59 @@ function getSelectedText(selectId) {
     return option.textContent.trim();
 }
 
+
+/// toggle online payment button
+function togglePaymentUI() {
+    const method = document.querySelector('input[name="payment_method"]:checked')?.value;
+    const section = document.getElementById('onlinePaymentSection');
+
+    if (!section) return;
+
+    section.style.display = method === "ONLINE_PAYMENT" ? "block" : "none";
+}
+
+
+
+//Online Payment Method
+async function createPaymentMethod() {
+
+    const cardNumber = document.getElementById('cardNumber').value;
+    const expMonth = document.getElementById('expMonth').value;
+    const expYear = document.getElementById('expYear').value;
+    const cvc = document.getElementById('cvc').value;
+
+    const res = await fetch("https://api.paymongo.com/v1/payment_methods", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Basic " + btoa("pk_test_Yg5DNu2XYgqhsoVBJL8nmXjY") // PUBLIC KEY
+        },
+        body: JSON.stringify({
+            data: {
+                attributes: {
+                    type: "card",
+                    details: {
+                        card_number: cardNumber.replace(/\s/g, ''),
+                        exp_month: Number(expMonth),
+                        exp_year: Number(expYear),
+                        cvc: cvc
+                    }
+                }
+            }
+        })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        throw new Error(data.errors?.[0]?.detail || "Card error");
+    }
+
+    return data.data.id;
+}
+
+
+
 ///Post///
 async function submitBooking() {
 
@@ -733,7 +788,6 @@ async function submitBooking() {
             capacity_range: selectedOption?.textContent || null,
             business_name: customerType === "BUSINESS" ? businessName : null,
 
-            // NEW fields
             refrigerant_type: refrigerantSelect?.value || null,
             last_charge_date: lastRechargeInput?.value || null,
 
@@ -745,9 +799,57 @@ async function submitBooking() {
         return showInfo("Please complete the service details before booking.");
     }
 
+
+    // CREATE PAYMENT METHOD 
+    if (paymentMethod === "ONLINE_PAYMENT") {
+
+        try {
+            const cardNumber = document.getElementById('cardNumber')?.value;
+            const expMonth = document.getElementById('expMonth')?.value;
+            const expYear = document.getElementById('expYear')?.value;
+            const cvc = document.getElementById('cvc')?.value;
+
+            if (!cardNumber || !expMonth || !expYear || !cvc) {
+                return showInfo("Please complete card details.");
+            }
+
+            const resPM = await fetch("https://api.paymongo.com/v1/payment_methods", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Basic " + btoa("pk_test_Yg5DNu2XYgqhsoVBJL8nmXjY")
+                },
+                body: JSON.stringify({
+                    data: {
+                        attributes: {
+                            type: "card",
+                            details: {
+                                card_number: cardNumber.replace(/\s/g, ''),
+                                exp_month: Number(expMonth),
+                                exp_year: Number(expYear),
+                                cvc: cvc
+                            }
+                        }
+                    }
+                })
+            });
+
+            const pmData = await resPM.json();
+
+            if (!resPM.ok) {
+                throw new Error(pmData.errors?.[0]?.detail || "Card error");
+            }
+
+            payload.paymentMethodId = pmData.data.id;
+        }
+        catch (err) {
+            return showInfo(err.message || "Failed to process card.");
+        }
+    }
+
     console.log("📦 BOOKING PAYLOAD:", payload);
 
-    //===== LOADING STATE =====//
+    //  LOADING 
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
 
@@ -759,69 +861,81 @@ async function submitBooking() {
             body: JSON.stringify(payload)
         });
 
-        const text = await res.text();
+        const data = await res.json();
 
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch {
-            throw new Error("Unexpected server response.");
-        }
-
-        // ================= SERVER VALIDATION ERROR =================
         if (!res.ok) {
-            document.getElementById('errorMessage').textContent =
-                data.message || "Booking could not be completed.";
-
-            new bootstrap.Modal(
-                document.getElementById('errorModal')
-            ).show();
-
-            btn.disabled = false;
-            btn.textContent = "Book Service";
-            return;
+            throw new Error(data.message || "Booking failed.");
         }
 
-        // ================= SUCCESS =================
+        //  WAIT FOR WEBHOOK 
         document.getElementById('successBookingId').textContent =
             data.reference ?? data.bookingId;
 
-        const successModal = new bootstrap.Modal(
+        new bootstrap.Modal(
             document.getElementById('successModal')
-        );
-        successModal.show();
+        ).show();
 
-        // Auto redirect after 3s
+        resetBookingForm();
+
+
+        //OPTIONAL: WAIT A BIT FOR WEBHOOK
         setTimeout(() => {
             window.location.href =
                 `/Shop/Booking/Success?id=${data.bookingId}`;
-        }, 10000);
-
-        document.getElementById('successOkBtn').onclick = () => {
-            window.location.href =
-                `/Shop/Booking/Success?id=${data.bookingId}`;
-        };
+        }, 5000);
 
     } catch (err) {
-        // ================= NETWORK ERROR =================
+
         document.getElementById('errorMessage').textContent =
-            err.message || "Network error. Please check your connection.";
+            err.message || "Network error.";
 
-        const errorModal = new bootstrap.Modal(
-            document.getElementById('errorModal')
-        );
-        errorModal.show();
+        new bootstrap.Modal(document.getElementById('errorModal')).show();
 
-        document.getElementById('retryBtn').onclick = () => {
-            bootstrap.Modal.getInstance(
-                document.getElementById('errorModal')
-            ).hide();
-
-            btn.disabled = false;
-            btn.textContent = "Book Service";
-        };
+        btn.disabled = false;
+        btn.textContent = "Book Service";
     }
 }
+
+// After transaction it resets everything
+function resetBookingForm() {
+
+    // Reset radio buttons
+    document.querySelectorAll('input[name="payment_method"]')
+        .forEach(r => r.checked = false);
+
+    // Hide card section
+    const section = document.getElementById('onlinePaymentSection');
+    if (section) section.style.display = "none";
+
+    //Clear card inputs
+    ['cardNumber', 'expMonth', 'expYear', 'cvc'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+
+    //Clear basic fields
+    document.getElementById('scheduleDate').value = "";
+    document.getElementById('preferredTime').value = "";
+    document.getElementById('businessName').value = "";
+
+    const note = document.querySelector('[name="customer_note"]');
+    if (note) note.value = "";
+
+    // 🔹 Clear service entries
+    document.querySelectorAll('.aircon-entry').forEach(entry => {
+        const selects = entry.querySelectorAll('select');
+        const inputs = entry.querySelectorAll('input');
+
+        selects.forEach(s => s.selectedIndex = 0);
+        inputs.forEach(i => {
+            if (i.type !== "hidden") i.value = "";
+        });
+    });
+}
+
+
+
+
 function getRadioValue(name) {
     return document.querySelector(`input[name="${name}"]:checked`)?.value || null;
 }

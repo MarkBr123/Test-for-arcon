@@ -2,10 +2,10 @@
 {
     public class Shop_CreateCheckoutDto
     {
-        public string PaymentMethod { get; set; }      // COD or PAYMONGO
-        public string ShippingMethod { get; set; }     // Pickup, In-house, Lalamove
-        public int? DeliveryAddressId { get; set; }    // Required if not Pickup
-
+        public string PaymentMethod { get; set; }     
+        public string ShippingMethod { get; set; }    
+        public int? DeliveryAddressId { get; set; }    
+        public string? PaymentMethodId { get; set; }
     }
 }
 

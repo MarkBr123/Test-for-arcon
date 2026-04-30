@@ -126,6 +126,9 @@ public partial class product
     [InverseProperty("product")]
     public virtual ICollection<technical_specification> technical_specifications { get; set; } = new List<technical_specification>();
 
+    [InverseProperty("product")]
+    public virtual ICollection<customer_rating> customer_ratings { get; set; }
+
     [ForeignKey("updated_by")]
     [InverseProperty("productupdated_byNavigations")]
     public virtual admin_user? updated_byNavigation { get; set; }

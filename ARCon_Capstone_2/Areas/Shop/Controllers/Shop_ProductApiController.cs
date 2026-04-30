@@ -109,6 +109,40 @@ public class Shop_ProductApiController: ControllerBase
         return Ok(products);
     }
 
+    /// <summary>
+    /// This will show ratings
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <returns></returns>
+    [HttpGet("product/{productId}/ratings")]
+    public async Task<IActionResult> GetProductRatings(int productId)
+    {
+        var ratingsQuery = _context.customer_ratings
+            .Where(r => r.product_id == productId && r.isposted == true)
+            .Include(r => r.customer); // 🔥 important for name
+
+        var ratings = await ratingsQuery
+            .OrderByDescending(r => r.created_at)
+            .Select(r => new
+            {
+                rating = r.rating,
+                comment = r.comment,
+                createdAt = r.created_at,
+                customerName = r.customer.first_name + " " + r.customer.last_name
+            })
+            .ToListAsync();
+
+        var avgRating = ratings.Any()
+            ? ratings.Average(r => r.rating)
+            : 0;
+
+        return Ok(new
+        {
+            averageRating = avgRating,
+            totalReviews = ratings.Count,
+            reviews = ratings
+        });
+    }
 
 
 

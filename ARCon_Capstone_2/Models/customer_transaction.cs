@@ -35,6 +35,16 @@ public partial class customer_transaction
     [StringLength(30)]
     public string? status { get; set; }
 
+    [StringLength(15)]
+    public string? rejectedby { get; set; }
+
+
+    public DateTime? cancelled_at { get; set; }
+    [StringLength(15)]
+    public string? cancelled_by { get; set; }
+    [StringLength(200)]
+    public string? cancellation_reason { get; set; }
+
     [ForeignKey("checkout_id")]
     [InverseProperty("customer_transactions")]
     public virtual checkout checkout { get; set; } = null!;
@@ -45,6 +55,9 @@ public partial class customer_transaction
 
     [InverseProperty("customer_transaction")]
     public virtual ICollection<order> orders { get; set; } = new List<order>();
+
+    [InverseProperty("customer_transaction")]
+    public virtual  ICollection<customer_rating> customer_ratings { get; set; }
 
     [ForeignKey("payment_transaction_id")]
     [InverseProperty("customer_transactions")]

@@ -22,10 +22,15 @@ public partial class payment_transaction
     [StringLength(255)]
     public string? paymongo_payment_id { get; set; }
 
+    [StringLength(255)]
+    public string? paymongo_payment_intent_id { get; set;}
+
+    [StringLength(255)]
+    public string? paymongo_payment_method_id { get; set; }
     [StringLength(50)]
     public string? paymongo_status { get; set; }
     [StringLength(20)]
-    public string after_service_status { get; set; }
+    public string? after_service_status { get; set; }
 
     public DateTime? paid_at { get; set; }
 

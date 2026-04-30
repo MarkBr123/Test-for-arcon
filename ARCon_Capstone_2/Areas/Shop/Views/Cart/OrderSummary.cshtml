@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Order Summary";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Checkout.css" asp-append-version="true" />
+}
+
+<div class="container checkout-page">
+
+    <!-- 🔹 TITLE -->
+    <div class="section-title">🧾 Order Summary</div>
+
+    <!-- 🔹 MAIN CARD -->
+    <div class="checkout-card">
+
+        <h5>Thank you for your order!</h5>
+        <p>Your order is being processed.</p>
+
+        <!-- 🔥 PAYMENT STATUS -->
+        <div id="paymentStatus" class="mt-3 fw-bold text-warning">
+            ⏳ Processing your payment...
+        </div>
+
+        <!-- 🔥 ORDER DETAILS -->
+        <div id="orderDetails" class="mt-4"></div>
+
+    </div>
+
+</div>
+
+<script src="~/js/shop_js/order-summary.js"></script>

@@ -1,7 +1,9 @@
 ﻿using ARCon_Capstone_2.Models;
 using Microsoft.AspNetCore.Mvc;
+using ARCon_Capstone_2.Filters;
 
 [Area("Shop")]
+[CustomerAuthorization]
 public class CartController : Controller
 {
 
@@ -29,6 +31,34 @@ public class CartController : Controller
 
         return View();
     }
+
+    //Paymongo Payment
+
+    public IActionResult OnlinePayment()
+    {
+        var customerId = HttpContext.Session.GetInt32("UserId");
+        var userType = HttpContext.Session.GetString("UserType");
+
+        if (customerId == null || userType != "CUSTOMER")
+        {
+            return RedirectToAction("Login", "Home", new { area = "Shop" });
+        }
+
+        ViewBag.CustomerId = customerId;
+
+        return View();
+    }
+
+
+    public IActionResult OrderSummary()
+    {
+        var customerId = HttpContext.Session.GetInt32("UserId");
+
+        ViewBag.CustomerId = customerId;
+
+        return View();
+    }
+
 
     public IActionResult Checkout()
     {

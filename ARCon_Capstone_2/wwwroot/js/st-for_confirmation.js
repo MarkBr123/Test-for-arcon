@@ -77,7 +77,7 @@ async function loadData() {
 
                 <li>
                     <button class="dropdown-item d-flex align-items-center gap-2 text-success"
-                        ${item.paymentMethod === "ONLINE_PAYMENT" && item.paymentStatus !== "PAID" ? "disabled" : ""}
+                        ${item.paymentMethod === "ONLINE_PAYMENT" && item.paymentStatus == "PAID" ? "enabled" : ""}
                         onclick="confirmBooking(${item.id})">
                         <i class="bi bi-check-circle"></i>
                         <span>Confirm</span>
@@ -88,7 +88,7 @@ async function loadData() {
 
                 <li>
                     <button class="dropdown-item d-flex align-items-center gap-2 text-danger"
-                        ${item.paymentMethod === "ONLINE_PAYMENT" && item.paymentStatus === "PAID" ? "disabled" : ""}
+                        ${item.paymentMethod === "ONLINE_PAYMENT" && item.paymentStatus === "PAID" ? "enabled" : ""}
                         title="Paid booking - notify customer first"
                         onclick="rejectBooking(${item.id})">
                         <i class="bi bi-x-circle"></i>

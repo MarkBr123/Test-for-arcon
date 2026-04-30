@@ -1,4 +1,4 @@
-﻿// ================= INIT =================
+﻿// INIT 
 document.addEventListener('DOMContentLoaded', initForm);
 
 let airconCounter = 1;
@@ -16,7 +16,7 @@ async function initForm() {
     setupNavigation();
 }
 
-// ================= PRELOAD =================
+//  PRELOAD 
 async function preloadDropdownData() {
     if (!API_CACHE.airconTypes) {
         API_CACHE.airconTypes = await fetch('/api/service-aircon-types/dropdown')
@@ -51,7 +51,7 @@ function populateInitialDropdowns() {
     });
 }
 
-// ================= AIRCON LOGIC =================
+//  AIRCON LOGIC 
 function initAircon(id) {
     const acType = document.getElementById(`acType-${id}`);
     const service = document.getElementById(`serviceType-${id}`);
@@ -127,7 +127,7 @@ async function updatePriceTierDropdown(id) {
     updateTotal();
 }
 
-// ================= TOTAL =================
+//  TOTAL
 function updateTotal() {
     let total = 0;
 
@@ -148,7 +148,7 @@ function updateTotal() {
     if (el) el.textContent = `₱ ${total.toLocaleString()}`;
 }
 
-// ================= UI EVENTS =================
+// UI EVENTS
 function setupEventDelegation() {
     document.addEventListener('click', e => {
 
@@ -187,7 +187,7 @@ function setupEventDelegation() {
     });
 }
 
-// ================= ADD AIRCON =================
+//ADD AIRCON
 function addAircon() {
     airconCounter++;
     const id = airconCounter;
@@ -250,7 +250,7 @@ function addAircon() {
     initAircon(id);
 }
 
-// ================= HELPERS =================
+// HELPERS 
 function renumberAircons() {
     document.querySelectorAll('.aircon-entry')
         .forEach((entry, i) =>
@@ -312,14 +312,14 @@ function populateDropdownsFor(id) {
     }
 }
 
-// ================= NAVIGATION =================
+// NAVIGATION 
 function setupNavigation() {
     const nextBtn = document.getElementById('nextBtn');
     if (!nextBtn) return;
 
     nextBtn.addEventListener('click', () => {
 
-        // 🚫 Not logged in
+        //  Not logged in
         if (!IS_LOGGED_IN) {
             const returnUrl = encodeURIComponent(window.location.pathname);
             window.location.href = `/Shop/Home/Login?returnUrl=${returnUrl}`;
@@ -328,13 +328,13 @@ function setupNavigation() {
 
         const entries = document.querySelectorAll('.aircon-entry');
 
-        // 🚫 No aircon
+        //  No aircon
         if (entries.length === 0) {
             alert('Please add at least one aircon service.');
             return;
         }
 
-        // 🚫 Validate each
+        //  Validate each
         for (const entry of entries) {
             const id = entry.dataset.airconId;
 
@@ -360,13 +360,13 @@ function setupNavigation() {
             }
         }
 
-        // ✅ Merge same configs
+        // Merge same configs
         mergeDuplicateAircons();
 
-        // ✅ Then render summary
+        // Then render summary
         renderAirconSummary();
 
-        // ✅ Proceed
+        // Proceed
         document.getElementById('page1').classList.remove('active');
         document.getElementById('page2').classList.add('active');
 
@@ -388,7 +388,7 @@ function setupNavigation() {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ================= BACK BUTTON LOGIC =================
+    //  BACK BUTTON LOGIC 
     const backBtn = document.getElementById('backBtn');
     if (backBtn) {
         backBtn.addEventListener('click', () => {
@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // ================= CUSTOMER TYPE → BUSINESS FIELD =================
+    //  CUSTOMER TYPE → BUSINESS FIELD 
     const businessNameInput = document.getElementById("businessName");
     const customerTypeRadios = document.querySelectorAll('input[name="customer_type"]');
 
@@ -439,6 +439,10 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener("change", updateBusinessField);
     });
 
+    //Listener for toggleOnlinePayment
+    document.querySelectorAll('input[name="payment_method"]')
+        .forEach(r => r.addEventListener('change', togglePaymentUI));
+
 });
 
 
@@ -453,7 +457,7 @@ const customerAddressIdInput = document.getElementById('customerAddressId');
 const changeAddressBtn = document.getElementById('changeAddressBtn');
 
 
-// ================= OPEN MODAL =================
+// OPEN MODAL 
 async function openAddressModal() {
     const modal = bootstrap.Modal.getOrCreateInstance(addressModal);
     modal.show();
@@ -464,7 +468,7 @@ chooseAddressBtn?.addEventListener('click', openAddressModal);
 changeAddressBtn?.addEventListener('click', openAddressModal);
 
 
-// ================= LOAD ADDRESSES =================
+// LOAD ADDRESSES 
 async function loadCustomerAddresses() {
 
     container.innerHTML = `<div class="loading">Loading addresses...</div>`;
@@ -490,7 +494,7 @@ async function loadCustomerAddresses() {
 
         addresses.forEach(addr => {
 
-            // ✅ Normalize casing (camelCase or PascalCase — both work)
+            // Normalize casing (camelCase or PascalCase — both work)
             const barangay = addr.barangay ?? addr.Barangay ?? '';
             const municipality = addr.municipality ?? addr.Municipality ?? '';
             const province = addr.province ?? addr.Province ?? '';
@@ -528,10 +532,10 @@ async function loadCustomerAddresses() {
 }
 
 
-// ================= SELECT ADDRESS =================
+//SELECT ADDRESS 
 function selectAddress(addr) {
 
-    // ✅ Normalize casing
+    //  Normalize casing
     const barangay = addr.barangay ?? addr.Barangay ?? '';
     const municipality = addr.municipality ?? addr.Municipality ?? '';
     const province = addr.province ?? addr.Province ?? '';
@@ -554,7 +558,7 @@ function selectAddress(addr) {
     bootstrap.Modal.getInstance(addressModal)?.hide();
 }
 
-// ================= RENDER AIRCON SUMMARY (PAGE 2) =================
+//RENDER AIRCON SUMMARY (PAGE 2) 
 function renderAirconSummary() {
     const container = document.getElementById('airconSummaryContainer');
     if (!container) return;
@@ -571,7 +575,7 @@ function renderAirconSummary() {
     entries.forEach((entry, index) => {
         const id = entry.dataset.airconId;
 
-        // ✅ FIXED IDs
+        // FIXED IDs
         const acTypeText = getSelectedText(`acType-${id}`);
         const serviceText = getSelectedText(`serviceType-${id}`);
         const tierText = getSelectedText(`priceTier-${id}`);
@@ -609,7 +613,7 @@ function renderAirconSummary() {
 }
 
 
-// ================= HELPER =================
+//HELPER
 function getSelectedText(selectId) {
     const select = document.getElementById(selectId);
     if (!select) return '-';
@@ -622,18 +626,71 @@ function getSelectedText(selectId) {
     return option.textContent.trim();
 }
 
+
+/// toggle online payment button
+function togglePaymentUI() {
+    const method = document.querySelector('input[name="payment_method"]:checked')?.value;
+    const section = document.getElementById('onlinePaymentSection');
+
+    if (!section) return;
+
+    section.style.display = method === "ONLINE_PAYMENT" ? "block" : "none";
+}
+
+
+
+//Online Payment Method
+async function createPaymentMethod() {
+
+    const cardNumber = document.getElementById('cardNumber').value;
+    const expMonth = document.getElementById('expMonth').value;
+    const expYear = document.getElementById('expYear').value;
+    const cvc = document.getElementById('cvc').value;
+
+    const res = await fetch("https://api.paymongo.com/v1/payment_methods", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Basic " + btoa("pk_test_Yg5DNu2XYgqhsoVBJL8nmXjY") // PUBLIC KEY
+        },
+        body: JSON.stringify({
+            data: {
+                attributes: {
+                    type: "card",
+                    details: {
+                        card_number: cardNumber.replace(/\s/g, ''),
+                        exp_month: Number(expMonth),
+                        exp_year: Number(expYear),
+                        cvc: cvc
+                    }
+                }
+            }
+        })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        throw new Error(data.errors?.[0]?.detail || "Card error");
+    }
+
+    return data.data.id; 
+}
+
+
+
+
 ///Post///
 async function submitBooking() {
 
     const btn = document.getElementById('submitBtn');
 
-    // ================= BASIC VALIDATION =================
+    //  BASIC VALIDATION 
     const addressId = Number(document.getElementById('customerAddressId')?.value);
     const scheduleDate = document.getElementById('scheduleDate')?.value;
     const propertyType = document.querySelector('[name="property_type"]')?.value;
     const paymentMethod = getRadioValue('payment_method');
     const preferredTimeInput = document.getElementById('preferredTime');
-    const businessNameInput = document.getElementById("businessName");
 
     const showInfo = (msg) => {
         document.getElementById('infoMessage').textContent = msg;
@@ -645,7 +702,7 @@ async function submitBooking() {
     if (!propertyType) return showInfo("Please select the property type.");
     if (!paymentMethod) return showInfo("Please choose a payment method.");
 
-    // ================= BUILD PAYLOAD =================
+    // BUILD PAYLOAD
     const payload = {
         customer_addresses_id: addressId,
         schedule_date: scheduleDate,
@@ -656,36 +713,30 @@ async function submitBooking() {
         business_name: document.getElementById('businessName')?.value?.trim() || null,
         customer_note: document.querySelector('[name="customer_note"]')?.value || null,
         payment_method: paymentMethod.toUpperCase(),
+        paymentMethodId: null, 
         sbitems: []
     };
 
-    // ================= COLLECT AIRCON ITEMS =================
+    //  COLLECT ITEMS
     const entries = document.querySelectorAll('.aircon-entry');
 
     if (!entries.length) {
         return showInfo("Please add at least one aircon service.");
     }
 
-    entries.forEach(entry => {
+    for (const entry of entries) {
         const id = entry.dataset.airconId;
         const tierSelect = document.getElementById(`priceTier-${id}`);
         const unitsInput = entry.querySelector('.units-input');
         const brandSelect = document.getElementById(`brand-${id}`);
 
-        const customerType = getRadioValue('customer_type');
-        const businessName = document.getElementById('businessName')?.value?.trim();
-
-        if (customerType === "BUSINESS" && !businessName) {
-            return showInfo("Please enter your business name.");
-        }
-
-        if (!tierSelect?.value) return;
+        if (!tierSelect?.value) continue;
 
         const selectedOption = tierSelect.selectedOptions[0];
         const price = Number(selectedOption?.dataset.price || 0);
         const serviceId = Number(tierSelect.dataset.serviceId);
 
-        if (!serviceId) return;
+        if (!serviceId) continue;
 
         payload.sbitems.push({
             services_id: serviceId,
@@ -694,18 +745,64 @@ async function submitBooking() {
             unit_brand: brandSelect?.value || null,
             unit: selectedOption?.dataset.unit || null,
             capacity_range: selectedOption?.textContent || null,
-            business_name: customerType === "BUSINESS" ? businessName : null,
             price: price
         });
-    });
+    }
 
     if (!payload.sbitems.length) {
         return showInfo("Please complete the service details before booking.");
     }
 
-    console.log("📦 BOOKING PAYLOAD:", payload);
+    // CREATE PAYMENT METHOD 
+    if (paymentMethod === "ONLINE_PAYMENT") {
 
-    // ================= LOADING STATE =================
+        try {
+            const cardNumber = document.getElementById('cardNumber')?.value;
+            const expMonth = document.getElementById('expMonth')?.value;
+            const expYear = document.getElementById('expYear')?.value;
+            const cvc = document.getElementById('cvc')?.value;
+
+            if (!cardNumber || !expMonth || !expYear || !cvc) {
+                return showInfo("Please complete card details.");
+            }
+
+            const resPM = await fetch("https://api.paymongo.com/v1/payment_methods", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Basic " + btoa("pk_test_Yg5DNu2XYgqhsoVBJL8nmXjY")
+                },
+                body: JSON.stringify({
+                    data: {
+                        attributes: {
+                            type: "card",
+                            details: {
+                                card_number: cardNumber.replace(/\s/g, ''),
+                                exp_month: Number(expMonth),
+                                exp_year: Number(expYear),
+                                cvc: cvc
+                            }
+                        }
+                    }
+                })
+            });
+
+            const pmData = await resPM.json();
+
+            if (!resPM.ok) {
+                throw new Error(pmData.errors?.[0]?.detail || "Card error");
+            }
+
+            payload.paymentMethodId = pmData.data.id; 
+        }
+        catch (err) {
+            return showInfo(err.message || "Failed to process card.");
+        }
+    }
+
+    console.log("📦 FINAL PAYLOAD:", payload);
+
+    //  LOADING 
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
 
@@ -717,71 +814,80 @@ async function submitBooking() {
             body: JSON.stringify(payload)
         });
 
-        const text = await res.text();
+        const data = await res.json();
 
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch {
-            throw new Error("Unexpected server response.");
-        }
-
-        // ================= SERVER VALIDATION ERROR =================
         if (!res.ok) {
-            document.getElementById('errorMessage').textContent =
-                data.message || "Booking could not be completed.";
-
-            new bootstrap.Modal(
-                document.getElementById('errorModal')
-            ).show();
-
-            btn.disabled = false;
-            btn.textContent = "Book Service";
-            return;
+            throw new Error(data.message || "Booking failed.");
         }
 
-        // ================= SUCCESS =================
+        //  WAIT FOR WEBHOOK 
         document.getElementById('successBookingId').textContent =
             data.reference ?? data.bookingId;
 
-        const successModal = new bootstrap.Modal(
+        new bootstrap.Modal(
             document.getElementById('successModal')
-        );
-        successModal.show();
+        ).show();
 
-        // Auto redirect after 3s
+        resetBookingForm();
+        
+
+        //OPTIONAL: WAIT A BIT FOR WEBHOOK
         setTimeout(() => {
             window.location.href =
                 `/Shop/Booking/Success?id=${data.bookingId}`;
-        }, 10000);
+        }, 5000);
 
-        document.getElementById('successOkBtn').onclick = () => {
-            window.location.href =
-                `/Shop/Booking/Success?id=${data.bookingId}`;
-        };
-
-    } catch (err) {
-        // ================= NETWORK ERROR =================
-        document.getElementById('errorMessage').textContent =
-            err.message || "Network error. Please check your connection.";
-
-        const errorModal = new bootstrap.Modal(
-            document.getElementById('errorModal')
-        );
-        errorModal.show();
-
-        document.getElementById('retryBtn').onclick = () => {
-            bootstrap.Modal.getInstance(
-                document.getElementById('errorModal')
-            ).hide();
-
-            btn.disabled = false;
-            btn.textContent = "Book Service";
-        };
     }
-    location.reload();
+
+    catch (err) {
+
+        document.getElementById('errorMessage').textContent =
+            err.message || "Network error.";
+
+        new bootstrap.Modal(document.getElementById('errorModal')).show();
+
+        btn.disabled = false;
+        btn.textContent = "Book Service";
+    }
+
 }
 
+// After transaction it resets everything
+function resetBookingForm() {
+
+    // Reset radio buttons
+    document.querySelectorAll('input[name="payment_method"]')
+        .forEach(r => r.checked = false);
+
+    // Hide card section
+    const section = document.getElementById('onlinePaymentSection');
+    if (section) section.style.display = "none";
+
+    //Clear card inputs
+    ['cardNumber', 'expMonth', 'expYear', 'cvc'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+
+    //Clear basic fields
+    document.getElementById('scheduleDate').value = "";
+    document.getElementById('preferredTime').value = "";
+    document.getElementById('businessName').value = "";
+
+    const note = document.querySelector('[name="customer_note"]');
+    if (note) note.value = "";
+
+    // 🔹 Clear service entries
+    document.querySelectorAll('.aircon-entry').forEach(entry => {
+        const selects = entry.querySelectorAll('select');
+        const inputs = entry.querySelectorAll('input');
+
+        selects.forEach(s => s.selectedIndex = 0);
+        inputs.forEach(i => {
+            if (i.type !== "hidden") i.value = "";
+        });
+    });
+}
 
 
 

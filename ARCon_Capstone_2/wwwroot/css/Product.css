@@ -327,6 +327,112 @@
 /*/////////////////////////////////// End Added By Marvin /////////////////////////////////*/
 
 
+/*         FOR RATINGS           */
+
+/* SUMMARY */
+.rating-summary-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    background: #f9fafb;
+    margin-bottom: 16px;
+}
+
+.rating-score {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.big-stars {
+    font-size: 20px;
+    color: #facc15;
+}
+
+.rating-count {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* REVIEW LIST */
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* CARD */
+.review-card {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 12px;
+    transition: 0.2s;
+}
+
+    .review-card:hover {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+/* TOP SECTION */
+.review-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* USER */
+.review-user {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    background: #3b82f6;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.review-name {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.review-date {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+/* STARS */
+.review-stars {
+    color: #facc15;
+    font-size: 14px;
+}
+
+/* COMMENT */
+.review-comment {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.4;
+}
+
+/* EMPTY */
+.no-reviews {
+    font-size: 14px;
+    color: #6b7280;
+    padding: 10px;
+}
+
+
 
 
 

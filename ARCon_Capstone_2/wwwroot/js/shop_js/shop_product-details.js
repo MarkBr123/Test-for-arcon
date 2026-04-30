@@ -1,9 +1,16 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
+    console.log("ProductId:", window.productId);
+
     loadProduct();
     loadInstallationOptions();
     initializeCartButtons();
 
+
+    loadProductRatings(window.productId);
+
+    console.log("UI ProductId:", window.productId);
 });
+
 
 let currentProduct = null;
 let maxStock = 0;
@@ -384,6 +391,124 @@ async function postCart(payload) {
     catch (err) {
         console.error("Add to cart failed", err);
     }
+}
+
+
+///Product Ratings
+
+async function loadProductRatings(productId) {
+    try {
+        console.log("Loading ratings for:", productId);
+
+        const res = await fetch(`/api/shop/home_product_cards/product/${productId}/ratings`);
+
+        if (!res.ok) {
+            console.error("Failed to load ratings");
+            return;
+        }
+
+        const data = await res.json();
+        console.log("RATINGS DATA:", data);
+
+        renderRatings(data);
+
+    } catch (err) {
+        console.error("Error loading ratings:", err);
+    }
+}
+
+
+function renderRatings(data) {
+    const container = document.getElementById("ratingsContainer");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (!data || !data.reviews || data.reviews.length === 0) {
+        container.innerHTML = `
+            <div class="no-reviews">
+                ⭐ Be the first to review this product!
+            </div>
+        `;
+        return;
+    }
+
+    const avg = data.averageRating ?? 0;
+
+    let html = `
+        <div class="rating-summary-box">
+
+            <div class="rating-left">
+                <div class="rating-score">${avg.toFixed(1)}</div>
+                <div class="rating-stars big-stars">
+                    ${generateStars(avg)}
+                </div>
+                <div class="rating-count">${data.totalReviews} review${data.totalReviews > 1 ? "s" : ""}</div>
+            </div>
+
+        </div>
+
+        <div class="review-list">
+    `;
+
+    data.reviews.forEach(r => {
+        html += `
+            <div class="review-card">
+
+                <div class="review-top">
+                    <div class="review-user">
+                        <div class="avatar">${getInitials(r.customerName)}</div>
+                        <div>
+                            <div class="review-name">${maskName(r.customerName)}</div>
+                            <div class="review-date">${formatDate(r.createdAt)}</div>
+                        </div>
+                    </div>
+
+                    <div class="review-stars">
+                        ${generateStars(r.rating)}
+                    </div>
+                </div>
+
+                <div class="review-comment">
+                    ${r.comment ?? "No comment provided."}
+                </div>
+
+            </div>
+        `;
+    });
+
+    html += `</div>`;
+
+    container.innerHTML = html;
+}
+
+function generateStars(value) {
+    const full = Math.round(value);
+    return "★".repeat(full) + "☆".repeat(5 - full);
+}
+
+function maskName(name) {
+    if (!name) return "Anonymous";
+
+    const parts = name.split(" ");
+    return parts[0] + " " + (parts[1] ? parts[1][0] + "." : "");
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return "";
+
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-PH", {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+    });
+}
+
+function getInitials(name) {
+    if (!name) return "A";
+    return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
 }
 
 

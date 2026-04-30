@@ -229,8 +229,13 @@ public class DeliveryApiController : ControllerBase
             // Assign final computed weight
             delivery.deliverytotalweight = totalWeight;
 
+
             // 🔥 Mark transaction as having active delivery
             transaction.has_active_delivery = true;
+
+            //update transaction as Processed
+            transaction.status = "PROCESSED";
+           
 
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
@@ -560,7 +565,7 @@ public class DeliveryApiController : ControllerBase
                 .ThenInclude(t => t.customer)
             .AsQueryable();
 
-        // 🔎 SEARCH
+        //  SEARCH
         if (!string.IsNullOrWhiteSpace(search))
         {
             search = search.Trim();
@@ -574,7 +579,7 @@ public class DeliveryApiController : ControllerBase
             );
         }
 
-        // 🔀 SORTING
+        //  SORTING
         bool asc = sortDir.ToLower() == "asc";
 
         query = sortBy switch
@@ -1051,5 +1056,8 @@ public class DeliveryApiController : ControllerBase
             })
         });
     }
+
+
+
 }
 
