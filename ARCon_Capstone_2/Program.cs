@@ -29,22 +29,22 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });
 
 // Database
-
+/*
 builder.Services.AddDbContext<ARCon_Capstone_2_DbContext>(options =>
     options.UseNpgsql(
        builder.Configuration.GetConnectionString("DefaultConnection")
         ?? "Host=localhost;Port=5432;Database=airconi_trading_db;Username=postgres;Password=50!20/OMEGA"
     )
-);
+);*/
 
 // Database
-/*
+
 builder.Services.AddDbContext<ARCon_Capstone_2_DbContext>(options =>
     options.UseNpgsql(
        builder.Configuration.GetConnectionString("DefaultConnection")
         ?? "Host=dpg-d7oethosfn5c739bjk10-a.singapore-postgres.render.com;Port=5432;Database=arcon_db;Username=arcon_db_user;Password=NTa14fwUh7O4wq5eKCBxJb3sSLbKQ1Vz;SSL Mode=Require;"
     )
-);*/
+);
 
 builder.Services.AddScoped<PayMongoService>();
 
