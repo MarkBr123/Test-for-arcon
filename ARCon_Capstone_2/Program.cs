@@ -8,6 +8,8 @@ using QuestPDF.Infrastructure;
 using CloudinaryDotNet;
 using ARCon_Capstone_2.Helpers;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ==========================
@@ -36,6 +38,9 @@ builder.Services.AddDbContext<ARCon_Capstone_2_DbContext>(options =>
         ?? "Host=localhost;Port=5432;Database=airconi_trading_db;Username=postgres;Password=50!20/OMEGA"
     )
 );*/
+
+
+
 
 // Database
 
@@ -126,6 +131,10 @@ app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
 );
+app.Run();
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Urls.Add($"http://*:{port}");
 
 // Default MVC route
 app.MapControllerRoute(
@@ -133,4 +142,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}"
 );
 
-app.Run();
