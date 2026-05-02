@@ -152,6 +152,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/projects/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/AR/Viewer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xBUlxWaWV3ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/projects/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Cart/Cart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xDYXJ0XENhcnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,141 @@
+﻿@{
+    Layout = null;
+    var sku = ViewBag.SKU;
+    var productName = ViewBag.ProductName;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>AR Viewer - @productName</title>
+    <script type="module" src="https://unpkg.com/@@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100vh;
+            background: #111;
+        }
+
+        .qr-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 100;
+            width: 350px;
+        }
+
+        #qrcode img, #qrcode canvas {
+            width: 250px !important;
+            height: 250px !important;
+        }
+
+        .label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .ar-button {
+            position: fixed !important;
+            bottom: 30px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            background: #007aff !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 50px !important;
+            padding: 15px 30px !important;
+            font-size: 18px !important;
+            font-weight: bold !important;
+            cursor: pointer !important;
+            z-index: 100 !important;
+        }
+
+        @@media (max-width: 768px) {
+            .qr-container {
+                display: none;
+            }
+        }
+
+        model-viewer::part(default-ar-button) {
+            display: none !important;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="javascript:history.back()" class="back-btn">← Back</a>
+
+    <div class="qr-container" id="qrContainer">
+        <button class="close-btn" onclick="document.getElementById('qrContainer').style.display='none'">×</button>
+        <div class="label">📱 SCAN WITH PHONE</div>
+        <div id="qrcode"></div>
+        <div style="margin-top: 15px; font-size: 12px; color: #666;">@sku</div>
+    </div>
+
+    <model-viewer id="viewer" ar ar-modes="webxr quick-look" camera-controls auto-rotate>
+        <button slot="ar-button" class="ar-button">📱 VIEW IN AR</button>
+    </model-viewer>
+
+    <script>
+        const models = {
+            "CAR-SPL00001": "CAR-SPL00001.glb",
+            "DAI-SPL00001": "DAI-SPL00001.glb",
+            "KOP-SPL00001": "Koppel_Lunaire_Inverter_1.5HP.glb",
+            "LGC-SPL00001": "LGC-SPL00001.glb",
+            "PAN-SPL00001": "PAN-SPL00001.glb"
+        };
+
+        const sku = "@sku";
+        const filename = models[sku] || "CAR-SPL00001.glb";
+        const modelUrl = "/models/" + filename;
+
+        const viewer = document.getElementById('viewer');
+        viewer.src = modelUrl;
+
+        const qrCodeDiv = document.getElementById("qrcode");
+        const currentUrl = window.location.href;
+        new QRCode(qrCodeDiv, {
+            text: currentUrl,
+            width: 250,
+            height: 250
+        });
+    </script>
+
+</body>
+</html>
