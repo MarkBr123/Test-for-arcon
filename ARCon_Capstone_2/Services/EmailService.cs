@@ -40,6 +40,7 @@ namespace ARCon_Capstone_2.Services
 }
 */
 
+/*
 using System.Net;
 using System.Net.Mail;
 
@@ -71,6 +72,46 @@ namespace ARCon_Capstone_2.Services
             var mail = new MailMessage(from, to, subject, body);
 
             await smtp.SendMailAsync(mail);
+        }
+    }
+}
+*/
+
+using sib_api_v3_sdk.Api;
+using sib_api_v3_sdk.Model;
+using Task = System.Threading.Tasks.Task;
+
+namespace ARCon_Capstone_2.Services
+{
+    public class EmailService : IEmailServices
+    {
+        private readonly IConfiguration _config;
+
+        public EmailService(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        public async Task SendAsync(string to, string subject, string body)
+        {
+            var apiKey = _config["Brevo:ApiKey"];
+            var senderEmail = _config["Brevo:SenderEmail"];
+            var senderName = _config["Brevo:SenderName"];
+
+            var client = new TransactionalEmailsApi();
+            client.Configuration.ApiKey["api-key"] = apiKey;
+
+            var email = new SendSmtpEmail(
+                sender: new SendSmtpEmailSender(senderName, senderEmail),
+                to: new List<SendSmtpEmailTo>
+                {
+                    new SendSmtpEmailTo(to)
+                },
+                subject: subject,
+                textContent: body
+            );
+
+            await client.SendTransacEmailAsync(email);
         }
     }
 }

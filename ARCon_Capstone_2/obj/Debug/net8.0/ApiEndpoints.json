@@ -2058,5 +2058,15 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.TestController",
+    "Method": "SendTestEmail",
+    "RelativePath": "api/test/send-email",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

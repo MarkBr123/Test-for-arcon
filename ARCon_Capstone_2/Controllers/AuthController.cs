@@ -389,5 +389,4 @@ public class AuthController : Controller
             $"Your OTP is: {otp}"
         );
     }
-
 }
