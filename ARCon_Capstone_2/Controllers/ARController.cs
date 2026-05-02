@@ -11,5 +11,13 @@ namespace ARCon_Capstone_2.Controllers
             ViewBag.ProductName = name ?? "Air Conditioner";
             return View();
         }
+
+        [HttpGet("ar/launch")]
+        public IActionResult Launch(string sku, string name)
+        {
+            ViewBag.SKU = sku ?? "CAR-SPL00001";
+            ViewBag.ProductName = name ?? "Air Conditioner";
+            return View();
+        }
     }
 }
