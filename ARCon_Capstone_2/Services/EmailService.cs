@@ -79,6 +79,7 @@ namespace ARCon_Capstone_2.Services
 
 using sib_api_v3_sdk.Api;
 using sib_api_v3_sdk.Model;
+using static System.Net.WebRequestMethods;
 using Task = System.Threading.Tasks.Task;
 
 namespace ARCon_Capstone_2.Services
@@ -105,10 +106,11 @@ namespace ARCon_Capstone_2.Services
                 sender: new SendSmtpEmailSender(senderName, senderEmail),
                 to: new List<SendSmtpEmailTo>
                 {
-                    new SendSmtpEmailTo(to)
+            new SendSmtpEmailTo(to)
                 },
                 subject: subject,
-                textContent: body
+                htmlContent: body,
+                textContent: "Your OTP code was sent. Please check your email."
             );
 
             await client.SendTransacEmailAsync(email);
