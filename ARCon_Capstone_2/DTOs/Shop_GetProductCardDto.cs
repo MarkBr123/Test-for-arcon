@@ -11,5 +11,7 @@
         public int AvailableStock { get; set; }
         public string HorsePower { get; set; }
         public string? PrimaryImageUrl { get; set; }
+        public string? ar_url { get; set; } 
+
     }
 }
