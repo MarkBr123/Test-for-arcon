@@ -15,5 +15,6 @@
         public decimal? OriginalSellingPrice { get; set; }
         public string? PrimaryImageUrl { get; set; }
         public decimal? DiscountValue { get; set; }
+        public string? ar_url { get; set; }  
     }
 }

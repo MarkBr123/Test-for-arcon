@@ -114,15 +114,79 @@
 
     <script>
         const models = {
-            "CAR-SPL00001": "CAR-SPL00001.glb",
-            "DAI-SPL00001": "DAI-SPL00001.glb",
-            "KOP-SPL00001": "Koppel_Lunaire_Inverter_1.5HP.glb",
-            "LGC-SPL00001": "LGC-SPL00001.glb",
-            "PAN-SPL00001": "PAN-SPL00001.glb"
+            // Koppel models
+            "KOP-SPL00001": "Koppel_Lunaire_Inverter_1HP.glb",
+            "KOP-SPL00002": "Koppel_Lunaire_Inverter_2HP.glb",
+            "KOP-SPL00003": "Koppel_Lunaire_Inverter_2.5-3HP.glb",
+
+            // Carrier models
+            "CAR-SPL00001": "carrier_aura_inverter_1-1.5hp.glb",
+            "CAR-SPL00002": "carrier_aura_inverter_2hp.glb",
+            "CAR-SPL00003": "carrier_aura_inverter_2.5hp.glb",
+
+            // Daikin models
+            "DAI-SPL00001": "daikin-D-Series-FTKQ25BVA-1Hp.glb",
+            "DAI-SPL00002": "daikin-D-Series-FTKQ35BVA-1.5-2H.glb",
+            "DAI-SPL00003": "daikin-king-series-1-1.5hp.glb",
+            "DAI-SPL00004": "daikin-queen-ava-1-1.5hp.glb",
+            "DAI-SPL00005": "daikin-queen-ava-2-2.5hp.glb",
+
+            // LG models
+            "LGC-SPL00001": "lg_dual_inverter_premium.glb",
+            "LG-WIN-001": "lg_LA080GC2.glb",
+
+            // Panasonic models
+            "PAN-SPL00001": "panasonic_premium_inverter_xu_series_1-1.5hp.glb",
+            "PAN-SPL00002": "Panasonic Delux CS-XPU9_12_18WK.glb",
+            "PAN-SPL00003": "Panasonic Delux CS-XPU24XKQ (2H.glb",
+
+            // Samsung models
+            "SAM-SPL00001": "Samsung-s-series.glb",
+            "SAM-SPL00002": "Samsung-windfree-premium.glb",
+            "SAM-SPL00003": "Samsung-windfree-series.glb",
+
+            // Other brands
+            "KOL-SPL00001": "kolin-certus-premium-1hp.glb",
+            "KOL-SPL00002": "kolin-certus-premium-1.5hp.glb",
+            "KOL-SPL00003": "kolin-certus-premium-2hp.glb",
+            "KOL-SPL00004": "kolin-certus-premium-2.5hp.glb",
+            "NEX-2HP": "Nexus 2Hp.glb",
+            "NEX-2.5HP": "Nexus 2.5Hp.glb",
+            "OX-INV": "OX Inverter.glb",
+            "SHARP-JT": "Sharp-j-tech-inverter.glb",
+
+            // Fujidenzo models
+            "FUJ-WAR100": "fujidenzo_war100igt_with_remote.glb",
+            "FUJ-WAM632": "fujidenzo-wam632igt.glb",
+            "FUJ-WAR632": "fujidenzo-war632igt.glb",
+
+            // Carrier specific
+            "CAR-1.5HP": "WCARJ012EEV CARRIER 1.5HP.glb",
+            "KAM-55CMC32": "KAM-55CMC32.glb",
+            "KAM-75DRC32": "KAM-75DRC32.glb"
         };
 
         const sku = "@sku";
         const filename = models[sku] || "CAR-SPL00001.glb";
+
+        // USING LOCAL FILES (not GitHub)
+        const modelUrl = "/models/" + filename;
+
+        const viewer = document.getElementById('viewer');
+        viewer.src = modelUrl;
+
+        const qrCodeDiv = document.getElementById("qrcode");
+        const currentUrl = window.location.href;
+        new QRCode(qrCodeDiv, {
+            text: currentUrl,
+            width: 250,
+            height: 250
+        });
+    </script>
+        const sku = "@sku";
+        const filename = models[sku] || "CAR-SPL00001.glb";
+
+     
         const modelUrl = "/models/" + filename;
 
         const viewer = document.getElementById('viewer');
