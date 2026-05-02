@@ -9,13 +9,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Launching AR - @productName</title>
+    <title>AR - @productName</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         model-viewer {
@@ -24,14 +23,14 @@
             background: #111;
         }
 
-        .message {
+        .status {
             position: fixed;
             bottom: 30px;
             left: 0;
             right: 0;
             text-align: center;
             color: white;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             padding: 12px;
             z-index: 100;
             font-size: 14px;
@@ -43,28 +42,45 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
             padding: 16px 24px;
             border-radius: 40px;
             z-index: 200;
+            font-size: 16px;
+        }
+
+        .ar-button {
+            position: fixed !important;
+            bottom: 30px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            background: #007aff !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 50px !important;
+            padding: 15px 30px !important;
+            font-size: 18px !important;
+            font-weight: bold !important;
+            cursor: pointer !important;
+            z-index: 100 !important;
         }
     </style>
 </head>
 <body>
-    <div class="loading" id="loading">Loading AR experience...</div>
+    <div class="loading" id="loading">Loading 3D Model...</div>
+    <div class="status" id="status">Preparing AR experience...</div>
 
     <model-viewer id="viewer"
                   src=""
                   ar
-                  ar-modes="scene-viewer webxr quick-look"
+                  ar-modes="scene-viewer"
                   camera-controls
                   auto-rotate
-                  ar-placement="floor">
+                  shadow-intensity="1">
+        <button slot="ar-button" class="ar-button">
+            📱 VIEW IN AR
+        </button>
     </model-viewer>
-
-    <div class="message">
-        🚀 AR is launching automatically...
-    </div>
 
     <script>
         const models = {
@@ -76,16 +92,22 @@
 
         const sku = "@sku";
         const filename = models[sku] || "lg_dual_inverter_premium.glb";
+
+        // MODELS HOSTED ON SAME RENDER SERVER
         const modelUrl = "/models/" + filename;
 
         const viewer = document.getElementById('viewer');
+        const loadingDiv = document.getElementById('loading');
+        const statusDiv = document.getElementById('status');
+
+        console.log("Loading model from:", modelUrl);
         viewer.src = modelUrl;
 
-        // AUTO-LAUNCH AR when model is ready
         viewer.addEventListener('load', () => {
-            document.getElementById('loading').style.display = 'none';
+            loadingDiv.style.display = 'none';
+            statusDiv.textContent = '✓ Ready - Launching AR...';
+            statusDiv.style.background = 'rgba(0,128,0,0.8)';
 
-            // Auto-activate AR after 1 second
             setTimeout(() => {
                 if (viewer.activateAR) {
                     viewer.activateAR();
@@ -93,14 +115,11 @@
             }, 1000);
         });
 
-        // Fallback for iOS - redirect to USDZ
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        if (isIOS) {
-            const iosUrl = modelUrl.replace('.glb', '.usdz');
-            setTimeout(() => {
-                window.location.href = iosUrl;
-            }, 500);
-        }
+        viewer.addEventListener('error', (e) => {
+            loadingDiv.innerHTML = '❌ Model not found: ' + filename;
+            statusDiv.innerHTML = 'File missing from wwwroot/models/ on Render';
+            statusDiv.style.background = 'rgba(255,0,0,0.8)';
+        });
     </script>
 </body>
 </html>
