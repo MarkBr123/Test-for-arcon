@@ -18,7 +18,7 @@ namespace ARCon_Capstone_2.Controllers
         public async Task<IActionResult> SendTestEmail()
         {
             await _emailService.SendAsync(
-                "marvincayobitl@gmail.com", // send to yourself
+                "mr.marvincayobit@gmail.com", // send to yourself
                 "TEST OTP",
                 "Your OTP is 123456"
             );
