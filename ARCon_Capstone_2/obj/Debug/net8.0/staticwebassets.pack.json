@@ -633,6 +633,202 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\AUX Q Series.glb",
+      "PackagePath": "staticwebassets\\models\\AUX Q Series.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\KAM-55CMC32.glb",
+      "PackagePath": "staticwebassets\\models\\KAM-55CMC32.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\KAM-75DRC32.glb",
+      "PackagePath": "staticwebassets\\models\\KAM-75DRC32.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\KOLIN KAM-75DRC32.glb",
+      "PackagePath": "staticwebassets\\models\\KOLIN KAM-75DRC32.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Kolin KAG75WCINV, KAG100WCINV, KAG145WCINV, KAG200WCINV, KAG250WCINV Series.glb",
+      "PackagePath": "staticwebassets\\models\\Kolin KAG75WCINV, KAG100WCINV, KAG145WCINV, KAG200WCINV, KAG250WCINV Series.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Kolin_Premium_primus_gold.glb",
+      "PackagePath": "staticwebassets\\models\\Kolin_Premium_primus_gold.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Koppel_Lunaire_Inverter_1.5HP.glb",
+      "PackagePath": "staticwebassets\\models\\Koppel_Lunaire_Inverter_1.5HP.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Koppel_Lunaire_Inverter_1HP.glb",
+      "PackagePath": "staticwebassets\\models\\Koppel_Lunaire_Inverter_1HP.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Koppel_Lunaire_Inverter_2.5-3HP.glb",
+      "PackagePath": "staticwebassets\\models\\Koppel_Lunaire_Inverter_2.5-3HP.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Koppel_Lunaire_Inverter_2HP.glb",
+      "PackagePath": "staticwebassets\\models\\Koppel_Lunaire_Inverter_2HP.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\LGLA080GC2.glb",
+      "PackagePath": "staticwebassets\\models\\LGLA080GC2.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Nexus 2.5Hp.glb",
+      "PackagePath": "staticwebassets\\models\\Nexus 2.5Hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Nexus 2Hp.glb",
+      "PackagePath": "staticwebassets\\models\\Nexus 2Hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Nexus+1-1.5Hp.glb",
+      "PackagePath": "staticwebassets\\models\\Nexus+1-1.5Hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\OX Inverter.glb",
+      "PackagePath": "staticwebassets\\models\\OX Inverter.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Panasonic Delux CS-XPU24XKQ (2HP).glb",
+      "PackagePath": "staticwebassets\\models\\Panasonic Delux CS-XPU24XKQ (2HP).glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Panasonic Delux CS-XPU9_12_18WKQ (1, 1.5, 2HP).glb",
+      "PackagePath": "staticwebassets\\models\\Panasonic Delux CS-XPU9_12_18WKQ (1, 1.5, 2HP).glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Samsung-s-series.glb",
+      "PackagePath": "staticwebassets\\models\\Samsung-s-series.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Samsung-windfree-premium.glb",
+      "PackagePath": "staticwebassets\\models\\Samsung-windfree-premium.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Samsung-windfree-series.glb",
+      "PackagePath": "staticwebassets\\models\\Samsung-windfree-series.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Sharp-j-tech-inverter.glb",
+      "PackagePath": "staticwebassets\\models\\Sharp-j-tech-inverter.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\Tosot-supracool-inverter.glb",
+      "PackagePath": "staticwebassets\\models\\Tosot-supracool-inverter.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\WAM632IGT.glb",
+      "PackagePath": "staticwebassets\\models\\WAM632IGT.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\WAR100IGT_with_remote.glb",
+      "PackagePath": "staticwebassets\\models\\WAR100IGT_with_remote.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\WAR632IGT.glb",
+      "PackagePath": "staticwebassets\\models\\WAR632IGT.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\WCARJ012EEV CARRIER 1.5HP.glb",
+      "PackagePath": "staticwebassets\\models\\WCARJ012EEV CARRIER 1.5HP.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\carrier_aura_inverter_1-1.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\carrier_aura_inverter_1-1.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\carrier_aura_inverter_2.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\carrier_aura_inverter_2.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\carrier_aura_inverter_2hp.glb",
+      "PackagePath": "staticwebassets\\models\\carrier_aura_inverter_2hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\daikin-D-Series-FTKQ25BVA-1Hp.glb",
+      "PackagePath": "staticwebassets\\models\\daikin-D-Series-FTKQ25BVA-1Hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\daikin-D-Series-FTKQ35BVA-1.5-2Hp.glb",
+      "PackagePath": "staticwebassets\\models\\daikin-D-Series-FTKQ35BVA-1.5-2Hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\daikin-D-Series-FTKQ60BVA-FTKQ71BVA-2.5-3Hp.glb",
+      "PackagePath": "staticwebassets\\models\\daikin-D-Series-FTKQ60BVA-FTKQ71BVA-2.5-3Hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\daikin-king-series-1-1.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\daikin-king-series-1-1.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\daikin-king-series-2-3hp.glb",
+      "PackagePath": "staticwebassets\\models\\daikin-king-series-2-3hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\daikin-queen-ava-1-1.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\daikin-queen-ava-1-1.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\daikin-queen-ava-2-2.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\daikin-queen-ava-2-2.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\fujidenzo-wam632igt.glb",
+      "PackagePath": "staticwebassets\\models\\fujidenzo-wam632igt.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\fujidenzo-war632igt.glb",
+      "PackagePath": "staticwebassets\\models\\fujidenzo-war632igt.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\fujidenzo_war100igt_with_remote.glb",
+      "PackagePath": "staticwebassets\\models\\fujidenzo_war100igt_with_remote.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\gree-full-dc-inverter-1and1.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\gree-full-dc-inverter-1and1.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\kolin-certus-premium-1.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\kolin-certus-premium-1.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\kolin-certus-premium-1hp.glb",
+      "PackagePath": "staticwebassets\\models\\kolin-certus-premium-1hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\kolin-certus-premium-2.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\kolin-certus-premium-2.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\kolin-certus-premium-2hp.glb",
+      "PackagePath": "staticwebassets\\models\\kolin-certus-premium-2hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\lg_LA080GC2.glb",
+      "PackagePath": "staticwebassets\\models\\lg_LA080GC2.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\lg_dual_inverter_premium.glb",
+      "PackagePath": "staticwebassets\\models\\lg_dual_inverter_premium.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\lg_dual_inverter_standard.glb",
+      "PackagePath": "staticwebassets\\models\\lg_dual_inverter_standard.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\panasonic_premium_inverter_xu_series_1-1.5hp.glb",
+      "PackagePath": "staticwebassets\\models\\panasonic_premium_inverter_xu_series_1-1.5hp.glb"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\models\\sample_WAR100IGT_with_remote.glb",
+      "PackagePath": "staticwebassets\\models\\sample_WAR100IGT_with_remote.glb"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ARCon_Capstone_2.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

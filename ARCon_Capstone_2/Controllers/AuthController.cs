@@ -6,14 +6,17 @@ using ARCon_Capstone_2.Data;
 using ARCon_Capstone_2.Extensions;
 using System.Net.Mail;
 using System.Net;
+using ARCon_Capstone_2.Services;
 
 public class AuthController : Controller
 {
     private readonly ARCon_Capstone_2_DbContext _context;
+    private readonly IEmailServices _emailService;
 
-    public AuthController(ARCon_Capstone_2_DbContext context)
+    public AuthController(ARCon_Capstone_2_DbContext context, IEmailServices emailService)
     {
         _context = context;
+        _emailService = emailService;
     }
 
 
@@ -380,20 +383,11 @@ public class AuthController : Controller
     /// <returns></returns>
     public async Task SendOtpEmail(string email, string otp)
     {
-        var message = new MailMessage();
-
-        message.From = new MailAddress("marvincayobit@gmail.com"); // 🔥 REQUIRED
-        message.To.Add(email);
-        message.Subject = "Your OTP Code";
-        message.Body = $"Your OTP is: {otp}";
-
-        using var smtp = new SmtpClient("smtp.gmail.com", 587)
-        {
-            Credentials = new NetworkCredential("marvincayobit@gmail.com", "uiovnfytnmjfpnxo"),
-            EnableSsl = true
-        };
-
-        await smtp.SendMailAsync(message);
+        await _emailService.SendAsync(
+            email,
+            "Your OTP Code",
+            $"Your OTP is: {otp}"
+        );
     }
 
 }

@@ -1,4 +1,4 @@
-﻿using ARCon_Capstone_2.Services;
+﻿/*using ARCon_Capstone_2.Services;
 using System.Net;
 using System.Net.Mail;
 
@@ -33,6 +33,42 @@ namespace ARCon_Capstone_2.Services
                 subject,
                 body
             );
+
+            await smtp.SendMailAsync(mail);
+        }
+    }
+}
+*/
+
+using System.Net;
+using System.Net.Mail;
+
+namespace ARCon_Capstone_2.Services
+{
+    public class EmailService : IEmailServices
+    {
+        private readonly IConfiguration _config;
+
+        public EmailService(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        public async Task SendAsync(string to, string subject, string body)
+        {
+            var smtpHost = _config["Email:SmtpHost"];
+            var smtpPort = int.Parse(_config["Email:SmtpPort"]);
+            var username = _config["Email:Username"];
+            var password = _config["Email:Password"];
+            var from = _config["Email:From"];
+
+            var smtp = new SmtpClient(smtpHost, smtpPort)
+            {
+                Credentials = new NetworkCredential(username, password),
+                EnableSsl = true
+            };
+
+            var mail = new MailMessage(from, to, subject, body);
 
             await smtp.SendMailAsync(mail);
         }
