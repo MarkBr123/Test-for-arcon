@@ -125,6 +125,10 @@
       "PackagePath": "staticwebassets\\assets\\airconi-logo.png"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\favicon.png",
+      "PackagePath": "staticwebassets\\assets\\favicon.png"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\for-confirm.png",
       "PackagePath": "staticwebassets\\assets\\for-confirm.png"
     },
@@ -257,6 +261,10 @@
       "PackagePath": "staticwebassets\\js\\admin-users.js"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\all_bookings.js",
+      "PackagePath": "staticwebassets\\js\\all_bookings.js"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\app-ui.js",
       "PackagePath": "staticwebassets\\js\\app-ui.js"
     },
@@ -323,6 +331,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js",
       "PackagePath": "staticwebassets\\js\\shop_js\\shop_my-puchases-for-confirmation.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_my-services.js",
+      "PackagePath": "staticwebassets\\js\\shop_js\\shop_my-services.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_product-details.js",

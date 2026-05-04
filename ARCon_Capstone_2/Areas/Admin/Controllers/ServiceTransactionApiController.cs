@@ -16,6 +16,7 @@ using System.Text.Json.Nodes;
 using ARCon_Capstone_2.Helpers.LalamoveHelpers;
 using System.Data;
 using NuGet.Protocol.Plugins;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace ARCon_Capstone_2.Areas.Admin.Controllers;
 
 
@@ -41,7 +42,7 @@ public class ServiceTransactionApiController : ControllerBase
             .Include(b => b.customer)
             .AsQueryable();
 
-        query = query.Where(b => b.status == "PENDING" || b.status == "PARTIALLY_COMPLETED" || b.status == "FAILED");
+        query = query.Where(b => b.status == "PENDING" || b.status == "PARTIALLY_COMPLETED" || b.status == "FAILED" || b.status == "FAILED_FOR_REFUND");
 
         //Search
 
@@ -152,7 +153,6 @@ public class ServiceTransactionApiController : ControllerBase
 
 
     ///pending-summary
-    ///
     [HttpGet("pending-summary/{id}")]
     public async Task<IActionResult> GetPendingSummary(int id)
     {
@@ -180,6 +180,7 @@ public class ServiceTransactionApiController : ControllerBase
 
         try
         {
+            // ADDRESS 
             var address = booking.customer_addresses != null
                 ? $"{booking.customer_addresses.house_unit}, " +
                   $"{booking.customer_addresses.street_name}, " +
@@ -190,6 +191,27 @@ public class ServiceTransactionApiController : ControllerBase
                   $"{booking.customer_addresses.zip_code}"
                 : null;
 
+            // SERVICE TRANSACTIONS (ALL) 
+            var serviceTransactions = await _context.service_transactions
+                .Where(t => t.service_booking_id == id)
+                .OrderByDescending(t => t.created_at)
+                .Select(t => new
+                {
+                    id = t.id,
+                    referenceCode = t.st_ref_code,
+                    status = t.status,
+                    createdAt = t.created_at,
+                    serviceTry = t.service_tries,
+
+                    // optional (very useful for UI)
+                    failedAt = t.failed_at,
+                    partiallyAt = t.partially_at,
+                    completedDate = t.date_completed,
+                    completedTime = t.time_completed
+                })
+                .ToListAsync();
+
+            //  RESULT 
             var result = new
             {
                 id = booking.id,
@@ -203,6 +225,8 @@ public class ServiceTransactionApiController : ControllerBase
                 customerNote = booking.customer_note,
                 businessName = booking.business_name,
 
+                // ALL SERVICE TRANSACTIONS, if there is any
+                serviceTransactions = serviceTransactions,
 
                 payment = new
                 {
@@ -348,11 +372,9 @@ public class ServiceTransactionApiController : ControllerBase
         // BLOCK REJECTION IF PAID ONLINE
         if (booking.payment_method == "ONLINE_PAYMENT" && booking.payment_status == "PAID")
         {
-            return Ok(new
-            {
-                message = "This booking has already been paid online. Please notify the customer and process the refund manually."
-            });
+            booking.payment_status = "REFUND_PENDING";
         }
+
 
         if (booking.status == "CANCELLED")
         {
@@ -905,12 +927,10 @@ public class ServiceTransactionApiController : ControllerBase
                 .ThenInclude(b => b.service_booking_items)
                     .ThenInclude(i => i.services)
                         .ThenInclude(s => s.service_aircon_type)
-
-
             .FirstOrDefaultAsync(t => t.id == id);
 
         if (transaction == null)
-            return NotFound("Service transaction not found");
+            return NotFound(new { message = "Service transaction not found" });
 
         try
         {
@@ -928,7 +948,7 @@ public class ServiceTransactionApiController : ControllerBase
 
             var result = new
             {
-
+                // ================= TRANSACTION =================
                 transaction = new
                 {
                     id = transaction.id,
@@ -952,23 +972,29 @@ public class ServiceTransactionApiController : ControllerBase
                     toolsNeeded = transaction.tools_need,
 
                     rating = transaction.service_rating,
-
                     isCustomerAgreed = transaction.iscustomeragreed,
-
                     notes = transaction.notes_to_technicians,
 
-
+                    // ================= CANCEL =================
                     cancelledAt = transaction.date_cancelled,
                     cancellationReason = transaction.cancellation_reason,
 
-                    failed = transaction.failed,
-                    failReason = transaction.fail_reason,
-                    failedAt = transaction.failed_at,
+                    // ================= 🔥 STATUS DETAILS (ADDED) =================
+                    statusDetails = new
+                    {
+                        isFailed = transaction.status == "FAILED",
+                        failReason = transaction.fail_reason,
+                        failedAt = transaction.failed_at,
 
-                    partiallyCompleted = transaction.ispartiallycompleted,
-                    partiallyReason = transaction.partially_completed_reason,
-                    partiallyAt = transaction.partially_at,
+                        isPartiallyCompleted = transaction.status == "PARTIALLY_COMPLETED",
+                        partiallyReason = transaction.partially_completed_reason,
+                        partiallyAt = transaction.partially_at,
 
+
+                        failedForRefund = transaction.status == "FAILED_FOR_REFUND",
+                    },
+
+                    // ================= REBOOK =================
                     isRebooked = transaction.isrebooked,
                     rebookingReason = transaction.rebooking_reason,
                     rebookedAt = transaction.rebooked_at,
@@ -976,32 +1002,33 @@ public class ServiceTransactionApiController : ControllerBase
                     serviceTries = transaction.service_tries,
                     reserviceFee = transaction.reservice_fee,
 
-
-                    /// Technicians 
+                    // ================= TECHNICIANS =================
                     assignedTechnicians = _context.service_transaction_technicians
-                            .Where(stt => stt.service_transaction_id == transaction.id && stt.isactiveservicetransac)
-                            .Join(_context.admin_users,
-                                stt => stt.technician_id,
-                                au => au.id,
-                                (stt, au) => new
-                                {
-                                    technicianId = au.id,
-                                    name = au.first_name + " " + au.last_name,
-                                    contact = au.contact_no,
-                                    email = au.email_address,
-                                    isOnline = au.is_online
-                                })
-                            .ToList()
+                        .Where(stt => stt.service_transaction_id == transaction.id && stt.isactiveservicetransac)
+                        .Join(_context.admin_users,
+                            stt => stt.technician_id,
+                            au => au.id,
+                            (stt, au) => new
+                            {
+                                technicianId = au.id,
+                                name = au.first_name + " " + au.last_name,
+                                contact = au.contact_no,
+                                email = au.email_address,
+                                isOnline = au.is_online
+                            })
+                        .ToList()
                 },
 
-
+                // ================= BOOKING =================
                 booking = new
                 {
                     id = booking?.id,
-                    failure_count = booking?.failure_count,
                     referenceCode = booking?.booking_ref_code,
                     createdAt = booking?.created_at,
                     status = booking?.status,
+
+                    failureCount = booking?.failure_count,
+                    partialCount = booking?.partial_complete_count,
 
                     scheduledDate = booking?.schedule_date,
                     preferredTime = booking?.preferred_time,
@@ -1011,7 +1038,7 @@ public class ServiceTransactionApiController : ControllerBase
                     businessName = booking?.business_name
                 },
 
-
+                // ================= PAYMENT =================
                 payment = new
                 {
                     method = booking?.payment_transaction != null
@@ -1022,7 +1049,7 @@ public class ServiceTransactionApiController : ControllerBase
                     reference = booking?.payment_reference
                 },
 
-
+                // ================= CUSTOMER =================
                 customer = new
                 {
                     name = (booking?.customer?.first_name ?? "") + " " +
@@ -1030,10 +1057,10 @@ public class ServiceTransactionApiController : ControllerBase
                     contact = booking?.customer?.contact_no
                 },
 
-
+                // ================= ADDRESS =================
                 deliveryAddress = address,
 
-
+                // ================= SUMMARY =================
                 summary = new
                 {
                     totalServices = booking?.service_booking_items?.Count ?? 0,
@@ -1041,7 +1068,7 @@ public class ServiceTransactionApiController : ControllerBase
                     totalAmount = booking?.service_booking_items?.Sum(i => i.total_amount) ?? 0
                 },
 
-
+                // ================= ITEMS =================
                 items = booking?.service_booking_items?.Select(i => new
                 {
                     id = i.id,
@@ -1068,15 +1095,14 @@ public class ServiceTransactionApiController : ControllerBase
 
             return StatusCode(500, new
             {
-                message = fullError,
-                error = ex.Message
+                message = "Error retrieving service transaction summary",
+                error = fullError
             });
         }
     }
 
     ////////////////////////////////////////////////////////// (END)  This is the Service Booking and Service Transaction Master Summary /////////////////////////////////////////////////
     /// Get list of suitable technicians to be assigned
-
 
     [HttpGet("{id}/available-technicians")]
     public async Task<IActionResult> GetAvailableTechnicians(int id)
@@ -1087,7 +1113,7 @@ public class ServiceTransactionApiController : ControllerBase
         if (st == null)
             return NotFound("Service transaction not found");
 
-        // Combine start + end
+        // Combine start + end datetime
         var start = st.actual_scheduled_date
             .ToDateTime(TimeOnly.FromTimeSpan(st.actual_scheduled_time));
 
@@ -1100,23 +1126,24 @@ public class ServiceTransactionApiController : ControllerBase
             .Where(au =>
                 au.status == "ACTIVE" &&
 
-                //Only AIRCON TECHNICIAN
+                // ✅ Only AIRCON TECHNICIAN
                 au.user_roles.Any(ur => ur.Role.role_name == "AIRCON_TECHNICIAN") &&
 
-                //Work schedule check (day + shift + rest day)
+                // ✅ WORK SCHEDULE CHECK (LOGIN / LOGOUT)
                 au.work_scheduleemployees.Any(ws =>
                     ws.day_of_week.ToLower().Trim() == dayName &&
                     ws.is_restday == false &&
 
                     (
-                        //Normal shift (e.g. 08:00–17:00)
+                        // 🔵 Normal shift (08:00–17:00)
                         (ws.login_time <= ws.logout_time &&
                             st.actual_scheduled_time >= ws.login_time &&
-                            st.estimated_completion_time <= ws.logout_time)
+                            st.estimated_completion_time <= ws.logout_time
+                        )
 
                         ||
 
-                        //Night shift (e.g. 22:00–06:00)
+                        // 🌙 Night shift (22:00–06:00)
                         (ws.login_time > ws.logout_time &&
                             (
                                 st.actual_scheduled_time >= ws.login_time ||
@@ -1126,21 +1153,26 @@ public class ServiceTransactionApiController : ControllerBase
                     )
                 ) &&
 
-                // No conflict with OTHER transactions
+                // ❌ NO OVERLAPPING BOOKINGS (CRITICAL FIX)
                 !_context.service_transaction_technicians.Any(stt =>
                     stt.technician_id == au.id &&
                     stt.isactiveservicetransac == true &&
                     stt.service_transaction_id != id &&
+                    stt.service_transaction != null &&
 
                     (
-                        //Correct overlap logic
-                        start < stt.service_transaction.estimated_completion_date
-                                    .ToDateTime(TimeOnly.FromTimeSpan(
-                                        stt.service_transaction.estimated_completion_time))
+                        // ✅ Proper overlap logic
+                        start <
+                            stt.service_transaction.estimated_completion_date
+                                .ToDateTime(TimeOnly.FromTimeSpan(
+                                    stt.service_transaction.estimated_completion_time))
+
                         &&
-                        end > stt.service_transaction.estimated_completion_date
-                                  .ToDateTime(TimeOnly.FromTimeSpan(
-                                      stt.service_transaction.estimated_completion_time))
+
+                        end >
+                            stt.service_transaction.actual_scheduled_date
+                                .ToDateTime(TimeOnly.FromTimeSpan(
+                                    stt.service_transaction.actual_scheduled_time))
                     )
                 )
             )
@@ -1296,14 +1328,28 @@ public class ServiceTransactionApiController : ControllerBase
                 booking.updated_at = DateTime.UtcNow;
             }
 
-            //Payment warning
+            //Payment handling
             string? paymentMessage = null;
 
             if (booking != null &&
-                booking.payment_method == "ONLINE_PAYMENT" &&
-                booking.payment_status == "PAID")
+                booking.payment_method == "ONLINE_PAYMENT")
             {
-                paymentMessage = "This booking has already been paid online. Please notify the customer and process the refund manually.";
+                if (booking.payment_status == "PAID")
+                {
+                    // ✅ Mark as refund pending
+                    booking.payment_status = "REFUND_PENDING";
+                    booking.updated_at = DateTime.UtcNow;
+
+                    paymentMessage = "Payment received online. Refund is now marked as pending.";
+                }
+                else if (booking.payment_status == "REFUND_PENDING")
+                {
+                    paymentMessage = "Refund is already pending for this transaction.";
+                }
+                else if (booking.payment_status == "REFUNDED")
+                {
+                    paymentMessage = "This transaction has already been refunded.";
+                }
             }
 
             await _context.SaveChangesAsync();
@@ -1389,7 +1435,6 @@ public class ServiceTransactionApiController : ControllerBase
 
 
     /////////////////////////            Failed Service_Transaction             //////////////////////
-
     [HttpPut("{id}/failed")]
     public async Task<IActionResult> MarkAsFailed(int id, [FromBody] FailedServiceTransactionDto dto)
     {
@@ -1423,19 +1468,23 @@ public class ServiceTransactionApiController : ControllerBase
 
             var now = DateTime.UtcNow;
 
+            // SERVICE BOOKING
+            var sb = st.service_booking;
+
+            // Determine if ONLINE PAYMENT
+            var isOnlinePayment = sb?.payment_method == "ONLINE_PAYMENT";
+
             // SERVICE TRANSACTION UPDATE
-            st.status = "FAILED";
+            st.status = isOnlinePayment ? "FAILED_FOR_REFUND" : "FAILED";
             st.failed = true;
             st.fail_reason = dto.failure_reason;
             st.failed_at = now;
             st.updated_at = now;
 
             // SERVICE BOOKING UPDATE
-            var sb = st.service_booking;
-
             if (sb != null)
             {
-                sb.status = "FAILED";
+                sb.status = st.status; // keep consistent with transaction
                 sb.failure_count = (sb.failure_count ?? 0) + 1;
                 sb.updated_at = now;
             }
@@ -1451,7 +1500,9 @@ public class ServiceTransactionApiController : ControllerBase
 
             return Ok(new
             {
-                message = "Service marked as failed"
+                message = isOnlinePayment
+                    ? "Service marked as failed and queued for refund"
+                    : "Service marked as failed"
             });
         }
         catch (Exception ex)
@@ -1670,7 +1721,8 @@ public class ServiceTransactionApiController : ControllerBase
                 st.status == "COMPLETED" ||
                 st.status == "FAILED" ||
                 st.status == "PARTIALLY_COMPLETED" ||
-                st.status == "CANCELLED"
+                st.status == "CANCELLED" ||
+                st.status == "FAILED_FOR_REFUND"
             );
         }
 
@@ -1797,6 +1849,128 @@ public class ServiceTransactionApiController : ControllerBase
     {
         var now = DateTime.Now;
         return $"SRV{now:MMdd}-{now:HHmmss}";
+    }
+
+
+
+    ///Display all Service Booking
+    [HttpGet("all-bookings")]
+    public async Task<IActionResult> GetAllBookings(
+    int page = 1,
+    int pageSize = 24,
+    string sortBy = "createdAt",
+    string sortDir = "desc",
+    string? search = null,
+    string? statuses = null
+)
+    {
+        var query = _context.service_bookings
+            .Include(b => b.customer)
+            .AsQueryable();
+
+        //  STATUS FILTER (checkbox ready)
+        if (!string.IsNullOrWhiteSpace(statuses))
+        {
+            var statusList = statuses
+                .Split(',')
+                .Select(s => s.Trim().ToUpper())
+                .ToList();
+
+            query = query.Where(b => statusList.Contains(b.status));
+        }
+
+        // SEARCH
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            search = search.Trim().ToLower();
+
+            query = query.Where(b =>
+                EF.Functions.ILike(b.booking_ref_code ?? "", $"%{search}%") ||
+                EF.Functions.ILike(b.customer.first_name ?? "", $"%{search}%") ||
+                EF.Functions.ILike(b.customer.last_name ?? "", $"%{search}%")
+            );
+        }
+
+        
+        bool asc = sortDir.ToLower() == "asc";
+
+        query = sortBy switch
+        {
+            "referenceCode" => asc
+                ? query.OrderBy(b => b.booking_ref_code)
+                : query.OrderByDescending(b => b.booking_ref_code),
+
+            "customerName" => asc
+                ? query.OrderBy(b => b.customer.first_name)
+                : query.OrderByDescending(b => b.customer.first_name),
+
+            "businessName" => asc
+                ? query.OrderBy(b => b.business_name)
+                : query.OrderByDescending(b => b.business_name),
+
+            "scheduledDate" => asc
+                ? query.OrderBy(b => b.schedule_date)
+                : query.OrderByDescending(b => b.schedule_date),
+
+            "preferredTime" => asc
+                ? query.OrderBy(b => b.preferred_time)
+                : query.OrderByDescending(b => b.preferred_time),
+
+            "paymentMethod" => asc
+                ? query.OrderBy(b => b.payment_method)
+                : query.OrderByDescending(b => b.payment_method),
+
+            "totalAmount" => asc
+                ? query.OrderBy(b => b.total_amount)
+                : query.OrderByDescending(b => b.total_amount),
+
+            "propertyType" => asc
+                ? query.OrderBy(b => b.property_type)
+                : query.OrderByDescending(b => b.property_type),
+
+            "createdAt" => asc
+                ? query.OrderBy(b => b.created_at)
+                : query.OrderByDescending(b => b.created_at),
+
+            "status" => asc
+                ? query.OrderBy(b => b.status)
+                : query.OrderByDescending(b => b.status),
+
+            _ => asc
+                ? query.OrderBy(b => b.created_at)
+                : query.OrderByDescending(b => b.created_at)
+        };
+
+        // pagination
+        var totalCount = await query.CountAsync();
+
+        var data = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(b => new
+            {
+                id = b.id,
+                failure_count = b.failure_count,
+                referenceCode = b.booking_ref_code,
+                customerName = b.customer.first_name + " " + b.customer.last_name,
+                businessName = b.business_name,
+                scheduledDate = b.schedule_date,
+                preferredTime = b.preferred_time,
+                paymentMethod = b.payment_method,
+                totalAmount = b.total_amount,
+                propertyType = b.property_type,
+                createdAt = b.created_at, 
+                status = b.status
+            })
+            .ToListAsync();
+
+        return Ok(new
+        {
+            totalCount,
+            page,
+            pageSize,
+            data
+        });
     }
 
 

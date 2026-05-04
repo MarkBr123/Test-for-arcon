@@ -58,6 +58,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHVyY2hhc2VPcmRlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Services/All_Bookings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2VydmljZXNcQWxsX0Jvb2tpbmdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Services/All_Service_Transactions.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2VydmljZXNcQWxsX1NlcnZpY2VfVHJhbnNhY3Rpb25zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

@@ -384,9 +384,49 @@ public class AuthController : Controller
     public async Task SendOtpEmail(string email, string otp)
     {
         await _emailService.SendAsync(
-            email,
-            "Your OTP Code",
-            $"Your OTP is: {otp}"
-        );
+             email,
+             "Your OTP Code",
+             GenerateOtpHtml(otp)
+         );
+    }
+
+    private string GenerateOtpHtml(string otp)
+    {
+        return $@"
+    <div style='font-family: Arial, sans-serif; background:#f4f6f8; padding:20px;'>
+        <div style='max-width:520px; margin:auto; background:white; border-radius:10px; padding:30px; text-align:center;'>
+
+            <!-- Logo -->
+            <img src='https://airconi-trading.com/assets/airconi-logo.png'
+                 alt='Airconi Trading'
+                 style='width:120px; margin-bottom:15px;' />
+
+            <h2 style='color:#2c3e50; margin-bottom:10px;'>AIRCON-i Trading</h2>
+
+            <p style='color:#555; font-size:16px;'>
+                Your verification code is:
+            </p>
+
+            <!-- OTP -->
+            <div style='font-size:34px; letter-spacing:6px; font-weight:bold; color:#1a73e8; margin:20px 0;'>
+                {otp}
+            </div>
+
+            <p style='color:#888; font-size:14px;'>
+                This code will expire in <strong>5 minutes</strong>.
+            </p>
+
+            <hr style='margin:25px 0;' />
+
+            <!-- Footer -->
+            <div style='font-size:12px; color:#777; line-height:1.6; text-align:center;'>
+                <strong>AIRCON-i Aircon & Appliances Trading</strong><br/>
+                #20 Abangan Sur Mc Arthur Hi-way, Marilao, Bulacan, Philippines<br/>
+                Contact Numbers:<br/>
+                0928-098-3567 | 0938-180-1851 | 0991-566-5169
+            </div>
+
+        </div>
+    </div>";
     }
 }

@@ -1,0 +1,175 @@
+﻿
+@{
+    ViewData["Title"] = "Service Bookings History";
+    var status = "ALL_BOOKINGS";
+}
+
+<link rel="stylesheet" href="~/css/render-rows.css" />
+
+<div id="loadingSpinner" class="text-center my-3" style="display:none;">
+    <div class="spinner-border text-primary" role="status"></div>
+</div>
+
+<div class="header-bar">
+    <div class="header-left">
+        <h4 class="mb-0">All Customer Bookings</h4>
+    </div>
+
+    <div class="header-center">
+        <input type="text"
+               id="allBookingsSearchInput"
+               class="form-control"
+               placeholder="Search..." />
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div id="allBookingsInfo" class="text-muted small mt-1"></div>
+</div>
+
+<div class="order-tracker">
+    <a href="/Admin/Services/For_Confirmation"
+       class="step @(status == "FOR_CONFIRMATION" ? "active" : "")">
+        <div class="circle"></div>
+        <span>For Confirmation</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Processing"
+       class="step @(status == "PROCESSING" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Processing</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Tech_Assign"
+       class="step @(status == "TECH_ASSIGN" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Technician Assignment</span>
+    </a>
+
+    <div class="line"></div>
+
+    <a href="/Admin/Services/Scheduled"
+       class="step @(status == "SCHEDULED" ? "active" : "")">
+        <div class="circle"></div>
+        <span>Scheduled</span>
+    </a>
+    <div class="line"></div>
+
+    <a href="/Admin/Services/All_Bookings"
+       class="step @(status == "ALL_BOOKINGS" ? "active" : "")">
+        <div class="circle"></div>
+        <span>All Bookings History</span>
+    </a>
+
+    <a href="/Admin/Services/All_Service_Transactions"
+       class="step @(status == "ALL_TRANSACTIONS" ? "active" : "")">
+        <div class="circle"></div>
+        <span>All Service History</span>
+    </a>
+</div>
+
+<!-- ✅ STATUS FILTER -->
+<div class="d-flex justify-content-end mb-2">
+    <div class="dropdown">
+        <button id="statusFilterBtn"
+                class="btn btn-outline-secondary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside">
+            Filter Status
+        </button>
+
+        <ul class="dropdown-menu p-3 shadow-sm" style="min-width: 240px;">
+
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input status-filter" type="checkbox" value="COMPLETED" id="statusCompleted">
+                    <label class="form-check-label" for="statusCompleted">Completed</label>
+                </div>
+            </li>
+
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input status-filter" type="checkbox" value="PARTIALLY_COMPLETED" id="statusPartial">
+                    <label class="form-check-label">Partially Completed</label>
+                </div>
+            </li>
+
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input status-filter" type="checkbox" value="FAILED" id="statusFailed">
+                    <label class="form-check-label">Failed</label>
+                </div>
+            </li>
+
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input status-filter" type="checkbox" value="FAILED_FOR_REFUND" id="statusRefund">
+                    <label class="form-check-label">💸 Failed (Refund)</label>
+                </div>
+            </li>
+
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input status-filter" type="checkbox" value="CANCELLED" id="statusCancelled">
+                    <label class="form-check-label">Cancelled</label>
+                </div>
+            </li>
+
+            <li><hr></li>
+
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input status-filter" type="checkbox" value="PROCESSING" id="statusProcessing">
+                    <label class="form-check-label">Processing</label>
+                </div>
+            </li>
+
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input status-filter" type="checkbox" value="CONFIRMED" id="statusConfirmed">
+                    <label class="form-check-label">Confirmed</label>
+                </div>
+            </li>
+
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input status-filter" type="checkbox" value="PENDING" id="statusPending">
+                    <label class="form-check-label">Pending</label>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<!-- ✅ TABLE -->
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th></th>
+            <th class="text-center sortable" onclick="sort('referenceCode')">Reference Code</th>
+            <th class="text-center sortable" onclick="sort('customerName')">Customer Name</th>
+            <th class="text-center sortable" onclick="sort('businessName')">Business Name</th>
+            <th class="text-center sortable" onclick="sort('scheduledDate')">Schedule Date</th>
+            <th class="text-center sortable" onclick="sort('preferredTime')">Preferred Time</th>
+            <th class="text-center sortable" onclick="sort('paymentMethod')">Payment Method</th>
+            <th class="text-center sortable" onclick="sort('totalAmount')">Total Amount</th>
+            <th class="text-center sortable" onclick="sort('propertyType')">Property Type</th>
+            <th class="text-center sortable" onclick="sort('createdAt')">Order Placed At</th>
+            <th class="text-center sortable" onclick="sort('status')">Status</th>
+        </tr>
+    </thead>
+    <tbody id="allBookingsTableBody"></tbody>
+</table>
+
+<nav class="mt-3">
+    <ul id="pagination" class="pagination justify-content-center"></ul>
+</nav>
+
+
+<script src=~/js/all_bookings.js></script>

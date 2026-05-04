@@ -5,3 +5,43 @@
 @{
     ViewData["Title"] = "My Services";
 }
+
+
+<br>
+<div class="orders-header">
+    <div class="orders-header-title">My Services</div>
+    <div class="orders-header-subtitle">
+        View and manage your service booking history.
+    </div>
+</div>
+
+<main class="container">
+    <br>
+
+    <div class="d-flex justify-content-end mb-3">
+        <select id="sortSelect" class="form-select w-auto">
+            <option value="latest">Date Booked (Latest)</option>
+            <option value="oldest">Date Booked (Oldest)</option>
+            <option value="priceAsc">Price (Cheaper to Pricier)</option>
+            <option value="priceDesc">Price (Pricier to Cheaper)</option>
+        </select>
+    </div>
+    <div class="tabs">
+        <button class="tab active" data-tab="Pending">Pending   @* <span class="badge">2</span> *@</button>
+        <button class="tab" data-tab="Processing">Processing@* <span class="badge">1</span> *@</button>
+        <button class="tab" data-tab="Scheduled">Scheduled</button>
+        <button class="tab" data-tab="Completed">Completed</button>
+        <button class="tab" data-tab="PartiallyCompleted">Partially Completed</button>
+        <button class="tab" data-tab="Failed">Failed</button>
+        <button class="tab" data-tab="Cancelled">Cancelled</button>
+    </div>
+
+    <div id="ordersList" class="orders-list mt-4"></div>
+
+
+    <div id="pagination" class="d-flex justify-content-center mt-4"></div>
+</main>
+
+
+
+<script src="~/js/shop_js/shop_my-services.js"></script>

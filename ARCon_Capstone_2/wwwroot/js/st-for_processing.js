@@ -521,7 +521,7 @@ async function submitServiceTransaction() {
         console.error(err);
         alert('Something went wrong.');
     }
-    console.log("PROCESS BOOKING ID:", id);
+    console.log("PROCESS BOOKING ID:", processBookingIdss);
     console.log("Submitting Booking ID:", processBookingId);
 }
 

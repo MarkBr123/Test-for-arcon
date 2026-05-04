@@ -188,10 +188,9 @@ function renderSummary(data) {
     `;
     document.getElementById("technicianSection").innerHTML = `
     <div class="col-12 mt-2">
-    ${
-        techs.length === 0
-                    ? `<div class="form-control text-muted">No technicians assigned</div>`
-                    : `
+    ${techs.length === 0
+            ? `<div class="form-control text-muted">No technicians assigned</div>`
+            : `
             <div class="form-control">
         
                 <!-- HEADER -->
@@ -218,7 +217,7 @@ function renderSummary(data) {
 
             </div>
         `
-    }
+        }
         </div>
 
  `;
@@ -254,4 +253,80 @@ function renderSummary(data) {
         Total: ₱${Number(data.summary.totalAmount).toLocaleString()}
     </div>
 `;
+
+    const status = data.transaction.statusDetails || {};
+
+    // ================= FAILED =================
+    document.getElementById("failedSection").innerHTML = status.isFailed
+        ? `
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Reason</th>
+                <th class="text-end">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-danger fw-bold">FAILED</td>
+                <td>${status.failReason ?? "-"}</td>
+                <td class="text-end">${formatDateTime(status.failedAt)}</td>
+            </tr>
+        </tbody>
+    </table>
+`
+        : `<div class="text-muted">No failed record</div>`;
+
+
+    // ================= FAILED FOR REFUND =================
+    document.getElementById("failedRefundSection").innerHTML = status.failedForRefund
+        ? `
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Reason</th>
+                <th class="text-end">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-warning fw-bold">FAILED (REFUND)</td>
+                <td>${status.failReason ?? "-"}</td>
+                <td class="text-end">${formatDateTime(status.failedAt)}</td>
+            </tr>
+        </tbody>
+    </table>
+`
+        : `<div class="text-muted">No refunded failure record</div>`;
+
+
+    // ================= PARTIAL =================
+    document.getElementById("partialSection").innerHTML = status.isPartiallyCompleted
+        ? `
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Reason</th>
+                <th class="text-end">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-warning fw-bold">PARTIAL</td>
+                <td>${status.partiallyReason ?? "-"}</td>
+                <td class="text-end">${formatDateTime(status.partiallyAt)}</td>
+            </tr>
+        </tbody>
+    </table>
+`
+        : `<div class="text-muted">No partial completion</div>`;
+}
+
+function formatDateTime(dateStr) {
+    if (!dateStr) return "N/A";
+    const d = new Date(dateStr);
+    return d.toLocaleString();
 }

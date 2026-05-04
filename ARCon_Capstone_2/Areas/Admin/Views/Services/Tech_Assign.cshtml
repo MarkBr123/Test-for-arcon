@@ -71,11 +71,16 @@
     </a>
     <div class="line"></div>
 
+    <a href="/Admin/Services/All_Bookings"
+       class="step @(status == "ALL_BOOKINGS" ? "active" : "")">
+        <div class="circle"></div>
+        <span>All Bookings History</span>
+    </a>
 
     <a href="/Admin/Services/All_Service_Transactions"
        class="step @(status == "ALL_TRANSACTIONS" ? "active" : "")">
         <div class="circle"></div>
-        <span>Service History</span>
+        <span>All Service History</span>
     </a>
 </div>
 
@@ -139,9 +144,21 @@
                     </h6>
 
                     <div class="mb-2">
-                        <small class="text-muted">Required Technicians</small>
-                        <div>
-                            <span id="requiredTechCount" class="fw-semibold text-primary"></span>
+                        <small class="text-muted">Technician Requirement</small>
+
+                        <div class="d-flex align-items-center gap-3 mt-1">
+
+                            <!-- Required -->
+                            <span>
+                                Required:
+                                <span id="requiredTechCount" class="fw-semibold text-primary">0</span>
+                            </span>
+
+                            <!-- Selected -->
+                            <span id="selectedTechCount" class="badge bg-light text-dark">
+                                0 / 0 selected
+                            </span>
+
                         </div>
                     </div>
                 </div>
@@ -174,7 +191,8 @@
     </div>
 </div>
 
-<!-- Confirmation Modal -->
+
+<!-- CONFIRMATION MODAL -->
 <div class="modal fade" id="confirmModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow rounded-3">
@@ -315,6 +333,11 @@
 
         </div>
     </div>
+</div>
+
+<div id="toastContainer"
+     class="toast-container position-fixed top-0 end-0 p-3"
+     style="z-index: 9999;">
 </div>
 
 <script src="~/js/st-tech-assign.js"></script>

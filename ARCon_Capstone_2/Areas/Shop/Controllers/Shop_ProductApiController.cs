@@ -147,4 +147,33 @@ public class Shop_ProductApiController : ControllerBase
             reviews = ratings
         });
     }
+
+
+    [HttpGet("product/{productId}")]
+    public async Task<IActionResult> GetProductRating(int productId)
+    {
+        var result = await _context.customer_ratings
+            .Where(r => r.product_id == productId)
+            .GroupBy(r => r.product_id)
+            .Select(g => new
+            {
+                averageRating = Math.Round(g.Average(x => x.rating), 1),
+                totalReviews = g.Count()
+            })
+            .FirstOrDefaultAsync();
+
+        if (result == null)
+        {
+            return Ok(new
+            {
+                averageRating = 0,
+                totalReviews = 0
+            });
+        }
+
+        return Ok(result);
+    }
+
+
 }
+

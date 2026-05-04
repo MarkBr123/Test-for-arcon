@@ -33,6 +33,11 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult All_Bookings()
+        {
+            return View();
+        }
         public IActionResult All_Service_Transactions()
         {
             return View();

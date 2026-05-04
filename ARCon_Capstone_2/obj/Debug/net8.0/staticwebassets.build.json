@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "yladPLKtsWJVgs93gP+2HwA3RIClSLVEPdgiJY1RL9I=",
+  "Hash": "5NzqwmgBgEWFKKW/uBxNN8Aa4hhPDXm0Abms6wf7qTk=",
   "Source": "ARCon_Capstone_2",
   "BasePath": "_content/ARCon_Capstone_2",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\airconi-logo.png"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\favicon.png",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "assets/favicon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\favicon.png"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\for-confirm.png",
@@ -1062,6 +1081,25 @@
       "OriginalItemSpec": "wwwroot\\js\\admin-users.js"
     },
     {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\all_bookings.js",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "js/all_bookings.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\all_bookings.js"
+    },
+    {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\app-ui.js",
       "SourceId": "ARCon_Capstone_2",
       "SourceType": "Discovered",
@@ -1478,6 +1516,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_my-services.js",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "js/shop_js/shop_my-services.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\shop_js\\shop_my-services.js"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_product-details.js",

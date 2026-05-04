@@ -912,6 +912,188 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "GetMyCancelledServices",
+    "RelativePath": "api/my-shop-services/my-cancelled-services",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "GetMyCompletedServices",
+    "RelativePath": "api/my-shop-services/my-completed-services",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "GetMyFailedServices",
+    "RelativePath": "api/my-shop-services/my-failed-services",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "GetMyPartiallyCompletedServices",
+    "RelativePath": "api/my-shop-services/my-partially-completed-services",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "GetMyPendingServices",
+    "RelativePath": "api/my-shop-services/my-pending-services",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "GetMyProcessingServices",
+    "RelativePath": "api/my-shop-services/my-processing-services",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "GetMyForTechAssignmentServices",
+    "RelativePath": "api/my-shop-services/my-scheduled-services",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.OnlinePayments_OrderApiController",
     "Method": "AttachPayment",
     "RelativePath": "api/online-payments-orders/attach-payment",
@@ -1570,6 +1752,47 @@
         "Name": "dto",
         "Type": "ARCon_Capstone_2.DTOs.PartialServiceTransactionDto",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Admin.Controllers.ServiceTransactionApiController",
+    "Method": "GetAllBookings",
+    "RelativePath": "api/service-transactions/all-bookings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortDir",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "statuses",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

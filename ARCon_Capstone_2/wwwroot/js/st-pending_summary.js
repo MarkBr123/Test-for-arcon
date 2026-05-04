@@ -58,10 +58,92 @@ async function loadSummary() {
         document.getElementById("summaryTotalServices").innerText = data.summary.totalServices;
         document.getElementById("summaryTotalUnits").innerText = data.summary.totalUnits;
         document.getElementById("summaryTotalAmount").innerText = "₱ " + formatMoney(data.summary.totalAmount);
+
+        // 🔥 ADD THIS (SERVICE HISTORY)
+        renderServiceTransactions(data.serviceTransactions);
     }
     catch (err) {
         console.error("Load summary error:", err);
         alert("Failed to load summary. Check console.");
+    }
+}
+
+//Service Transaction, if there is any
+
+function renderServiceTransactions(list) {
+    const tbody = document.getElementById("serviceTransactionHistoryBody");
+    tbody.innerHTML = "";
+
+    if (!list || list.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center text-muted py-3">
+                    No service history yet
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    list.forEach((t, index) => {
+
+        const highlight = index === 0 ? "table-primary" : "";
+
+        // 🔥 FIXED RESULT TIME (clean + short)
+        let resultTime = "-";
+
+        if (t.completedDate) {
+            resultTime = formatDateTime(
+                new Date(t.completedDate + "T" + (t.completedTime ?? "00:00"))
+            );
+        } else if (t.failedAt) {
+            resultTime = formatDateTime(t.failedAt);
+        } else if (t.partiallyAt) {
+            resultTime = formatDateTime(t.partiallyAt);
+        }
+
+        tbody.innerHTML += `
+            <tr class="${highlight}">
+                <td class="fw-semibold text-truncate" style="max-width:120px;">
+                    ${t.referenceCode}
+                </td>
+
+                <td class="text-center">
+                    ${t.serviceTry ?? "-"}
+                </td>
+
+                <td class="text-center">
+                    ${formatStatus(t.status)}
+                </td>
+
+                <td class="text-center small">
+                    ${formatDateTime(t.createdAt)}
+                </td>
+
+                <td class="text-center small">
+                    ${resultTime}
+                </td>
+            </tr>
+        `;
+    });
+}
+
+// Format Status
+
+function formatStatus(status) {
+    switch (status) {
+        case "COMPLETED":
+            return `<span class="badge bg-success">Completed</span>`;
+        case "FAILED":
+            return `<span class="badge bg-danger">Failed</span>`;
+        case "FAILED_FOR_REFUND":
+            return `<span class="badge bg-warning text-dark">Refund</span>`;
+        case "PARTIALLY_COMPLETED":
+            return `<span class="badge bg-secondary">Partial</span>`;
+        case "CANCELLED":
+            return `<span class="badge bg-dark">Cancelled</span>`;
+        default:
+            return `<span class="badge bg-light text-dark">${status}</span>`;
     }
 }
 

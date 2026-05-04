@@ -449,6 +449,58 @@ body {
 }
 
 
+/* =====================================================
+   Technician selection
+===================================================== */
+/* CARD BASE */
+.tech-card {
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
 
+    /* HOVER */
+    .tech-card:hover {
+        border-color: #0d6efd;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
 
+    /* SELECTED STATE */
+    .tech-card.selected {
+        border: 2px solid #0d6efd;
+        background-color: #e7f1ff;
+        box-shadow: 0 6px 16px rgba(13,110,253,0.25);
+        transform: scale(1.02);
+    }
 
+        /* CHECK ICON */
+        .tech-card.selected::after {
+            content: "✔";
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            background: #0d6efd;
+            color: white;
+            font-size: 12px;
+            padding: 3px 6px;
+            border-radius: 50%;
+        }
+
+/* ONLINE/OFFLINE DOT */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+    .status-dot.online {
+        background: #28a745;
+    }
+
+    .status-dot.offline {
+        background: #dc3545;
+    }

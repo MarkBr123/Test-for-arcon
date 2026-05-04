@@ -173,7 +173,31 @@ function formatDateTime(dt) {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadTechAssign();
-}); 
+
+    const assignBtn = document.getElementById("assignBtn");
+
+    if (assignBtn) {
+        assignBtn.addEventListener("click", async () => {
+            if (selectedTechs.length === 0) {
+                showToast("Please select at least one technician.", "warning");
+                return;
+            }
+
+            if (selectedTechs.length < requiredCount) {
+                showConfirmModal(() => submitAssignment());
+                return;
+            }
+
+            try {
+                await submitAssignment();
+                showToast("Assigned successfully!", "success");
+                setTimeout(() => location.reload(), 800);
+            } catch (err) {
+                showToast(err.message, "danger");
+            }
+        });
+    }
+});
 
 document.querySelectorAll(".sortable").forEach(th => {
     th.addEventListener("click", function () {
@@ -190,16 +214,31 @@ let selectedTechs = [];
 let requiredCount = 0;
 let currentTransactionId = null;
 
-//Open Modal + Load Technicians
+// ================= OPEN MODAL =================
 async function openAssignModal(transactionId, requiredTechs) {
+
     currentTransactionId = transactionId;
     requiredCount = requiredTechs;
     selectedTechs = [];
 
-    document.getElementById("requiredTechCount").innerText = requiredTechs;
-    document.getElementById("assignBtn").disabled = true;
-
+    // ✅ SAFE ELEMENT GETTERS
+    const assignBtn = document.getElementById("assignBtn");
+    const countEl = document.getElementById("selectedTechCount");
+    const requiredEl = document.getElementById("requiredTechCount");
     const container = document.getElementById("technicianList");
+    const modalEl = document.getElementById("assignTechModal");
+
+    // ❌ HARD STOP if container missing (THIS FIXES YOUR ERROR)
+    if (!container || !modalEl) {
+        console.error("Modal or technicianList not found in DOM");
+        return;
+    }
+
+    // Reset UI
+    if (assignBtn) assignBtn.disabled = true;
+    if (countEl) countEl.innerText = `0 / ${requiredCount} selected`;
+    if (requiredEl) requiredEl.innerText = requiredCount;
+
     container.innerHTML = `<div class="text-muted">Loading technicians...</div>`;
 
     try {
@@ -209,49 +248,49 @@ async function openAssignModal(transactionId, requiredTechs) {
         requiredCount = data.requiredTechnicians;
         const techs = data.technicians;
 
-        const container = document.getElementById("technicianList");
+        // Update required count safely
+        if (requiredEl) requiredEl.innerText = requiredCount;
+
+        // Clear container safely
         container.innerHTML = "";
 
-        document.getElementById("requiredTechCount").innerText = requiredCount;
-
-        if (!techs.length) {
+        if (!techs || techs.length === 0) {
             container.innerHTML = `<div class="text-muted">No available technicians</div>`;
             return;
         }
 
-        techs.forEach(tech => {
-            container.innerHTML += `
-       <div class="col-md-4">
-            <div class="card tech-card p-2"
-                 onclick="toggleTech(${tech.id}, this)">
+        // ✅ BUILD USING JOIN (FASTER + SAFER THAN +=)
+        const html = techs.map(tech => `
+            <div class="col-md-4">
+                <div class="card tech-card p-2 position-relative"
+                     onclick="toggleTech(${tech.id}, this)">
 
-                <div class="d-flex align-items-start gap-2">
+                    <div class="d-flex align-items-start gap-2">
 
-                    <!-- ICON + STATUS DOT -->
-                    <div class="position-relative">
-                        <i class="bi bi-person-circle fs-4 text-primary"></i>
-
-                        <span class="status-dot ${tech.is_online ? 'online' : 'offline'}"></span>
-                    </div>
-
-                    <div>
-                        <div class="fw-semibold">
-                            ${tech.name} 
+                        <div class="position-relative">
+                            <i class="bi bi-person-circle fs-4 text-primary"></i>
+                            <span class="status-dot ${tech.is_online ? 'online' : 'offline'}"></span>
                         </div>
 
-                        <small class="d-block text-muted">${tech.contact_no}</small>
-                        <small class="d-block text-muted">${tech.email_address}</small>
-                    </div>
+                        <div>
+                            <div class="fw-semibold">${tech.name}</div>
+                            <small class="d-block text-muted">${tech.contact_no}</small>
+                            <small class="d-block text-muted">${tech.email_address}</small>
+                        </div>
 
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-        });
+        `).join("");
 
-        // Show modal
-        const modal = new bootstrap.Modal(document.getElementById('assignTechModal'));
+        container.innerHTML = html;
+
+        // Show modal AFTER everything is ready
+        const modal = new bootstrap.Modal(modalEl);
         modal.show();
+
+        // Ensure UI sync
+        setTimeout(() => updateAssignButton(), 50);
 
     } catch (err) {
         console.error(err);
@@ -259,16 +298,14 @@ async function openAssignModal(transactionId, requiredTechs) {
     }
 }
 
-//Toggle Selection
+// ================= TOGGLE =================
 function toggleTech(id, el) {
 
     if (selectedTechs.includes(id)) {
-        // Remove
         selectedTechs = selectedTechs.filter(x => x !== id);
         el.classList.remove("selected");
     } else {
 
-        // Limit check
         if (selectedTechs.length >= requiredCount) {
             showToast(`You can only select ${requiredCount} technician(s).`, "warning");
             return;
@@ -281,69 +318,74 @@ function toggleTech(id, el) {
     updateAssignButton();
 }
 
-
-
+// ================= ASSIGN BUTTON =================
 document.getElementById("assignBtn").addEventListener("click", async () => {
 
-    //block if zero
     if (selectedTechs.length === 0) {
         showToast("Please select at least one technician.", "warning");
         return;
     }
 
-    //If less than required → show modal instead
     if (selectedTechs.length < requiredCount) {
         showConfirmModal(() => submitAssignment());
         return;
     }
 
-    // Exact → proceed directly
-    submitAssignment();
+    try {
+        await submitAssignment();
+        showToast("Assigned successfully!", "success");
+
+        setTimeout(() => location.reload(), 800);
+    } catch (err) {
+        showToast(err.message, "danger");
+    }
 });
 
-
+// ================= SUBMIT =================
 async function submitAssignment() {
-    try {
-        const res = await fetch(`/api/service-transactions/${currentTransactionId}/assign-technicians`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                technicianIds: selectedTechs
-            })
-        });
+    const res = await fetch(`/api/service-transactions/${currentTransactionId}/assign-technicians`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            technicianIds: selectedTechs
+        })
+    });
 
-        if (res.ok) {
-            showToast("Technicians assigned successfully!", "success");
+    if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || "Assignment failed.");
+    }
 
-            const modalEl = document.getElementById('assignTechModal');
-            const modal = bootstrap.Modal.getInstance(modalEl);
-            modal.hide();
+    const modalEl = document.getElementById('assignTechModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    modal?.hide();
+}
 
-            location.reload();
-        } else {
-            const errText = await res.text();
-            showToast(errText || "Assignment failed.", "danger");
-        }
+// ================= UPDATE BUTTON + COUNTER =================
+function updateAssignButton() {
+    const btn = document.getElementById("assignBtn");
+    if (btn) {
+        btn.disabled = selectedTechs.length === 0;
+    }
 
-    } catch (err) {
-        console.error(err);
-        showToast("Error assigning technicians.", "danger");
+    const countEl = document.getElementById("selectedTechCount");
+
+    // ✅ FIX: prevent crash
+    if (countEl) {
+        countEl.innerText = `${selectedTechs.length} / ${requiredCount} selected`;
+
+        // optional visual state
+        countEl.className =
+            selectedTechs.length === requiredCount
+                ? "badge bg-success"
+                : "badge bg-light text-dark";
     }
 }
 
-
-//Enable / Disable Assign Button
-function updateAssignButton() {
-    const btn = document.getElementById("assignBtn");
-
-    //allow less than required (but not zero)
-    btn.disabled = selectedTechs.length === 0;
-}
-
-
-let confirmInterval; // global to prevent stacking
+// ================= CONFIRM MODAL =================
+let confirmInterval;
 
 function showConfirmModal(callback) {
     let seconds = 5;
@@ -356,40 +398,45 @@ function showConfirmModal(callback) {
     const modalEl = document.getElementById("confirmModal");
     const modal = new bootstrap.Modal(modalEl);
 
-    // Reset UI
     confirmBtn.disabled = true;
     countdownText.innerText = seconds;
     countdownBar.style.width = "0%";
 
     modal.show();
 
-    // Clear old interval if exists
     if (confirmInterval) clearInterval(confirmInterval);
 
     confirmInterval = setInterval(() => {
         seconds--;
 
         countdownText.innerText = seconds;
-
-        // progress bar
-        const progress = ((total - seconds) / total) * 100;
-        countdownBar.style.width = progress + "%";
+        countdownBar.style.width = ((total - seconds) / total) * 100 + "%";
 
         if (seconds <= 0) {
             clearInterval(confirmInterval);
             confirmBtn.disabled = false;
-            countdownText.innerText = "0";
         }
 
     }, 1000);
 
-    // Confirm click
-    confirmBtn.onclick = () => {
-        modal.hide();
-        callback();
+    // ✅ FIX: await callback + reload AFTER
+    confirmBtn.onclick = async () => {
+        confirmBtn.disabled = true;
+
+        try {
+            await callback();
+            modal.hide();
+
+            showToast("Assigned successfully!", "success");
+
+            setTimeout(() => location.reload(), 800);
+
+        } catch (err) {
+            showToast(err.message, "danger");
+            confirmBtn.disabled = false;
+        }
     };
 
-    // Reset on close
     modalEl.addEventListener("hidden.bs.modal", () => {
         clearInterval(confirmInterval);
         confirmBtn.disabled = true;
@@ -427,50 +474,79 @@ document.getElementById("proceedCancelBtn").addEventListener("click", () => {
     showFinalCancelModal(reason);
 });
 
-let cancelInterval;
 
-function showFinalCancelModal(reason) {
+function showConfirmModal(callback) {
     let seconds = 5;
     const total = 5;
 
-    const text = document.getElementById("cancelCountdownText");
-    const bar = document.getElementById("cancelCountdownBar");
-    const btn = document.getElementById("confirmCancelBtn");
+    const countdownText = document.getElementById("countdownText");
+    const countdownBar = document.getElementById("countdownBar");
+    const confirmBtn = document.getElementById("confirmSubmitBtn");
 
-    const modalEl = document.getElementById("finalCancelModal");
+    const modalEl = document.getElementById("confirmModal");
     const modal = new bootstrap.Modal(modalEl);
 
-    btn.disabled = true;
-    text.innerText = seconds;
-    bar.style.width = "0%";
+    // Reset UI
+    confirmBtn.disabled = true;
+    confirmBtn.innerText = "Please wait...";
+    countdownText.innerText = seconds;
+    countdownBar.style.width = "0%";
 
     modal.show();
 
-    if (cancelInterval) clearInterval(cancelInterval);
+    // Clear old interval
+    if (confirmInterval) clearInterval(confirmInterval);
 
-    cancelInterval = setInterval(() => {
+    confirmInterval = setInterval(() => {
         seconds--;
 
-        text.innerText = seconds;
-        bar.style.width = ((total - seconds) / total * 100) + "%";
+        countdownText.innerText = seconds;
+
+        const progress = ((total - seconds) / total) * 100;
+        countdownBar.style.width = progress + "%";
 
         if (seconds <= 0) {
-            clearInterval(cancelInterval);
-            btn.disabled = false;
+            clearInterval(confirmInterval);
+            confirmBtn.disabled = false;
+            confirmBtn.innerText = "Confirm";
         }
 
     }, 1000);
 
-    btn.onclick = () => {
-        modal.hide();
-        submitCancel(reason);
+    // ✅ CONFIRM CLICK (FULL FIX)
+    confirmBtn.onclick = async () => {
+        confirmBtn.disabled = true;
+        confirmBtn.innerText = "Processing...";
+
+        try {
+            await callback(); // wait for API
+            modal.hide();
+
+            // ✅ SUCCESS FEEDBACK
+            showToast("Action completed successfully!", "success");
+
+            // ✅ REFRESH PAGE
+            setTimeout(() => {
+                location.reload();
+            }, 800);
+
+        } catch (err) {
+            console.error(err);
+
+            showToast("Something went wrong. Please try again.", "danger");
+
+            confirmBtn.disabled = false;
+            confirmBtn.innerText = "Confirm";
+        }
     };
 
+    // Reset on close
     modalEl.addEventListener("hidden.bs.modal", () => {
-        clearInterval(cancelInterval);
-        btn.disabled = true;
-        text.innerText = "5";
-        bar.style.width = "0%";
+        clearInterval(confirmInterval);
+        confirmBtn.disabled = true;
+        confirmBtn.innerText = "Confirm";
+        countdownBar.style.width = "0%";
+        countdownText.innerText = "5";
     }, { once: true });
 }
 
@@ -529,23 +605,31 @@ function getScheduleLabel(dateStr) {
 
 function showToast(message, type = "success", delay = 3000) {
 
-    const container = document.getElementById("toastContainer");
+    let container = document.getElementById("toastContainer");
+
+    // ✅ FIX: auto-create if missing
+    if (!container) {
+        container = document.createElement("div");
+        container.id = "toastContainer";
+        container.className = "toast-container position-fixed top-0 end-0 p-3";
+        container.style.zIndex = "9999";
+        document.body.appendChild(container);
+    }
 
     const bgClass = {
         success: "bg-success",
         error: "bg-danger",
-        warning: "bg-warning",
-        info: "bg-info"
+        warning: "bg-warning text-dark",
+        info: "bg-info text-dark"
     }[type] || "bg-secondary";
 
     const toastEl = document.createElement("div");
     toastEl.className = `toast align-items-center text-white ${bgClass} border-0`;
     toastEl.role = "alert";
+
     toastEl.innerHTML = `
         <div class="d-flex">
-            <div class="toast-body">
-                ${message}
-            </div>
+            <div class="toast-body">${message}</div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
     `;
@@ -555,7 +639,6 @@ function showToast(message, type = "success", delay = 3000) {
     const toast = new bootstrap.Toast(toastEl, { delay });
     toast.show();
 
-    // Remove after hidden
     toastEl.addEventListener("hidden.bs.toast", () => {
         toastEl.remove();
     });

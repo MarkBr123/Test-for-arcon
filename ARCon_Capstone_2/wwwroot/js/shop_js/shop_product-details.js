@@ -9,6 +9,9 @@
     loadProductRatings(window.productId);
 
     console.log("UI ProductId:", window.productId);
+
+    const productId = window.productId; // change if your model uses different name
+    loadRating(productId);
 });
 
 
@@ -512,4 +515,80 @@ function getInitials(name) {
 }
 
 
-///// login check
+///Stars Ratings
+
+async function loadRating(productId) {
+    try {
+        const res = await fetch(`/api/shop/home_product_cards/product/${productId}`);
+
+        // Handle bad response
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        renderRating(data);
+
+    } catch (err) {
+        console.error("Rating load error:", err);
+        renderEmptyRating();
+    }
+}
+
+
+
+// RENDER FULL RATING UI
+
+function renderRating(data) {
+    const rating = data.averageRating ?? 0;
+    const total = data.totalReviews ?? 0;
+
+    const container = document.getElementById("ratingContainer");
+
+    container.innerHTML = `
+            ${generateStarsHTML(rating)}
+            <span> | ${rating.toFixed(1)} star based on ${total} reviews</span>
+        `;
+}
+
+
+
+// GENERATE STARS (TEXT VERSION)
+
+function generateStarsHTML(rating) {
+    let stars = "";
+
+    const full = Math.floor(rating);
+    const hasHalf = (rating - full) >= 0.5;
+    const empty = 5 - full - (hasHalf ? 1 : 0);
+
+    // Full stars
+    for (let i = 0; i < full; i++) {
+        stars += "★";
+    }
+
+    // Half star (fallback as ☆ for now)
+    if (hasHalf) {
+        stars += "☆";
+    }
+
+    // Empty stars
+    for (let i = 0; i < empty; i++) {
+        stars += "☆";
+    }
+
+    return stars;
+}
+
+
+
+// FALLBACK (NO DATA / ERROR)
+
+function renderEmptyRating() {
+    const container = document.getElementById("ratingContainer");
+
+    container.innerHTML = `
+            ☆☆☆☆☆ <span> | No reviews yet</span>
+        `;
+}
