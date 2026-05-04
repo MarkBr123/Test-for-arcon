@@ -122,16 +122,21 @@ document.getElementById("sortSelect").addEventListener("change", () => {
 //// end pagination
 
 document.addEventListener("DOMContentLoaded", () => {
+
     const tabs = document.querySelectorAll(".tab");
-    const contents = document.querySelectorAll(".tab-content");
+
+    // 🔥 FIX: DO NOT TOUCH BOOTSTRAP tab-content
+    const contents = document.querySelectorAll(".main-tab-content");
+
     const sortSelect = document.getElementById("sortSelect");
-    
 
     tabs.forEach(tab => {
         tab.addEventListener("click", () => {
             const target = tab.dataset.tab;
 
             tabs.forEach(t => t.classList.remove("active"));
+
+            // 🔥 ONLY affect your own content
             contents.forEach(c => c.classList.remove("active"));
 
             tab.classList.add("active");
@@ -141,31 +146,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 activeContent.classList.add("active");
             }
 
-            // ✅ use current selected sort
             const currentSort = sortSelect.value;
-
             loadTab(target, currentSort);
         });
     });
 
-    // ✅ SORT CHANGE HANDLER (IMPORTANT)
     sortSelect.addEventListener("change", () => {
         const selectedSort = sortSelect.value;
 
         const activeTab = document.querySelector(".tab.active");
         const tabKey = activeTab?.dataset.tab;
 
-        console.log("SORT:", selectedSort, "TAB:", tabKey);
-
         if (tabKey) {
             loadTab(tabKey, selectedSort);
         }
     });
 
-    // ✅ initial load
-    //loadServices();
     loadTab("Pending", sortSelect.value);
-
 });
 
 function loadTransactions(status) {
@@ -180,8 +177,10 @@ function loadTransactions(status) {
 
 
 /// Helpers
-function formatPrice(value) {
-    return Number(value || 0).toLocaleString();
+function formatPrice(num) {
+    return Number(num || 0).toLocaleString("en-PH", {
+        minimumFractionDigits: 2
+    });
 }
 
 function renderStars(rating) {
@@ -374,33 +373,33 @@ async function fetchAndRender(url, renderFn) {
 
 
 
-// 🟡 For Confirmation
+//  For Confirmation
 async function loadPendingServices(sort) {
     console.log("CALLING PENDING API"); // 👈 add this
     await fetchAndRender(`/api/my-shop-services/my-pending-services?sortBy=${sort}`, renderPendingServices);
 }
 
-// 🔵 Processing
+//  Processing
 async function loadProcessingServices(sort) {
     await fetchAndRender(`/api/my-shop-services/my-processing-services?sortBy=${sort}`, renderProcessingServices);
 }
 
-// 🟣 Scheduled
+//  Scheduled
 async function loadScheduledServices(sort) {
     await fetchAndRender(`/api/my-shop-services/my-scheduled-services?sortBy=${sort}`, renderScheduledServices);
 }
 
-// 🟢 Completed
+//  Completed
 async function loadCompletedServices(sort) {
     await fetchAndRender(`/api/my-shop-services/my-completed-services?sortBy=${sort}`, renderCompletedServices);
 }
 
-// 🟠 Partial
+//  Partial
 async function loadPartiallyCompletedServices(sort) {
     await fetchAndRender(`/api/my-shop-services/my-partially-completed-services?sortBy=${sort}`, renderPartiallyCompletedServices);
 }
 
-// 🔴 Failed
+//  Failed
 async function loadFailedServices(sort = "latest") {
     try {
         const res = await fetch(
@@ -409,7 +408,7 @@ async function loadFailedServices(sort = "latest") {
 
         const result = await res.json();
 
-        // ✅ no merging needed anymore
+        //  no merging needed anymore
         const data = result.data || [];
 
         renderFailedServices(data);
@@ -418,7 +417,7 @@ async function loadFailedServices(sort = "latest") {
         console.error("Failed loading failed services:", err);
     }
 }
-// ⚫ Cancelled
+//  Cancelled
 async function loadCancelledServices(sort) {
     await fetchAndRender(`/api/my-shop-services/my-cancelled-services?sortBy=${sort}`, renderCancelledServices);
 }
@@ -470,7 +469,7 @@ function renderPendingServices(data) {
 
         const card = document.createElement("div");
 
-        // ✅ APPLY THEME HERE
+        //  APPLY THEME HERE
         card.classList.add("order-card", "status-pending");
 
         card.innerHTML = `
@@ -540,18 +539,18 @@ function renderPendingServices(data) {
                 </div>
 
                 <div class="order-footer-new">
-                    <button class="btn btn-sm btn-primary" onclick="openServiceDetails(${service.id})">
+                    <button class="btn btn-sm btn-primary" onclick="openServiceDetails(${service.id})"">
                         View Details
                     </button>
 
                     <button class="btn btn-sm btn-outline-danger" onclick="openCancelServiceModal(${service.id})">
                         Cancel
+                        
                     </button>
                 </div>
 
             </div>
         `;
-
         container.appendChild(card);
     });
 }
@@ -594,7 +593,7 @@ function renderProcessingServices(data) {
 
         const card = document.createElement("div");
 
-        // ✅ APPLY THEME (Processing = still blue but slightly softer)
+        //  APPLY THEME (Processing = still blue but slightly softer)
         card.classList.add("order-card", "status-processing");
 
         card.innerHTML = `
@@ -653,7 +652,7 @@ function renderProcessingServices(data) {
 
             </div>
 
-            <!-- BOTTOM -->
+             <!-- BOTTOM -->
             <div class="order-bottom">
 
                 <div class="order-price">
@@ -663,6 +662,11 @@ function renderProcessingServices(data) {
                 <div class="order-footer-new">
                     <button class="btn btn-sm btn-primary" onclick="openServiceDetails(${service.bookingId})">
                         View Details
+                    </button>
+
+                    <button class="btn btn-sm btn-outline-danger" onclick="openCancelServiceModal(${service.id})">
+                        Cancel
+                        
                     </button>
                 </div>
 
@@ -730,7 +734,7 @@ function renderScheduledServices(data) {
                     <div class="order-section-title">Booking Info</div>
 
                     <div class="order-row">
-                        <span class="label">Booking Code:</span>
+                        <span class="label">Reference Code:</span>
                         <span class="value">${service.bookingRefCode}</span>
                     </div>
 
@@ -777,6 +781,11 @@ function renderScheduledServices(data) {
                 <div class="order-footer-new">
                     <button class="btn btn-sm btn-primary" onclick="openServiceDetails(${service.bookingId})">
                         View Details
+                    </button>
+
+                   <button class="btn btn-sm btn-outline-secondary"
+                            onclick="showCannotCancelModal()">
+                        ⚠️ Cancel
                     </button>
                 </div>
 
@@ -846,7 +855,7 @@ function renderCompletedServices(data) {
                     <div class="order-section-title">Booking Info</div>
 
                     <div class="order-row">
-                        <span class="label">Booking Code:</span>
+                        <span class="label">Reference Code:</span>
                         <span class="value">${service.bookingRefCode}</span>
                     </div>
 
@@ -945,7 +954,7 @@ function renderPartiallyCompletedServices(data) {
                     <div class="order-section-title">Booking Info</div>
 
                     <div class="order-row">
-                        <span class="label">Booking Code:</span>
+                        <span class="label">Reference Code:</span>
                         <span class="value">${service.bookingRefCode}</span>
                     </div>
 
@@ -1049,7 +1058,7 @@ function renderFailedServices(data) {
                     <div class="order-section-title">Booking Info</div>
 
                     <div class="order-row">
-                        <span class="label">Booking Code:</span>
+                        <span class="label">Reference Code:</span>
                         <span class="value">${service.bookingRefCode}</span>
                     </div>
 
@@ -1145,7 +1154,7 @@ function renderCancelledServices(data) {
                     <div class="order-section-title">Booking Info</div>
 
                     <div class="order-row">
-                        <span class="label">Booking Code:</span>
+                        <span class="label">Reference Code:</span>
                         <span class="value">${service.bookingRefCode}</span>
                     </div>
 
@@ -1202,4 +1211,308 @@ function renderCancelledServices(data) {
 
         container.appendChild(card);
     });
+}
+
+
+
+///// CANCELLATION PART /////
+
+
+let selectedBookingId = null;
+
+// 🔹 OPEN FIRST MODAL
+function openCancelServiceModal(bookingId) {
+    selectedBookingId = bookingId;
+
+    const modalEl = document.getElementById("cancelReasonModal");
+    if (!modalEl) return;
+
+    const input = document.getElementById("cancelReasonInput");
+    if (input) input.value = "";
+
+    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+
+// 🔹 GO TO CONFIRM MODAL
+function openConfirmCancelModal() {
+    const input = document.getElementById("cancelReasonInput");
+    const reason = input ? input.value.trim() : "";
+
+    if (!reason) {
+        alert("Please provide a cancellation reason.");
+        return;
+    }
+
+    const reasonModalEl = document.getElementById("cancelReasonModal");
+    const confirmModalEl = document.getElementById("confirmCancelModal");
+
+    if (!confirmModalEl) return;
+
+    // close first modal safely
+    bootstrap.Modal.getOrCreateInstance(reasonModalEl).hide();
+
+    // open confirm modal
+    bootstrap.Modal.getOrCreateInstance(confirmModalEl).show();
+}
+
+// 🔹 CONFIRM + API CALL
+async function confirmCancelService() {
+    try {
+        const input = document.getElementById("cancelReasonInput");
+        const reason = input ? input.value.trim() : "";
+
+        const confirmModalEl = document.getElementById("confirmCancelModal");
+        const successModalEl = document.getElementById("cancelSuccessModal");
+
+        // close confirm modal safely
+        bootstrap.Modal.getOrCreateInstance(confirmModalEl).hide();
+
+        // 🔥 API CALL
+        const res = await fetch(`/api/my-shop-services/customer/cancel/${selectedBookingId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ reason })
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            alert(err.message || "Failed to cancel service");
+            return;
+        }
+
+        // ✅ SHOW SUCCESS MODAL
+        if (successModalEl) {
+            bootstrap.Modal.getOrCreateInstance(successModalEl).show();
+        }
+
+        // 🔄 reload after slight delay (prevents UI flicker)
+        setTimeout(() => {
+            loadTab(currentTab, document.getElementById("sortSelect")?.value);
+        }, 300);
+
+    } catch (error) {
+        console.error("Cancel error:", error);
+        alert("Something went wrong.");
+    }
+}
+
+document.getElementById("cancelSuccessModal").addEventListener("hidden.bs.modal", () => {
+    loadTab(currentTab, document.getElementById("sortSelect").value);
+});
+
+
+function showCannotCancelModal() {
+    const modalEl = document.getElementById("cannotCancelModal");
+    if (!modalEl) return;
+
+    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+
+
+
+//// Details Summary Modal //////
+
+async function openServiceDetails(bookingId) {
+    try {
+        const res = await fetch(`/api/my-shop-services/customer/stsummary/${bookingId}`);
+
+        if (!res.ok) {
+            alert("Failed to load details");
+            return;
+        }
+
+        const data = await res.json();
+        console.log("DATA:", data);
+
+        const b = data.booking || {};
+        const t = data.latestTransaction || {};
+        const transactions = data.transactions || [];
+        const customer = data.customer || {};
+
+        const modalEl = document.getElementById("serviceDetailsModal");
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+
+        // 🔥 SAFE SET
+        const setText = (id, value) => {
+            const el = modalEl.querySelector(`#${id}`);
+            if (el) el.textContent = value ?? "N/A";
+        };
+
+        // ================= BOOKING =================
+        setText("d_bookingCode", b.referenceCode);
+        setText("d_status", b.status);
+        setText("d_scheduledDate", formatDate(b.scheduledDate));
+        setText("d_time", b.preferredTime);
+        setText("d_address", data.address);
+
+        // 🔥 NEW BOOKING FIELDS
+        setText("d_propertyType", b.propertyType);
+        setText("d_customerNote", b.customerNote);
+        setText("d_businessName", b.businessName);
+        setText("d_failureCount", b.failureCount);
+        setText("d_partialCount", b.partialCount);
+
+        // ================= CUSTOMER =================
+        setText("d_customerName", customer.name);
+        setText("d_customerContact", customer.contact);
+
+        // ================= TRANSACTION =================
+        setText("d_transactionCode", t.referenceCode || "Not yet assigned");
+
+        setText("d_completedDate",
+            t.completedDate ? formatDate(t.completedDate) : "Pending"
+        );
+
+        setText("d_completedTime",
+            t.completedTime ? formatTimeSpecific(t.completedTime) : "Pending"
+        );
+
+        // 🔥 NEW TRANSACTION FIELDS
+        setText("d_actualDate",
+            t.scheduledDate ? formatDate(t.scheduledDate) : "Not scheduled"
+        );
+
+        setText("d_actualTime",
+            t.scheduledTime ? formatTimeSpecific(t.scheduledTime) : "Not scheduled"
+        );
+
+        setText("d_estimatedDate",
+            t.estimatedCompletionDate
+                ? formatDate(t.estimatedCompletionDate)
+                : "Not available"
+        );
+
+        setText("d_estimatedTime",
+            t.estimatedCompletionTime
+                ? formatTimeSpecific(t.estimatedCompletionTime)
+                : "Not available"
+        );
+
+        const ratingEl = modalEl.querySelector("#d_rating");
+        if (ratingEl) {
+            ratingEl.innerHTML = t.rating
+                ? renderStars(t.rating)
+                : "Not rated";
+        }
+
+        // ================= REMARKS =================
+        let remarks = "No issues reported.";
+
+        if (t.statusDetails?.isFailed) {
+            remarks = `❌ Failed: ${t.statusDetails.failReason}`;
+        } else if (t.statusDetails?.isPartiallyCompleted) {
+            remarks = `⚠️ Partial: ${t.statusDetails.partiallyReason}`;
+        } else if (t.statusDetails?.isCancelled) {
+            remarks = `🚫 Cancelled: ${t.statusDetails.cancellationReason}`;
+        } else if (t.statusDetails?.isRefund) {
+            remarks = `💸 Refund in progress`;
+        }
+
+        setText("d_remarks", remarks);
+
+        // ================= SERVICES =================
+        const itemsContainer = modalEl.querySelector("#d_items");
+        itemsContainer.innerHTML = "";
+
+        if (data.items?.length > 0) {
+            data.items.forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("product-item");
+
+                div.innerHTML = `
+                    <div class="product-name">${item.serviceName}</div>
+                    <div class="product-sub">
+                        ${item.airconType ?? "N/A"} • ${item.unitCount} unit(s)
+                    </div>
+                    <div class="product-sub">
+                        ₱${formatPrice(item.price)} × ${item.unitCount}
+                    </div>
+                `;
+
+                itemsContainer.appendChild(div);
+            });
+        } else {
+            itemsContainer.innerHTML = `<div class="text-muted">No services found</div>`;
+        }
+
+        // ================= SUMMARY =================
+        setText("d_total", formatPrice(data.summary?.totalAmount || 0));
+
+        const feeEl = modalEl.querySelector("#d_reserviceFee");
+        if (feeEl) {
+            const totalFees = data.summary?.totalReserviceFees || 0;
+
+            feeEl.textContent = totalFees > 0
+                ? "₱ " + formatPrice(totalFees)
+                : "None";
+        }
+
+        // ================= HISTORY =================
+        const historyContainer = modalEl.querySelector("#d_transactions");
+        historyContainer.innerHTML = "";
+
+        if (transactions.length === 0) {
+            historyContainer.innerHTML =
+                `<div class="text-muted">No service attempts yet.</div>`;
+        } else {
+            transactions.forEach((tx, index) => {
+
+                let color = "secondary";
+                if (tx.status === "COMPLETED") color = "success";
+                else if (tx.status === "FAILED") color = "danger";
+                else if (tx.status === "PARTIALLY_COMPLETED") color = "warning";
+
+                const div = document.createElement("div");
+                div.classList.add("transaction-card");
+
+                div.innerHTML = `
+                    <div class="transaction-header">
+                        Attempt ${index + 1}
+                        <span class="badge bg-${color}">
+                            ${tx.status}
+                        </span>
+                    </div>
+
+                    <div class="transaction-body">
+                        <div><strong>Date:</strong> ${formatDate(tx.createdAt)}</div>
+                        <div><strong>Scheduled:</strong> ${formatDate(tx.scheduledDate)} ${formatTimeSpecific(tx.scheduledTime)}</div>
+                        <div><strong>Completed:</strong> ${tx.completedDate ? formatDate(tx.completedDate) : "—"}</div>
+                        <div><strong>Reference:</strong> ${tx.referenceCode}</div>
+
+                        ${tx.reserviceFee > 0
+                        ? `<div class="text-warning"><strong>Reservice Fee: ₱${formatPrice(tx.reserviceFee)}</strong></div>`
+                        : ""
+                    }
+                    </div>
+                `;
+
+                historyContainer.appendChild(div);
+            });
+        }
+
+    } catch (err) {
+        console.error("DETAILS ERROR:", err);
+        alert("Something went wrong.");
+    }
+}
+
+// your special time fix
+function formatTimeSpecific(time) {
+    if (!time) return "N/A";
+
+    try {
+        const parts = time.split(":");
+        let h = parseInt(parts[0]);
+        const m = parts[1];
+
+        const ampm = h >= 12 ? "PM" : "AM";
+        h = h % 12 || 12;
+
+        return `${h}:${m} ${ampm}`;
+    } catch {
+        return "N/A";
+    }
 }

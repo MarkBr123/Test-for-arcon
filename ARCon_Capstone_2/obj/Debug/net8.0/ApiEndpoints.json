@@ -913,6 +913,43 @@
   },
   {
     "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "CustomerCancelBooking",
+    "RelativePath": "api/my-shop-services/customer/cancel/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.Customer_CancelBookingDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
+    "Method": "GetCustomerServiceTransactionSummary",
+    "RelativePath": "api/my-shop-services/customer/stsummary/{bookingId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookingId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServicesApiController",
     "Method": "GetMyCancelledServices",
     "RelativePath": "api/my-shop-services/my-cancelled-services",
     "HttpMethod": "GET",

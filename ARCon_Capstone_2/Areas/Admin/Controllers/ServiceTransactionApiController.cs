@@ -383,6 +383,7 @@ public class ServiceTransactionApiController : ControllerBase
 
         booking.status = "CANCELLED";
         booking.date_cancelled = DateTime.UtcNow;
+        booking.cancelled_by = "ADMIN";
         booking.updated_at = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -1194,8 +1195,6 @@ public class ServiceTransactionApiController : ControllerBase
         });
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    ///
 
     //////////////////////////// Assigned Technician Post ////////////////////////////////
 
@@ -1850,7 +1849,6 @@ public class ServiceTransactionApiController : ControllerBase
         var now = DateTime.Now;
         return $"SRV{now:MMdd}-{now:HHmmss}";
     }
-
 
 
     ///Display all Service Booking

@@ -205,6 +205,8 @@ function formatStatus(status) {
             return `<span class="badge bg-secondary">Partial Complete</span>`;
         case "CANCELLED":
             return `<span class="badge bg-dark">Cancelled</span>`;
+        case "REJECTED":
+            return `<span class="badge bg-dark">Rejected</span>`;
         default:
             return `<span class="badge bg-light text-dark">${status}</span>`;
     }

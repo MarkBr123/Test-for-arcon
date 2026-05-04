@@ -43,5 +43,331 @@
 </main>
 
 
+<!--Cancellation Modals-->
+<!-- Stage 1 -->
+<div class="modal fade" id="cancelReasonModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+
+            <!-- HEADER -->
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-semibold">
+                    ⚠️ Cancel Service
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body pt-2">
+                <p class="text-muted mb-3">
+                    Please let us know why you're cancelling this service.
+                </p>
+
+                <textarea id="cancelReasonInput"
+                          class="form-control custom-textarea"
+                          rows="4"
+                          placeholder="Type your reason here..."></textarea>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 pt-2">
+                <button class="btn btn-light custom-btn-outline" data-bs-dismiss="modal">
+                    Back
+                </button>
+
+                <button class="btn btn-danger custom-btn-primary" onclick="openConfirmCancelModal()">
+                    Continue
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Stage 2 -->
+<div class="modal fade" id="confirmCancelModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal text-center">
+
+            <div class="modal-body py-4 px-4">
+
+                <!-- ICON -->
+                <div class="mb-3">
+                    <div class="confirm-icon">
+                        ⚠️
+                    </div>
+                </div>
+
+                <!-- TITLE -->
+                <h5 class="fw-semibold mb-2">
+                    Are you sure?
+                </h5>
+
+                <!-- DESCRIPTION -->
+                <p class="text-muted mb-4">
+                    This action will cancel your service booking. This cannot be undone.
+                </p>
+
+                <!-- BUTTONS -->
+                <div class="d-flex justify-content-center gap-2">
+                    <button class="btn custom-btn-outline" data-bs-dismiss="modal">
+                        No, Go Back
+                    </button>
+
+                    <button class="btn custom-btn-danger" onclick="confirmCancelService()">
+                        Yes, Cancel
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Stage 3 -->
+<div class="modal fade" id="cancelSuccessModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal text-center">
+
+            <div class="modal-body py-4 px-4">
+
+                <!-- ICON -->
+                <div class="mb-3">
+                    <div class="confirm-icon" style="background:#f0fdf4; color:#16a34a;">
+                        ✓
+                    </div>
+                </div>
+
+                <!-- TITLE -->
+                <h5 class="fw-semibold mb-2 text-success">
+                    Cancelled Successfully
+                </h5>
+
+                <!-- MESSAGE -->
+                <p class="text-muted mb-4">
+                    Your service has been cancelled successfully.
+                </p>
+
+                <!-- BUTTON -->
+                <button class="btn custom-btn-primary" data-bs-dismiss="modal">
+                    OK
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="cannotCancelModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal text-center">
+
+            <div class="modal-body py-4 px-4">
+
+                <!-- ICON -->
+                <div class="mb-3">
+                    <div class="confirm-icon" style="background:#fef2f2; color:#dc2626;">
+                        ❌
+                    </div>
+                </div>
+
+                <!-- TITLE -->
+                <h5 class="fw-semibold mb-2">
+                    Cannot Cancel Service
+                </h5>
+
+                <!-- MESSAGE -->
+                <p class="text-muted mb-4">
+                    The service is already processed and cannot be cancelled.
+                    Please contact customer support for assistance.
+                </p>
+
+                <!-- BUTTON -->
+                <button class="btn custom-btn-primary" data-bs-dismiss="modal">
+                    OK
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--Details modal-->
+
+<div class="modal fade" id="serviceDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content custom-modal">
+
+            <!-- HEADER -->
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <h5 class="modal-title fw-semibold">📄 Service Details</h5>
+                    <div class="small text-muted">
+                        Transaction: <span id="d_transactionCode"></span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <!-- BOOKING -->
+                <h6 class="mt-2 mb-2">📦 Booking Info</h6>
+                <div class="details-grid">
+
+                    <div class="detail-box">
+                        <div class="label">Booking Code</div>
+                        <div class="value" id="d_bookingCode"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Status</div>
+                        <div class="value" id="d_status"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Scheduled Date</div>
+                        <div class="value" id="d_scheduledDate"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Preferred Time</div>
+                        <div class="value" id="d_time"></div>
+                    </div>
+
+                    <!-- 🔥 NEW -->
+                    <div class="detail-box">
+                        <div class="label">Property Type</div>
+                        <div class="value" id="d_propertyType"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Business Name</div>
+                        <div class="value" id="d_businessName"></div>
+                    </div>
+
+                    <div class="detail-box full">
+                        <div class="label">Customer Note</div>
+                        <div class="value" id="d_customerNote"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Failures</div>
+                        <div class="value" id="d_failureCount"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Partial Attempts</div>
+                        <div class="value" id="d_partialCount"></div>
+                    </div>
+
+                    <div class="detail-box full">
+                        <div class="label">Address</div>
+                        <div class="value" id="d_address"></div>
+                    </div>
+
+                </div>
+
+                <!-- CUSTOMER -->
+                <h6 class="mt-4 mb-2">👤 Customer</h6>
+                <div class="details-grid">
+                    <div class="detail-box">
+                        <div class="label">Name</div>
+                        <div class="value" id="d_customerName"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Contact</div>
+                        <div class="value" id="d_customerContact"></div>
+                    </div>
+                </div>
+
+                <!-- TRANSACTION -->
+                <h6 class="mt-4 mb-2">🔧 Transaction</h6>
+                <div class="details-grid">
+
+                    <div class="detail-box">
+                        <div class="label">Actual Date</div>
+                        <div class="value" id="d_actualDate"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Actual Time</div>
+                        <div class="value" id="d_actualTime"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Estimated Completion</div>
+                        <div class="value" id="d_estimatedDate"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Estimated Time</div>
+                        <div class="value" id="d_estimatedTime"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Completed Date</div>
+                        <div class="value" id="d_completedDate"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Completed Time</div>
+                        <div class="value" id="d_completedTime"></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <div class="label">Rating</div>
+                        <div class="value" id="d_rating"></div>
+                    </div>
+
+                </div>
+
+                <!-- STATUS -->
+                <h6 class="mt-4 mb-2">⚠️ Status</h6>
+                <div class="custom-alert">
+                    <span id="d_remarks"></span>
+                </div>
+
+                <!-- SERVICES -->
+                <h6 class="mt-4 mb-2">🧰 Services</h6>
+                <div id="d_items" class="service-items"></div>
+
+                <!-- SUMMARY -->
+                <h6 class="mt-4 mb-2">💰 Summary</h6>
+
+                <div class="summary-box">
+                    <span>Total Amount</span>
+                    <span class="price">₱ <span id="d_total"></span></span>
+                </div>
+
+                <div class="summary-box">
+                    <span>Reservice Fees</span>
+                    <span class="price text-warning">
+                        <span id="d_reserviceFee"></span>
+                    </span>
+                </div>
+
+                <!-- HISTORY -->
+                <h6 class="mt-4 mb-2">📊 Service Attempts</h6>
+                <div id="d_transactions"></div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer border-0">
+                <button class="btn custom-btn-outline" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <script src="~/js/shop_js/shop_my-services.js"></script>

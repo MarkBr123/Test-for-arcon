@@ -53,6 +53,10 @@ public class service_booking
 
     public int? partial_complete_count { get; set; }
 
+    public string? cancellation_reason { get; set; }
+
+    public string? cancelled_by { get; set; }
+
     /* ✅ RELATIONSHIPS */
 
     [ForeignKey("customer_id")]
