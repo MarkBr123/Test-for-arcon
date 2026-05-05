@@ -7,6 +7,7 @@
 
 html {
     scroll-behavior: smooth;
+    -
 }
 
 body {
@@ -944,7 +945,7 @@ cart-btn:hover .cart-btn i {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     }
 }
- 
+
 
 @media (max-width: 768px) {
 
@@ -1092,60 +1093,159 @@ cart-btn:hover .cart-btn i {
 }
 
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
+
     /* TOP BAR */
     .top-bar {
         padding: 8px 3%;
     }
 
-    /* TOOLBAR: scroll horizontally if too many items */
+    /* TOOLBAR */
     #tb {
-        flex-wrap: nowrap;
-        overflow-x: auto;
+        flex-wrap: wrap; /* FIX: was nowrap — caused horizontal scroll */
+        overflow-x: hidden; /* FIX: prevent side scroll */
         padding: 10px 3%;
-        gap: 12px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* hide scrollbar on Firefox */
+        gap: 10px;
     }
-
-        #tb::-webkit-scrollbar {
-            display: none; /* hide scrollbar on Chrome */
-        }
 
     /* HERO */
     .hero {
-        padding: 8px 8%;
+        padding: 8px 5%;
+        overflow: hidden; /* FIX: prevent any child from bleeding out */
     }
 
+        /* FIX: stack hero columns vertically */
+        .hero .row {
+            flex-direction: column !important;
+        }
+
+        .hero .col-6 {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 0 0 100% !important;
+            padding: 0 !important;
+        }
+
+        .hero .container {
+            --bs-gutter-x: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: hidden;
+        }
+
+            .hero .container > .row {
+                --bs-gutter-x: 0 !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+
+    /* FIX: width 100% — no fixed px */
     #heroCarousel,
     #heroCarousel .carousel-inner,
     #heroCarousel .carousel-item,
     #banner-l {
-        height: 180px;
-        width: 325px;
+        height: 200px;
+        width: 100%;
     }
 
-    /* Stack side banners vertically on tiny screens */
-    .hero .col-6:last-child .row {
-        flex-direction: column;
+    /* Right banners: side by side */
+    .hero .col-6:last-child > .row {
+        --bs-gutter-x: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0% !important; /* side padding here instead */
         gap: 6px;
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: nowrap;
     }
+
+    .hero .col-6:last-child .col-12 {
+        --bs-gutter-x: 0 !important;
+        flex: 1 1 0 !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden;
+    }
+
+
 
     #banner-r1,
     #banner-r2 {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
         height: 110px;
-        margin-bottom: 0;
-        width: 325px;
+        left: 0 !important;
+        margin: 0 !important;
+        overflow: hidden;
+        border-radius: 10px;
     }
 
-    /* DEALS */
+        #banner-r1 img,
+        #banner-r2 img {
+            width: 100% !important;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    /* DEALS — 2 columns that resize to fit */
     .deals {
-        padding: 16px 3%;
+        padding: 16px 5%;
+        overflow: hidden; /* FIX: prevent side scroll */
     }
 
     .deal-cards {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr)); /* FIX: minmax(0,1fr) forces cards to shrink to fit, never overflow */
+        gap: 10px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px; /* slightly tighter padding on small screens */
+    }
+
+    /* Shrink card image so card content fits in half-width */
+    .product-card img {
+        height: 120px;
+    }
+
+    .product-card h3 {
+        font-size: 0.82rem;
+        min-height: unset;
+    }
+
+    .product-card .price {
+        font-size: 13px;
+    }
+
+    .old-price {
+        font-size: 0.65rem;
+    }
+
+    .product-btns {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .view-item-btn,
+    #view-item {
+        width: 100%;
+        font-size: 13px;
     }
 
     .deals h2 {
