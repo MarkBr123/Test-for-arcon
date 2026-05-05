@@ -316,3 +316,30 @@ document.querySelectorAll('.dropdown-item').forEach(item => {
         window.location.href = `/Shop/Product/Search_results?${queryParams.toString()}`;
     });
 });
+
+// Mobile dropdown toggle (click-based for touch screens)
+if (window.innerWidth <= 480) {
+    document.querySelectorAll('#tb .text-dropdown').forEach(dropdown => {
+        dropdown.addEventListener('click', function (e) {
+            const menu = this.querySelector('.dropdown-menu');
+            const isVisible = menu.style.display === 'block';
+
+            // Close all other dropdowns first
+            document.querySelectorAll('#tb .dropdown-menu').forEach(m => {
+                m.style.display = 'none';
+            });
+
+            // Toggle clicked one
+            menu.style.display = isVisible ? 'none' : 'block';
+
+            e.stopPropagation(); // prevent bubbling
+        });
+    });
+
+    // Close when tapping outside
+    document.addEventListener('click', function () {
+        document.querySelectorAll('#tb .dropdown-menu').forEach(m => {
+            m.style.display = 'none';
+        });
+    });
+}
