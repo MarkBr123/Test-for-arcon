@@ -14,7 +14,7 @@
     border-radius: 50%;
     cursor: pointer;
     z-index: 9999;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    /*box-shadow: 0 4px 12px rgba(0,0,0,0.2);*/
 }
 
 /* ================= CHAT SIDEBAR ================= */

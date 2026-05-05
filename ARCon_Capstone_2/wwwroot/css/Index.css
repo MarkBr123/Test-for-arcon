@@ -14,10 +14,13 @@ body {
     color: #333;
 }
 
-/* TOP BAR */
 
+#navbar-text {
+    font-size: 18px;
+}
+/* TOP BAR */
 .top-bar {
-    height: 60px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,23 +31,36 @@ body {
 
 /* LOGO */
 .logo-img {
-    height: 64px;
+    height: 90px;
+}
+
+/*#login {
+    font-size: 20px;
+}
+*/
+
+#loginTxt {
+    font-size: 20px;
+}
+
+#cart-index.cart-icon {
+    font-size: 26px;
 }
 
 /* SEARCH FORM */
 .search-form {
     display: flex;
     align-items: stretch;
-    max-width: 600px;
+    max-width: 700px;
     width: 100%;
 }
 
 /* INPUT */
 .search-input {
     flex: 1;
-    height: 44px;
+    height: 54px;
     padding: 0 12px;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
     border-right: none;
     border-radius: 8px 0 0 8px;
 }
@@ -52,7 +68,7 @@ body {
 /* VERTICAL SEPARATOR LINE */
 .search-separator {
     width: 1px;
-    background-color: #aaa; 
+    background-color: #aaa;
 }
 
 /* BUTTON */
@@ -60,12 +76,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
+    height: 54px;
     padding: 0 16px;
-    border: 1px solid #4c4c4c; 
-    border-left: none; 
+    border: 1px solid #4c4c4c;
+    border-left: none;
     border-radius: 0 8px 8px 0;
-    background-color: #007bff; 
+    background-color: #007bff;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
@@ -73,7 +89,7 @@ body {
 }
 
     .search-btn:hover {
-        background-color: #0056b3; 
+        background-color: #0056b3;
         border-color: #888;
     }
 
@@ -95,9 +111,9 @@ body {
     display: flex;
     gap: 25px;
     align-items: center;
-    font-size: 14px;
+    font-size: 20px;
     justify-content: flex-start;
-    padding: 30px 15%;
+    padding: 30px 12%;
     gap: 40px;
 }
 
@@ -109,7 +125,7 @@ body {
         border: none;
         padding: 0;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 20px;
         color: #333;
         font-weight: 500;
     }
@@ -133,6 +149,7 @@ body {
         align-items: center;
         gap: 8px;
     }
+
     #tb #d2 {
         cursor: pointer;
         position: relative;
@@ -141,13 +158,14 @@ body {
 
     /* Label styling */
     #tb .dropdown-label {
-       /* color: #333;*/
+        /* color: #333;*/
     }
 
     /* Hover color */
     #tb #d1:hover .dropdown-label {
         color: black;
     }
+
     #tb #d2:hover .dropdown-label {
         color: #007bff;
     }
@@ -174,7 +192,7 @@ body {
     /* Dropdown items */
     #tb .dropdown-item {
         padding: 6px 12px;
-        font-size: 13px;
+        font-size: 16px;
     }
 
         #tb .dropdown-item:hover {
@@ -186,25 +204,31 @@ body {
 }
 
 #list-icon {
-    font-size: 28px;
+    font-size: 32px;
     line-height: 1;
-    position:relative;
+    position: relative;
     top: .5px;
 }
 
 
 #caterogries {
-    font-size: 16px;
+    font-size: 20px;
 }
-
 
 
 /*Banner*/
 
 /* HERO SECTION */
 .hero {
-    padding: 20px 6%;
+    padding: 20px 240px;
+    position: relative;
 }
+
+    .hero .container {
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
 
 /* Banner container */
 .banner-img {
@@ -222,8 +246,8 @@ body {
     }
 
 #banner-l {
-    width: 850px;
-    height: 720px;
+    width: 920px;
+    height: 100%;
     border-radius: 24px;
 }
     /* Carousel images */
@@ -238,10 +262,10 @@ body {
 /* Right banners container */
 #banner-r1,
 #banner-r2 {
-    width: 450px;
-    height: 215px; /* set fixed height to align both stacked banners */
+    width: 490px;
+    height: 255px; /* set fixed height to align both stacked banners */
     position: relative;
-    left: 200px;
+    left: 210px;
     border-radius: 16px;
 }
 
@@ -254,18 +278,17 @@ body {
         border-radius: inherit;
     }
 
-    #banner-r1{
-        margin-bottom: 10px;
-    }
+#banner-r1 {
+    margin-bottom: 10px;
+}
 
 
 /* FORCE carousel to inherit full height */
 #heroCarousel,
 #heroCarousel .carousel-inner,
 #heroCarousel .carousel-item {
-    height: 100%;
+    height: /*520px*/ 100%;
     border-radius: 24px;
-   
 }
 
 /* Make sure hero is positioned */
@@ -306,53 +329,6 @@ body {
     opacity: 1;
 }
 
-
-/* Responsive tweaks: stack columns and adjust widths on smaller screens */
-/*@media (max-width: 992px) {
-    #banner-l, #banner-r1, #banner-r2 {
-        width: 100% !important;
-        height: auto !important;
-        position: static !important;
-        margin-left: 0 !important;
-        border-radius: 16px;
-    }
-
-    .col-6 {
-        padding-left: 0;
-        padding-right: 0;
-    }
-}*/
-
-/*.hero-text {
-    max-width: 520px;
-}
-
-    .hero-text h1 {
-        font-size: 42px;
-        margin-bottom: 20px;
-    }
-
-    .hero-text p {
-        font-size: 16px;
-        margin-bottom: 8px;
-    }
-
-.btn {
-    display: inline-block;
-    margin-top: 25px;
-    padding: 12px 28px;
-    background: #007bff;
-    color: #fff;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-    .btn:hover {
-        background: #0056b3;
-    }
-*/
-
 .hero-img {
     max-width: 520px;
     border-radius: 20px;
@@ -367,14 +343,13 @@ body {
 
 /* DEALS SECTION*/
 .product-card a {
-    color: inherit; 
-    text-decoration: none; 
+    color: inherit;
+    text-decoration: none;
 }
 
 .deals {
-    padding: 70px 6%;
+    /* padding: 70px 6%;*/
     background: #ffffff;
-    margin-bottom: 0px;
 }
 
     .deals h2 {
@@ -383,20 +358,27 @@ body {
         margin-bottom: 40px;
     }
 
-    #best-deals{
-        background-color:#e5fffd;
-    }
-.deal-cards {
-    display: grid;
-    grid-template-columns: repeat(6, 200px);
-    gap: 20px;
-    justify-content: center; 
-    padding: 20px 20px;
+#best-deals {
+    background-color: #e5fffd;
 }
 
+.deal-cards {
+    display: grid;
+    grid-template-columns: repeat(6, 220px);
+    gap: 20px;
+    /*padding: 20px 20px;*/
+}
+
+#bestDealsContainer {
+    justify-content: center;
+}
+
+#productContainer {
+    justify-content: center;
+}
 
 .card {
-    width: 200px;
+    width: 220px;
     padding: 15px;
     background: #ffffff;
     border-radius: 10px;
@@ -436,9 +418,8 @@ body {
 
 .deal-slide {
     min-width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    display: flex;
+    justify-content: center;
 }
 
 /* Arrows */
@@ -456,7 +437,7 @@ body {
     cursor: pointer;
 }
 
-    /*button animation*/
+/*button animation*/
 .deal-btn {
     position: absolute;
     top: 50%;
@@ -477,7 +458,7 @@ body {
         opacity: 0;
     }
 
-/* On hover → slide in */
+/* On hover â†’ slide in */
 .deals:hover .deal-btn.prev {
     transform: translate(0, -50%);
     opacity: 1;
@@ -491,7 +472,7 @@ body {
 
 /* SERVICES SECTION */
 .services {
-    padding: 30px 9%;
+    padding: 30px 12%;
     background: #eef5ff;
 }
 
@@ -502,9 +483,9 @@ body {
     }
 
 .service-grid {
-    margin-top: 0px;
+    margin-bottom: 10px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
     gap: 20px;
 }
 
@@ -518,11 +499,11 @@ body {
     }
 
         .service-grid div:hover {
-            transform: translateY(-5px);
+            transform: translateY(-15px);
         }
 
     .service-grid img {
-        width: 90px;
+        width: 120px;
         margin-bottom: 10px;
     }
 
@@ -600,9 +581,9 @@ body {
     cursor: pointer;
 }
 
-.cart-close:hover {
-    color: #000;
-}
+    .cart-close:hover {
+        color: #000;
+    }
 
 #cartItems {
     max-height: 300px;
@@ -610,8 +591,8 @@ body {
     margin-bottom: 20px;
 }
 
-#cartTen{
-    font-weight:20;
+#cartTen {
+    font-weight: 20;
 }
 
 /* Single cart item */
@@ -639,7 +620,7 @@ body {
     position: relative;
     bottom: 12px;
     right: 5px;
-    background:#c62828;
+    background: #c62828;
 }
 
 .cart-item {
@@ -667,41 +648,41 @@ body {
     overflow: hidden;
 }
 
-.counter-box button {
-    width: 42px;
-    height: 100%;
-    border: none;
-    background: #007bff;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-}
+    .counter-box button {
+        width: 42px;
+        height: 100%;
+        border: none;
+        background: #007bff;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
 
-.counter-box button:hover {
-    background: #c62828;
-}
+        .counter-box button:hover {
+            background: #c62828;
+        }
 
-.counter-box input {
-    width: 100%;
-    height: 100%;
-    border: none;
-    text-align: center;
-    font-size: 14px;
-    outline: none;
-    background: #fff;
-}
+    .counter-box input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        text-align: center;
+        font-size: 14px;
+        outline: none;
+        background: #fff;
+    }
 
-/* Remove number input arrows */
-.counter-box input::-webkit-outer-spin-button,
-.counter-box input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+        /* Remove number input arrows */
+        .counter-box input::-webkit-outer-spin-button,
+        .counter-box input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
 /* Cart footer */
 .cart-footer {
@@ -711,9 +692,9 @@ body {
     margin-top: 20px;
 }
 
-.cart-footer .button-group a {
-    margin-left: 8px;
-}
+    .cart-footer .button-group a {
+        margin-left: 8px;
+    }
 
 
 .product-card {
@@ -735,6 +716,7 @@ body {
         overflow-wrap: break-word;
         min-height: 48px;
     }
+
     .product-card button {
         margin-top: auto;
     }
@@ -765,41 +747,14 @@ body {
         font-size: 16px;
     }
 
-    .old-price{
-        font-size: .5rem;
-    }
-
-
-/* MOBILE RESPONSIVE */
-@media (max-width: 900px) {
-    .hero {
-        flex-direction: column;
-        text-align: center;
-        padding: 60px 6%;
-    }
-
-    .hero-text {
-        margin-bottom: 40px;
-    }
-}
-
-@media (max-width: 768px) {
-    .top-bar {
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .search-form {
-        order: 3;
-        max-width: 100%;
-        margin: 0;
-    }
+.old-price {
+    font-size: .5rem;
 }
 
 
 .header-wrapper {
     background-color: #ffffff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .top-bar {
@@ -815,7 +770,7 @@ body {
     margin: 0;
 }
 
-#view-item{
+#view-item {
     width: 120px;
 }
 
@@ -829,7 +784,7 @@ body {
 .view-item-btn {
     background-color: #0d6efd;
     border-color: #0d6efd;
-    color: #fff; 
+    color: #fff;
     width: 120px;
 }
 
@@ -841,29 +796,31 @@ body {
     align-items: center;
     justify-content: center;
 }
+
     .cart-btn:hover {
         background-color: #0d6efd;
     }
 
-    cart-btn:hover .cart-btn i{
-        color:white;
-    }
+cart-btn:hover .cart-btn i {
+    color: white;
+}
 
-    
+
 .cart-icon {
     color: #0d6efd; /*pwede white*/
-    font-size: 18px; 
-    padding: 40px 2px; 
+    font-size: 18px;
+    padding: 40px 2px;
     border-radius: 6px;
 }
+
 .cart-btn:hover .cart-icon {
     color: white;
 }
 
 #cart-index {
     color: #0d6efd;
-    font-size: 18px; 
-    padding: 40px 2px; 
+    font-size: 18px;
+    padding: 40px 2px;
     border-radius: 6px;
 }
 
@@ -919,4 +876,310 @@ body {
 #viewMoreBtn {
     border: 1px solid #198754;
     color: white;
+}
+
+
+/* Laptop RESPONSIVE */
+@media (max-width: 1580px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 6%;
+    }
+
+    .hero-text {
+        margin-bottom: 40px;
+    }
+}
+
+
+@media (max-width: 1280px) {
+    .hero {
+        padding: 20px 4%;
+    }
+
+    #tb {
+        padding: 20px 4%;
+        gap: 16px;
+    }
+}
+
+
+@media (max-width: 992px) {
+    /* Hero: stack columns vertically */
+    .hero .row {
+        flex-direction: column;
+    }
+
+    .hero .col-6 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+
+    #heroCarousel,
+    #heroCarousel .carousel-inner,
+    #heroCarousel .carousel-item,
+    #banner-l {
+        height: 320px;
+        min-height: unset;
+    }
+
+    #banner-r1,
+    #banner-r2 {
+        height: 160px;
+    }
+
+    /* Right banner column: remove extra left offset */
+    .hero .col-6:last-child .row {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .hero .col-6:last-child .col-12 {
+        flex: 1;
+    }
+
+    .deal-cards {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+}
+ 
+
+@media (max-width: 768px) {
+
+    /* TOP BAR */
+    .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px 4%;
+        height: auto;
+    }
+
+    .logo-img {
+        height: 60px;
+    }
+
+    .search-form {
+        width: 100%;
+    }
+
+    /* TOOLBAR */
+    #tb {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 12px 4%;
+        gap: 10px;
+        font-size: 16px;
+    }
+
+        #tb #b1,
+        #tb #b2,
+        #tb #b3 {
+            font-size: 14px;
+        }
+
+        #tb #d1 {
+            padding: 8px 14px;
+            font-size: 14px;
+        }
+
+    #caterogries {
+        font-size: 14px;
+    }
+
+    #list-icon {
+        font-size: 22px;
+    }
+
+    #b3 {
+        margin-left: 0; /* reset auto margin on mobile so it wraps naturally */
+    }
+
+    /* HERO */
+    .hero {
+        padding: 12px 4%;
+    }
+
+        .hero .row {
+            flex-direction: column;
+        }
+
+        .hero .col-6 {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 0 0 100% !important;
+            padding: 0;
+        }
+
+    #heroCarousel,
+    #heroCarousel .carousel-inner,
+    #heroCarousel .carousel-item,
+    #banner-l {
+        height: 240px;
+        min-height: unset;
+    }
+
+    /* Side banners: row side by side on tablet, column on small mobile */
+    .hero .col-6:last-child .row {
+        flex-direction: row;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .hero .col-6:last-child .col-12 {
+        flex: 1;
+        padding: 0;
+    }
+
+    #banner-r1,
+    #banner-r2 {
+        height: 130px;
+        margin-bottom: 0;
+    }
+
+    /* DEALS */
+    .deals {
+        padding: 20px 4%;
+    }
+
+    .deal-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+        max-width: 100%;
+    }
+
+    /* SERVICES */
+    .services {
+        padding: 20px 4%;
+    }
+
+    .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+        .service-grid img {
+            width: 70px;
+        }
+
+    /* BOTTOM */
+    .bottom-image {
+        height: 300px;
+    }
+
+    .text-overlay h1 {
+        font-size: 22px;
+    }
+
+    .text-overlay p {
+        font-size: 13px;
+    }
+
+    /* PRODUCT BTNS */
+    .product-btns {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .view-item-btn,
+    #view-item {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 400px) {
+    /* TOP BAR */
+    .top-bar {
+        padding: 8px 3%;
+    }
+
+    /* TOOLBAR: scroll horizontally if too many items */
+    #tb {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 10px 3%;
+        gap: 12px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* hide scrollbar on Firefox */
+    }
+
+        #tb::-webkit-scrollbar {
+            display: none; /* hide scrollbar on Chrome */
+        }
+
+    /* HERO */
+    .hero {
+        padding: 8px 8%;
+    }
+
+    #heroCarousel,
+    #heroCarousel .carousel-inner,
+    #heroCarousel .carousel-item,
+    #banner-l {
+        height: 180px;
+        width: 325px;
+    }
+
+    /* Stack side banners vertically on tiny screens */
+    .hero .col-6:last-child .row {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    #banner-r1,
+    #banner-r2 {
+        height: 110px;
+        margin-bottom: 0;
+        width: 325px;
+    }
+
+    /* DEALS */
+    .deals {
+        padding: 16px 3%;
+    }
+
+    .deal-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .deals h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    /* SERVICES */
+    .services h2 {
+        font-size: 22px;
+        margin-bottom: 30px;
+    }
+
+    .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    /* BOTTOM */
+    .bottom-image {
+        height: 250px;
+    }
+
+    .text-overlay h1 {
+        font-size: 1.1rem;
+    }
+
+    .text-overlay p {
+        font-size: 12px;
+    }
+
+    /* CART MODAL */
+    .cart-modal-content {
+        margin: 10% auto;
+        padding: 14px;
+    }
 }
