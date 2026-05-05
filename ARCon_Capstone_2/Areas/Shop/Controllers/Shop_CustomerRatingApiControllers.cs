@@ -160,4 +160,61 @@ public class Shop_CustomerRatingApiControllers : ControllerBase
 
         return Ok(ratings);
     }
+
+
+
+    ////////// Services /////////////
+    ///
+    [HttpPost("{bookingId}/rate")]
+    public async Task<IActionResult> RateService(int bookingId, [FromBody] AddServiceRatingDto dto)
+    {
+        var customerId = HttpContext.Session.GetInt32("UserId");
+        var userType = HttpContext.Session.GetString("UserType");
+
+        if (customerId == null || userType != "CUSTOMER")
+            return Unauthorized(new { message = "User not logged in" });
+
+        var booking = await _context.service_bookings
+            .FirstOrDefaultAsync(x => x.id == bookingId);
+
+        if (booking == null)
+            return NotFound(new { message = "Service booking not found" });
+
+        if (booking.customer_id != customerId)
+            return Forbid();
+
+        if (booking.status != "COMPLETED")
+            return BadRequest(new { message = "You can only rate completed services" });
+
+        // 🔥 CHECK IF ALREADY RATED
+        var alreadyRated = await _context.service_ratings
+            .AnyAsync(x => x.service_booking_id == bookingId
+                        && x.customer_id == customerId);
+
+        if (alreadyRated)
+            return BadRequest(new
+            {
+                message = "This service has already been rated",
+                isRated = true
+            });
+
+        // ✅ CREATE NEW RATING
+        var rating = new service_rating
+        {
+            service_booking_id = bookingId,
+            customer_id = customerId.Value,
+            rating = dto.rating,
+            comment = dto.comment,
+            isposted = false
+        };
+
+        _context.service_ratings.Add(rating);
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            message = "Rating submitted successfully",
+            isRated = true
+        });
+    }
 }

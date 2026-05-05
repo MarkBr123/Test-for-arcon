@@ -370,4 +370,64 @@
     </div>
 </div>
 
+
+<!-- Service Rating -->
+<div class="modal fade" id="ratingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rating-modal p-0">
+
+            <!-- HEADER -->
+            <div class="modal-header rating-header-box">
+
+                <!-- LEFT -->
+                <div class="rating-header">
+                    <h5>How’s your service so far? ❄️</h5>
+                    <p>We’d love to hear your thoughts. Your feedback helps us improve.</p>
+                </div>
+
+                <!-- RIGHT -->
+                <img src="/assets/airconi-logo.png" class="modal-logo" />
+
+                <!-- CLOSE -->
+                <button type="button" class="modal-close" data-bs-dismiss="modal">✕</button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center">
+
+                <div id="ratingAlert" class="alert alert-danger d-none" role="alert"></div>
+
+                <div class="stars mb-2" id="starContainer">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+
+                <div id="ratingLabel" class="rating-label mb-3">
+                    Select your rating
+                </div>
+
+                <textarea id="ratingComment"
+                          class="form-control rating-textarea"
+                          placeholder="Share your experience (optional)..."
+                          maxlength="255"></textarea>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer rating-actions">
+                <button class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button id="submitRatingBtn" class="btn btn-primary">
+                    Submit
+                </button>
+            </div>
+
+            
+
+        </div>
+    </div>
+</div>
+
 <script src="~/js/shop_js/shop_my-services.js"></script>

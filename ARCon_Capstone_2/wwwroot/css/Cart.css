@@ -706,12 +706,27 @@ h1 {
 }
 
 /* ===============================
-   SCROLL AREA
+   RATING MODAL
 ================================= */
-.rating-list {
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 4px;
+.rating-modal {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* ===============================
+   HEADER
+================================= */
+.rating-header h5 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #111827;
+}
+
+.rating-header p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
 }
 
 /* ===============================
@@ -742,12 +757,13 @@ h1 {
 ================================= */
 .stars {
     display: flex;
+    justify-content: center;
     gap: 6px;
     margin-bottom: 8px;
 }
 
 .star {
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
     color: #d1d5db;
     transition: 0.2s;
@@ -766,11 +782,11 @@ h1 {
 ================================= */
 .rating-comment {
     width: 100%;
-    min-height: 60px;
+    min-height: 70px;
     resize: none;
-    padding: 8px;
+    padding: 10px;
     font-size: 13px;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid #ddd;
     transition: 0.2s;
 }
@@ -781,13 +797,10 @@ h1 {
     }
 
 /* ===============================
-   ACTION BUTTONS
+   FOOTER (Bootstrap override)
 ================================= */
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 16px;
+.rating-actions {
+    border-top: none;
 }
 
 /* ===============================
@@ -795,82 +808,8 @@ h1 {
 ================================= */
 @media (max-width: 768px) {
     .rating-modal {
-        width: 95%;
-        padding: 16px;
+        padding: 12px;
     }
-
-    .rating-list {
-        max-height: 300px;
-    }
-}
-.rating-item {
-    padding: 14px 0;
-    border-bottom: 1px solid #eee;
-}
-
-/* PRODUCT */
-.product-name {
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 2px;
-}
-
-.product-sub {
-    font-size: 12px;
-    color: #6b7280;
-    margin-bottom: 8px;
-}
-
-/* STARS */
-.stars {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 8px;
-}
-
-.star {
-    font-size: 20px;
-    cursor: pointer;
-    color: #d1d5db;
-    transition: 0.2s;
-}
-
-    .star.active {
-        color: #facc15;
-    }
-
-    .star:hover {
-        transform: scale(1.2);
-    }
-
-/* COMMENT */
-.rating-comment {
-    width: 100%;
-    min-height: 60px;
-    resize: none;
-    padding: 8px;
-    font-size: 13px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    transition: 0.2s;
-}
-
-    .rating-comment:focus {
-        border-color: #3b82f6;
-        outline: none;
-    }
-
-.rating-header h2 {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 4px;
-    color: #111827;
-}
-
-.rating-header p {
-    font-size: 13px;
-    color: #6b7280;
-    margin: 0;
 }
 
 

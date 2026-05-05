@@ -27,29 +27,101 @@ public class ProductsApiController : ControllerBase
     {
         using var tx = await _context.Database.BeginTransactionAsync();
 
+        // basic null check
+        if (dto == null)
+            return BadRequest("Request body is required.");
+
+        // required field
+        if (dto.ManufacturerId <= 0)
+            return BadRequest("Manufacturer is required.");
+
+        if (dto.FormFactorID <= 0)
+            return BadRequest("Form factor is required.");
+
+        if (string.IsNullOrWhiteSpace(dto.ProductModel))
+            return BadRequest("Product model is required.");
+
+        if (string.IsNullOrWhiteSpace(dto.ProductSeries))
+            return BadRequest("Product series is required.");
+
+        if (string.IsNullOrWhiteSpace(dto.PartNumberA))
+            return BadRequest("Part number A is required.");
+
+        // price validation
+        if (dto.OriginalSellingPrice <= 0)
+            return BadRequest("Original selling price must be greater than 0.");
+
+        if (dto.DiscountValue < 0)
+            return BadRequest("Discount value cannot be negative.");
+
+        // weight validation
+        if (dto.GrossWeightA < 0 || dto.GrossWeightB < 0)
+            return BadRequest("Gross weight cannot be negative.");
+
+        // warranty validation
+        if (dto.ManufacturerWarrantyYears < 0)
+            return BadRequest("Warranty years cannot be negative.");
+
+        if (dto.OutrightReplacementDays < 0)
+            return BadRequest("Replacement days cannot be negative.");
+
+        // reorder level
+        if (dto.ReorderLevel < 0)
+            return BadRequest("Reorder level cannot be negative.");
+
         try
         {
-            // 1️⃣ COMPUTE ACTUAL SELLING PRICE (SERVER-SIDE ONLY)
+            // Normalize discount type
+            var discountType = (dto.DiscountType ?? "NONE").Trim().ToUpper();
+
+            // Compute prices
             decimal actualSellingPrice;
             decimal discountedSellingPrice;
-            decimal totalgrossweight = 
-                (dto.GrossWeightA) + (dto.GrossWeightB);
 
-
-            var sku = await GenerateSku(dto.ManufacturerId, dto.FormFactorID);
-
-            //sku generation
-            string NormalizeCode(string input)
+            switch (discountType)
             {
-                return new string(
-                    input
-                        .Trim()
-                        .ToUpper()
-                        .Where(char.IsLetter)
-                        .Take(3)
-                        .ToArray()
-                );
+                case "NONE":
+                    actualSellingPrice = dto.OriginalSellingPrice;
+                    discountedSellingPrice = 0;
+                    break;
+
+                case "PERCENTAGE":
+                    if (dto.DiscountValue <= 0 || dto.DiscountValue > 100)
+                        return BadRequest("Invalid discount percentage.");
+
+                    actualSellingPrice =
+                        dto.OriginalSellingPrice -
+                        (dto.OriginalSellingPrice * dto.DiscountValue / 100m);
+                    discountedSellingPrice = actualSellingPrice;
+                    break;
+
+                case "AMOUNT":
+                    if (dto.DiscountValue <= 0 || dto.DiscountValue >= dto.OriginalSellingPrice)
+                        return BadRequest("Invalid discount amount.");
+
+                    actualSellingPrice =
+                        dto.OriginalSellingPrice - dto.DiscountValue;
+                    discountedSellingPrice = actualSellingPrice;
+                    break;
+
+                default:
+                    return BadRequest($"Invalid discount type: '{dto.DiscountType}'");
             }
+
+            // Compute weight
+            decimal totalGrossWeight = dto.GrossWeightA + dto.GrossWeightB;
+
+            // Normalize URL
+            if (!string.IsNullOrWhiteSpace(dto.ArUrl) &&
+                !dto.ArUrl.StartsWith("http://") &&
+                !dto.ArUrl.StartsWith("https://"))
+            {
+                dto.ArUrl = "https://" + dto.ArUrl;
+            }
+
+            // SKU generation helpers
+            string NormalizeCode(string input) =>
+                new string(input.Trim().ToUpper().Where(char.IsLetter).Take(3).ToArray());
 
             async Task<int> GetNextSkuSequence(string manufacturerCode, string formFactorCode)
             {
@@ -88,64 +160,9 @@ public class ProductsApiController : ControllerBase
                 return $"{manufacturerCode}-{formFactorCode}{nextNumber:D5}";
             }
 
+            var sku = await GenerateSku(dto.ManufacturerId, dto.FormFactorID);
 
-
-            // normalize hard (best practice)
-            var discountType = (dto.DiscountType ?? "NONE").Trim().ToUpper();
-
-            switch (discountType)
-            {
-                case "NONE":
-                    actualSellingPrice = dto.OriginalSellingPrice;
-                    discountedSellingPrice = 0;
-                    break;
-
-                case "PERCENTAGE":
-                    if (dto.DiscountValue <= 0 || dto.DiscountValue > 100)
-                        return BadRequest("Invalid discount percentage.");
-
-                    actualSellingPrice =
-                        dto.OriginalSellingPrice -
-                        (dto.OriginalSellingPrice * dto.DiscountValue / 100m);
-                    discountedSellingPrice = actualSellingPrice;
-
-                    break;
-
-                case "AMOUNT":
-                    if (dto.DiscountValue <= 0)
-                        return BadRequest("Invalid discount amount.");
-
-                    if (dto.DiscountValue >= dto.OriginalSellingPrice)
-                        return BadRequest("Discount amount cannot exceed original price.");
-
-                    actualSellingPrice =
-                        dto.OriginalSellingPrice - dto.DiscountValue;
-                    discountedSellingPrice = actualSellingPrice;
-                    break;
-
-                default:
-                    return BadRequest($"Invalid discount type: '{dto.DiscountType}'");
-            }
-
-            //Any external link MUST include the protocol
-            if (!string.IsNullOrWhiteSpace(dto.ArUrl) &&
-                !dto.ArUrl.StartsWith("http://") &&
-                !dto.ArUrl.StartsWith("https://"))
-            {
-                dto.ArUrl = "https://" + dto.ArUrl;
-            }
-
-            //
-            if (dto.DiscountType == "PERCENTAGE" && dto.DiscountValue > 100)
-            {
-                return BadRequest("Percentage cannot exceed 100.");
-            }
-            if (dto.DiscountType == "AMOUNT" && (dto.DiscountValue >= dto.OriginalSellingPrice))
-            {
-                return BadRequest("Discount amount cannot exceed or match original selling price");
-            }
-
-            // 2️⃣ CREATE PRODUCT (NO SAVE YET)
+            // Create product
             var product = new product
             {
                 manufacturer_id = dto.ManufacturerId,
@@ -157,7 +174,7 @@ public class ProductsApiController : ControllerBase
                 part_number_b = dto.PartNumberB?.ToUpper(),
                 original_selling_price = dto.OriginalSellingPrice,
                 discounted_selling_price = discountedSellingPrice,
-                discount_type = discountType.ToUpper(),
+                discount_type = discountType,
                 discount_value = dto.DiscountValue,
                 actual_selling_price = actualSellingPrice,
                 ar_url = dto.ArUrl,
@@ -165,87 +182,87 @@ public class ProductsApiController : ControllerBase
                 outright_replacement_days = dto.OutrightReplacementDays,
                 gross_weight_a = dto.GrossWeightA,
                 gross_weight_b = dto.GrossWeightB,
-                total_gross_weight = totalgrossweight,
+                total_gross_weight = totalGrossWeight,
                 reorder_level = dto.ReorderLevel,
-
                 status = "ACTIVE",
-                created_at = DateTime.UtcNow
             };
 
             _context.products.Add(product);
-            await _context.SaveChangesAsync(); // ✅ product.id available here
+            await _context.SaveChangesAsync();
 
-
-
-            // 3️⃣ TECHNOLOGIES
-            foreach (var t in dto.Technologies)
+            // TECHNOLOGIES
+            if (dto.Technologies != null)
             {
-                var tech = await _context.technology_types
-                    .FirstOrDefaultAsync(x => x.technology_name == t.TechnologyName);
-
-                if (tech == null)
+                foreach (var t in dto.Technologies)
                 {
-                    tech = new technology_type
+                    var name = t.TechnologyName.Trim().ToUpper();
+
+                    var tech = await _context.technology_types
+                        .FirstOrDefaultAsync(x => x.technology_name == name);
+
+                    if (tech == null)
                     {
-                        technology_name = t.TechnologyName.ToUpper(),
-                        technology_desc = t.TechnologyDesc
-                    };
-                    _context.technology_types.Add(tech);
-                    await _context.SaveChangesAsync();
+                        tech = new technology_type
+                        {
+                            technology_name = name,
+                            technology_desc = t.TechnologyDesc
+                        };
+                        _context.technology_types.Add(tech);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    _context.product_technologies.Add(new product_technology
+                    {
+                        product_id = product.id,
+                        technology_id = tech.id
+                    });
                 }
-
-                _context.product_technologies.Add(new product_technology
-                {
-                    product_id = product.id,
-                    technology_id = tech.id
-                });
             }
 
-            // 4️⃣ SPECIFICATIONS
-            foreach (var s in dto.Specifications)
+            // SPECIFICATIONS
+            if (dto.Specifications != null)
             {
-                // optional safety check
-                var keyExists = await _context.specification_keys
-                    .AnyAsync(k => k.id == s.KeyId);
-
-                if (!keyExists)
-                    return BadRequest("Invalid specification key.");
-
-                _context.technical_specifications.Add(new technical_specification
+                foreach (var s in dto.Specifications)
                 {
-                    product_id = product.id,
-                    key_id = s.KeyId,
-                    value = s.Value
-                });
-            }
+                    var exists = await _context.specification_keys
+                        .AnyAsync(k => k.id == s.KeyId);
 
+                    if (!exists)
+                        return BadRequest("Invalid specification key.");
 
-            // Remove existing tags first (for update)
-            var existingProductTags = _context.product_tags
-                .Where(pt => pt.product_id == product.id);
-
-            _context.product_tags.RemoveRange(existingProductTags);
-
-            // Add new tags
-            foreach (var name in dto.Tags.Distinct())
-            {
-                var tag = await _context.tags
-                    .FirstOrDefaultAsync(x => x.tag_name == name);
-
-                if (tag == null)
-                {
-                    tag = new tag { tag_name = name };
-                    _context.tags.Add(tag);
-                    await _context.SaveChangesAsync();
+                    _context.technical_specifications.Add(new technical_specification
+                    {
+                        product_id = product.id,
+                        key_id = s.KeyId,
+                        value = s.Value
+                    });
                 }
-
-                _context.product_tags.Add(new product_tag
-                {
-                    product_id = product.id,
-                    tag_id = tag.id
-                });
             }
 
+            // TAGS
+            if (dto.Tags != null)
+            {
+                foreach (var raw in dto.Tags.Distinct())
+                {
+                    var name = raw.Trim().ToUpper();
+
+                    var tag = await _context.tags
+                        .FirstOrDefaultAsync(x => x.tag_name == name);
+
+                    if (tag == null)
+                    {
+                        tag = new tag { tag_name = name };
+                        _context.tags.Add(tag);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    _context.product_tags.Add(new product_tag
+                    {
+                        product_id = product.id,
+                        tag_id = tag.id
+                    });
+                }
+            }
 
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
@@ -255,9 +272,11 @@ public class ProductsApiController : ControllerBase
         catch (Exception ex)
         {
             await tx.RollbackAsync();
-            return BadRequest(ex.ToString());
+            return BadRequest(ex.Message);
         }
     }
+
+
 
     [HttpGet]
     public async Task<IActionResult> GetAll(int page = 1,
@@ -387,15 +406,17 @@ public class ProductsApiController : ControllerBase
     [HttpGet("summary/{id}")]
     public async Task<IActionResult> GetProductDetails(int id)
     {
+        // 🔴 validation
+        if (id <= 0)
+            return BadRequest("Invalid product id.");
 
         var product = await _context.products
             .Include(p => p.form_factor)
             .Include(p => p.manufacturer)
-
             .FirstOrDefaultAsync(p => p.id == id);
 
         if (product == null)
-            return NotFound();
+            return NotFound("Product not found.");
 
         // ---- STOCK
         var availableStock = await _context.inventories
@@ -410,22 +431,23 @@ public class ProductsApiController : ControllerBase
             .Select(pm => pm.media.url)
             .ToListAsync();
 
-        // -- spec (key-value pairs)
+        // ---- SPECIFICATIONS
         var specifications = await _context.technical_specifications
             .Where(ts => ts.product_id == id)
             .Join(
-            _context.specification_keys,
-            ts => ts.key_id,
-            sk => sk.id,
-            (ts, sk) => new
-            {
-                key = sk.keyname,
-                value = ts.value,
-            }
-        )
+                _context.specification_keys,
+                ts => ts.key_id,
+                sk => sk.id,
+                (ts, sk) => new
+                {
+                    key = sk.keyname,
+                    value = ts.value
+                }
+            )
             .OrderBy(x => x.key)
             .ToListAsync();
 
+        // ---- TAGS
         var tags = await _context.product_tags
             .Where(pt => pt.product_id == id)
             .Join(
@@ -437,6 +459,7 @@ public class ProductsApiController : ControllerBase
             .OrderBy(t => t)
             .ToListAsync();
 
+        // ---- TECHNOLOGIES
         var technologies = await _context.product_technologies
             .Where(pt => pt.product_id == id)
             .Join(
@@ -452,6 +475,7 @@ public class ProductsApiController : ControllerBase
             )
             .OrderBy(t => t.name)
             .ToListAsync();
+
         var result = new
         {
             //basic info
@@ -460,13 +484,12 @@ public class ProductsApiController : ControllerBase
             product_Series = product.product_series,
             part_Number_A = product.part_number_a,
             part_Number_B = product.part_number_b,
-            form_factor = product.form_factor.form_factor1,
-            manufacturer = product.manufacturer.manufacturer_name,
+            form_factor = product.form_factor?.form_factor1,
+            manufacturer = product.manufacturer?.manufacturer_name,
             status = product.status,
             original_Selling_Price = product.original_selling_price,
             discounted_Selling_Price = product.discounted_selling_price,
             discount_Type = product.discount_type,
-            //discount_Amount = product.discount_value,
             discount_Value = product.discount_value,
             actual_Selling_Price = product.actual_selling_price,
             ar_url = product.ar_url,
@@ -490,6 +513,7 @@ public class ProductsApiController : ControllerBase
             tags = tags,
             technologies = technologies
         };
+
         return Ok(result);
     }
 

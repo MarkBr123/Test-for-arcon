@@ -358,10 +358,10 @@ public class Shop_ServicesApiController:ControllerBase
 
     [HttpGet("my-completed-services")]
     public async Task<IActionResult> GetMyCompletedServices(
-    int page = 1,
-    int pageSize = 10,
-    string sortBy = "latest"
-)
+        int page = 1,
+        int pageSize = 10,
+        string sortBy = "latest"
+    )
     {
         var customerId = HttpContext.Session.GetInt32("UserId");
         var userType = HttpContext.Session.GetString("UserType");
@@ -375,7 +375,9 @@ public class Shop_ServicesApiController:ControllerBase
         pageSize = pageSize > 50 ? 50 : pageSize;
 
         var query = _context.service_bookings
-            .Include(b => b.service_transactions)
+
+            // 🔥 INCLUDE ratings
+            .Include(b => b.service_ratings)
 
             // address
             .Include(b => b.customer_addresses)
@@ -386,6 +388,9 @@ public class Shop_ServicesApiController:ControllerBase
                 .ThenInclude(a => a.province)
             .Include(b => b.customer_addresses)
                 .ThenInclude(a => a.region)
+
+            // transactions (for completion info only)
+            .Include(b => b.service_transactions)
 
             .Where(b =>
                 b.customer_id == customerId &&
@@ -415,7 +420,7 @@ public class Shop_ServicesApiController:ControllerBase
                 status = b.status,
                 totalAmount = b.total_amount,
 
-                // Customer Address
+                // 📍 Address
                 address = b.customer_addresses != null
                     ? (b.customer_addresses.house_unit ?? "") + ", " +
                       (b.customer_addresses.street_name ?? "") + ", " +
@@ -426,7 +431,7 @@ public class Shop_ServicesApiController:ControllerBase
                       (b.customer_addresses.zip_code ?? "")
                     : null,
 
-                // Completed Transaction
+                // ✅ Completed transaction info
                 transaction = b.service_transactions
                     .Where(t => t.status == "COMPLETED")
                     .OrderByDescending(t => t.id)
@@ -434,14 +439,23 @@ public class Shop_ServicesApiController:ControllerBase
                     {
                         transactionId = t.id,
                         transactionRefCode = t.st_ref_code,
-
                         completedDate = t.date_completed,
                         completedTime = t.time_completed,
-
-                        rating = t.service_rating,
                         status = t.status
                     })
-                    .FirstOrDefault()
+                    .FirstOrDefault(),
+
+                // ⭐ Rating (FROM BOOKING)
+                rating = b.service_ratings
+                    .Select(r => new
+                    {
+                        rating = r.rating,
+                        comment = r.comment
+                    })
+                    .FirstOrDefault(),
+
+                // 🔥 Simple flag for frontend
+                isRated = b.service_ratings.Any()
             })
             .ToListAsync();
 
@@ -970,5 +984,7 @@ public class Shop_ServicesApiController:ControllerBase
 
         return Ok(result);
     }
+
+    
 }
 

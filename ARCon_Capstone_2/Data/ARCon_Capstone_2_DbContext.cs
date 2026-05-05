@@ -139,6 +139,8 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<customer_rating> customer_ratings { get; set; }
 
+    public virtual DbSet<service_rating> service_ratings { get; set; }
+
     //end manually added
 
     public virtual DbSet<work_schedule> work_schedules { get; set; }
@@ -516,6 +518,52 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .IsUnique()
                 .HasDatabaseName("ux_customer_ratings_unique");
         });
+
+        modelBuilder.Entity<service_rating>(entity =>
+        {
+            entity.ToTable("service_ratings");
+
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.id)
+                .HasColumnName("id");
+
+            entity.Property(e => e.rating)
+                .HasColumnName("rating")
+                .IsRequired();
+
+            entity.Property(e => e.comment)
+                .HasColumnName("comment")
+                .HasMaxLength(255);
+
+            entity.Property(e => e.isposted)
+                .HasColumnName("isposted")
+                .HasDefaultValue(false);
+
+            entity.Property(e => e.created_at)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.Property(e => e.service_booking_id)
+                .HasColumnName("service_booking_id")
+                .IsRequired();
+
+            entity.Property(e => e.customer_id)
+                .HasColumnName("customer_id");
+
+            // 🔗 FIXED RELATIONSHIPS
+
+            entity.HasOne(e => e.service_booking)
+                .WithMany(b => b.service_ratings) // ✅ linked navigation
+                .HasForeignKey(e => e.service_booking_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.customer)
+                .WithMany(c => c.service_ratings) // ✅ linked navigation
+                .HasForeignKey(e => e.customer_id)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
 
 
 
@@ -1154,6 +1202,8 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.HasOne(d => d.customer).WithMany(p => p.service_bookings)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("service_bookings_customer_id_fkey");
+
+
         });
 
         modelBuilder.Entity<service_booking_item>(entity =>

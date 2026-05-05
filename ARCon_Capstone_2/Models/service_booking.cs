@@ -76,4 +76,6 @@ public class service_booking
 
     public virtual ICollection<service_transaction> service_transactions { get; set; }
         = new List<service_transaction>();
+
+    public virtual ICollection<service_rating> service_ratings { get; set; } = new List<service_rating>();
 }

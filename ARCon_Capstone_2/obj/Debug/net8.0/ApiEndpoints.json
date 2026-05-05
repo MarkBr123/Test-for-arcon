@@ -881,6 +881,27 @@
   },
   {
     "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_CustomerRatingApiControllers",
+    "Method": "RateService",
+    "RelativePath": "api/my-shop-ratings/{bookingId}/rate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookingId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.AddServiceRatingDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_CustomerRatingApiControllers",
     "Method": "CreateCustomerRating",
     "RelativePath": "api/my-shop-ratings/customer-transaction-ratings",
     "HttpMethod": "POST",

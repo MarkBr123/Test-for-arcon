@@ -167,11 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadTransactions(status) {
     console.log("Loading:", status);
-
-    // Example:
-    // fetch(`/api/transactions?status=${status}`)
-    //     .then(res => res.json())
-    //     .then(data => renderTransactions(data));
 }
 
 
@@ -198,7 +193,7 @@ function formatDate(date) {
 
     const d = new Date(date);
 
-    // ❌ invalid date check
+    // invalid date check
     if (isNaN(d.getTime())) return "TBD";
 
     return d.toLocaleDateString("en-PH", {
@@ -375,7 +370,7 @@ async function fetchAndRender(url, renderFn) {
 
 //  For Confirmation
 async function loadPendingServices(sort) {
-    console.log("CALLING PENDING API"); // 👈 add this
+    console.log("CALLING PENDING API"); 
     await fetchAndRender(`/api/my-shop-services/my-pending-services?sortBy=${sort}`, renderPendingServices);
 }
 
@@ -543,7 +538,7 @@ function renderPendingServices(data) {
                         View Details
                     </button>
 
-                    <button class="btn btn-sm btn-outline-danger" onclick="openCancelServiceModal(${service.id})">
+                    <button class="btn btn-sm btn-outline-danger" onclick="openCancelServiceModal(${service.bookingId})">
                         Cancel
                         
                     </button>
@@ -815,14 +810,18 @@ function renderCompletedServices(data) {
 
         const t = service.transaction || {};
 
-        // ⭐ Rating display
+        // CORRECT SOURCE (from booking)
+        const isRated = service.isRated === true;
+        const ratingValue = service.rating?.rating ?? 0;
+
+        // Rating display (RIGHT SIDE)
         let ratingHtml = "";
 
-        if (t.rating && t.rating > 0) {
+        if (isRated && ratingValue > 0) {
             ratingHtml = `
                 <div class="order-row">
                     <span class="label">Rating:</span>
-                    <span class="value">${renderStars(t.rating)}</span>
+                    <span class="value">${renderStars(ratingValue)}</span>
                 </div>
             `;
         } else {
@@ -835,8 +834,6 @@ function renderCompletedServices(data) {
         }
 
         const card = document.createElement("div");
-
-        // ✅ APPLY THEME (Completed = success but still soft)
         card.classList.add("order-card", "status-completed");
 
         card.innerHTML = `
@@ -897,15 +894,19 @@ function renderCompletedServices(data) {
                 </div>
 
                 <div class="order-footer-new">
-                    <button class="btn btn-sm btn-primary" onclick="openServiceDetails(${service.bookingId})">
+                    <button class="btn btn-sm btn-primary"
+                        onclick="openServiceDetails(${service.bookingId})">
                         View Details
                     </button>
 
-                    ${!t.rating
-                ? `<button class="btn btn-sm btn-warning" onclick="openRatingModal(${t.transactionId})">
-                                Rate Service
-                               </button>`
-                : ""
+                    ${isRated
+                ? `<span class="text-success fw-semibold d-flex align-items-center gap-1">
+                                ✔ Rated ${renderStars(ratingValue)}
+                           </span>`
+                : `<button class="btn btn-sm btn-warning"
+                                onclick="openSetRating(${service.bookingId})">
+                                ⭐ Rate Service
+                           </button>`
             }
                 </div>
 
@@ -935,7 +936,7 @@ function renderPartiallyCompletedServices(data) {
 
         const card = document.createElement("div");
 
-        // ✅ APPLY YOUR THEME
+        
         card.classList.add("order-card", "status-partial");
 
         card.innerHTML = `
@@ -1033,7 +1034,7 @@ function renderFailedServices(data) {
 
         const card = document.createElement("div");
 
-        // ✅ USE YOUR THEME SYSTEM
+
         card.classList.add(
             "order-card",
             isRefund ? "status-refund" : "status-failed"
@@ -1220,7 +1221,7 @@ function renderCancelledServices(data) {
 
 let selectedBookingId = null;
 
-// 🔹 OPEN FIRST MODAL
+// OPEN FIRST MODAL
 function openCancelServiceModal(bookingId) {
     selectedBookingId = bookingId;
 
@@ -1233,7 +1234,7 @@ function openCancelServiceModal(bookingId) {
     bootstrap.Modal.getOrCreateInstance(modalEl).show();
 }
 
-// 🔹 GO TO CONFIRM MODAL
+// GO TO CONFIRM MODAL
 function openConfirmCancelModal() {
     const input = document.getElementById("cancelReasonInput");
     const reason = input ? input.value.trim() : "";
@@ -1255,7 +1256,7 @@ function openConfirmCancelModal() {
     bootstrap.Modal.getOrCreateInstance(confirmModalEl).show();
 }
 
-// 🔹 CONFIRM + API CALL
+// CONFIRM + API CALL
 async function confirmCancelService() {
     try {
         const input = document.getElementById("cancelReasonInput");
@@ -1267,7 +1268,7 @@ async function confirmCancelService() {
         // close confirm modal safely
         bootstrap.Modal.getOrCreateInstance(confirmModalEl).hide();
 
-        // 🔥 API CALL
+        //API CALL
         const res = await fetch(`/api/my-shop-services/customer/cancel/${selectedBookingId}`, {
             method: "PUT",
             headers: {
@@ -1282,12 +1283,12 @@ async function confirmCancelService() {
             return;
         }
 
-        // ✅ SHOW SUCCESS MODAL
+        // SHOW SUCCESS MODAL
         if (successModalEl) {
             bootstrap.Modal.getOrCreateInstance(successModalEl).show();
         }
 
-        // 🔄 reload after slight delay (prevents UI flicker)
+        // reload after slight delay (prevents UI flicker)
         setTimeout(() => {
             loadTab(currentTab, document.getElementById("sortSelect")?.value);
         }, 300);
@@ -1335,7 +1336,7 @@ async function openServiceDetails(bookingId) {
         const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
         modal.show();
 
-        // 🔥 SAFE SET
+        // SAFE SET
         const setText = (id, value) => {
             const el = modalEl.querySelector(`#${id}`);
             if (el) el.textContent = value ?? "N/A";
@@ -1348,7 +1349,7 @@ async function openServiceDetails(bookingId) {
         setText("d_time", b.preferredTime);
         setText("d_address", data.address);
 
-        // 🔥 NEW BOOKING FIELDS
+        // NEW BOOKING FIELDS
         setText("d_propertyType", b.propertyType);
         setText("d_customerNote", b.customerNote);
         setText("d_businessName", b.businessName);
@@ -1370,7 +1371,7 @@ async function openServiceDetails(bookingId) {
             t.completedTime ? formatTimeSpecific(t.completedTime) : "Pending"
         );
 
-        // 🔥 NEW TRANSACTION FIELDS
+        // NEW TRANSACTION FIELDS
         setText("d_actualDate",
             t.scheduledDate ? formatDate(t.scheduledDate) : "Not scheduled"
         );
@@ -1515,4 +1516,202 @@ function formatTimeSpecific(time) {
     } catch {
         return "N/A";
     }
+}
+
+
+
+/// Service Rating
+
+let currentBookingId = null;
+let selectedRating = 0;
+
+const ratingLabels = {
+    1: "😞 Very Bad",
+    2: "😕 Needs Improvement",
+    3: "😐 Okay",
+    4: "😊 Satisfied",
+    5: "🔥 Excellent Service"
+};
+
+// Open Modal
+function openSetRating(bookingId) {
+    if (!bookingId) {
+        console.error("Booking ID missing");
+        return;
+    }
+
+    const btn = document.querySelector(
+        `button[onclick="openSetRating(${bookingId})"]`
+    );
+
+    if (!btn) {
+        showRatingAlert("You already rated this service.", "warning");
+        return;
+    }
+
+    currentBookingId = bookingId;
+    selectedRating = 0;
+
+    const modalEl = document.getElementById("ratingModal");
+    if (!modalEl) return;
+
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+
+    setTimeout(() => {
+        hideRatingAlert(); // reset alert
+
+        const commentEl = document.getElementById("ratingComment");
+        const labelEl = document.getElementById("ratingLabel");
+
+        if (commentEl) commentEl.value = "";
+        if (labelEl) labelEl.innerText = "Select a rating";
+
+        document.querySelectorAll("#starContainer .star").forEach(s => {
+            s.classList.remove("active");
+        });
+    }, 0);
+}
+
+
+
+
+// Star selection
+document.querySelectorAll("#starContainer .star").forEach(star => {
+    star.addEventListener("click", function () {
+        selectedRating = parseInt(this.dataset.value);
+
+        document.querySelectorAll("#starContainer .star").forEach(s => {
+            s.classList.toggle("active", s.dataset.value <= selectedRating);
+        });
+
+        document.getElementById("ratingLabel").innerText =
+            ratingLabels[selectedRating];
+    });
+});
+
+//Submit Rating
+document.getElementById("submitRatingBtn").addEventListener("click", async () => {
+    if (!selectedRating) {
+        alert("Please select a rating.");
+        return;
+    }
+
+    const btn = document.getElementById("submitRatingBtn");
+    btn.disabled = true;
+
+    try {
+        const comment = document.getElementById("ratingComment").value;
+
+        const res = await fetch(`/api/my-shop-ratings/${currentBookingId}/rate`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                rating: selectedRating,
+                comment: comment
+            })
+        });
+
+        let data = {};
+        try {
+            data = await res.json();
+        } catch {
+
+        }
+
+        // 
+        if (!res.ok) {
+
+            if (data?.isRated) {
+
+                // ENSURE MODAL IS OPEN
+                const modalEl = document.getElementById("ratingModal");
+                let modal = bootstrap.Modal.getInstance(modalEl);
+
+                if (!modal) {
+                    modal = new bootstrap.Modal(modalEl);
+                }
+
+                modal.show();
+
+                //
+                showRatingAlert("This service has already been rated.", "warning");
+
+                updateRatingUI(
+                    currentBookingId,
+                    data?.rating?.rating ?? selectedRating
+                );
+
+                return;
+            }
+
+            showRatingAlert(data?.message || "The service booking is already rated");
+            return;
+        }
+
+        alert("✅ Rating submitted!");
+
+        closeModal();
+
+        
+        updateRatingUI(
+            currentBookingId,
+            data?.rating?.rating ?? selectedRating
+        );
+
+    } catch (err) {
+        console.error(err);
+        alert("Something went wrong. Please try again.");
+    } finally {
+        btn.disabled = false;
+    }
+
+    location.reload();
+});
+
+//Close modal safely
+function closeModal() {
+    const modalEl = document.getElementById("ratingModal");
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+}
+
+//Update UI (no reload)
+function updateRatingUI(bookingId, ratingValue) {
+    const btn = document.querySelector(
+        `button[onclick="openSetRating(${bookingId})"]`
+    );
+
+    if (!btn) return;
+
+    const container = btn.parentElement;
+
+    if (!container) return;
+
+    container.innerHTML = `
+        <span class="text-success fw-semibold d-flex align-items-center gap-1">
+            ✔ Rated ${renderStars(ratingValue)}
+        </span>
+    `;
+}
+
+
+function showRatingAlert(message, type = "danger") {
+    const alertBox = document.getElementById("ratingAlert");
+    if (!alertBox) return;
+
+    alertBox.className = `alert alert-${type}`;
+    alertBox.textContent = message;
+    alertBox.classList.remove("d-none");
+}
+
+function hideRatingAlert() {
+    const alertBox = document.getElementById("ratingAlert");
+    if (!alertBox) return;
+
+    alertBox.classList.add("d-none");
+    alertBox.textContent = "";
 }
