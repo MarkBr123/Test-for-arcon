@@ -357,244 +357,568 @@
                                                                 <!-- Summary Modals-->
 <!-- ================= PRODUCT SUMMARY MODAL ================= -->
 <div class="modal fade" id="productSummaryModal" tabindex="-1">
+
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
+
+        <div class="modal-content border-0 shadow">
 
             <!-- HEADER -->
-            <div class="modal-header">
-                <h5 class="modal-title">Product Summary</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+                    <h4 class="modal-title fw-bold">
+                        📦 Product Summary
+                    </h4>
+
+                    <small class="text-muted">
+                        View complete product information
+                    </small>
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
             </div>
 
             <!-- BODY -->
-            <div class="modal-body">
+            <div class="modal-body pt-3">
 
                 <!-- TABS -->
-                <ul class="nav nav-tabs mb-3">
+                <ul class="nav nav-pills mb-4 gap-2">
+
                     <li class="nav-item">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-basic">
-                            Basic Product Info
+                        <button class="nav-link active"
+                                data-bs-toggle="pill"
+                                data-bs-target="#tab-basic">
+
+                            Basic
                         </button>
                     </li>
 
                     <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-specs">
+                        <button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#tab-specs">
+
                             Specifications
                         </button>
                     </li>
 
                     <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-tech">
+                        <button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#tab-tech">
+
                             Technologies
                         </button>
                     </li>
 
                     <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-tags">
+                        <button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#tab-tags">
+
                             Tags
                         </button>
                     </li>
 
                     <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-reviews">
-                            Customer Reviews
+                        <button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#tab-reviews">
+
+                            Reviews
                         </button>
                     </li>
+
                 </ul>
 
                 <!-- TAB CONTENT -->
                 <div class="tab-content">
 
-                    <!-- ================= BASIC INFO ================= -->
-                    <div class="tab-pane fade show active" id="tab-basic">
-                        <div class="container-fluid px-1">
+                    <!-- ================================================= -->
+                    <!-- BASIC -->
+                    <!-- ================================================= -->
 
-                            <!-- ===== GENERAL ===== -->
-                            <div class="product-section-title">General Information</div>
-                            <div class="row g-3 mb-4">
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">SKU</div>
-                                    <div class="fw-semibold" id="dSku"></div>
-                                </div>
+                    <div class="tab-pane fade show active"
+                         id="tab-basic">
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Status</div>
-                                    <span class="badge bg-secondary" id="dStatus"></span>
-                                </div>
+                        <!-- ========================================= -->
+                        <!-- GENERAL -->
+                        <!-- ========================================= -->
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Manufacturer</div>
-                                    <div id="dManufacturer"></div>
-                                </div>
+                        <div class="summary-section-card">
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Model</div>
-                                    <div id="dProductModel"></div>
-                                </div>
-
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Series</div>
-                                    <div id="dProductSeries"></div>
-                                </div>
-
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Form Factor</div>
-                                    <div id="dFormFactor"></div>
-                                </div>
-
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Part Number A</div>
-                                    <div id="dPartNumberA"></div>
-                                </div>
-
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Part Number B</div>
-                                    <div id="dPartNumberB"></div>
-                                </div>
-
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Reorder Level</div>
-                                    <div id="dReorderLevel"></div>
-                                </div>
+                            <div class="summary-section-title">
+                                📦 General Information
                             </div>
 
+                            <div class="summary-info-grid">
 
-                            <!-- ===== PRICING ===== -->
-                            <div class="product-section-title">Pricing</div>
-                            <div class="row g-3 mb-4">
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Original Price</div>
-                                    <div id="dOriginalPrice"></div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">SKU</div>
+                                    <div class="summary-info-value fw-bold"
+                                         id="dSku">
+                                    </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Discounted Price</div>
-                                    <div id="dDiscountedPrice"></div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">Status</div>
+
+                                    <div class="summary-info-value">
+                                        <span class="badge bg-secondary"
+                                              id="dStatus">
+                                        </span>
+                                    </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Discount Type</div>
-                                    <div id="dDiscountType"></div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Manufacturer
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dManufacturer">
+                                    </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Discount Value</div>
-                                    <div id="dDiscountValue"></div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Model
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dProductModel">
+                                    </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Actual Selling Price</div>
-                                    <div class="fw-bold text-success fs-5" id="dActualPrice"></div>
-                                </div>
-                            </div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Series
+                                    </div>
 
-                            <!-- ===== WARRANTY ===== -->
-                            <div class="product-section-title">Warranty & Replacement</div>
-                            <div class="row g-3 mb-4">
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Warranty (Years)</div>
-                                    <div id="dWarrantyYears"></div>
+                                    <div class="summary-info-value"
+                                         id="dProductSeries">
+                                    </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Replacement Days</div>
-                                    <div id="dReplacementDays"></div>
-                                </div>
-                            </div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Form Factor
+                                    </div>
 
-                            <!-- ===== WEIGHT ===== -->
-                            <div class="product-section-title">Weight Information</div>
-                            <div class="row g-3 mb-4">
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Gross Weight A</div>
-                                    <div id="dGrossWeightA"></div>
+                                    <div class="summary-info-value"
+                                         id="dFormFactor">
+                                    </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Gross Weight B</div>
-                                    <div id="dGrossWeightB"></div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Part Number A
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dPartNumberA">
+                                    </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Total Gross Weight</div>
-                                    <div class="fw-semibold" id="dTotalGrossWeight"></div>
-                                </div>
-                            </div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Part Number B
+                                    </div>
 
-                            <!-- ===== AR ===== -->
-                            <div class="product-section-title">Augmented Reality</div>
-                            <div class="row g-3 mb-4">
-                                <div class="col-xl-4 col-md-6">
-                                    <a id="dArUrl"
-                                       class="btn btn-outline-primary btn-sm"
-                                       target="_blank"
-                                       rel="noopener">
-                                        View AR Model
-                                    </a>
-                                </div>
-                            </div>
-
-                            <!-- ===== AUDIT ===== -->
-                            <div class="product-section-title">Audit Trail</div>
-                            <div class="row g-3">
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Created At</div>
-                                    <div id="dCreatedAt"></div>
+                                    <div class="summary-info-value"
+                                         id="dPartNumberB">
+                                    </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="text-muted small">Updated At</div>
-                                    <div id="dUpdatedAt"></div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Reorder Level
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dReorderLevel">
+                                    </div>
                                 </div>
+
                             </div>
 
                         </div>
-                    </div>
 
+                        <!-- ========================================= -->
+                        <!-- PRICING -->
+                        <!-- ========================================= -->
 
+                        <div class="summary-section-card">
 
-                    <!-- ================= SPECIFICATIONS ================= -->
-                    <div class="tab-pane fade" id="tab-specs">
-                        <table class="table table-sm table-bordered">
-                            <thead class="table-light">
-                                <tr>
-                                    <th style="width:40%">Specification</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dSpecifications"></tbody>
-                        </table>
-                    </div>
+                            <div class="summary-section-title">
+                                💰 Pricing
+                            </div>
 
-                    <!-- ================= TECHNOLOGIES ================= -->
-                    <div class="tab-pane fade" id="tab-tech">
-                        <ul class="list-group list-group-flush" id="dTechnologies"></ul>
-                    </div>
+                            <div class="summary-info-grid">
 
-                    <!-- ================= TAGS ================= -->
-                    <div class="tab-pane fade" id="tab-tags">
-                        <div id="dTags" class="d-flex flex-wrap gap-2"></div>
-                    </div>
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Original Price
+                                    </div>
 
-                    <!-- ================= REVIEWS ================= -->
-                    <div class="tab-pane fade" id="tab-reviews">
-                        <div id="dReviews" class="text-muted">
-                            No reviews yet.
+                                    <div class="summary-info-value"
+                                         id="dOriginalPrice">
+                                    </div>
+                                </div>
+
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Discounted Price
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dDiscountedPrice">
+                                    </div>
+                                </div>
+
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Discount Type
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dDiscountType">
+                                    </div>
+                                </div>
+
+                                <div class="summary-info-item">
+                                    <div class="summary-info-label">
+                                        Discount Value
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dDiscountValue">
+                                    </div>
+                                </div>
+
+                                <div class="summary-info-item bg-dark text-white border-0">
+
+                                    <div class="summary-info-label text-light">
+                                        Actual Selling Price
+                                    </div>
+
+                                    <div class="summary-price-highlight"
+                                         id="dActualPrice">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
+
+                        <!-- ========================================= -->
+                        <!-- WARRANTY -->
+                        <!-- ========================================= -->
+
+                        <div class="summary-section-card">
+
+                            <div class="summary-section-title">
+                                🛡️ Warranty & Replacement
+                            </div>
+
+                            <div class="summary-info-grid">
+
+                                <div class="summary-info-item">
+
+                                    <div class="summary-info-label">
+                                        Warranty (Years)
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dWarrantyYears">
+                                    </div>
+
+                                </div>
+
+                                <div class="summary-info-item">
+
+                                    <div class="summary-info-label">
+                                        Replacement Days
+                                    </div>
+
+                                    <div class="summary-info-value"
+                                         id="dReplacementDays">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ========================================= -->
+                        <!-- LOWER SECTION -->
+                        <!-- ========================================= -->
+
+                        <div class="row g-4">
+
+                            <!-- WEIGHT -->
+                            <div class="col-lg-6">
+
+                                <div class="summary-section-card h-100">
+
+                                    <div class="summary-section-title">
+                                        ⚖️ Weight Information
+                                    </div>
+
+                                    <div class="summary-info-grid">
+
+                                        <div class="summary-info-item">
+
+                                            <div class="summary-info-label">
+                                                Gross Weight A
+                                            </div>
+
+                                            <div class="summary-info-value"
+                                                 id="dGrossWeightA">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="summary-info-item">
+
+                                            <div class="summary-info-label">
+                                                Gross Weight B
+                                            </div>
+
+                                            <div class="summary-info-value"
+                                                 id="dGrossWeightB">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="summary-info-item">
+
+                                            <div class="summary-info-label">
+                                                Total Gross Weight
+                                            </div>
+
+                                            <div class="summary-info-value fw-bold"
+                                                 id="dTotalGrossWeight">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- AR -->
+                            <div class="col-lg-6">
+
+                                <div class="summary-section-card h-100">
+
+                                    <div class="summary-section-title">
+                                        🥽 Augmented Reality
+                                    </div>
+
+                                    <div class="d-flex flex-column justify-content-center h-100">
+
+                                        <div class="text-muted mb-3">
+
+                                            Preview this product in AR mode.
+
+                                        </div>
+
+                                        <div>
+
+                                            <a id="dArUrl"
+                                               class="btn btn-dark rounded-pill px-4"
+                                               target="_blank"
+                                               rel="noopener">
+
+                                                View AR Model
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- AUDIT -->
+                            <div class="col-12">
+
+                                <div class="summary-section-card">
+
+                                    <div class="summary-section-title">
+                                        🕒 Audit Trail
+                                    </div>
+
+                                    <div class="summary-info-grid">
+
+                                        <div class="summary-info-item">
+
+                                            <div class="summary-info-label">
+                                                Created At
+                                            </div>
+
+                                            <div class="summary-info-value"
+                                                 id="dCreatedAt">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="summary-info-item">
+
+                                            <div class="summary-info-label">
+                                                Last Updated
+                                            </div>
+
+                                            <div class="summary-info-value"
+                                                 id="dUpdatedAt">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ================================================= -->
+                    <!-- SPECIFICATIONS -->
+                    <!-- ================================================= -->
+
+                    <div class="tab-pane fade"
+                         id="tab-specs">
+
+                        <div class="summary-section-card">
+
+                            <div class="summary-section-title">
+                                Technical Specifications
+                            </div>
+
+                            <table class="table align-middle">
+
+                                <thead>
+                                    <tr>
+                                        <th style="width:40%">
+                                            Specification
+                                        </th>
+
+                                        <th>
+                                            Value
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="dSpecifications"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ================================================= -->
+                    <!-- TECHNOLOGIES -->
+                    <!-- ================================================= -->
+
+                    <div class="tab-pane fade"
+                         id="tab-tech">
+
+                        <div class="summary-section-card">
+
+                            <div class="summary-section-title">
+                                Technologies
+                            </div>
+
+                            <ul class="list-group list-group-flush"
+                                id="dTechnologies">
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ================================================= -->
+                    <!-- TAGS -->
+                    <!-- ================================================= -->
+
+                    <div class="tab-pane fade"
+                         id="tab-tags">
+
+                        <div class="summary-section-card">
+
+                            <div class="summary-section-title">
+                                Tags
+                            </div>
+
+                            <div id="dTags"
+                                 class="d-flex flex-wrap gap-2">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REVIEWS -->
+
+
+                    <div class="tab-pane fade"
+                         id="tab-reviews">
+
+                        <div class="summary-section-card">
+
+                            <div class="summary-section-title">
+                                Customer Reviews
+                            </div>
+
+                            <div id="dReviews">
+
+                                <div class="text-muted">
+                                    No reviews yet.
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
+
             </div>
 
             <!-- FOOTER -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <div class="modal-footer border-0 pt-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
                     Close
+
                 </button>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
 
@@ -661,262 +985,403 @@
 </div>
                                                                                             <!-- END MODAL CODES-->
                                                                                             <!-- Start Update Modal-->
-<div class="modal fade" id="updateModal" tabindex="-1">
+<!-- EDIT PRODUCT MODAL -->
+<div class="modal fade" id="editProductModal" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
+        <div class="modal-content border-0 shadow">
 
-            <!-- ================= HEADER ================= -->
-            <div class="modal-header">
-                <h5 class="modal-title">Product Details</h5>
+            <!-- HEADER -->
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <h4 class="modal-title fw-bold">
+                        ✏️ Edit Product
+                    </h4>
+                    <small class="text-muted">
+                        Update product information and configurations
+                    </small>
+                </div>
+
                 <button type="button"
                         class="btn-close"
-                        data-bs-dismiss="modal"></button>
+                        data-bs-dismiss="modal">
+                </button>
             </div>
 
-            <!-- ================= BODY ================= -->
-            <div class="modal-body">
+            <!-- BODY -->
+            <div class="modal-body pt-3">
 
-                <!-- TABS -->
-                <ul class="nav nav-tabs mb-3">
+                <!-- NAV TABS -->
+                <ul class="nav nav-pills mb-4 gap-2" id="editProductTabs">
+
                     <li class="nav-item">
                         <button class="nav-link active"
-                                data-bs-toggle="tab"
-                                data-bs-target="#tab-basic"
-                                type="button">
+                                data-bs-toggle="pill"
+                                data-bs-target="#basicTab">
                             Basic
                         </button>
                     </li>
+
                     <li class="nav-item">
                         <button class="nav-link"
-                                data-bs-toggle="tab"
-                                data-bs-target="#tab-specs"
-                                type="button">
+                                data-bs-toggle="pill"
+                                data-bs-target="#specificationsTab">
                             Specifications
                         </button>
                     </li>
+
                     <li class="nav-item">
                         <button class="nav-link"
-                                data-bs-toggle="tab"
-                                data-bs-target="#tab-tags"
-                                type="button">
-                            Tags
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="nav-link"
-                                data-bs-toggle="tab"
-                                data-bs-target="#tab-tech"
-                                type="button">
+                                data-bs-toggle="pill"
+                                data-bs-target="#technologiesTab">
                             Technologies
                         </button>
                     </li>
-                </ul>
 
+                    <li class="nav-item">
+                        <button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#tagsTab">
+                            Tags
+                        </button>
+                    </li>
+
+                </ul>
 
                 <!-- TAB CONTENT -->
                 <div class="tab-content">
 
-                    <!-- ================= BASIC TAB ================= -->
-                    <div class="tab-pane fade show active" id="tab-basic">
-                        <div class="container-fluid px-0">
-                            <div class="row g-3 align-items-start">
+                    <!-- ================================================= -->
+                    <!-- BASIC -->
+                    <!-- ================================================= -->
+                    <!-- ================================================= -->
+                    <!-- BASIC -->
+                    <!-- ================================================= -->
 
-                                <!-- PART NUMBER A -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Part Number A</small>
-                                    <div class="view-only fw-semibold" id="dPartNumberA">-</div>
-                                    <input class="form-control form-control-sm edit-only d-none"
-                                           id="ePartNumberA">
-                                </div>
+                    <div class="tab-pane fade show active"
+                         id="basicTab">
 
-                                <!-- PART NUMBER B -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Part Number B</small>
-                                    <div class="view-only fw-semibold" id="dPartNumberB">-</div>
-                                    <input class="form-control form-control-sm edit-only d-none"
-                                           id="ePartNumberB">
-                                </div>
-                                <div class="col-md-4">
-                                    <small class="text-muted">Reorder Level</small>
-                                    <div class="view-only fw-semibold" id="dReorderLevel">-</div>
-                                    <input class="form-control form-control-sm edit-only d-none"
-                                           id="eReorderLevel">
-                                </div>
+                        <div class="row g-3">
 
+                            <!-- ========================================= -->
+                            <!-- READONLY -->
+                            <!-- ========================================= -->
+                            <!-- SKU -->
+                            <div class="col-md-4">
+                                <label class="form-label">SKU</label>
 
-                                <!-- STATUS -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Status</small>
-                                    <div class="view-only" id="dStatus">-</div>
-                                    <select class="form-select form-select-sm edit-only d-none"
-                                            id="eStatus">
-                                        <option value="ACTIVE">ACTIVE</option>
-                                        <option value="DISCONTINUED">DISCONTINUED</option>
-                                        <option value="ARCHIVED">ARCHIVED</option>
-                                    </select>
-                                </div>
-
-                                <!-- ORIGINAL PRICE -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Original Price</small>
-                                    <div class="view-only" id="dOriginalPrice">-</div>
-                                    <input type="number" step="0.01"
-                                           class="form-control form-control-sm edit-only d-none"
-                                           id="eOriginalPrice">
-                                </div>
-
-                                <!-- DISCOUNT TYPE -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Discount Type</small>
-                                    <div class="view-only" id="dDiscountType">-</div>
-                                    <select class="form-select form-select-sm edit-only d-none"
-                                            id="eDiscountType">
-                                        <option value="NONE">NONE</option>
-                                        <option value="PERCENTAGE">PERCENTAGE</option>
-                                        <option value="AMOUNT">AMOUNT</option>
-                                    </select>
-                                </div>
-
-                                <!-- DISCOUNT VALUE -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Discount Value</small>
-                                    <div class="view-only" id="dDiscountValue">-</div>
-                                    <input type="number" step="0.01"
-                                           class="form-control form-control-sm edit-only d-none"
-                                           id="eDiscountValue">
-                                </div>
-
-                                <!-- DISCOUNTED PRICE (READ ONLY) -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Discounted Price</small>
-                                    <div class="fw-semibold" id="dDiscountedSellingPrice">-</div>
-                                </div>
-
-                                <!-- CHECKBOXES -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Is Discounted</small>
-                                    <div class="view-only" id="dIsDiscounted">-</div>
-                                    <input type="checkbox"
-                                           class="form-check-input edit-only d-none"
-                                           id="eIsDiscounted">
-                                </div>
-
-                                <div class="col-md-4">
-                                    <small class="text-muted">Installation Service</small>
-                                    <div class="view-only" id="dHasInstallationService">-</div>
-                                    <input type="checkbox"
-                                           class="form-check-input edit-only d-none"
-                                           id="eHasInstallationService">
-                                </div>
-
-                                <!-- AR URL -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">AR URL</small>
-                                    <div class="view-only text-break" id="dArUrl">-</div>
-                                    <input class="form-control form-control-sm edit-only d-none"
-                                           id="eArUrl">
-                                </div>
-
-                                <!-- WARRANTY -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Warranty (Years)</small>
-                                    <div class="view-only" id="dWarrantyYears">-</div>
-                                    <input type="number"
-                                           class="form-control form-control-sm edit-only d-none"
-                                           id="eWarrantyYears">
-                                </div>
-
-                                <!-- REPLACEMENT -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Replacement Days</small>
-                                    <div class="view-only" id="dReplacementDays">-</div>
-                                    <input type="number"
-                                           class="form-control form-control-sm edit-only d-none"
-                                           id="eReplacementDays">
-                                </div>
-
-                                <!-- WEIGHTS -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Gross Weight A</small>
-                                    <div class="view-only" id="dGrossWeightA">-</div>
-                                    <input type="number" step="0.01"
-                                           class="form-control form-control-sm edit-only d-none"
-                                           id="eGrossWeightA">
-                                </div>
-
-                                <div class="col-md-4">
-                                    <small class="text-muted">Gross Weight B</small>
-                                    <div class="view-only" id="dGrossWeightB">-</div>
-                                    <input type="number" step="0.01"
-                                           class="form-control form-control-sm edit-only d-none"
-                                           id="eGrossWeightB">
-                                </div>
-
-                                <!-- TOTAL (SERVER COMPUTED) -->
-                                <div class="col-md-4">
-                                    <small class="text-muted">Total Gross Weight</small>
-                                    <div class="fw-semibold" id="dTotalGrossWeight">-</div>
-                                </div>
-
+                                <input type="text"
+                                       class="form-control"
+                                       id="editSku"
+                                       readonly>
                             </div>
+
+                            <!-- MANUFACTURER -->
+                            <div class="col-md-4">
+                                <label class="form-label">Manufacturer</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="editManufacturer"
+                                       readonly>
+                            </div>
+
+                            <!-- FORM FACTOR -->
+                            <div class="col-md-4">
+                                <label class="form-label">Form Factor</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="editFormFactor"
+                                       readonly>
+                            </div>
+
+                            <!-- PRODUCT MODEL -->
+                            <div class="col-md-6">
+                                <label class="form-label">Product Model</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="editProductModel">
+                            </div>
+
+                            <!-- PRODUCT SERIES -->
+                            <div class="col-md-6">
+                                <label class="form-label">Product Series</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="editProductSeries">
+                            </div>
+
+                            <!-- PART NUMBER A -->
+                            <div class="col-md-6">
+                                <label class="form-label">Part Number A</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="editPartNumberA">
+                            </div>
+
+                            <!-- PART NUMBER B -->
+                            <div class="col-md-6">
+                                <label class="form-label">Part Number B</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="editPartNumberB">
+                            </div>
+
+                            <!-- REORDER LEVEL -->
+                            <div class="col-md-4">
+                                <label class="form-label">Reorder Level</label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editReorderLevel"
+                                       readonly>
+                            </div>
+
+                            <!-- STATUS -->
+                            <div class="col-md-4">
+                                <label class="form-label">Status</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="editStatus"
+                                       readonly>
+                            </div>
+
+                            <!-- ACTUAL SELLING PRICE -->
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    Actual Selling Price
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editActualSellingPrice"
+                                       readonly>
+                            </div>
+
+                            <!-- ========================================= -->
+                            <!-- EDITABLE -->
+                            <!-- ========================================= -->
+                            <!-- ORIGINAL PRICE -->
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    Original Selling Price
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editOriginalSellingPrice">
+                            </div>
+
+                            <!-- DISCOUNT TYPE -->
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    Discount Type
+                                </label>
+
+                                <select class="form-select"
+                                        id="editDiscountType">
+                                    <option value="NONE">None</option>
+                                    <option value="PERCENTAGE">Percentage</option>
+                                    <option value="AMOUNT">Amount</option>
+                                </select>
+                            </div>
+
+                            <!-- DISCOUNT VALUE -->
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    Discount Value
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editDiscountValue">
+                            </div>
+
+                            <!-- DISCOUNTED PRICE -->
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    Discounted Selling Price
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editDiscountedSellingPrice"
+                                       readonly>
+                            </div>
+
+                            <!-- AR URL -->
+                            <div class="col-md-8">
+                                <label class="form-label">
+                                    AR URL
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="editArUrl">
+                            </div>
+
+                            <!-- WARRANTY -->
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    Manufacturer Warranty Years
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editWarrantyYears">
+                            </div>
+
+                            <!-- REPLACEMENT -->
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    Outright Replacement Days
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editReplacementDays">
+                            </div>
+
+                            <!-- WEIGHT A -->
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    Gross Weight A
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editGrossWeightA">
+                            </div>
+
+                            <!-- WEIGHT B -->
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    Gross Weight B
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editGrossWeightB">
+                            </div>
+
+                            <!-- TOTAL WEIGHT -->
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    Total Gross Weight
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editTotalGrossWeight"
+                                       readonly>
+                            </div>
+
                         </div>
                     </div>
 
-                    <!-- ================= SPECS ================= -->
-                    <div class="tab-pane fade" id="tab-specs">
-                        <table class="table table-sm table-bordered">
-                            <thead class="table-light">
-                                <tr>
-                                    <th style="width:40%">Specification</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody id="specTableBody"></tbody>
-                        </table>
+                    <!-- ================================================= -->
+                    <!-- SPECIFICATIONS -->
+                    <!-- ================================================= -->
 
-                        <button class="btn btn-sm btn-success d-none"
-                                id="btnSaveSpecs"
-                                onclick="productUpdate_saveSpecs()">
-                            Save Specifications
-                        </button>
+                    <div class="tab-pane fade"
+                         id="specificationsTab">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <div>
+                                <h6 class="fw-semibold mb-0">
+                                    Specifications
+                                </h6>
+
+                                <small class="text-muted">
+                                    Manage technical specifications
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <div id="specificationsContainer">
+                            <!-- dynamic specs -->
+                        </div>
+
                     </div>
 
-                    <!-- ================= TAGS ================= -->
-                    <div class="tab-pane fade" id="tab-tags">
-                        <div id="tagEditor">Tags editor here</div>
+                    <!-- ================================================= -->
+                    <!-- TECHNOLOGIES -->
+                    <!-- ================================================= -->
+
+                    <div class="tab-pane fade"
+                         id="technologiesTab">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <div>
+                                <h6 class="fw-semibold mb-0">
+                                    Technologies
+                                </h6>
+
+                                <small class="text-muted">
+                                    Product supported technologies
+                                </small>
+                            </div>
+
+                            <button class="btn btn-sm btn-dark"
+                                    id="addTechnologyBtn">
+                                + Add Technology
+                            </button>
+
+                        </div>
+
+                        <div id="technologiesContainer">
+                            <!-- dynamic technologies -->
+                        </div>
+
                     </div>
 
-                    <!-- ================= TECH ================= -->
-                    <div class="tab-pane fade" id="tab-tech">
-                        <div id="techEditor">Technologies editor here</div>
+                    <!-- ================================================= -->
+                    <!-- TAGS -->
+                    <!-- ================================================= -->
+
+                    <div class="tab-pane fade"
+                         id="tagsTab">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Tags
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   id="editTagsInput"
+                                   placeholder="Example: Gaming, RGB, DDR5">
+                        </div>
+
+                        <div id="tagsPreview"
+                             class="d-flex flex-wrap gap-2">
+                        </div>
+
                     </div>
 
                 </div>
             </div>
 
-            <!-- ================= FOOTER ================= -->
-            <div class="modal-footer">
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 pt-0">
 
-                <!-- VIEW MODE -->
-                <button class="btn btn-secondary view-only"
+                <button class="btn btn-light"
                         data-bs-dismiss="modal">
-                    Close
-                </button>
-
-                <button class="btn btn-primary view-only"
-                        onclick="productUpdate_enableEdit()">
-                    Edit
-                </button>
-
-                <!-- EDIT MODE -->
-                <button class="btn btn-success edit-only d-none"
-                        onclick="productUpdate_save()">
-                    Save
-                </button>
-
-                <button class="btn btn-outline-secondary edit-only d-none"
-                        onclick="productUpdate_cancelEdit()">
                     Cancel
+                </button>
+
+                <button class="btn btn-dark"
+                        id="saveProductChangesBtn">
+                    Save Changes
                 </button>
 
             </div>
@@ -924,7 +1389,6 @@
         </div>
     </div>
 </div>
-
 
 
 

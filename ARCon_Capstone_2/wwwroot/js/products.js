@@ -1,17 +1,6 @@
 ﻿let searchTimeout = null;
 let currentSearch = "";
 
-//edit products variables
-let editTechnologies = [];
-let currentUploadProductId = null;
-
-//const tr = document.createElement("tr");
-
-
-
-
-
-
 
 /* ---------- STATE ---------- */
 let currentPage = 1;
@@ -159,7 +148,7 @@ function renderTable(items) {
 
                 <li>
                     <button class="dropdown-item"
-                            onclick="productUpdate_openModal(${p.id})">
+                            onclick="openEditProductModal(${p.id})">
                         Edit
                     </button>
                 </li>
@@ -347,7 +336,7 @@ function fillSummaryModal(d) {
         d.discount_Value != null ? d.discount_Value : "-";
 
     document.getElementById("dActualPrice").textContent =
-        d.actual_Selling_Price != null ? `₱${d.actual_Selling_Price}` : "-";
+        d.actual_Selling_Price != null ? `₱ ${d.actual_Selling_Price}` : "-";
 
     // AR
     const arLink = document.getElementById("dArUrl");
@@ -487,23 +476,77 @@ function renderTags(tags) {
 
 
 function viewDetails(event, id) {
+
     event.stopPropagation();
 
     fetch(`/admin/api/products/summary/${id}`)
+
         .then(r => {
-            if (!r.ok) throw new Error("Failed to load product summary");
+
+            if (!r.ok)
+                throw new Error(
+                    "Failed to load product summary"
+                );
+
             return r.json();
         })
+
         .then(data => {
+
+
+            // PRODUCT SUMMARY
+
+
             fillSummaryModal(data);
 
-            const modalEl = document.getElementById("productSummaryModal");
-            const modal = new bootstrap.Modal(modalEl);
+
+            // LOAD REVIEWS
+
+
+            return fetch(
+                `/admin/api/products/customer-transaction-ratings/product/${id}`
+            );
+        })
+
+        .then(r => {
+
+            if (!r.ok)
+                throw new Error(
+                    "Failed to load reviews"
+                );
+
+            return r.json();
+        })
+
+        .then(reviewData => {
+
+
+            // RENDER REVIEWS
+
+
+            renderReviews(reviewData);
+
+            // OPEN MODAL
+
+
+            const modalEl =
+                document.getElementById(
+                    "productSummaryModal"
+                );
+
+            const modal =
+                new bootstrap.Modal(modalEl);
+
             modal.show();
         })
+
         .catch(err => {
+
             console.error(err);
-            alert("Unable to load product summary");
+
+            alert(
+                "Unable to load product summary"
+            );
         });
 }
 
@@ -880,6 +923,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Upload Media
 
+let existingMedia = [];
+let removedMediaIds = [];
+let hasExistingMedia = false;
+
 document.getElementById("primaryInput")
     .addEventListener("change", function (e) {
 
@@ -922,28 +969,79 @@ document.getElementById("multipleInput")
 function renderGallery() {
 
     const grid = document.getElementById("galleryGrid");
+
     if (!grid) return;
 
     grid.innerHTML = "";
 
-    // Upload box
+
+    // UPLOAD BOX
+
+
     const uploadCol = document.createElement("div");
+
     uploadCol.className = "col-3";
 
-    const uploadBox = document.createElement("div");
-    uploadBox.className = "border rounded d-flex justify-content-center align-items-center";
-    uploadBox.style.height = "150px";
-    uploadBox.style.cursor = "pointer";
-    uploadBox.innerText = "+ Add";
+    uploadCol.id = "galleryUploadBox";
 
-    uploadBox.addEventListener("click", function () {
-        document.getElementById("multipleInput").click();
-    });
+    uploadCol.innerHTML = `
+        <div class="border rounded d-flex justify-content-center align-items-center"
+             style="height:150px; cursor:pointer;"
+             onclick="document.getElementById('multipleInput').click()">
 
-    uploadCol.appendChild(uploadBox);
+            + Add
+
+        </div>
+    `;
+
     grid.appendChild(uploadCol);
 
-    // Preview images
+ 
+    // EXISTING MEDIA
+
+
+    existingMedia.forEach((media, index) => {
+
+        const col = document.createElement("div");
+
+        col.className = "col-3";
+
+        col.innerHTML = `
+            <div class="position-relative">
+
+                <img src="${media.url}"
+                     class="img-fluid rounded"
+                     style="height:150px;
+                            object-fit:cover;
+                            width:100%;">
+
+                <button type="button"
+                        class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1">
+
+                    ×
+
+                </button>
+
+            </div>
+        `;
+
+        col.querySelector("button")
+            .addEventListener("click", function () {
+
+                removedMediaIds.push(media.mediaId);
+
+                existingMedia.splice(index, 1);
+
+                renderGallery();
+            });
+
+        grid.appendChild(col);
+    });
+
+
+    // NEW FILES
+ 
+
     galleryFiles.forEach((file, index) => {
 
         const reader = new FileReader();
@@ -951,31 +1049,36 @@ function renderGallery() {
         reader.onload = function (event) {
 
             const col = document.createElement("div");
+
             col.className = "col-3";
 
-            const wrapper = document.createElement("div");
-            wrapper.className = "position-relative";
+            col.innerHTML = `
+                <div class="position-relative">
 
-            const img = document.createElement("img");
-            img.src = event.target.result;
-            img.className = "img-fluid rounded";
-            img.style.height = "150px";
-            img.style.objectFit = "cover";
-            img.style.width = "100%";
+                    <img src="${event.target.result}"
+                         class="img-fluid rounded"
+                         style="height:150px;
+                                object-fit:cover;
+                                width:100%;">
 
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "btn btn-sm btn-danger position-absolute top-0 end-0 m-1";
-            btn.innerText = "×";
+                    <button type="button"
+                            class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1">
 
-            btn.addEventListener("click", function () {
-                galleryFiles.splice(index, 1);
-                renderGallery();
-            });
+                        ×
 
-            wrapper.appendChild(img);
-            wrapper.appendChild(btn);
-            col.appendChild(wrapper);
+                    </button>
+
+                </div>
+            `;
+
+            col.querySelector("button")
+                .addEventListener("click", function () {
+
+                    galleryFiles.splice(index, 1);
+
+                    renderGallery();
+                });
+
             grid.appendChild(col);
         };
 
@@ -993,69 +1096,161 @@ async function saveImages() {
 
     const formData = new FormData();
 
-    if (primaryFile)
-        formData.append("Files", primaryFile);
-
-    galleryFiles.forEach(file => {
-        formData.append("Files", file);
-    });
-
-    if (primaryFile)
-        formData.append("PrimaryIndex", 0);
-
     const productId =
         document.getElementById("currentProductId").value;
 
+
+    // NEW FILES
+
+
+    if (primaryFile)
+        formData.append("NewFiles", primaryFile);
+
+    galleryFiles.forEach(file => {
+
+        formData.append("NewFiles", file);
+    });
+
+
+    // EXISTING MEDIA IDS
+
+
+    existingMedia.forEach(media => {
+
+        formData.append(
+            "ExistingMediaIds",
+            media.mediaId
+        );
+    });
+
+    // PRIMARY IMAGE
+
+
+    const primary =
+        existingMedia.find(x => x.isPrimary);
+
+    if (primary) {
+
+        formData.append(
+            "PrimaryMediaId",
+            primary.mediaId
+        );
+    }
+
     try {
 
-        const response = await fetch(`/admin/api/products/${productId}/images`, {
-            method: "POST",
+        // =====================================
+        // POST OR PUT
+        // =====================================
+
+        const endpoint = hasExistingMedia
+            ? `/admin/api/products/${productId}/images`
+            : `/admin/api/products/${productId}/images`;
+
+        const method = hasExistingMedia
+            ? "PUT"
+            : "POST";
+
+        const response = await fetch(endpoint, {
+            method,
             body: formData
         });
 
         if (!response.ok) {
+
             const text = await response.text();
+
             throw new Error(text);
         }
 
-        alert("Images uploaded successfully!");
-        
+        alert("Images saved successfully.");
 
-    } catch (err) {
-        console.error("Upload failed:", err);
-        alert("Upload failed.");
+        location.reload();
+
     }
-    location.reload();
+    catch (err) {
+
+        console.error(err);
+
+        alert("Failed to save images.");
+    }
 }
 
 
-function openUploadMedia(productId) {
+async function openUploadMedia(productId) {
 
     primaryFile = null;
     galleryFiles = [];
 
-    const primaryPreview = document.getElementById("primaryPreview");
-    const primaryPlaceholder = document.getElementById("primaryPlaceholder");
-    const primaryInput = document.getElementById("primaryInput");
+    existingMedia = [];
+    removedMediaIds = [];
+
+    const primaryPreview =
+        document.getElementById("primaryPreview");
+
+    const primaryPlaceholder =
+        document.getElementById("primaryPlaceholder");
+
+    const primaryInput =
+        document.getElementById("primaryInput");
 
     primaryPreview.src = "";
     primaryPreview.classList.add("d-none");
+
     primaryPlaceholder.classList.remove("d-none");
 
     primaryInput.value = "";
 
-    const multipleInput = document.getElementById("multipleInput");
-    multipleInput.value = "";
+    document.getElementById("multipleInput").value = "";
 
-    renderGallery();
+    document.getElementById("currentProductId").value =
+        productId;
 
-    document.getElementById("currentProductId").value = productId;
+    try {
 
-    const modal = new bootstrap.Modal(
-        document.getElementById("mediaModal")
-    );
 
-    modal.show();
+        // GET EXISTING IMAGES
+
+        const response = await fetch(
+            `/admin/api/products/${productId}/images`
+        );
+
+        if (response.ok) {
+
+            existingMedia = await response.json();
+
+            hasExistingMedia =
+                existingMedia.length > 0;
+
+            // SET PRIMARY PREVIEW
+
+
+            const primary =
+                existingMedia.find(x => x.isPrimary);
+
+            if (primary) {
+
+                primaryPreview.src = primary.url;
+
+                primaryPreview.classList.remove("d-none");
+
+                primaryPlaceholder.classList.add("d-none");
+            }
+        }
+
+        renderGallery();
+
+        const modal = new bootstrap.Modal(
+            document.getElementById("mediaModal")
+        );
+
+        modal.show();
+
+    } catch (err) {
+
+        console.error(err);
+        alert("Failed to load media.");
+    }
 }
 
 window.openUploadMedia = openUploadMedia;
@@ -1130,123 +1325,560 @@ document.addEventListener("DOMContentLoaded", function () {
 /////////////////////////////////////////////////////////////////////Edit Product Details /////////////////////////////////////////////////////////////////////////////////////
 
 
-//OPEN EDIT STEP 1 MODAL
-async function productUpdate_openModal(productId) {
+async function openEditProductModal(productId) {
 
     try {
 
-        const response = await fetch(`/admin/api/products/${productId}`);
+        const response = await fetch(
+            `/admin/api/products/summary/${productId}`
+        );
 
-        if (!response.ok)
+        if (!response.ok) {
             throw new Error("Failed to load product.");
+        }
 
-        const p = await response.json();
+        const product = await response.json();
 
-        // Store product ID
-        document.getElementById("editProductId").value = p.id;
-        // Editable
-        document.getElementById("editOriginalPrice").value = p.original_selling_price;
-        document.getElementById("editDiscountType").value = p.discount_type;
-        document.getElementById("editDiscountValue").value = p.discount_value;
-        document.getElementById("editPartNumberA").value = p.part_number_a;
-        document.getElementById("editPartNumberB").value = p.part_number_b;
-        document.getElementById("editReorderLevel").value = p.reorder_level;
-        document.getElementById("editManufacturerWarrantyYears").value = p.manufacturer_warranty_years;
-        document.getElementById("editOutrightReplacementDays").value = p.outright_replacement_days;
-        document.getElementById("editGrossWeightA").value = p.gross_weight_a;
-        document.getElementById("editGrossWeightB").value = p.gross_weight_b;
-        document.getElementById("editArUrl").value = p.ar_url;
+        populateEditModal(product);
 
-        // Open modal
         const modal = new bootstrap.Modal(
-            document.getElementById("editStep1Modal")
+            document.getElementById("editProductModal")
         );
 
         modal.show();
 
-    } catch (err) {
+        // store current editing id
+        document.getElementById("saveProductChangesBtn")
+            .dataset.productId = productId;
+
+    }
+    catch (err) {
         console.error(err);
         alert("Failed to load product.");
     }
 }
 
-// to > edit Technologies
-function goEditTech() {
+function populateEditModal(product) {
 
-    const step1 = bootstrap.Modal.getInstance(
-        document.getElementById("editStep1Modal")
-    );
 
-    step1.hide();
+    // READONLY
 
-    const tech = new bootstrap.Modal(
-        document.getElementById("editTechModal")
-    );
 
-    tech.show();
+    document.getElementById("editSku").value =
+        product.sku ?? "";
+
+    document.getElementById("editManufacturer").value =
+        product.manufacturer ?? "";
+
+    document.getElementById("editFormFactor").value =
+        product.form_factor ?? "";
+
+    document.getElementById("editProductModel").value =
+        product.product_Model ?? "";
+
+    document.getElementById("editProductSeries").value =
+        product.product_Series ?? "";
+
+    document.getElementById("editPartNumberA").value =
+        product.part_Number_A ?? "";
+
+    document.getElementById("editPartNumberB").value =
+        product.part_Number_B ?? "";
+
+    document.getElementById("editReorderLevel").value =
+        product.reorder_level ?? 0;
+
+    document.getElementById("editStatus").value =
+        product.status ?? "";
+
+    document.getElementById("editActualSellingPrice").value =
+        product.actual_Selling_Price ?? 0;
+
+    document.getElementById("editDiscountedSellingPrice").value =
+        product.discounted_Selling_Price ?? 0;
+
+    document.getElementById("editTotalGrossWeight").value =
+        product.total_Gross_Weight ?? 0;
+
+    // EDITABLE
+
+
+    document.getElementById("editOriginalSellingPrice").value =
+        product.original_Selling_Price ?? 0;
+
+    document.getElementById("editDiscountType").value =
+        product.discount_Type ?? "NONE";
+
+    document.getElementById("editDiscountValue").value =
+        product.discount_Value ?? 0;
+
+    document.getElementById("editArUrl").value =
+        product.ar_url ?? "";
+
+    document.getElementById("editWarrantyYears").value =
+        product.manufacturer_Warranty_Years ?? 0;
+
+    document.getElementById("editReplacementDays").value =
+        product.outright_Replacement_Days ?? 0;
+
+    document.getElementById("editGrossWeightA").value =
+        product.gross_Weight_A ?? 0;
+
+    document.getElementById("editGrossWeightB").value =
+        product.gross_Weight_B ?? 0;
+
+
+    // RELATIONS
+
+
+    renderSpecifications(product.specifications);
+    renderTechnologies(product.technologies);
+    renderTags(product.tags);
 }
 
+function renderSpecifications(specifications) {
 
-//////////////////////////////////////////////////////////////// Step 2 Technlogies /////////////////////////////////////////////////////////////////////////////
-function addEditTechnology() {
+    const container = document.getElementById(
+        "specificationsContainer"
+    );
 
-    const nameInput = document.getElementById("editTechName");
-    const descInput = document.getElementById("editTechDesc");
-    const list = document.getElementById("editTechList");
-    const empty = document.getElementById("editTechEmpty");
+    container.innerHTML = "";
 
-    const name = nameInput.value.trim();
-    const desc = descInput.value.trim();
+    specifications.forEach(spec => {
 
-    if (!name) return;
+        container.innerHTML += `
+            <div class="border rounded p-3 mb-2 spec-row">
 
-    editTechnologies.push({ name, description: desc });
+                <div class="row g-2">
 
-    if (empty) empty.remove();
+                    <div class="col-md-5">
+                        <input type="text"
+                               class="form-control spec-key"
+                               value="${spec.key}"
+                               readonly>
+                    </div>
 
-    const li = document.createElement("li");
-    li.className = "list-group-item d-flex justify-content-between align-items-center";
+                    <div class="col-md-5">
+                        <input type="text"
+                               class="form-control spec-value"
+                               value="${spec.value}">
+                    </div>
+                </div>
 
-    li.innerHTML = `
-        <div>
-            <strong>${name}</strong>
-            <div class="small text-muted">${desc}</div>
+            </div>
+        `;
+    });
+}
+
+function renderTechnologies(technologies) {
+
+    const container = document.getElementById(
+        "technologiesContainer"
+    );
+
+    container.innerHTML = "";
+
+    technologies.forEach(tech => {
+
+        container.innerHTML += `
+            <div class="border rounded p-3 mb-2 tech-row">
+
+                <div class="mb-2">
+                    <input type="text"
+                           class="form-control tech-name"
+                           value="${tech.name}">
+                </div>
+
+                <div class="mb-2">
+                    <textarea class="form-control tech-description"
+                              rows="2">${tech.description ?? ""}</textarea>
+                </div>
+
+                <button class="btn btn-danger btn-sm remove-tech-btn">
+                    Remove
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+function renderTags(tags) {
+
+    const input = document.getElementById(
+        "editTagsInput"
+    );
+
+    input.value = tags.join(", ");
+}
+
+document.getElementById("saveProductChangesBtn")
+    .addEventListener("click", async () => {
+
+        try {
+
+            const productId =
+                document.getElementById("saveProductChangesBtn")
+                    .dataset.productId;
+
+            // =====================================
+            // SPECIFICATIONS
+            // =====================================
+
+            const specifications = [];
+
+            document.querySelectorAll(".spec-row")
+                .forEach(row => {
+
+                    const key =
+                        row.querySelector(".spec-key").value;
+
+                    const value =
+                        row.querySelector(".spec-value").value;
+
+                    specifications.push({
+                        key,
+                        value
+                    });
+                });
+
+            // TECHNOLOGIES
+
+
+            const technologies = [];
+
+            document.querySelectorAll(".tech-row")
+                .forEach(row => {
+
+                    technologies.push({
+                        technologyName:
+                            row.querySelector(".tech-name").value,
+
+                        technologyDesc:
+                            row.querySelector(".tech-description").value
+                    });
+                });
+
+
+            // TAGS
+
+
+            const tags = document.getElementById(
+                "editTagsInput"
+            )
+                .value
+                .split(",")
+                .map(x => x.trim())
+                .filter(x => x.length > 0);
+
+            // DTO
+
+
+            const dto = {
+
+                productModel:
+                    document.getElementById("editProductModel").value,
+
+                productSeries:
+                    document.getElementById("editProductSeries").value,
+
+                partNumberA:
+                    document.getElementById("editPartNumberA").value,
+
+                partNumberB:
+                    document.getElementById("editPartNumberB").value,
+
+                originalSellingPrice:
+                    parseFloat(document.getElementById(
+                        "editOriginalSellingPrice").value),
+
+                discountValue:
+                    parseFloat(document.getElementById(
+                        "editDiscountValue").value),
+
+                discountType:
+                    document.getElementById(
+                        "editDiscountType").value,
+
+                arUrl:
+                    document.getElementById(
+                        "editArUrl").value,
+
+                manufacturerWarrantyYears:
+                    parseInt(document.getElementById(
+                        "editWarrantyYears").value),
+
+                outrightReplacementDays:
+                    parseInt(document.getElementById(
+                        "editReplacementDays").value),
+
+                grossWeightA:
+                    parseFloat(document.getElementById(
+                        "editGrossWeightA").value),
+
+                grossWeightB:
+                    parseFloat(document.getElementById(
+                        "editGrossWeightB").value),
+
+                specifications,
+                technologies,
+                tags
+            };
+
+
+            // API CALL
+
+
+            const response = await fetch(
+                `/admin/api/products/${productId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(dto)
+                });
+
+            if (!response.ok) {
+
+                const error = await response.text();
+                throw new Error(error);
+            }
+
+            alert("Product updated successfully.");
+
+            location.reload();
+
+        }
+        catch (err) {
+
+            console.error(err);
+            alert(err.message);
+        }
+    });
+
+
+// ADD TECHNOLOGY
+
+
+document.getElementById("addTechnologyBtn")
+    .addEventListener("click", () => {
+
+        const container = document.getElementById(
+            "technologiesContainer"
+        );
+
+        container.insertAdjacentHTML(
+            "beforeend",
+            `
+            <div class="border rounded p-3 mb-2 tech-row">
+
+                <!-- NAME -->
+                <div class="mb-2">
+
+                    <label class="form-label">
+                        Technology Name
+                    </label>
+
+                    <input type="text"
+                           class="form-control tech-name"
+                           placeholder="Example: EcoTech, Anti-Dust...">
+
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="mb-2">
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    <textarea class="form-control tech-description"
+                              rows="2"
+                              placeholder="Technology description..."></textarea>
+
+                </div>
+
+                <!-- REMOVE -->
+                <div class="text-end">
+
+                    <button type="button"
+                            class="btn btn-danger btn-sm remove-tech-btn">
+
+                        Remove
+
+                    </button>
+
+                </div>
+
+            </div>
+            `
+        );
+    });
+
+
+// REMOVE TECHNOLOGY
+
+document.addEventListener("click", (e) => {
+
+    if (e.target.classList.contains("remove-tech-btn")) {
+
+        e.target
+            .closest(".tech-row")
+            .remove();
+    }
+});
+
+// Ratings
+
+function renderReviews(data) {
+
+    const container =
+        document.getElementById("dReviews");
+
+    // =========================================
+    // EMPTY
+    // =========================================
+
+    if (!data ||
+        !data.ratings ||
+        data.ratings.length === 0) {
+
+        container.innerHTML = `
+            <div class="text-muted">
+                No reviews yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    // =========================================
+    // HEADER SUMMARY
+    // =========================================
+
+    let html = `
+        <div class="review-summary-box mb-4">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div class="review-average-rating">
+                    ${data.averageRating}
+                </div>
+
+                <div>
+
+                    <div class="fw-bold">
+                        ${generateStars(data.averageRating)}
+                    </div>
+
+                    <div class="text-muted small">
+                        ${data.totalReviews} review(s)
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-        <button class="btn btn-sm btn-outline-danger">×</button>
     `;
 
-    li.querySelector("button")
-        .addEventListener("click", function () {
-            li.remove();
-            editTechnologies = editTechnologies.filter(t => t.name !== name);
+    // =========================================
+    // REVIEWS
+    // =========================================
 
-            if (editTechnologies.length === 0) {
-                list.innerHTML = `
-                    <li id="editTechEmpty"
-                        class="list-group-item text-muted">
-                        No technologies added yet
-                    </li>
-                `;
+    data.ratings.forEach(review => {
+
+        html += `
+            <div class="review-card">
+
+                <div class="d-flex justify-content-between align-items-start mb-2">
+
+                    <div>
+
+                        <div class="fw-semibold">
+                            ${review.customerName}
+                        </div>
+
+                        <div class="small text-muted">
+                            ${formatReviewDate(review.createdAt)}
+                        </div>
+
+                    </div>
+
+                    <div class="review-stars">
+                        ${generateStars(review.rating)}
+                    </div>
+
+                </div>
+
+                ${review.comment
+                ? `
+                        <div class="review-comment">
+                            ${review.comment}
+                        </div>
+                    `
+                : ""
             }
+
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
+
+function generateStars(rating) {
+
+    const rounded = Math.round(rating);
+
+    let stars = "";
+
+    for (let i = 1; i <= 5; i++) {
+
+        stars += i <= rounded
+            ? "⭐"
+            : "☆";
+    }
+
+    return stars;
+}
+
+function formatReviewDate(dateString) {
+
+    return new Date(dateString)
+        .toLocaleDateString("en-PH", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
         });
-
-    list.appendChild(li);
-
-    nameInput.value = "";
-    descInput.value = "";
 }
-function goEditSpec() {
 
-    const tech = bootstrap.Modal.getInstance(
-        document.getElementById("editTechModal")
-    );
+async function loadProductReviews(productId) {
 
-    tech.hide();
+    try {
 
-    const spec = new bootstrap.Modal(
-        document.getElementById("editSpecModal")
-    );
+        const reviewsResponse = await fetch(
+            `/admin/api/products/customer-transaction-ratings/product/${productId}`
+        );
 
-    spec.show();
+        if (!reviewsResponse.ok)
+            throw new Error("Failed to load reviews.");
+
+        const reviewsData =
+            await reviewsResponse.json();
+
+        renderReviews(reviewsData);
+
+    }
+    catch (err) {
+
+        console.error(err);
+
+        document.getElementById("dReviews").innerHTML = `
+            <div class="text-danger">
+                Failed to load reviews.
+            </div>
+        `;
+    }
 }
-/////////////////////////////////////////////// Step 3 Specifications ////////////////////////////////////////////////

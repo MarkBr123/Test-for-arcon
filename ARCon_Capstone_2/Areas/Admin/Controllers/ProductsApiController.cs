@@ -650,83 +650,396 @@ public class ProductsApiController : ControllerBase
 
 
 
-
-
-
+    //Update Product
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateDto dto)
+    public async Task<IActionResult> EditProduct(int id, [FromBody] EditProductDto dto)
     {
-        decimal actualSellingPrice;
-        decimal discountedSellingPrice;
+        // VALIDATION
+        // =========================================
+        // REQUIRED TEXT FIELDS
+        // =========================================
 
-        var discountType = (dto.Discount_Type ?? "NONE").Trim().ToUpper();
+        if (string.IsNullOrWhiteSpace(dto.ProductModel))
+            return BadRequest("Product model is required.");
 
-        switch (discountType)
+        if (string.IsNullOrWhiteSpace(dto.ProductSeries))
+            return BadRequest("Product series is required.");
+
+        if (string.IsNullOrWhiteSpace(dto.PartNumberA))
+            return BadRequest("Part number A is required.");
+
+        if (dto.OriginalSellingPrice <= 0)
         {
-            case "NONE":
-                actualSellingPrice = dto.Original_Selling_Price;
-                discountedSellingPrice = 0;
-                break;
-
-            case "PERCENTAGE":
-                if (dto.Discount_Value <= 0 || dto.Discount_Value > 100)
-                    return BadRequest("Invalid discount percentage.");
-
-                actualSellingPrice =
-                    dto.Original_Selling_Price -
-                    (dto.Original_Selling_Price * dto.Discount_Value / 100m);
-                discountedSellingPrice = actualSellingPrice;
-
-                break;
-
-            case "AMOUNT":
-                if (dto.Discount_Value <= 0)
-                    return BadRequest("Invalid discount amount.");
-
-                if (dto.Discount_Value >= dto.Original_Selling_Price)
-                    return BadRequest("Discount amount cannot exceed original price.");
-
-                actualSellingPrice =
-                    dto.Original_Selling_Price - dto.Discount_Value;
-                discountedSellingPrice = actualSellingPrice;
-                break;
-
-            default:
-                return BadRequest($"Invalid discount type: '{dto.Discount_Type}'");
+            return BadRequest(
+                "Original selling price must be greater than 0."
+            );
         }
 
-        //Any external link MUST include the protocol
-        if (!string.IsNullOrWhiteSpace(dto.Ar_url) &&
-            !dto.Ar_url.StartsWith("http://") &&
-            !dto.Ar_url.StartsWith("https://"))
+        if (dto.DiscountValue < 0)
         {
-            dto.Ar_url = "https://" + dto.Ar_url;
+            return BadRequest(
+                "Discount value cannot be negative."
+            );
         }
-        var product = await _context.products.FindAsync(id);
-        if (product == null) return NotFound();
 
-        //editable fields
-        product.part_number_a = dto.Part_Number_A;
-        product.part_number_b = dto.Part_Number_B;
-        product.status = dto.Status;
-        product.original_selling_price = dto.Original_Selling_Price;
-        product.discounted_selling_price = discountedSellingPrice;
-        product.discount_type = discountType;
-        product.discount_value = dto.Discount_Value;
-        product.isdiscounted = dto.IsDiscounted;
-        product.has_installation_service = dto.Has_Installation_Service;
-        product.actual_selling_price = actualSellingPrice;
-        product.ar_url = dto.Ar_url;
-        product.manufacturer_warranty_years = dto.Manufacturer_Warranty_Years;
-        product.outright_replacement_days = dto.Outright_Replacement_Days;
-        product.gross_weight_a = dto.Gross_Weight_A;
-        product.gross_weight_b = dto.Gross_Weight_B;
-        product.total_gross_weight = Math.Round((dto.Gross_Weight_A ?? 0m) + (dto.Gross_Weight_B ?? 0m), 2, MidpointRounding.AwayFromZero);
-        product.updated_at = DateTime.UtcNow;
-        product.reorder_level = dto.ReorderLevel;
 
-        await _context.SaveChangesAsync();
-        return Ok();
+        var discountType = (dto.DiscountType ?? "NONE")
+            .Trim()
+            .ToUpper();
+
+        if (discountType != "NONE" &&
+            discountType != "PERCENTAGE" &&
+            discountType != "AMOUNT")
+        {
+            return BadRequest("Invalid discount type.");
+        }
+
+        if (discountType == "PERCENTAGE")
+        {
+            if (dto.DiscountValue <= 0 ||
+                dto.DiscountValue > 100)
+            {
+                return BadRequest(
+                    "Discount percentage must be between 1 and 100."
+                );
+            }
+        }
+
+        if (discountType == "AMOUNT")
+        {
+            if (dto.DiscountValue <= 0)
+            {
+                return BadRequest(
+                    "Discount amount must be greater than 0."
+                );
+            }
+
+            if (dto.DiscountValue >= dto.OriginalSellingPrice)
+            {
+                return BadRequest(
+                    "Discount amount cannot exceed original selling price."
+                );
+            }
+        }
+
+
+        if (dto.GrossWeightA < 0)
+        {
+            return BadRequest(
+                "Gross weight A cannot be negative."
+            );
+        }
+
+        if (dto.GrossWeightB < 0)
+        {
+            return BadRequest(
+                "Gross weight B cannot be negative."
+            );
+        }
+
+        if (dto.ManufacturerWarrantyYears < 0)
+        {
+            return BadRequest(
+                "Manufacturer warranty years cannot be negative."
+            );
+        }
+
+        if (dto.OutrightReplacementDays < 0)
+        {
+            return BadRequest(
+                "Outright replacement days cannot be negative."
+            );
+        }
+
+
+        if (dto.Technologies != null)
+        {
+            foreach (var tech in dto.Technologies)
+            {
+                if (string.IsNullOrWhiteSpace(
+                    tech.TechnologyName))
+                {
+                    return BadRequest(
+                        "Technology name is required."
+                    );
+                }
+            }
+        }
+
+        if (dto.Specifications != null)
+        {
+            foreach (var spec in dto.Specifications)
+            {
+                if (string.IsNullOrWhiteSpace(spec.Value))
+                {
+                    return BadRequest(
+                        "Specification value is required."
+                    );
+                }
+            }
+        }
+
+        if (dto.Tags != null)
+        {
+            foreach (var tag in dto.Tags)
+            {
+                if (string.IsNullOrWhiteSpace(tag))
+                {
+                    return BadRequest(
+                        "Tag cannot be empty."
+                    );
+                }
+            }
+        }
+
+        using var tx = await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+            var product = await _context.products
+                .FirstOrDefaultAsync(p => p.id == id);
+
+            if (product == null)
+                return NotFound("Product not found.");
+
+            // PRICE VALIDATION
+            if (dto.OriginalSellingPrice <= 0)
+                return BadRequest("Original selling price must be greater than 0.");
+
+            if (dto.DiscountValue < 0)
+                return BadRequest("Discount value cannot be negative.");
+
+            // WEIGHT VALIDATION
+            if (dto.GrossWeightA < 0 || dto.GrossWeightB < 0)
+                return BadRequest("Gross weight cannot be negative.");
+
+            // WARRANTY VALIDATION
+            if (dto.ManufacturerWarrantyYears < 0)
+                return BadRequest("Warranty years cannot be negative.");
+
+            if (dto.OutrightReplacementDays < 0)
+                return BadRequest("Replacement days cannot be negative.");
+
+
+            decimal actualSellingPrice;
+            decimal discountedSellingPrice;
+
+            // COMPUTE PRICE
+            switch (discountType)
+            {
+                case "NONE":
+                    actualSellingPrice = dto.OriginalSellingPrice;
+                    discountedSellingPrice = 0;
+                    break;
+
+                case "PERCENTAGE":
+                    if (dto.DiscountValue <= 0 || dto.DiscountValue > 100)
+                        return BadRequest("Invalid discount percentage.");
+
+                    actualSellingPrice =
+                        dto.OriginalSellingPrice -
+                        (dto.OriginalSellingPrice * dto.DiscountValue / 100m);
+
+                    discountedSellingPrice = actualSellingPrice;
+                    break;
+
+                case "AMOUNT":
+                    if (dto.DiscountValue <= 0 ||
+                        dto.DiscountValue >= dto.OriginalSellingPrice)
+                    {
+                        return BadRequest("Invalid discount amount.");
+                    }
+
+                    actualSellingPrice =
+                        dto.OriginalSellingPrice - dto.DiscountValue;
+
+                    discountedSellingPrice = actualSellingPrice;
+                    break;
+
+                default:
+                    return BadRequest("Invalid discount type.");
+            }
+
+            // NORMALIZE URL
+            if (!string.IsNullOrWhiteSpace(dto.ArUrl) &&
+                !dto.ArUrl.StartsWith("http://") &&
+                !dto.ArUrl.StartsWith("https://"))
+            {
+                dto.ArUrl = "https://" + dto.ArUrl;
+            }
+
+            // UPDATE PRODUCT
+
+            product.product_model = dto.ProductModel.ToUpper();
+            product.product_series = dto.ProductSeries.ToUpper();
+            product.part_number_a = dto.PartNumberA.ToUpper();
+            product.part_number_b = dto.PartNumberB?.ToUpper();
+            product.original_selling_price = dto.OriginalSellingPrice;
+            product.discounted_selling_price = discountedSellingPrice;
+            product.discount_type = discountType;
+            product.discount_value = dto.DiscountValue;
+            product.actual_selling_price = actualSellingPrice;
+
+            product.ar_url = dto.ArUrl;
+
+            product.manufacturer_warranty_years =
+                dto.ManufacturerWarrantyYears;
+
+            product.outright_replacement_days =
+                dto.OutrightReplacementDays;
+
+            product.gross_weight_a = dto.GrossWeightA;
+            product.gross_weight_b = dto.GrossWeightB;
+
+            product.total_gross_weight =
+                dto.GrossWeightA + dto.GrossWeightB;
+
+            product.updated_at = DateTime.UtcNow;
+
+
+            //  REPLACE SPECIFICATIONS
+
+
+            var existingSpecifications =
+                _context.technical_specifications
+                    .Where(x => x.product_id == id);
+
+            _context.technical_specifications
+                .RemoveRange(existingSpecifications);
+
+            if (dto.Specifications != null)
+            {
+                foreach (var s in dto.Specifications)
+                {
+                    // skip empty values
+                    if (string.IsNullOrWhiteSpace(s.Value))
+                        continue;
+
+                    int keyId = s.KeyId;
+
+                    // 🔹 fallback lookup by key name
+                    if (keyId <= 0 && !string.IsNullOrWhiteSpace(s.Key))
+                    {
+                        keyId = await _context.specification_keys
+                            .Where(x => x.keyname == s.Key)
+                            .Select(x => x.id)
+                            .FirstOrDefaultAsync();
+                    }
+
+                    // skip if still invalid
+                    if (keyId <= 0)
+                        continue;
+
+                    _context.technical_specifications.Add(
+                        new technical_specification
+                        {
+                            product_id = id,
+                            key_id = keyId,
+                            value = s.Value
+                        });
+                }
+            }
+
+            // REPLACE TAGS
+
+
+            var existingTags = _context.product_tags
+                .Where(x => x.product_id == id);
+
+            _context.product_tags.RemoveRange(existingTags);
+
+            if (dto.Tags != null)
+            {
+                foreach (var raw in dto.Tags.Distinct())
+                {
+                    if (string.IsNullOrWhiteSpace(raw))
+                        return BadRequest("Invalid tag.");
+
+                    var name = raw.Trim().ToUpper();
+
+                    var tag = await _context.tags
+                        .FirstOrDefaultAsync(x => x.tag_name == name);
+
+                    if (tag == null)
+                    {
+                        tag = new tag
+                        {
+                            tag_name = name
+                        };
+
+                        _context.tags.Add(tag);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    _context.product_tags.Add(new product_tag
+                    {
+                        product_id = id,
+                        tag_id = tag.id
+                    });
+                }
+            }
+
+            // REPLACE TECHNOLOGIES
+
+            var existingTechnologies =
+                _context.product_technologies
+                    .Where(x => x.product_id == id);
+
+            _context.product_technologies
+                .RemoveRange(existingTechnologies);
+
+            if (dto.Technologies != null)
+            {
+                foreach (var t in dto.Technologies)
+                {
+                    if (string.IsNullOrWhiteSpace(t.TechnologyName))
+                        return BadRequest("Technology name is required.");
+
+                    var name = t.TechnologyName
+                        .Trim()
+                        .ToUpper();
+
+                    var tech = await _context.technology_types
+                        .FirstOrDefaultAsync(x =>
+                            x.technology_name == name);
+
+                    if (tech == null)
+                    {
+                        tech = new technology_type
+                        {
+                            technology_name = name,
+                            technology_desc = t.TechnologyDesc
+                        };
+
+                        _context.technology_types.Add(tech);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    _context.product_technologies
+                        .Add(new product_technology
+                        {
+                            product_id = id,
+                            technology_id = tech.id
+                        });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            await tx.CommitAsync();
+
+            return Ok(new
+            {
+                message = "Product updated successfully."
+            });
+        }
+        catch (Exception)
+        {
+            await tx.RollbackAsync();
+
+            return BadRequest(
+                "Something went wrong while updating the product."
+            );
+        }
     }
 
 
@@ -860,7 +1173,13 @@ public class ProductsApiController : ControllerBase
 
 
 
-    //upload media
+
+    /// Medias // <summary>
+    ///Medias //
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="dto"></param>
+    /// <returns></returns>upload media
     [HttpPost("{id}/images")]
     public async Task<IActionResult> UploadImages(
        int id,
@@ -955,5 +1274,236 @@ public class ProductsApiController : ControllerBase
             await transaction.RollbackAsync();
             return StatusCode(500, ex.Message);
         }
+    }
+
+    [HttpGet("{id}/images")]
+    public async Task<IActionResult> GetProductImages(int id)
+    {
+        var productExists = await _context.products
+            .AnyAsync(x => x.id == id);
+
+        if (!productExists)
+            return NotFound("Product not found.");
+
+        var images = await _context.products_medias
+            .Where(x => x.product_id == id)
+            .Select(x => new
+            {
+                mediaId = x.media.id,
+                url = x.media.url,
+                isPrimary = x.is_primary
+            })
+            .ToListAsync();
+
+        return Ok(images);
+    }
+
+    [HttpPut("{id}/images")]
+    public async Task<IActionResult> EditImages(
+    int id,
+    [FromForm] EditProductImagesDto dto)
+    {
+        var product = await _context.products
+            .Include(x => x.products_media)
+            .ThenInclude(x => x.media)
+            .FirstOrDefaultAsync(x => x.id == id);
+
+        if (product == null)
+            return NotFound("Product not found.");
+
+        using var tx = await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+
+            // DELETE REMOVED IMAGES
+
+
+            var imagesToDelete = product.products_media
+                .Where(x => dto.ExistingMediaIds
+                    == null ||
+                    !dto.ExistingMediaIds.Contains(x.media_id))
+                .ToList();
+
+            foreach (var img in imagesToDelete)
+            {
+                // cloudinary delete
+                if (!string.IsNullOrWhiteSpace(img.media.public_id))
+                {
+                    await _cloudinary.DestroyAsync(
+                        new DeletionParams(img.media.public_id)
+                    );
+                }
+
+                _context.products_medias.Remove(img);
+                _context.media_urls.Remove(img.media);
+            }
+
+
+            // UPLOAD NEW FILES
+
+
+            if (dto.NewFiles != null)
+            {
+                foreach (var file in dto.NewFiles)
+                {
+                    await using var stream =
+                        file.OpenReadStream();
+
+                    var uploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(
+                            file.FileName,
+                            stream
+                        ),
+
+                        Folder = "products",
+                        UseFilename = true,
+                        UniqueFilename = true,
+                        Overwrite = false
+                    };
+
+                    var uploadResult =
+                        await _cloudinary.UploadAsync(uploadParams);
+
+                    if (uploadResult.Error != null)
+                        throw new Exception(uploadResult.Error.Message);
+
+                    var media = new media_url
+                    {
+                        url = uploadResult.Url.ToString(),
+                        secure_id = uploadResult.SecureUrl.ToString(),
+                        public_id = uploadResult.PublicId,
+                        folder = "products",
+                        file_name = file.FileName,
+                        mime_type = file.ContentType,
+                        file_size = file.Length,
+                        storage_provider = "cloudinary",
+                        created_at = DateTime.UtcNow,
+                        is_deleted = false
+                    };
+
+                    _context.media_urls.Add(media);
+                    await _context.SaveChangesAsync();
+
+                    _context.products_medias.Add(
+                        new products_media
+                        {
+                            product_id = id,
+                            media_id = media.id,
+                            is_primary = false
+                        });
+                }
+            }
+
+
+            // UPDATE PRIMARY
+
+
+            var allImages = await _context.products_medias
+                .Where(x => x.product_id == id)
+                .ToListAsync();
+
+            foreach (var img in allImages)
+            {
+                img.is_primary =
+                    img.media_id == dto.PrimaryMediaId;
+            }
+
+            await _context.SaveChangesAsync();
+            await tx.CommitAsync();
+
+            return Ok(new
+            {
+                message = "Images updated successfully."
+            });
+        }
+        catch (Exception ex)
+        {
+            await tx.RollbackAsync();
+
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+    //Product ratings
+
+    /// <summary>
+    /// Get all posted ratings for a product
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <returns></returns>
+    [HttpGet("customer-transaction-ratings/product/{productId}")]
+    public async Task<IActionResult> GetProductRatings(int productId)
+    {
+        if (productId <= 0)
+            return BadRequest("Invalid product id.");
+
+        var productExists = await _context.products
+            .AnyAsync(x => x.id == productId);
+
+        if (!productExists)
+            return NotFound("Product not found.");
+
+        // =========================================
+        // GET RATINGS
+        // =========================================
+
+        var ratings = await _context.customer_ratings
+
+            .Where(r =>
+                r.product_id == productId &&
+                r.isposted == true)
+
+            .Join(
+                _context.customers,
+
+                rating => rating.customer_id,
+                customer => customer.id,
+
+                (rating, customer) => new
+                {
+                    ratingId = rating.id,
+
+                    customerId = customer.id,
+
+                    customerName =
+                        customer.first_name + " " +
+                        customer.last_name,
+
+                    rating = rating.rating,
+
+                    comment = rating.comment,
+
+                    createdAt = rating.created_at
+                })
+
+            .OrderByDescending(x => x.createdAt)
+
+            .ToListAsync();
+
+        // =========================================
+        // SUMMARY
+        // =========================================
+
+        var totalReviews = ratings.Count;
+
+        var averageRating = totalReviews > 0
+            ? Math.Round(
+                ratings.Average(x => x.rating),
+                1)
+            : 0;
+
+        return Ok(new
+        {
+            productId,
+
+            totalReviews,
+
+            averageRating,
+
+            ratings
+        });
     }
 }

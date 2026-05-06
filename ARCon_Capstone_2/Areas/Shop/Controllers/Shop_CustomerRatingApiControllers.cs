@@ -107,7 +107,7 @@ public class Shop_CustomerRatingApiControllers : ControllerBase
                 delivery_item_id = dto.deliveryItemId,
                 rating = dto.rating,
                 comment = string.IsNullOrWhiteSpace(dto.comment) ? null : dto.comment.Trim(),
-                isposted = false // explicit for moderation
+                isposted = true
             };
 
             _context.customer_ratings.Add(rating);
