@@ -420,3 +420,16 @@ body {
         padding: 20px;
     }
 }
+
+.repair-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+.repair-form-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+}

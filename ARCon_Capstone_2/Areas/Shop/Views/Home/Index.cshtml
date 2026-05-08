@@ -294,6 +294,71 @@
         </div>
     </div>
 </section>
+<!-- FAQ Section -->
+<section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-container">
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                What types of aircon services do you offer?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>We offer a complete range of aircon services including Cleaning, Repair, Freon Charging, and Installation for all major brands and types of air conditioning units.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                How often should I get my aircon serviced?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>For optimal performance, we recommend cleaning every 3-4 months and a full maintenance check at least twice a year. Regular servicing extends the life of your unit and reduces electricity consumption.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                Do you offer warranty on your services?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Yes! All our services come with a 90-day service warranty. Replacement parts have their own manufacturer warranty for your peace of mind.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                What areas do you serve?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>We serve the entire Metro Manila area and select nearby provinces. You can check our service coverage during the booking process.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                How do I book a service?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Simply click the "Book Now" button on any service card, fill out the service request form, and our team will confirm your schedule within 24 hours.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                Are your technicians certified?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Absolutely! All our technicians are fully certified, trained, and experienced in handling all types of air conditioning units from major brands.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="bottom-note">
     <p>AIR-CON: offers high-quality products with fast and reliable services!</p>
@@ -335,5 +400,20 @@
 </div> *@
 
 <!--<script src="~/js/dashboard.js"></script>-->
+<script>
+    function toggleFaq(button) {
+        var faqItem = button.closest('.faq-item');
+        var isActive = faqItem.classList.contains('active');
+
+        var allFaqs = document.querySelectorAll('.faq-item');
+        for (var i = 0; i < allFaqs.length; i++) {
+            allFaqs[i].classList.remove('active');
+        }
+
+        if (!isActive) {
+            faqItem.classList.add('active');
+        }
+    }
+</script>
 <script src="~/js/shop_js/shop_home_five_bestdeal_cards.js"></script>
 <script src="~/js/shop_js/shop_home_ten_products_card.js"></script>
