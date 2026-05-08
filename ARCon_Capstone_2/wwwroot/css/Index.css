@@ -118,7 +118,7 @@ body {
     gap: 40px;
 }
 
-    /* Remove default button styling */
+    
     #tb #b1,
     #tb #b2,
     #tb #b3 {
@@ -235,13 +235,13 @@ body {
 .banner-img {
     width: 100%;
     overflow: hidden;
-    border-radius: 16px; /* moved here to apply uniformly */
+    border-radius: 16px; 
 }
 
     .banner-img img {
         width: 100%;
-        height: 100%; /* fill the container */
-        object-fit: cover; /* crop to fill */
+        height: 100%; 
+        object-fit: cover; 
         display: block;
         border-radius: inherit;
     }
@@ -1440,7 +1440,7 @@ cart-btn:hover .cart-btn i {
     }
 }
 
-/* ===== NEW SERVICES SECTION STYLES (ADDED AT THE END) ===== */
+/* Services */
 .services-hero {
     display: flex;
     align-items: center;
