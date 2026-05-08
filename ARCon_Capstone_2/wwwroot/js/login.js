@@ -27,10 +27,10 @@
     });
 
     // Show / hide password
-    if (toggle) {
-        toggle.addEventListener("click", () => {
-            password.type =
-                password.type === "password" ? "text" : "password";
-        });
-    }
+    //if (toggle) {
+    //    toggle.addEventListener("click", () => {
+    //        password.type =
+    //            password.type === "password" ? "text" : "password";
+    //    });
+    //}
 });
