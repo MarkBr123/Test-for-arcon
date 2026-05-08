@@ -141,6 +141,10 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<service_rating> service_ratings { get; set; }
 
+    public virtual DbSet<service_warranty_booking> service_warranty_bookings { get; set; }
+
+    public virtual DbSet<service_warranty_attachment> service_warranty_attachments { get; set; }
+
     //end manually added
 
     public virtual DbSet<work_schedule> work_schedules { get; set; }
@@ -564,6 +568,69 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
+        modelBuilder.Entity<service_warranty_booking>(entity =>
+        {
+            entity.HasKey(x => x.id);
+
+            entity.Property(x => x.complaint)
+                .IsRequired();
+
+            entity.Property(x => x.status)
+                .HasMaxLength(30)
+                .HasDefaultValue("PENDING_REVIEW");
+
+            entity.Property(x => x.is_repeat_issue)
+                .HasDefaultValue(false);
+
+            entity.Property(x => x.created_at)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+            entity.HasOne(x => x.service_booking)
+                .WithMany(x => x.service_warranty_bookings)
+                .HasForeignKey(x => x.service_booking_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(x => x.customer)
+                .WithMany(x => x.service_warranty_bookings)
+                .HasForeignKey(x => x.customer_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(x => x.service_warranty_attachments)
+                .WithOne(x => x.service_warranty_booking)
+                .HasForeignKey(x => x.service_warranty_booking_id)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+
+        modelBuilder.Entity<service_warranty_attachment>(entity =>
+        {
+            entity.HasKey(x => x.id);
+
+            entity.Property(x => x.file_name)
+                .IsRequired();
+
+            entity.Property(x => x.file_path)
+                .IsRequired();
+
+            entity.Property(x => x.file_type)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            entity.Property(x => x.created_at)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+            /* =========================
+               Relationships
+            ========================= */
+
+            entity.HasOne(x => x.service_warranty_booking)
+                .WithMany(x => x.service_warranty_attachments)
+                .HasForeignKey(x => x.service_warranty_booking_id)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
 
 
 
@@ -762,6 +829,12 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasForeignKey(r => r.customer_id)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("customer_ratings_customer_id_fkey");
+
+            modelBuilder.Entity<service_warranty_booking>()
+                .HasOne(x => x.customer)
+                .WithMany(x => x.service_warranty_bookings)
+                .HasForeignKey(x => x.customer_id)
+                .OnDelete(DeleteBehavior.Cascade);
 
         });
 
@@ -1203,6 +1276,11 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("service_bookings_customer_id_fkey");
 
+            modelBuilder.Entity<service_warranty_booking>()
+                .HasOne(x => x.service_booking)
+                .WithMany(x => x.service_warranty_bookings)
+                .HasForeignKey(x => x.service_booking_id)
+                .OnDelete(DeleteBehavior.Cascade);
 
         });
 

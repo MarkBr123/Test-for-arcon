@@ -799,7 +799,7 @@ function saveProduct() {
 
             const originalPrice = parseFloat(productDraft.originalSellingPrice);
 
-            if (value >= originalSellingPrice) {
+            if (value >= originalPrice) {
                 alert("Discount amount cannot exceed or match original selling price.");
                 return;
             }

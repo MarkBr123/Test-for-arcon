@@ -76,4 +76,6 @@ public partial class customer
     public virtual ICollection<customer_rating> customer_ratings { get; set; }
     [InverseProperty("customer")]
     public virtual ICollection<service_rating> service_ratings { get; set; } = new List<service_rating>();
+    [InverseProperty("customer")]
+    public virtual ICollection<service_warranty_booking> service_warranty_bookings { get; set; } = new List<service_warranty_booking>();
 }

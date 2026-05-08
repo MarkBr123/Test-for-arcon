@@ -78,4 +78,7 @@ public class service_booking
         = new List<service_transaction>();
 
     public virtual ICollection<service_rating> service_ratings { get; set; } = new List<service_rating>();
+
+    public virtual ICollection<service_warranty_booking>
+    service_warranty_bookings { get; set; } = new List<service_warranty_booking>();
 }

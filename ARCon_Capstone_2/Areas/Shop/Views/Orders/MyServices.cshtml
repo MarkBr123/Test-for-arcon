@@ -430,4 +430,256 @@
     </div>
 </div>
 
+<!--Toast-->
+<div id="toastContainer"
+     class="position-fixed top-0 end-0 p-3"
+     style="z-index: 9999;">
+</div>
+
+
+<!-- Warranty Claim Modal -->
+<div class="modal fade" id="warrantyClaimModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- Header -->
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <h5 class="modal-title fw-bold d-flex align-items-center gap-2">
+                        <i class="bi bi-shield-check text-success"></i>
+                        Warranty Claim
+                    </h5>
+
+                    <small class="text-muted">
+                        Submit a warranty reservice request.
+                    </small>
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body pt-3">
+
+                <input type="hidden" id="warrantyBookingId">
+
+                <!-- Complaint -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Complaint / Issue
+                    </label>
+
+                    <textarea class="form-control"
+                              id="warrantyComplaint"
+                              rows="4"
+                              placeholder="Describe the issue you're experiencing..."></textarea>
+                </div>
+
+                <!-- Preferred Schedule -->
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            Preferred Date
+                        </label>
+
+                        <input type="date"
+                               class="form-control"
+                               id="warrantyPreferredDate">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            Preferred Time
+                        </label>
+
+                        <input type="time"
+                               class="form-control"
+                               id="warrantyPreferredTime">
+                    </div>
+
+                </div>
+
+                <!-- Upload -->
+                <div class="mb-3">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="form-label fw-semibold mb-0">
+                            Attachments
+                        </label>
+
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary"
+                                onclick="document.getElementById('warrantyFiles').click()">
+
+                            <i class="bi bi-plus-lg"></i>
+                            Add Image / Video
+                        </button>
+                    </div>
+
+                    <!-- Hidden File Input -->
+                    <input type="file"
+                           id="warrantyFiles"
+                           class="d-none"
+                           multiple
+                           accept="image/*,video/*">
+
+                    <!-- Preview Container -->
+                    <div id="warrantyPreviewContainer"
+                         class="d-flex flex-wrap gap-2">
+                    </div>
+
+                    <small class="text-muted">
+                        Supports images and videos up to 20MB total.
+                    </small>
+
+                </div>
+
+                <!-- Reminder -->
+                <div class="alert alert-light border d-flex gap-2 align-items-start small">
+                    <i class="bi bi-info-circle text-primary mt-1"></i>
+
+                    <div>
+                        Our support team may contact you first to help
+                        troubleshoot the issue before scheduling a technician revisit.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer border-0 pt-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="button"
+                        class="btn btn-success px-4"
+                        onclick="submitWarrantyClaim()">
+
+                    <i class="bi bi-send-check"></i>
+                    Submit Claim
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Global Loading Overlay -->
+<div id="loadingOverlay"
+     style="display:none;">
+
+    <div class="loading-overlay-backdrop"></div>
+
+    <div class="loading-overlay-content">
+
+        <div class="spinner-border text-light"
+             role="status"
+             style="width:4rem;height:4rem;">
+        </div>
+
+        <div class="mt-3 text-white fw-semibold">
+            Submitting warranty claim...
+        </div>
+
+    </div>
+</div>
+
+<!-- Warranty Success Modal -->
+<div class="modal fade"
+     id="warrantySuccessModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+
+            <!-- Top Accent -->
+            <div style="
+                height:6px;
+                background:linear-gradient(
+                    90deg,
+                    #22c55e,
+                    #16a34a
+                );
+            "></div>
+
+            <div class="modal-body p-5 text-center">
+
+                <!-- Success Icon -->
+                <div class="mb-4">
+
+                    <div class="success-icon-wrapper mx-auto">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                </div>
+
+                <!-- Title -->
+                <h3 class="fw-bold mb-2">
+                    Warranty Claim Submitted
+                </h3>
+
+                <!-- Description -->
+                <p class="text-muted mb-4">
+
+                    Your warranty request has been successfully submitted.
+
+                    Our customer support team may first contact you
+                    to troubleshoot the issue before scheduling a
+                    technician revisit.
+
+                </p>
+
+                <!-- Info Box -->
+                <div class="alert border-0 rounded-4 text-start small mb-4"
+                     style="
+                        background:#f6fef8;
+                        color:#166534;
+                     ">
+
+                    <div class="d-flex gap-2">
+
+                        <i class="bi bi-info-circle-fill mt-1"></i>
+
+                        <div>
+
+                            You can track the status of your warranty
+                            request in your service history.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-center gap-2">
+
+                    <button type="button"
+                            class="btn btn-success px-4 rounded-pill"
+                            data-bs-dismiss="modal">
+
+                        <i class="bi bi-check2-circle me-1"></i>
+                        Okay
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/js/shop_js/shop_my-services.js"></script>

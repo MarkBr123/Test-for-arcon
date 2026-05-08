@@ -894,21 +894,42 @@ function renderCompletedServices(data) {
                 </div>
 
                 <div class="order-footer-new">
-                    <button class="btn btn-sm btn-primary"
-                        onclick="openServiceDetails(${service.bookingId})">
-                        View Details
-                    </button>
 
-                    ${isRated
-                ? `<span class="text-success fw-semibold d-flex align-items-center gap-1">
-                                ✔ Rated ${renderStars(ratingValue)}
-                           </span>`
-                : `<button class="btn btn-sm btn-warning"
-                                onclick="openSetRating(${service.bookingId})">
-                                ⭐ Rate Service
-                           </button>`
-            }
-                </div>
+            <!-- Actions -->
+            <div class="d-flex flex-wrap gap-2 align-items-center mt-2">
+
+                <!-- View Details -->
+                <button class="btn btn-sm btn-outline-primary"
+                    onclick="openServiceDetails(${service.bookingId})">
+                    <i class="bi bi-eye"></i>
+                    View Details
+                </button>
+
+                <!-- Warranty Claim -->
+                <button class="btn btn-sm btn-outline-success"
+                    onclick="openWarrantyClaim(${service.bookingId})">
+                    <i class="bi bi-shield-check"></i>
+                    Warranty Claim
+                </button>
+
+                <!-- Rating -->
+                ${isRated
+                            ? `
+                    <span class="text-success fw-semibold d-flex align-items-center gap-1">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Rated ${renderStars(ratingValue)}
+                    </span>
+                    `
+                : `
+        <button class="btn btn-sm btn-warning"
+            onclick="openSetRating(${service.bookingId})">
+            <i class="bi bi-star-fill"></i>
+            Rate Service
+        </button>
+        `
+    }
+
+</div>
 
             </div>
         `;
@@ -1669,7 +1690,7 @@ document.getElementById("submitRatingBtn").addEventListener("click", async () =>
         btn.disabled = false;
     }
 
-    location.reload();
+
 });
 
 //Close modal safely
@@ -1714,4 +1735,511 @@ function hideRatingAlert() {
 
     alertBox.classList.add("d-none");
     alertBox.textContent = "";
+}
+
+
+///Service Warranty Part
+
+// =========================
+// Open Warranty Claim Modal
+// =========================
+function openWarrantyClaim(serviceBookingId) {
+
+    // Store booking id
+    document.getElementById("warrantyBookingId").value = serviceBookingId;
+
+    // Reset fields
+    document.getElementById("warrantyComplaint").value = "";
+    document.getElementById("warrantyPreferredDate").value = "";
+    document.getElementById("warrantyPreferredTime").value = "";
+
+    // Open modal
+    const modal = new bootstrap.Modal(
+        document.getElementById("warrantyClaimModal")
+    );
+
+    modal.show();
+}
+
+
+
+// Submit Warranty Claim
+
+let selectedWarrantyFiles = [];
+
+document.getElementById("warrantyFiles")
+    .addEventListener("change", function (e) {
+
+        const files = Array.from(e.target.files);
+
+        selectedWarrantyFiles.push(...files);
+
+        renderWarrantyPreviews();
+
+        // reset input
+        e.target.value = "";
+    });
+
+
+// =========================
+// Render Previews
+// =========================
+
+function renderWarrantyPreviews() {
+
+    const container =
+        document.getElementById(
+            "warrantyPreviewContainer"
+        );
+
+    container.innerHTML = "";
+
+    selectedWarrantyFiles.forEach((file, index) => {
+
+        const wrapper = document.createElement("div");
+
+        wrapper.className =
+            "position-relative border rounded-3 overflow-hidden";
+
+        wrapper.style.width = "110px";
+        wrapper.style.height = "110px";
+
+        let preview = "";
+
+        // IMAGE
+        if (file.type.startsWith("image/")) {
+
+            const imageUrl =
+                URL.createObjectURL(file);
+
+            preview = `
+                <img src="${imageUrl}"
+                     class="w-100 h-100 object-fit-cover">
+            `;
+        }
+
+        // VIDEO
+        else if (file.type.startsWith("video/")) {
+
+            const videoUrl =
+                URL.createObjectURL(file);
+
+            preview = `
+                <video class="w-100 h-100 object-fit-cover"
+                       muted>
+                    <source src="${videoUrl}">
+                </video>
+            `;
+        }
+
+        wrapper.innerHTML = `
+            ${preview}
+
+            <button type="button"
+                    class="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle m-1"
+                    style="width:28px;height:28px;padding:0;"
+                    onclick="removeWarrantyFile(${index})">
+
+                <i class="bi bi-x"></i>
+            </button>
+        `;
+
+        container.appendChild(wrapper);
+    });
+}
+
+
+// =========================
+// Remove File
+// =========================
+
+function removeWarrantyFile(index) {
+
+    selectedWarrantyFiles.splice(index, 1);
+
+    renderWarrantyPreviews();
+}
+
+
+// =========================
+// Submit Warranty Claim
+// =========================
+
+async function submitWarrantyClaim() {
+
+    const bookingId = parseInt(
+        document.getElementById("warrantyBookingId").value
+    );
+
+    const complaint = document
+        .getElementById("warrantyComplaint")
+        .value
+        .trim();
+
+    const preferredDate = document
+        .getElementById("warrantyPreferredDate")
+        .value;
+
+    const preferredTime = document
+        .getElementById("warrantyPreferredTime")
+        .value;
+
+
+    // =========================
+    // Validations
+    // =========================
+
+    if (!complaint) {
+
+        showToast(
+            "Please enter your complaint.",
+            "warning"
+        );
+
+        return;
+    }
+
+    if (complaint.length < 10) {
+
+        showToast(
+            "Complaint must contain at least 10 characters.",
+            "warning"
+        );
+
+        return;
+    }
+
+    if (!preferredDate) {
+
+        showToast(
+            "Please select a preferred date.",
+            "warning"
+        );
+
+        return;
+    }
+
+    if (!preferredTime) {
+
+        showToast(
+            "Please select a preferred time.",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    // =========================
+    // Schedule Validation
+    // =========================
+
+    const scheduled =
+        new Date(`${preferredDate}T${preferredTime}`);
+
+    const now = new Date();
+
+    if (scheduled < now) {
+
+        showToast(
+            "Preferred schedule cannot be in the past.",
+            "warning"
+        );
+
+        return;
+    }
+
+    const maxDate = new Date();
+
+    maxDate.setDate(maxDate.getDate() + 30);
+
+    if (scheduled > maxDate) {
+
+        showToast(
+            "Preferred schedule cannot exceed 30 days.",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    // =========================
+    // File Validation
+    // =========================
+
+    if (selectedWarrantyFiles.length > 0) {
+
+        let totalSize = 0;
+
+        const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "video/mp4",
+            "video/quicktime",
+            "video/x-msvideo"
+        ];
+
+        for (const file of selectedWarrantyFiles) {
+
+            totalSize += file.size;
+
+            if (!allowedTypes.includes(file.type)) {
+
+                showToast(
+                    `File type not allowed: ${file.name}`,
+                    "warning"
+                );
+
+                return;
+            }
+        }
+
+        // 20MB limit
+        if (totalSize > 20 * 1024 * 1024) {
+
+            showToast(
+                "Total upload size must not exceed 20MB.",
+                "warning"
+            );
+
+            return;
+        }
+    }
+
+
+    // =========================
+    // FormData
+    // =========================
+
+    const formData = new FormData();
+
+    formData.append(
+        "service_booking_id",
+        bookingId
+    );
+
+    formData.append(
+        "complaint",
+        complaint
+    );
+
+    formData.append(
+        "preferred_date",
+        preferredDate
+    );
+
+    formData.append(
+        "preferred_time",
+        preferredTime
+    );
+
+    // Files
+    selectedWarrantyFiles.forEach(file => {
+
+        formData.append("files", file);
+    });
+
+
+    // =========================
+    // Submit API
+    // =========================
+
+    try {
+
+        // =========================
+        // Show Loading
+        // =========================
+
+        showLoading();
+
+
+        // =========================
+        // Submit API
+        // =========================
+
+        const response = await fetch(
+            "/api/my-shop-warranty/service-warranty-claim",
+            {
+                method: "POST",
+                body: formData,
+                credentials: "include"
+            }
+        );
+
+
+        // =========================
+        // Parse Response
+        // =========================
+
+        let data = null;
+
+        try {
+
+            data = await response.json();
+        }
+        catch {
+
+            data = {
+                message: "Unexpected server response."
+            };
+        }
+
+
+        // =========================
+        // Error Response
+        // =========================
+
+        if (!response.ok) {
+
+            hideLoading();
+
+            showToast(
+                data.message ||
+                "Failed to submit warranty claim.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // =========================
+        // Success
+        // =========================
+
+        hideLoading();
+
+        // Reset files
+        selectedWarrantyFiles = [];
+
+        renderWarrantyPreviews();
+
+        // Reset form
+        document.getElementById(
+            "warrantyComplaint"
+        ).value = "";
+
+        document.getElementById(
+            "warrantyPreferredDate"
+        ).value = "";
+
+        document.getElementById(
+            "warrantyPreferredTime"
+        ).value = "";
+
+        document.getElementById(
+            "warrantyFiles"
+        ).value = "";
+
+
+        // Close claim modal
+        bootstrap.Modal.getInstance(
+            document.getElementById("warrantyClaimModal")
+        ).hide();
+
+
+        // Open success modal
+        new bootstrap.Modal(
+            document.getElementById("warrantySuccessModal")
+        ).show();
+    }
+    catch (err) {
+
+        // =========================
+        // Exception
+        // =========================
+
+        hideLoading();
+
+        console.error(err);
+
+        showToast(
+            "Something went wrong while submitting warranty claim.",
+            "error"
+        );
+    }
+}
+
+
+
+
+
+
+
+
+function showToast(message, type = "success", delay = 5000) {
+
+    const container = document.getElementById("toastContainer");
+
+    if (!container) {
+        console.error("Toast container not found.");
+        return;
+    }
+
+    let bgClass = "bg-success";
+
+    switch (type) {
+        case "error":
+            bgClass = "bg-danger";
+            break;
+
+        case "warning":
+            bgClass = "bg-warning text-dark";
+            break;
+
+        case "info":
+            bgClass = "bg-info text-dark";
+            break;
+    }
+
+    const toast = document.createElement("div");
+
+    toast.className =
+        `toast align-items-center text-white ${bgClass} border-0 show mb-2`;
+
+    toast.role = "alert";
+
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                ${message}
+            </div>
+
+            <button type="button"
+                    class="btn-close btn-close-white me-2 m-auto"
+                    onclick="this.closest('.toast').remove()">
+            </button>
+        </div>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, delay);
+}
+
+
+function showLoading() {
+
+    const overlay =
+        document.getElementById("loadingOverlay");
+
+    overlay.style.display = "block";
+
+    // Prevent scrolling
+    document.body.style.overflow = "hidden";
+}
+
+function hideLoading() {
+
+    const overlay =
+        document.getElementById("loadingOverlay");
+
+    overlay.style.display = "none";
+
+    // Restore scrolling
+    document.body.style.overflow = "";
 }
