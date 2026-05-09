@@ -66,7 +66,7 @@
             z-index: 100 !important;
         }
 
-        /* LARGER QR CODE - MIDDLE RIGHT POSITION */
+        /* QR CODE - DESKTOP ONLY */
         .qr-wrapper {
             position: fixed;
             top: 50%;
@@ -80,16 +80,10 @@
             text-align: center;
         }
 
-        #qrcode {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        #qrcode img, #qrcode canvas {
+            width: 280px !important;
+            height: 280px !important;
         }
-
-            #qrcode img, #qrcode canvas {
-                width: 280px !important;
-                height: 280px !important;
-            }
 
         .qr-label {
             margin-top: 12px;
@@ -104,6 +98,7 @@
             color: #666;
         }
 
+        /* HIDE QR ON MOBILE */
         @@media (max-width: 768px) {
             .qr-wrapper {
                 display: none;
@@ -115,7 +110,7 @@
     <div class="loading" id="loading">Loading 3D Model...</div>
     <div class="status" id="status">Preparing AR experience...</div>
 
-    <!-- QR CODE - MIDDLE RIGHT -->
+    <!-- QR CODE - DESKTOP ONLY -->
     <div class="qr-wrapper">
         <div id="qrcode"></div>
         <div class="qr-label">📱 SCAN WITH PHONE</div>
@@ -125,7 +120,7 @@
     <model-viewer id="viewer"
                   src=""
                   ar
-                  ar-modes="scene-viewer"
+                  ar-modes="scene-viewer webxr quick-look"
                   camera-controls
                   auto-rotate
                   shadow-intensity="1">
@@ -136,8 +131,6 @@
 
     <script>
         const sku = "@sku";
-
-        // MODELS HOSTED ON GITHUB REPO
         const modelUrl = "https://raw.githubusercontent.com/MarkBr123/ar-models/main/" + sku + ".glb";
 
         const viewer = document.getElementById('viewer');
@@ -147,7 +140,7 @@
         console.log("Loading model from:", modelUrl);
         viewer.src = modelUrl;
 
-        // Generate QR code - LARGER SIZE (280x280)
+        // Generate QR code for desktop
         const qrDiv = document.getElementById('qrcode');
         if (qrDiv && window.innerWidth > 768) {
             new QRCode(qrDiv, {
@@ -157,20 +150,31 @@
             });
         }
 
+        // Check if mobile device
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
         viewer.addEventListener('load', () => {
             loadingDiv.style.display = 'none';
-            statusDiv.textContent = '✓ Ready - Launching AR...';
+            statusDiv.textContent = '✓ Model ready - Launching AR...';
             statusDiv.style.background = 'rgba(0,128,0,0.8)';
 
-            setTimeout(() => {
-                if (viewer.activateAR) {
-                    viewer.activateAR();
-                }
-            }, 1000);
+            // AUTO-LAUNCH AR ON MOBILE
+            if (isMobile) {
+                setTimeout(() => {
+                    if (viewer.activateAR) {
+                        viewer.activateAR();
+                    } else {
+                        statusDiv.textContent = '✓ Tap AR button to view in space';
+                    }
+                }, 1500);
+            } else {
+                statusDiv.textContent = '✓ Model ready - Scan QR on your phone';
+            }
         });
 
         viewer.addEventListener('error', (e) => {
             loadingDiv.innerHTML = '❌ Model not found: ' + sku + '.glb';
+          
             statusDiv.style.background = 'rgba(255,0,0,0.8)';
         });
     </script>
