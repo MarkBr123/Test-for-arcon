@@ -23,151 +23,287 @@ public class AuthController : Controller
     // LOGIN (POST)
 
     [HttpPost]
-    public async Task<IActionResult> Login(string identifier, string password)
+    public async Task<IActionResult> UserLogin(
+    string identifier,
+    string password,
+    string? accessId
+)
     {
-        // Basic validation
-        if (string.IsNullOrWhiteSpace(identifier) || string.IsNullOrWhiteSpace(password))
+        // =========================
+        // BASIC VALIDATION
+        // =========================
+
+        if (
+            string.IsNullOrWhiteSpace(identifier) ||
+            string.IsNullOrWhiteSpace(password)
+        )
+        {
             return InvalidLogin();
+        }
 
-        bool isEmail = identifier.Contains("@");
+        bool isEmail =
+            identifier.Contains("@");
 
+        bool hasAccessId =
+            !string.IsNullOrWhiteSpace(accessId);
 
-        // TRY STAFF LOGIN (ADMIN / CSM / TECHNICIAN)
+        // =========================
+        // TRY STAFF LOGIN
+        // REQUIRES ACCESS ID
+        // =========================
 
+        admin_user? admin = null;
 
-        var adminQuery = _context.admin_users
-            .Where(a => a.status == "ACTIVE");
+        if (hasAccessId)
+        {
+            var adminQuery =
+                _context.admin_users
+                    .Where(a =>
+                        a.status == "ACTIVE" &&
+                        a.airconi_access_id ==
+                            accessId!.ToUpper());
 
-        adminQuery = isEmail
-            ? adminQuery.Where(a => a.email_address.ToLower() == identifier.ToLower())
-            : adminQuery.Where(a => a.contact_no == identifier);
+            adminQuery = isEmail
 
-        var admin = await adminQuery.FirstOrDefaultAsync();
+                ? adminQuery.Where(a =>
+                    a.email_address.ToLower() ==
+                    identifier.ToLower())
+
+                : adminQuery.Where(a =>
+                    a.contact_no == identifier);
+
+            admin =
+                await adminQuery
+                    .FirstOrDefaultAsync();
+        }
 
         if (admin != null)
         {
-            // Check password
-            if (!BCrypt.Net.BCrypt.Verify(password, admin.password_hash))
+            // PASSWORD CHECK
+
+            if (!BCrypt.Net.BCrypt.Verify(
+                password,
+                admin.password_hash))
             {
                 await HandleFailedAdminLogin(admin);
+
                 return InvalidLogin();
             }
 
-            // Load user roles
+            // LOAD ROLES
+
             var roles = await (
                 from ur in _context.user_roles
-                join r in _context.roles on ur.role_id equals r.id
+                join r in _context.roles
+                    on ur.role_id equals r.id
+
                 where ur.user_id == admin.id
-                   && new[] { "ADMIN", "CSM", "AIRCON_TECHNICIAN" }.Contains(r.role_name) // ADMIN, CSM, AIRCON_TECHNICIAN
+
+                   && new[]
+                   {
+                    "ADMIN",
+                    "CSM",
+                    "AIRCON_TECHNICIAN"
+                   }
+                   .Contains(r.role_name)
+
                 select r.role_name
+
             ).ToListAsync();
 
             if (!roles.Any())
-                return Unauthorized("No permitted role assigned.");
+            {
+                return Unauthorized(
+                    "No permitted role assigned."
+                );
+            }
 
-            // 4. Determine PRIMARY ROLE (priority-based)
+            // PRIMARY ROLE
+
             string primaryRole;
 
             if (roles.Contains("ADMIN"))
                 primaryRole = "ADMIN";
+
             else if (roles.Contains("CSM"))
                 primaryRole = "CSM";
-            else
-                primaryRole = "AIRCON_TECHNICIAN";
 
-            // Update login info
+            else
+                primaryRole =
+                    "AIRCON_TECHNICIAN";
+
+            // UPDATE LOGIN INFO
+
             admin.login_attempts = 0;
             admin.last_login = DateTime.UtcNow;
             admin.is_online = true;
 
             await _context.SaveChangesAsync();
 
+            // =========================
+            // OTP
+            // =========================
 
-            ///OTP Insertion for admin users
             var otp = GenerateOtp();
 
-            // delete old OTP
-            var oldOtp = _context.auth_otps
-                .Where(x => x.user_id == admin.id && x.user_type == primaryRole);
+            // DELETE OLD OTP
 
-            _context.auth_otps.RemoveRange(oldOtp);
+            var oldOtp =
+                _context.auth_otps
+                    .Where(x =>
+                        x.user_id == admin.id &&
+                        x.user_type == primaryRole);
 
-            // insert new OTP
-            _context.auth_otps.Add(new auth_otp
-            {
-                user_id = admin.id,
-                user_type = primaryRole,
-                otp_code = otp,
-                expires_at = DateTime.UtcNow.AddMinutes(5),
-                attempt_count = 0
-            });
+            _context.auth_otps
+                .RemoveRange(oldOtp);
+
+            // INSERT OTP
+
+            _context.auth_otps.Add(
+                new auth_otp
+                {
+                    user_id = admin.id,
+                    user_type = primaryRole,
+                    otp_code = otp,
+                    expires_at =
+                        DateTime.UtcNow.AddMinutes(5),
+
+                    attempt_count = 0
+                });
 
             await _context.SaveChangesAsync();
 
-            // send email
-            await SendOtpEmail(admin.email_address, otp);
+            // SEND EMAIL
 
-            // temp session
-            HttpContext.Session.SetInt32("OtpUserId", admin.id);
-            HttpContext.Session.SetString("OtpUserType", primaryRole);
-            HttpContext.Session.SetString("OtpRoles", string.Join(",", roles));
+            await SendOtpEmail(
+                admin.email_address,
+                otp);
 
-            return RedirectToAction("VerifyOtp", "Home", new { area = "Shop" });
+            // TEMP SESSION
+
+            HttpContext.Session.SetInt32(
+                "OtpUserId",
+                admin.id);
+
+            HttpContext.Session.SetString(
+                "OtpUserType",
+                primaryRole);
+
+            HttpContext.Session.SetString(
+                "OtpRoles",
+                string.Join(",", roles));
+
+            return RedirectToAction(
+                "VerifyOtp",
+                "Home",
+                new { area = "Shop" });
         }
 
+        // =========================
         // TRY CUSTOMER LOGIN
-        var customerQuery = _context.customers.AsQueryable();
+        // ONLY IF NO ACCESS ID
+        // =========================
+
+        if (hasAccessId)
+        {
+            return InvalidLogin();
+        }
+
+        var customerQuery =
+            _context.customers.AsQueryable();
 
         customerQuery = isEmail
-            ? customerQuery.Where(c => c.email == identifier)
-            : customerQuery.Where(c => c.contact_no == identifier);
 
-        var customer = await customerQuery.FirstOrDefaultAsync();
+            ? customerQuery.Where(c =>
+                c.email.ToLower() ==
+                identifier.ToLower())
+
+            : customerQuery.Where(c =>
+                c.contact_no == identifier);
+
+        var customer =
+            await customerQuery
+                .FirstOrDefaultAsync();
 
         if (customer != null)
         {
-            if (!BCrypt.Net.BCrypt.Verify(password, customer.password_hash))
-                return InvalidLogin();
+            // PASSWORD CHECK
 
-            //Update login info
-            customer.last_login = DateTime.UtcNow;
+            if (!BCrypt.Net.BCrypt.Verify(
+                password,
+                customer.password_hash))
+            {
+                return InvalidLogin();
+            }
+
+            // UPDATE LOGIN INFO
+
+            customer.last_login =
+                DateTime.UtcNow;
+
             customer.is_online = true;
 
             await _context.SaveChangesAsync();
 
+            // =========================
+            // OTP
+            // =========================
 
-            //OTP insertion for customers
             var otp = GenerateOtp();
 
-            // delete old OTP
-            var oldOtp = _context.auth_otps
-                .Where(x => x.user_id == customer.id && x.user_type == "CUSTOMER");
+            // DELETE OLD OTP
 
-            _context.auth_otps.RemoveRange(oldOtp);
+            var oldOtp =
+                _context.auth_otps
+                    .Where(x =>
+                        x.user_id == customer.id &&
+                        x.user_type == "CUSTOMER");
 
-            // insert OTP
-            _context.auth_otps.Add(new auth_otp
-            {
-                user_id = customer.id,
-                user_type = "CUSTOMER",
-                otp_code = otp,
-                expires_at = DateTime.UtcNow.AddMinutes(5),
-                attempt_count = 0
-            });
+            _context.auth_otps
+                .RemoveRange(oldOtp);
+
+            // INSERT OTP
+
+            _context.auth_otps.Add(
+                new auth_otp
+                {
+                    user_id = customer.id,
+                    user_type = "CUSTOMER",
+                    otp_code = otp,
+                    expires_at =
+                        DateTime.UtcNow.AddMinutes(5),
+
+                    attempt_count = 0
+                });
 
             await _context.SaveChangesAsync();
 
-            // send email
-            await SendOtpEmail(customer.email, otp);
+            // SEND EMAIL
 
-            // temp session
-            HttpContext.Session.SetInt32("OtpUserId", customer.id);
-            HttpContext.Session.SetString("OtpUserType", "CUSTOMER");
+            await SendOtpEmail(
+                customer.email,
+                otp);
 
-            return RedirectToAction("VerifyOtp", "Home", new { area = "Shop" });
+            // TEMP SESSION
+
+            HttpContext.Session.SetInt32(
+                "OtpUserId",
+                customer.id);
+
+            HttpContext.Session.SetString(
+                "OtpUserType",
+                "CUSTOMER");
+
+            return RedirectToAction(
+                "VerifyOtp",
+                "Home",
+                new { area = "Shop" });
         }
 
-        //If both fail
+        // =========================
+        // FAILED
+        // =========================
+
         return InvalidLogin();
     }
 

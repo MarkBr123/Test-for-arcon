@@ -568,4 +568,26 @@ function attachInventorySelectionLimiter() {
 }
 
 
+function closeInventoryModal() {
+
+    const modalEl =
+        document.getElementById("inventoryModal");
+
+    const modal =
+        bootstrap.Modal.getInstance(modalEl);
+
+    if (modal) {
+        modal.hide();
+    }
+
+    // CLEANUP SAFETY
+
+    document.body.classList.remove("modal-open");
+
+    document
+        .querySelectorAll(".modal-backdrop")
+        .forEach(x => x.remove());
+}
+
+
 /////ADD NOification ///////

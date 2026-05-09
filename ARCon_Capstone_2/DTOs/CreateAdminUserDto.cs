@@ -17,6 +17,8 @@ namespace ARCon_Capstone_2.DTOs
 
         [JsonPropertyName("status")]
         public string Status { get; set; }  
+
+
         
         
         public List<WorkScheduleDto> Schedule { get; set; }

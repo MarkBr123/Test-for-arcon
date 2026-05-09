@@ -57,6 +57,8 @@ public class service_booking
 
     public string? cancelled_by { get; set; }
 
+    public int? warranty_claim_count { get; set; }
+
     /* ✅ RELATIONSHIPS */
 
     [ForeignKey("customer_id")]

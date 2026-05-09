@@ -240,6 +240,7 @@ function renderAdminUsers(users) {
             <td>${rolesHtml}</td>
             <td>${au.email_address}</td>
             <td>${au.contact_no}</td>
+            <td>${au.airconi_access_id}</td>
             <td>
                 <span class="badge ${au.status === "ACTIVE"
                 ? "bg-success"

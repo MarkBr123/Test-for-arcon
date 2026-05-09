@@ -65,6 +65,8 @@ public class AdminUsersApiController : ControllerBase
                 return BadRequest($"Login time must be earlier than Logout time for {s.DayOfWeek}");
         }
 
+        var accessId = await GenerateAccessIdAsync();
+
         var user = new admin_user
         {
             user_name = dto.UserName,
@@ -77,7 +79,8 @@ public class AdminUsersApiController : ControllerBase
             status = dto.Status,
             password_hash = hash,
             created_at = DateTime.UtcNow,
-            created_by = 1
+            created_by = 1,
+            airconi_access_id = accessId
         };
 
         _context.admin_users.Add(user);
@@ -165,6 +168,7 @@ public class AdminUsersApiController : ControllerBase
             au.email_address,
             au.home_address,
             au.created_at,
+            au.airconi_access_id,
             au.updated_at,
             au.birthday,
             au.last_login,
@@ -223,6 +227,7 @@ public class AdminUsersApiController : ControllerBase
                 au.birthday,
                 au.created_at,
                 au.last_login,
+                au.airconi_access_id,
 
                 // roles
                 roles = au.user_roles
@@ -391,4 +396,48 @@ public class AdminUsersApiController : ControllerBase
         return Ok("Admin user updated successfully");
     }
 
+
+    //airconi accces id generator
+    private async Task<string> GenerateAccessIdAsync()
+    {
+        const string letters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        string accessId;
+
+        do
+        {
+            // 3 RANDOM LETTERS
+
+            var prefix =
+                new string(
+                    Enumerable.Range(0, 3)
+                        .Select(_ =>
+                            letters[
+                                Random.Shared.Next(
+                                    letters.Length
+                                )
+                            ])
+                        .ToArray()
+                );
+
+            // 3 RANDOM DIGITS
+
+            var suffix =
+                Random.Shared
+                    .Next(0, 1000)
+                    .ToString("D3");
+
+            accessId =
+                $"{prefix}{suffix}";
+        }
+        while (
+            await _context.admin_users
+                .AnyAsync(x => x.airconi_access_id == accessId)
+        );
+
+        return accessId;
+    }
+
 }
+

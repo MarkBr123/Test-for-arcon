@@ -33,7 +33,22 @@ public class AuthApiController : ControllerBase
     public async Task<IActionResult> Register([FromBody] RegisterCustomerDto dto)
     {
         if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        {
+            var errors = ModelState
+                .Where(x => x.Value!.Errors.Count > 0)
+                .Select(x => new
+                {
+                    field = x.Key,
+                    errors = x.Value.Errors
+                        .Select(e => e.ErrorMessage)
+                });
+
+            return BadRequest(new
+            {
+                message = "Validation failed.",
+                errors
+            });
+        }
 
         await using var trx = await _context.Database.BeginTransactionAsync();
 
@@ -45,7 +60,7 @@ public class AuthApiController : ControllerBase
                 return Conflict(new
                 {
                     message = "Email already exists."
-                });
+                }); 
             }
 
             if (await _context.customers.AnyAsync(c => c.contact_no == dto.contact_no))

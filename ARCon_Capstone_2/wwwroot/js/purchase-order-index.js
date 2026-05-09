@@ -74,47 +74,68 @@ function renderPurchaseOrders(items) {
             <td>${formatDateTime(po.updated_at)}</td>
 
             <td class="text-center">
-    <div class="action-wrapper" onclick="event.stopPropagation();">
+   <td class="text-center">
+
+    <div class="action-wrapper"
+         onclick="event.stopPropagation();">
+
+        <!-- MENU BUTTON -->
 
         <button class="btn btn-outline-secondary btn-sm"
                 onclick="togglePoMenu(this, event)">
+
             ⋮
+
         </button>
+
+        <!-- MENU -->
 
         <div class="action-menu">
 
             <button onclick="downloadPoPdf(${po.id})">
+
                 PDF
+
             </button>
 
             <button onclick="openPoSummary(${po.id})">
+
                 Details
+
             </button>
 
-            <!-- WITH SUBMENU -->
-            <div class="menu-item has-submenu">
-                More ▸
+            ${po.status?.trim().toUpperCase() === "DRAFT"
 
-                <div class="submenu">
-                    <button onclick="editPo(${po.id})"
-                            ${po.status !== "DRAFT" ? "disabled" : ""}>
-                        Edit
-                    </button>
+                ? `
 
-                    <button onclick="sendPo(${po.id})"
-                            ${po.status !== "DRAFT" ? "disabled" : ""}>
-                        Mark as Sent
-                    </button>
+                <button onclick="editPo(${po.id})">
 
-                    <button onclick="archivePo(${po.id})"
-                            ${po.status !== "DRAFT" ? "disabled" : ""}>
-                        Archive
-                    </button>
-                </div>
-            </div>
+                    Edit
+
+                </button>
+
+                <button onclick="sendPo(${po.id})">
+
+                    Mark as Sent
+
+                </button>
+
+                <button onclick="archivePo(${po.id})">
+
+                    Archive
+
+                </button>
+
+                `
+
+                : ""
+            }
 
         </div>
+
     </div>
+
+</td>
 </td>
             `;
 

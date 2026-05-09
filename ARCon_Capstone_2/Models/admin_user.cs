@@ -62,6 +62,9 @@ public partial class admin_user
 
     public int? admin_user_avatar_media_id { get; set; }
 
+    [StringLength(10)]
+    public string? airconi_access_id { get; set; }
+
     [InverseProperty("created_byNavigation")]
     public virtual ICollection<admin_user> Inversecreated_byNavigation { get; set; } = new List<admin_user>();
 

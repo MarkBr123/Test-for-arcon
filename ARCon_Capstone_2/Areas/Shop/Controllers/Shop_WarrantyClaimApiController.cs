@@ -318,6 +318,8 @@ public class Shop_WarrantyClaimApiController: ControllerBase
             var warranty =
                 new service_warranty_booking
                 {
+                    swb_code = await GenerateWarrantyCodeAsync(),
+
                     service_booking_id =
                         dto.service_booking_id,
 
@@ -338,6 +340,11 @@ public class Shop_WarrantyClaimApiController: ControllerBase
 
             _context.service_warranty_bookings
                 .Add(warranty);
+
+            // Increment warranty claim count
+            booking.warranty_claim_count += 1;
+
+            await _context.SaveChangesAsync();
 
             await _context.SaveChangesAsync();
 
@@ -403,6 +410,36 @@ public class Shop_WarrantyClaimApiController: ControllerBase
                 error = ex.Message
             });
         }
+    }
+
+    ///Service Warranty Code Generator
+    ///
+    private async Task<string> GenerateWarrantyCodeAsync()
+    {
+        var today = DateTime.Now;
+        var datePart = today.ToString("MMddyy");
+
+        var prefix = $"SWB-{datePart}";
+
+        var latestCode = await _context.service_warranty_bookings
+            .Where(x => x.swb_code.StartsWith(prefix))
+            .OrderByDescending(x => x.swb_code)
+            .Select(x => x.swb_code)
+            .FirstOrDefaultAsync();
+
+        int nextNumber = 1;
+
+        if (!string.IsNullOrEmpty(latestCode))
+        {
+            var numberPart = latestCode.Substring(latestCode.Length - 3);
+
+            if (int.TryParse(numberPart, out int parsed))
+            {
+                nextNumber = parsed + 1;
+            }
+        }
+
+        return $"{prefix}{nextNumber:D3}";
     }
 
 }

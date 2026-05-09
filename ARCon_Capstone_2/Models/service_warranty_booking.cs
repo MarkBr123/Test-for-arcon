@@ -48,6 +48,8 @@ namespace ARCon_Capstone_2.Models
 
         public DateTime? cancelled_at { get; set; }
 
+        public string? swb_code { get; set; }
+
 
         /* =========================
            Relationships

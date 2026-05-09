@@ -2,26 +2,50 @@
 @model ARCon_Capstone_2.Areas.Shop.Views.Home.SigninModel
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/css/Login.css"
+          asp-append-version="true" />
 }
 
 <div class="signup-page">
+
     <div class="signup-card">
 
-        <!-- ONE FORM ONLY -->
+        <!-- FORM -->
         <form id="signupForm">
 
-            <!-- Left column -->
+            <!-- LEFT COLUMN -->
             <div class="signup-form">
+
                 <h2>Sign Up</h2>
-                <p class="subtitle">Welcome to our website, let’s get started</p>
+
+                <p class="subtitle">
+                    Welcome to our website, let’s get started
+                </p>
+
+                <!-- BASIC INFO -->
 
                 <h6>Basic Information</h6>
 
                 <div class="name-row">
-                    <input id="fname" name="first_name" type="text" placeholder="First name" required />
-                    <input id="mname" name="middle_name" type="text" placeholder="Middle name" />
-                    <input id="lname" name="last_name" type="text" placeholder="Last name" required />
+
+                    <input id="fname"
+                           name="first_name"
+                           type="text"
+                           placeholder="First name"
+                           required />
+
+                    <input id="mname"
+                           name="middle_name"
+                           type="text"
+                           placeholder="Middle name" />
+
+                    <input id="lname"
+                           name="last_name"
+                           type="text"
+                           placeholder="Last name"
+                           required />
+
                 </div>
 
                 <input id="birthday"
@@ -31,58 +55,549 @@
                        min="1904-01-01"
                        max="2007-12-31" />
 
+                <!-- ADDRESS -->
+
                 <h6>Address</h6>
 
-                <input id="house_unit" name="house_unit" type="text" placeholder="House / Unit" />
-                <input id="street_name" name="street_name" type="text" placeholder="Street" />
+                <input id="house_unit"
+                       name="house_unit"
+                       type="text"
+                       placeholder="House / Unit" />
+
+                <input id="street_name"
+                       name="street_name"
+                       type="text"
+                       placeholder="Street" />
 
                 <div class="name-row">
-                    <select id="region" name="region_id" required>
-                        <option value="">-- Select Region --</option>
+
+                    <select id="region"
+                            name="region_id"
+                            required>
+
+                        <option value="">
+                            -- Select Region --
+                        </option>
+
                     </select>
 
-                    <select id="province" name="province_id" disabled required>
-                        <option value="">-- Select Province --</option>
+                    <select id="province"
+                            name="province_id"
+                            disabled
+                            required>
+
+                        <option value="">
+                            -- Select Province --
+                        </option>
+
                     </select>
+
                 </div>
 
                 <div class="name-row">
-                    <select id="municipality" name="municipality_id" disabled required>
-                        <option value="">-- Select Municipality --</option>
+
+                    <select id="municipality"
+                            name="municipality_id"
+                            disabled
+                            required>
+
+                        <option value="">
+                            -- Select Municipality --
+                        </option>
+
                     </select>
 
-                    <select id="barangay" name="barangay_id" disabled required>
-                        <option value="">-- Select Barangay --</option>
+                    <select id="barangay"
+                            name="barangay_id"
+                            disabled
+                            required>
+
+                        <option value="">
+                            -- Select Barangay --
+                        </option>
+
                     </select>
+
                 </div>
 
-                <input id="zip_code" name="zip_code" type="text" placeholder="Zip Code" />
-                <input id="landmark" name="landmark" type="text" placeholder="Landmark" />
+                <input id="zip_code"
+                       name="zip_code"
+                       type="text"
+                       placeholder="Zip Code" />
+
+                <input id="landmark"
+                       name="landmark"
+                       type="text"
+                       placeholder="Landmark" />
+
             </div>
 
-            <!-- Right column -->
+            <!-- RIGHT COLUMN -->
+
             <div class="signup-right">
+
                 <div class="signup-form-right">
+
+                    <!-- CONTACT -->
+
                     <h6>Contact</h6>
-                    <input id="email" name="email" type="email" placeholder="Email" required />
-                    <input id="contact" name="contact_no" type="text" placeholder="Contact number" required />
+
+                    <input id="email"
+                           name="email"
+                           type="email"
+                           placeholder="Email"
+                           required />
+
+                    <input id="contact"
+                           name="contact_no"
+                           type="text"
+                           placeholder="Contact number"
+                           required />
+
+                    <!-- PASSWORD -->
 
                     <h6>Password</h6>
-                    <input id="password" name="password" type="password" placeholder="Password" required />
-                    <input id="cpassword" type="password" placeholder="Confirm Password" required />
-                    <div id="formError" class="form-error" style="display:none;"></div>
-                    <button type="button" id="btnCreateAccount">Create Account</button>
+
+                    <div class="password-wrapper">
+
+                        <input id="password"
+                               name="password"
+                               type="password"
+                               placeholder="Password"
+                               required />
+
+                        <button type="button"
+                                id="toggleMainPassword"
+                                class="password-toggle-btn"
+                                data-target="password"
+                                aria-label="Show password">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                    <div class="password-wrapper">
+
+                        <input id="cpassword"
+                               name="confirm_password"
+                               type="password"
+                               placeholder="Confirm Password"
+                               required />
+
+                        <button type="button"
+                                id="toggleConfirmPassword"
+                                class="password-toggle-btn"
+                                data-target="cpassword"
+                                aria-label="Show confirm password">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                    <!-- CREATE ACCOUNT -->
+                    <!-- NEXT BUTTON -->
+
+                    <button type="button"
+                            id="btnNextToTerms">
+
+                        Next
+
+                    </button>
 
                 </div>
+
+                <!-- IMAGE -->
 
                 <div class="illustration">
-                    <img src="~/ImageSources/Background/repair.jpg" alt="Illustration" />
+
+                    <img src="~/ImageSources/Background/repair.jpg"
+                         alt="Illustration" />
+
                 </div>
+
             </div>
 
         </form>
 
+        <!-- TOASTS -->
+
+        <div id="toastContainer"></div>
+
     </div>
+
+</div>
+
+
+
+<!--Terms and Conditions-->
+<!-- TERMS MODAL -->
+<!-- TERMS MODAL -->
+
+<div id="termsModal"
+     class="terms-modal-overlay">
+
+    <div class="terms-modal">
+
+        <!-- HEADER -->
+
+        <div class="terms-modal-header">
+
+            <h3>
+                Privacy Policy & Terms
+            </h3>
+
+            <button type="button"
+                    id="closeTermsModal"
+                    class="terms-close-btn">
+
+                ✕
+
+            </button>
+
+        </div>
+
+        <!-- BODY -->
+
+        <div id="termsScrollArea"
+             class="terms-modal-body">
+
+            <h2>
+                AIRCON-i Appliance Trading Inc.
+            </h2>
+
+            <p>
+                Effective Date: May 2026
+            </p>
+
+            <p>
+                Welcome to AIRCON-i Appliance Trading Inc.
+                (“AIRCON-i”, “we”, “our”, or “us”).
+                By accessing or using our website,
+                booking platform,
+                mobile services,
+                or any related systems,
+                you agree to the following
+                Privacy Policy and Terms of Use.
+            </p>
+
+            <hr>
+
+            <h4>
+                1. Information We Collect
+            </h4>
+
+            <p>
+                We may collect the following information
+                when you use our services:
+            </p>
+
+            <ul>
+                <li>Full name</li>
+                <li>Email address</li>
+                <li>Contact number</li>
+                <li>Birthday</li>
+                <li>Address information</li>
+                <li>Login credentials</li>
+                <li>Service booking history</li>
+                <li>Warranty claims</li>
+                <li>Technician assignments</li>
+                <li>Payment and transaction details</li>
+                <li>Technical usage logs and device information</li>
+            </ul>
+
+            <hr>
+
+            <h4>
+                2. How We Use Your Information
+            </h4>
+
+            <p>
+                Your information may be used to:
+            </p>
+
+            <ul>
+                <li>Create and manage customer accounts</li>
+                <li>Process service bookings and requests</li>
+                <li>Schedule technicians and appointments</li>
+                <li>Handle warranty and after-service support</li>
+                <li>Send service notifications and updates</li>
+                <li>Improve our platform and customer experience</li>
+                <li>Prevent fraud and unauthorized activities</li>
+                <li>Comply with legal obligations</li>
+            </ul>
+
+            <hr>
+
+            <h4>
+                3. Data Protection
+            </h4>
+
+            <p>
+                Aircon-i Appliance Trading Inc.
+                implements reasonable organizational
+                and technical safeguards
+                to protect your personal information
+                from unauthorized access,
+                misuse,
+                alteration,
+                or destruction.
+            </p>
+
+            <p>
+                While we strive to protect your data,
+                no online platform can guarantee
+                complete security.
+            </p>
+
+            <hr>
+
+            <h4>
+                4. Sharing of Information
+            </h4>
+
+            <p>
+                We do not sell customer information
+                to third parties.
+            </p>
+
+            <p>
+                Your information may only be shared with:
+            </p>
+
+            <ul>
+                <li>Authorized employees and technicians</li>
+                <li>Operational service providers</li>
+                <li>Government authorities when required by law</li>
+            </ul>
+
+            <hr>
+
+            <h4>
+                5. Customer Responsibilities
+            </h4>
+
+            <p>
+                By using our platform,
+                you agree to:
+            </p>
+
+            <ul>
+                <li>Provide accurate and updated information</li>
+                <li>Keep your account credentials secure</li>
+                <li>Use the platform lawfully and responsibly</li>
+                <li>Avoid fraudulent bookings or warranty abuse</li>
+            </ul>
+
+            <p>
+                Aircon-i Appliance Trading Inc.
+                reserves the right to suspend
+                or terminate accounts involved
+                in suspicious or abusive activities.
+            </p>
+
+            <hr>
+
+            <h4>
+                6. Warranty and Service Terms
+            </h4>
+
+            <p>
+                Warranty services are subject
+                to inspection and approval.
+            </p>
+
+            <p>
+                Warranty claims may be denied if:
+            </p>
+
+            <ul>
+                <li>Damage resulted from misuse or negligence</li>
+                <li>Unauthorized repairs were performed</li>
+                <li>The warranty period has expired</li>
+                <li>Service conditions were violated</li>
+            </ul>
+
+            <p>
+                Repeated or abusive warranty requests
+                may be restricted or reviewed.
+            </p>
+
+            <hr>
+
+            <h4>
+                7. Cookies and Tracking
+            </h4>
+
+            <p>
+                Our website may use cookies
+                and related technologies
+                to maintain login sessions,
+                improve user experience,
+                and analyze platform usage.
+            </p>
+
+            <hr>
+
+            <h4>
+                8. Third-Party Services
+            </h4>
+
+            <p>
+                Our platform may integrate
+                with third-party services such as:
+            </p>
+
+            <ul>
+                <li>Geolocation and mapping providers</li>
+                <li>Payment gateways</li>
+                <li>Email or SMS notification services</li>
+            </ul>
+
+            <p>
+                We are not responsible
+                for the privacy practices
+                of third-party providers.
+            </p>
+
+            <hr>
+
+            <h4>
+                9. User Rights
+            </h4>
+
+            <p>
+                You may request to:
+            </p>
+
+            <ul>
+                <li>Access your stored information</li>
+                <li>Correct inaccurate information</li>
+                <li>Update account details</li>
+                <li>Request account deletion subject to legal obligations</li>
+            </ul>
+
+            <hr>
+
+            <h4>
+                10. Policy Updates
+            </h4>
+
+            <hr>
+
+            <h4>
+                11. Contact Information
+            </h4>
+
+            <p>
+                For questions, concerns,
+                or privacy-related requests,
+                please contact:
+            </p>
+
+            <p>
+                <strong>
+                    AIRCON-i Appliance Trading Inc.
+                </strong>
+
+                <br>
+                <br><br>
+
+                Customer Support Department
+
+                <br><br>
+
+                <strong>
+                    Physical Address:
+                </strong>
+
+                #20 Abangan Sur Mc Arthur Hi-way,
+                Marilao, Bulacan, Philippines
+
+                <br>
+
+                <strong>
+                    Email:
+                </strong>
+
+                edward.03105@gmail.com
+
+                <br>
+
+                <strong>
+                    Phone:
+                </strong>
+
+                +63 928 098 3567
+            </p>
+
+            <p>
+                Aircon-i Appliance Trading Inc.
+                reserves the right
+                to update or modify
+                this Privacy Policy and Terms
+                at any time.
+            </p>
+
+            <p>
+                Continued use of the platform
+                after updates constitutes
+                acceptance of the revised terms.
+            </p>
+
+            <hr>
+
+            <h4>
+                11. Consent
+            </h4>
+
+            <p>
+                By creating an account
+                or using our services,
+                you acknowledge
+                that you have read,
+                understood,
+                and agreed to this
+                Privacy Policy and Terms of Use.
+            </p>
+
+            <!-- EXTRA SPACE FOR SCROLL UX -->
+
+            <div style="height: 120px;"></div>
+
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="terms-modal-footer">
+
+            <label class="terms-checkbox">
+
+                <input type="checkbox"
+                       id="agreeTerms"
+                       disabled />
+
+                <span>
+                    I have read and agree to
+                    the Privacy Policy & Terms
+                </span>
+
+            </label>
+
+            <button type="button"
+                    id="btnCreateAccount">
+
+                Create Account
+
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
 
 <script src="~/js/create_customer.js"></script>

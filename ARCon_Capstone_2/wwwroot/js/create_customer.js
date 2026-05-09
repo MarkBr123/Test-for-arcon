@@ -3,14 +3,35 @@
     // =========================
     // ELEMENTS
     // =========================
-    const btn = document.getElementById("btnCreateAccount");
+
+
+    const btnCreateAccount =
+        document.getElementById("btnCreateAccount");
+
+    const btnNextToTerms =
+        document.getElementById("btnNextToTerms");
+
+    const termsModal =
+        document.getElementById("termsModal");
+
+    const closeTermsModal =
+        document.getElementById("closeTermsModal");
+
+    const agreeTerms =
+        document.getElementById("agreeTerms");
+
+    const termsScrollArea =
+        document.getElementById("termsScrollArea");
 
     const fname = document.getElementById("fname");
     const lname = document.getElementById("lname");
     const mname = document.getElementById("mname");
+
     const email = document.getElementById("email");
     const contact = document.getElementById("contact");
+
     const birthday = document.getElementById("birthday");
+
     const password = document.getElementById("password");
     const cpassword = document.getElementById("cpassword");
 
@@ -25,222 +46,689 @@
     const landmark = document.getElementById("landmark");
 
     // =========================
-    // ERROR HELPERS
+    // TOAST SYSTEM
     // =========================
+
+    function showToast(
+        message,
+        type = "error",
+        title = null
+    ) {
+
+        const container =
+            document.getElementById("toastContainer");
+
+        const toast =
+            document.createElement("div");
+
+        toast.className =
+            `custom-toast ${type}`;
+
+        let icon = "⚠️";
+
+        if (type === "success") {
+            icon = "✅";
+        }
+
+        toast.innerHTML = `
+            <div class="toast-icon">
+                ${icon}
+            </div>
+
+            <div class="toast-content">
+
+                <div class="toast-title">
+                    ${title ||
+            (
+                type === "success"
+                    ? "Success"
+                    : "Registration Problem"
+            )
+            }
+                </div>
+
+                <div class="toast-message">
+                    ${message}
+                </div>
+
+            </div>
+        `;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.remove();
+        }, 5000);
+    }
+
     function showError(message) {
-        const box = document.getElementById("formError");
-        box.innerText = message;
-        box.style.display = "block";
+
+        showToast(
+            message,
+            "error"
+        );
     }
 
-    function clearError() {
-        const box = document.getElementById("formError");
-        box.innerText = "";
-        box.style.display = "none";
+    function showSuccess(message) {
+
+        showToast(
+            message,
+            "success",
+            "Welcome!"
+        );
     }
-    //age validator
+
+    // =========================
+    // INPUT ERROR STATES
+    // =========================
+
+    function markInvalid(el) {
+
+        if (!el) return;
+
+        el.classList.add("input-error");
+    }
+
+    function clearInvalid(el) {
+
+        if (!el) return;
+
+        el.classList.remove("input-error");
+    }
+
+    function clearAllInvalid() {
+
+        document
+            .querySelectorAll(".input-error")
+            .forEach(el => {
+                el.classList.remove("input-error");
+            });
+    }
+
+    // =========================
+    // AGE VALIDATOR
+    // =========================
+
     function isValidAge(birthdayValue) {
+
         const today = new Date();
-        const birthDate = new Date(birthdayValue);
 
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
+        const birthDate =
+            new Date(birthdayValue);
 
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        let age =
+            today.getFullYear() -
+            birthDate.getFullYear();
+
+        const monthDifference =
+            today.getMonth() -
+            birthDate.getMonth();
+
+        if (
+            monthDifference < 0 ||
+            (
+                monthDifference === 0 &&
+                today.getDate() < birthDate.getDate()
+            )
+        ) {
             age--;
         }
 
         return age >= 18 && age <= 120;
     }
 
-    // Clear error on user input (retry UX)
+    // =========================
+    // CLEAR INVALID ON INPUT
+    // =========================
+
     [
-        fname, lname, email, contact,
-        birthday, password, cpassword,
-        region, province, municipality, barangay
+        fname,
+        lname,
+        email,
+        contact,
+        birthday,
+        password,
+        cpassword,
+        region,
+        province,
+        municipality,
+        barangay
     ].forEach(el => {
-        if (el) {
-            el.addEventListener("input", clearError);
-            el.addEventListener("change", clearError);
-        }
+
+        if (!el) return;
+
+        el.addEventListener("input", () => {
+            clearInvalid(el);
+        });
+
+        el.addEventListener("change", () => {
+            clearInvalid(el);
+        });
     });
 
     // =========================
     // LOAD REGIONS
     // =========================
+
     fetch("/api/regions")
         .then(res => res.json())
         .then(data => {
+
             data.forEach(r => {
-                const opt = document.createElement("option");
+
+                const opt =
+                    document.createElement("option");
+
                 opt.value = r.id;
                 opt.textContent = r.region_name;
+
                 region.appendChild(opt);
             });
         })
-        .catch(err => console.error("Region load error:", err));
+        .catch(err => {
+
+            console.error(
+                "Region load error:",
+                err
+            );
+
+            showError(
+                "Unable to load address information."
+            );
+        });
 
     // =========================
     // REGION → PROVINCE
     // =========================
+
     region.addEventListener("change", async () => {
 
-        province.innerHTML = `<option value="">-- Select Province --</option>`;
-        municipality.innerHTML = `<option value="">-- Select Municipality --</option>`;
-        barangay.innerHTML = `<option value="">-- Select Barangay --</option>`;
+        province.innerHTML =
+            `<option value="">-- Select Province --</option>`;
 
-        province.disabled = municipality.disabled = barangay.disabled = true;
+        municipality.innerHTML =
+            `<option value="">-- Select Municipality --</option>`;
+
+        barangay.innerHTML =
+            `<option value="">-- Select Barangay --</option>`;
+
+        province.disabled = true;
+        municipality.disabled = true;
+        barangay.disabled = true;
+
         if (!region.value) return;
 
-        const res = await fetch(`/api/provinces/regionID/${region.value}`);
-        const data = await res.json();
+        try {
 
-        data.forEach(p => {
-            const opt = document.createElement("option");
-            opt.value = p.id;
-            opt.textContent = p.province_name;
-            province.appendChild(opt);
-        });
+            const res =
+                await fetch(`/api/provinces/regionID/${region.value}`);
 
-        province.disabled = false;
+            const data =
+                await res.json();
+
+            data.forEach(p => {
+
+                const opt =
+                    document.createElement("option");
+
+                opt.value = p.id;
+                opt.textContent = p.province_name;
+
+                province.appendChild(opt);
+            });
+
+            province.disabled = false;
+        }
+        catch {
+
+            showError(
+                "Unable to load provinces."
+            );
+        }
     });
 
     // =========================
     // PROVINCE → MUNICIPALITY
     // =========================
+
     province.addEventListener("change", async () => {
 
-        municipality.innerHTML = `<option value="">-- Select Municipality --</option>`;
-        barangay.innerHTML = `<option value="">-- Select Barangay --</option>`;
+        municipality.innerHTML =
+            `<option value="">-- Select Municipality --</option>`;
 
-        municipality.disabled = barangay.disabled = true;
+        barangay.innerHTML =
+            `<option value="">-- Select Barangay --</option>`;
+
+        municipality.disabled = true;
+        barangay.disabled = true;
+
         if (!province.value) return;
 
-        const res = await fetch(`/api/municipality/provinceID/${province.value}`);
-        const data = await res.json();
+        try {
 
-        data.forEach(m => {
-            const opt = document.createElement("option");
-            opt.value = m.id;
-            opt.textContent = m.municipality_name;
-            municipality.appendChild(opt);
-        });
+            const res =
+                await fetch(`/api/municipality/provinceID/${province.value}`);
 
-        municipality.disabled = false;
+            const data =
+                await res.json();
+
+            data.forEach(m => {
+
+                const opt =
+                    document.createElement("option");
+
+                opt.value = m.id;
+                opt.textContent =
+                    m.municipality_name;
+
+                municipality.appendChild(opt);
+            });
+
+            municipality.disabled = false;
+        }
+        catch {
+
+            showError(
+                "Unable to load municipalities."
+            );
+        }
     });
 
     // =========================
     // MUNICIPALITY → BARANGAY
     // =========================
+
     municipality.addEventListener("change", async () => {
 
-        barangay.innerHTML = `<option value="">-- Select Barangay --</option>`;
+        barangay.innerHTML =
+            `<option value="">-- Select Barangay --</option>`;
+
         barangay.disabled = true;
+
         if (!municipality.value) return;
 
-        const res = await fetch(`/api/barangay/municipalityID/${municipality.value}`);
-        const data = await res.json();
+        try {
 
-        data.forEach(b => {
-            const opt = document.createElement("option");
-            opt.value = b.id;
-            opt.textContent = b.barangay_name;
-            barangay.appendChild(opt);
-        });
+            const res =
+                await fetch(`/api/barangay/municipalityID/${municipality.value}`);
 
-        barangay.disabled = false;
+            const data =
+                await res.json();
+
+            data.forEach(b => {
+
+                const opt =
+                    document.createElement("option");
+
+                opt.value = b.id;
+                opt.textContent =
+                    b.barangay_name;
+
+                barangay.appendChild(opt);
+            });
+
+            barangay.disabled = false;
+        }
+        catch {
+
+            showError(
+                "Unable to load barangays."
+            );
+        }
     });
 
     // =========================
-    // SUBMIT
+    // PASSWORD TOGGLE
     // =========================
-    btn.addEventListener("click", async () => {
 
-        clearError();
+    document
+        .querySelectorAll(".password-toggle-btn")
+        .forEach(button => {
 
-        // Required fields
+            button.addEventListener("click", () => {
+
+                const targetId =
+                    button.dataset.target;
+
+                const input =
+                    document.getElementById(targetId);
+
+                if (!input) return;
+
+                const isHidden =
+                    input.type === "password";
+
+                input.type =
+                    isHidden
+                        ? "text"
+                        : "password";
+
+                button.innerText =
+                    isHidden
+                        ? "🙈"
+                        : "👁";
+            });
+        });
+
+    // =========================
+    // TERMS MODAL FLOW
+    // =========================
+
+    btnNextToTerms.addEventListener("click", () => {
+
+        clearAllInvalid();
+
+        const requiredFields = [
+            fname,
+            lname,
+            email,
+            contact,
+            birthday,
+            password,
+            cpassword
+        ];
+
+        let hasError = false;
+
+        requiredFields.forEach(field => {
+
+            if (!field.value.trim()) {
+
+                markInvalid(field);
+
+                hasError = true;
+            }
+        });
+
+        if (hasError) {
+
+            showError(
+                "Please complete all required fields."
+            );
+
+            return;
+        }
+
+        if (!region.value) markInvalid(region);
+        if (!province.value) markInvalid(province);
+        if (!municipality.value) markInvalid(municipality);
+        if (!barangay.value) markInvalid(barangay);
+
         if (
-            !fname.value.trim() ||
-            !lname.value.trim() ||
-            !email.value.trim() ||
-            !contact.value.trim() ||
-            !birthday.value ||
-            !password.value ||
-            !cpassword.value
+            !region.value ||
+            !province.value ||
+            !municipality.value ||
+            !barangay.value
         ) {
-            showError("Please fill in all required fields.");
+
+            showError(
+                "Please complete your address information."
+            );
+
             return;
         }
 
-        // Address validation
-        if (!region.value || !province.value || !municipality.value || !barangay.value) {
-            showError("Please complete your address selection.");
+        const emailRegex =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email.value)) {
+
+            markInvalid(email);
+
+            showError(
+                "Please enter a valid email address."
+            );
+
             return;
         }
 
-        // Password check
+        const contactRegex =
+            /^(09\d{9}|\+639\d{9})$/;
+
+        if (!contactRegex.test(contact.value)) {
+
+            markInvalid(contact);
+
+            showError(
+                "Please enter a valid Philippine mobile number."
+            );
+
+            return;
+        }
+
+        if (password.value.length < 8) {
+
+            markInvalid(password);
+
+            showError(
+                "Password must be at least 8 characters."
+            );
+
+            return;
+        }
+
+        if (
+            !/(?=.*[A-Z])/.test(password.value) ||
+            !/(?=.*[a-z])/.test(password.value) ||
+            !/(?=.*\d)/.test(password.value) ||
+            !/(?=.*[^A-Za-z0-9])/.test(password.value)
+        ) {
+
+            markInvalid(password);
+
+            showError(
+                "Password must contain uppercase, lowercase, number, and symbol."
+            );
+
+            return;
+        }
+
         if (password.value !== cpassword.value) {
-            showError("Passwords do not match.");
-            return;
-        }
 
-        if (!birthday.value) {
-            showError("Birthday is required.");
+            markInvalid(password);
+            markInvalid(cpassword);
+
+            showError(
+                "Passwords do not match."
+            );
+
             return;
         }
 
         if (!isValidAge(birthday.value)) {
-            showError("Age must be 18 years old and above.");
+
+            markInvalid(birthday);
+
+            showError(
+                "You must be at least 18 years old to register."
+            );
+
             return;
         }
 
+        // OPEN MODAL
 
-        btn.disabled = true;
+        termsModal.classList.add("active");
+    });
+
+    // CLOSE MODAL
+
+    closeTermsModal.addEventListener("click", () => {
+
+        termsModal.classList.remove("active");
+    });
+
+    // BACKDROP CLOSE
+
+    termsModal.addEventListener("click", (e) => {
+
+        if (e.target === termsModal) {
+
+            termsModal.classList.remove("active");
+        }
+    });
+
+    // ENABLE CHECKBOX AFTER SCROLL
+
+    termsScrollArea.addEventListener("scroll", () => {
+
+        const reachedBottom =
+
+            termsScrollArea.scrollTop +
+            termsScrollArea.clientHeight >=
+            termsScrollArea.scrollHeight - 10;
+
+        if (reachedBottom) {
+
+            agreeTerms.disabled = false;
+        }
+    });
+
+    // =========================
+    // CREATE ACCOUNT
+    // =========================
+
+    btnCreateAccount.addEventListener("click", async () => {
+
+        if (!agreeTerms.checked) {
+
+            showError(
+                "Please agree to the Privacy Policy and Terms."
+            );
+
+            return;
+        }
+
+        btnCreateAccount.disabled = true;
+
+        btnCreateAccount.innerText =
+            "Creating Account...";
 
         const payload = {
-            first_name: fname.value,
-            last_name: lname.value,
-            middle_name: mname.value || null,
-            birthday: birthday.value,
-            email: email.value,
-            contact_no: contact.value,
-            password: password.value,
+
+            first_name:
+                fname.value.trim(),
+
+            last_name:
+                lname.value.trim(),
+
+            middle_name:
+                mname.value.trim() || null,
+
+            birthday:
+                birthday.value,
+
+            email:
+                email.value.trim(),
+
+            contact_no:
+                contact.value.trim(),
+
+            password:
+                password.value,
+
             address: {
-                region_id: parseInt(region.value),
-                province_id: parseInt(province.value),
-                municipality_id: parseInt(municipality.value),
-                barangay_id: parseInt(barangay.value),
-                house_unit: house_unit.value || null,
-                street_name: street_name.value || null,
-                zip_code: zip_code.value || null,
-                landmark: landmark.value || null
+
+                region_id:
+                    parseInt(region.value),
+
+                province_id:
+                    parseInt(province.value),
+
+                municipality_id:
+                    parseInt(municipality.value),
+
+                barangay_id:
+                    parseInt(barangay.value),
+
+                house_unit:
+                    house_unit.value.trim() || null,
+
+                street_name:
+                    street_name.value.trim() || null,
+
+                zip_code:
+                    zip_code.value.trim() || null,
+
+                landmark:
+                    landmark.value.trim() || null
             }
         };
 
         try {
-            const res = await fetch("/api/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
+
+            const res =
+                await fetch("/api/auth/register", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(payload)
+                });
+
+            const data =
+                await res.json();
 
             if (!res.ok) {
-                const err = await res.json();
-                showError(err.message || "Registration failed.");
-                btn.disabled = false;
+
+                showError(
+                    data.message ||
+                    "Registration failed."
+                );
+
+                btnCreateAccount.disabled = false;
+
+                btnCreateAccount.innerText =
+                    "Create Account";
+
                 return;
             }
 
-            alert("Account created successfully!");
-            window.location.href = "/Shop/Home/Login";
+            // SUCCESS
+
+            showToast(
+                "Your account has been created successfully!",
+                "success",
+                "Welcome to AIRCON-i!"
+            );
+
+            // CLOSE TERMS MODAL
+
+            termsModal.classList.remove("active");
+
+            // BUTTON STATE
+
+            btnCreateAccount.innerText =
+                "Account Created";
+
+            btnCreateAccount.disabled = true;
+
+            // REDIRECT
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "/Shop/Home/Login";
+
+            }, 3000);
         }
         catch (err) {
+
             console.error(err);
-            showError("Server error. Please try again.");
-            btn.disabled = false;
+
+            showError(
+                "Server error. Please try again later."
+            );
+
+            btnCreateAccount.disabled = false;
+
+            btnCreateAccount.innerText =
+                "Create Account";
         }
     });
 });
-
-
 
