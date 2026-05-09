@@ -7,7 +7,6 @@
 
 html {
     scroll-behavior: smooth;
-    -
 }
 
 body {
@@ -1758,4 +1757,42 @@ cart-btn:hover .cart-btn i {
         .faq-section h2 {
             font-size: 1.4rem;
         }
+}
+
+/*brand logo*/
+.logo-container {
+    overflow: hidden;
+    padding: 0px 0 0px 0;
+    background-color: lightgray;
+    white-space: nowrap;
+}
+
+.logo-slide {
+    display: inline-block;
+    animation: 50s slide infinite linear;
+}
+
+    .logo-slide img {
+        height: 50px;
+        margin: 0 40px;
+    }
+
+#small-logo {
+    height: 130px;
+    overflow: hidden;
+}
+
+#med-logo {
+    height: 80px;
+    overflow: hidden;
+}
+
+@keyframes slide {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
 }
