@@ -406,7 +406,7 @@ public class ServiceTransactionApiController : ControllerBase
             .Include(b => b.customer)
             .AsQueryable();
 
-        query = query.Where(b => b.status == "CONFIRMED");
+        query = query.Where(b => b.status == "CONFIRMED" || b.status == "APPROVED_FOR_WARRANTY");
 
         //Search
 

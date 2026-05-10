@@ -214,28 +214,28 @@ public class Shop_WarrantyClaimApiController: ControllerBase
                 {
                     message = "Completed booking not found."
                 });
-            }
-
-
-            // =========================
-            // Prevent Active Claim
+            }         // =========================
+            // Validate Existing Active Claim
             // =========================
 
             var hasActiveClaim =
                 await _context.service_warranty_bookings
                 .AnyAsync(x =>
-                    x.service_booking_id == dto.service_booking_id &&
-                    x.cancelled_at == null &&
-                    x.resolved_at == null);
+
+                    x.service_booking_id ==
+                        dto.service_booking_id &&
+
+                    x.isactiveclaim== true
+                );
 
             if (hasActiveClaim)
             {
                 return BadRequest(new
                 {
                     message =
-                        "An active warranty claim already exists."
+                        "This service booking already has an active warranty claim."
                 });
-            }
+   }
 
             // Validate Complaint
 

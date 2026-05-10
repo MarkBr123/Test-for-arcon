@@ -154,6 +154,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcV2FycmFudHlcU2VydmljZV9XYXJyYW50eV9SZXF1ZXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/Warranty/Warranty_Claim_Summary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcV2FycmFudHlcV2FycmFudHlfQ2xhaW1fU3VtbWFyeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Admin/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
