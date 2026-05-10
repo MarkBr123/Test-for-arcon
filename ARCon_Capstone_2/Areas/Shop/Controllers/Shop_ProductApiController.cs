@@ -106,7 +106,7 @@ public class Shop_ProductApiController : ControllerBase
 
               ar_url = p.ar_url
             })
-            .Take(5)
+            .Take(12)
             .AsNoTracking()
             .ToListAsync();
 
