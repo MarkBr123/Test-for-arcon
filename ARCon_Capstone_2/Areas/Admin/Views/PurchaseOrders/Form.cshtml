@@ -1,213 +1,434 @@
 ﻿@{
-    var mode = ViewBag.Mode ?? "CREATE";   // CREATE | EDIT | SUMMARY
-    var poId = ViewBag.PoId;
+    ViewData["Title"] = "Warranty Claim Summary";
 }
 
-<form id="purchaseOrderForm">
+<link rel="stylesheet"
+      href="~/css/render-rows.css" />
 
-    <!-- MODE + ID (context for JS) -->
-    <input type="hidden" id="poMode" value="@mode" />
-    <input type="hidden" id="poId" value="@poId" />
+<link rel="stylesheet"
+      href="~/css/warranty-claim-summary.css" />
+
+
+<div class="container-fluid px-3">
 
     <!-- PAGE HEADER -->
-    <div class="d-flex justify-content-between align-items-center mb-3 px-3">
-        <h5 class="mb-0 fw-semibold">
-            <span id="pageTitleText">Purchase Order</span>
-            <span id="poNumberBadge"
-                  class="text-muted fw-normal ms-2"></span>
-        </h5>
+    <div class="d-flex justify-content-between align-items-center mb-3">
 
-        <a href="/Admin/PurchaseOrders"
+        <div>
+
+            <h4 class="mb-1 fw-semibold">
+                Warranty Claim Summary
+            </h4>
+
+            <small class="text-muted">
+                Review warranty request details, customer information,
+                and attached media.
+            </small>
+
+        </div>
+
+        <a href="/Admin/Warranty/Service_Warranty_Request"
            class="btn btn-outline-secondary btn-sm">
-            ← Back to Purchase Orders
+
+            ← Back
+
         </a>
+
     </div>
 
 
+    <!-- TABS -->
+    <ul class="nav nav-pills mb-4"
+        role="tablist">
 
-    <div>
-        <small class="fw-semibold text-muted">
-            Generate a formal document that records and submits a request to buy
-            specific goods or services from a supplier under defined terms
-            (items, quantities, prices, delivery, and payment)
-        </small>
-    </div>
+        <!-- TAB 1 -->
+        <li class="nav-item">
 
-    <!-- PURCHASE ORDER DETAILS -->
-    <div class="card mb-3">
-        <div class="card-header fw-semibold">
-            Purchase Order Details
-        </div>
+            <button class="nav-link active"
+                    data-bs-toggle="pill"
+                    data-bs-target="#warranty-info-pane"
+                    type="button">
 
-        <div class="card-body row g-3">
+                <i class="bi bi-clipboard-check me-2"></i>
+                Warranty Request Information
 
-            <div class="col-md-4">
-                <label class="form-label">Supplier</label>
-                <select id="supplierSelect" class="form-select">
-                    <option value="">Select supplier</option>
-                </select>
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">Payment Type</label>
-                <select id="paymentType" class="form-select">
-                    <option value="">Select payment type</option>
-                    <option value="CASH">Cash</option>
-                    <option value="CREDIT">Credit</option>
-                    <option value="INSTALLMENT">Installment</option>
-                </select>
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">Deliver to Branch</label>
-                <select id="branchSelect" class="form-select">
-                    <option value="">Select branch</option>
-                </select>
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">Expected Delivery</label>
-                <input type="date"
-                       id="expectedDelivery"
-                       class="form-control">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">Freight Cost</label>
-                <input type="number"
-                       id="freightCost"
-                       class="form-control"
-                       value="0"
-                       min="0"
-                       step="0.01">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label">Total Amount</label>
-                <input id="totalAmount"
-                       class="form-control"
-                       readonly>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- PURCHASE ORDER ARTICLES -->
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span class="fw-semibold">Purchase Order Articles</span>
-
-            <button type="button"
-                    id="addPoArticleBtn"
-                    class="btn btn-sm btn-outline-primary"
-                    onclick="openAddArticleModal()">
-                + PO Article
             </button>
-        </div>
 
-        <div class="card-body">
+        </li>
 
-            <table class="table table-sm align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>SKU</th>
-                        <th>Manufacturer</th>
-                        <th>Product Model</th>
-                        <th>Product Series</th>
-                        <th>Part Number A</th>
-                        <th>Total Gross Weight</th>
-                        <th>Form Factor</th>
-                        <th>Qty</th>
-                        <th>Unit Price</th>
-                        <th>Line Total</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="poItemsBody">
-                    <!-- injected by JS -->
-                </tbody>
-            </table>
+        <!-- TAB 2 -->
+        <li class="nav-item">
 
-            <div class="text-end">
+            <button class="nav-link"
+                    data-bs-toggle="pill"
+                    data-bs-target="#warranty-media-pane"
+                    type="button">
 
-                <!-- CREATE -->
-                <button type="button"
-                        id="createBtn"
-                        class="btn btn-primary"
-                        onclick="createPoClick()">
-                    Next &gt;
-                </button>
+                <i class="bi bi-images me-2"></i>
+                Media
 
-                <!-- UPDATE -->
-                <button type="button"
-                        id="updateBtn"
-                        class="btn btn-success d-none"
-                        onclick="updatePoClick()">
-                    Save Changes
-                </button>
+            </button>
 
-            </div>
+        </li>
+
+    </ul>
 
 
-        </div>
-    </div>
+    <!-- TAB CONTENT -->
+    <div class="tab-content">
 
-</form>
+        <!-- ===================================================== -->
+        <!-- TAB 1 -->
+        <!-- ===================================================== -->
 
-<!-- ADD ARTICLE MODAL -->
-<div class="modal fade" id="addArticleModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
+        <div class="tab-pane fade show active"
+             id="warranty-info-pane">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Add PO Article</h5>
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"></button>
-            </div>
+            <div class="row g-4">
 
-            <div class="modal-body">
+                <!-- WARRANTY DETAILS -->
+                <div class="col-lg-6">
 
-                <input id="productSearchInput"
-                       class="form-control mb-2"
-                       placeholder="Search product...">
+                    <div class="card h-100 shadow-sm border-0">
 
-                <div id="productResults"
-                     class="list-group mb-3">
-                    <!-- injected by JS -->
-                </div>
+                        <div class="card-header fw-semibold">
 
-                <hr>
+                            <i class="bi bi-clipboard-check me-2"></i>
+                            Warranty Details
 
-                <div class="row g-2">
-                    <div class="col-md-6">
-                        <input id="qtyInput"
-                               type="number"
-                               class="form-control"
-                               placeholder="Quantity">
+                        </div>
+
+                        <div class="card-body p-0">
+
+                            <table class="table table-bordered mb-0 summary-table">
+
+                                <tbody>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Warranty Code
+                                        </td>
+
+                                        <td id="summarySwbCode">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Status
+                                        </td>
+
+                                        <td id="summaryStatus">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Preferred Date
+                                        </td>
+
+                                        <td id="summaryPreferredDate">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Preferred Time
+                                        </td>
+
+                                        <td id="summaryPreferredTime">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Complaint
+                                        </td>
+
+                                        <td id="summaryComplaint"
+                                            class="summary-text">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Diagnosis Notes
+                                        </td>
+
+                                        <td id="summaryDiagnosisNotes"
+                                            class="summary-text">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Technician Notes
+                                        </td>
+
+                                        <td id="summaryTechnicianNotes"
+                                            class="summary-text">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Repeat Issue
+                                        </td>
+
+                                        <td id="summaryRepeatIssue">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Created At
+                                        </td>
+
+                                        <td id="summaryCreatedAt">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
                     </div>
 
-                    <div class="col-md-6">
-                        <input id="priceInput"
-                               type="number"
-                               class="form-control"
-                               placeholder="Unit Price">
+                </div>
+
+                <!-- CUSTOMER & BOOKING -->
+                <div class="col-lg-6">
+
+                    <div class="card h-100 shadow-sm border-0">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+
+                            <div class="fw-semibold">
+
+                                <i class="bi bi-person-lines-fill me-2"></i>
+                                Customer & Booking
+
+                            </div>
+
+                            <a id="viewBookingSummaryBtn"
+                               href="#"
+                               target="_blank"
+                               class="btn btn-sm btn-outline-primary">
+
+                                <i class="bi bi-box-arrow-up-right me-1"></i>
+                                Booking Summary
+
+                            </a>
+
+                        </div>
+
+                        <div class="card-body p-0">
+
+                            <table class="table table-bordered mb-0 summary-table">
+
+                                <tbody>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Booking Ref
+                                        </td>
+
+                                        <td id="summaryBookingRef">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Booking Status
+                                        </td>
+
+                                        <td id="summaryBookingStatus">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Customer Name
+                                        </td>
+
+                                        <td id="summaryCustomerName">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Contact No
+                                        </td>
+
+                                        <td id="summaryContactNo">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Email
+                                        </td>
+
+                                        <td id="summaryEmail">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Paid At
+                                        </td>
+
+                                        <td id="summaryPaidAt">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Booking Created At
+                                        </td>
+
+                                        <td id="summaryBookingCreatedAt">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label">
+                                            Customer Note
+                                        </td>
+
+                                        <td id="summaryCustomerNote"
+                                            class="summary-text">
+
+                                            -
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
                     </div>
+
                 </div>
 
             </div>
 
-            <div class="modal-footer">
-                <button type="button"
-                        class="btn btn-primary"
-                        onclick="addSelectedProduct()">
-                    Add
-                </button>
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- TAB 2 -->
+        <!-- ===================================================== -->
+
+        <div class="tab-pane fade"
+             id="warranty-media-pane">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header fw-semibold">
+
+                    <i class="bi bi-images me-2"></i>
+                    Warranty Attachments
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-3"
+                         id="warrantyMediaContainer">
+
+                        <!-- Injected by JS -->
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
-<!-- PAGE SCRIPT -->
-<script src="~/js/purchase-order-form.js"></script>
+
+<script src="~/js/warranty-claim-summary.js"></script>

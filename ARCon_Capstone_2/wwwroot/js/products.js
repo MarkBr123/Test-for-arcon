@@ -1126,16 +1126,17 @@ async function saveImages() {
     // PRIMARY IMAGE
 
 
-    const primary =
-        existingMedia.find(x => x.isPrimary);
+    if (primaryFile) {
 
-    if (primary) {
+        formData.append("files", primaryFile);
 
-        formData.append(
-            "PrimaryMediaId",
-            primary.mediaId
-        );
+        formData.append("PrimaryIndex", 0);
     }
+
+    galleryFiles.forEach(file => {
+
+        formData.append("files", file);
+    });
 
     try {
 

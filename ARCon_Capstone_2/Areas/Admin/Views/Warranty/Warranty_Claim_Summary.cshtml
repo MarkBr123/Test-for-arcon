@@ -1,0 +1,362 @@
+﻿
+    <link rel="stylesheet" href="~/css/warranty-summry.css" asp-append-version="true" />
+
+
+<!-- TABS -->
+<div class="d-flex justify-content-center mb-4">
+
+    <ul class="nav nav-pills warranty-tabs"
+        id="warrantySummaryTabs"
+        role="tablist">
+
+        <!-- TAB 1 -->
+        <li class="nav-item"
+            role="presentation">
+
+            <button class="nav-link active"
+                    id="warranty-info-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#warranty-info-pane"
+                    type="button"
+                    role="tab">
+
+                <i class="bi bi-clipboard-check me-2"></i>
+                Warranty Request Information
+
+            </button>
+
+        </li>
+
+        <!-- TAB 2 -->
+        <li class="nav-item"
+            role="presentation">
+
+            <button class="nav-link"
+                    id="warranty-media-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#warranty-media-pane"
+                    type="button"
+                    role="tab">
+
+                <i class="bi bi-images me-2"></i>
+                Media
+
+            </button>
+
+        </li>
+
+    </ul>
+
+</div>
+
+
+
+<!-- TAB CONTENT -->
+<div class="tab-content">
+
+    <!-- ===================================================== -->
+    <!-- TAB 1 -->
+    <!-- ===================================================== -->
+
+    <div class="tab-pane fade show active"
+         id="warranty-info-pane"
+         role="tabpanel">
+
+        <div class="summary-wrapper">
+
+            <div class="row justify-content-center g-4">
+
+                <!-- ===================================================== -->
+                <!-- WARRANTY DETAILS -->
+                <!-- ===================================================== -->
+
+                <div class="col-xxl-5 col-xl-6">
+
+                    <div class="summary-card h-100">
+
+                        <!-- HEADER -->
+                        <div class="summary-card-header">
+
+                            <div class="summary-card-icon bg-primary-subtle text-primary">
+
+                                <i class="bi bi-clipboard-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <div class="summary-card-title">
+                                    Warranty Details
+                                </div>
+
+                                <div class="summary-card-subtitle">
+                                    Overview of the submitted warranty request
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- TABLE -->
+                        <div class="table-responsive">
+
+                            <table class="table summary-table align-middle mb-0">
+
+                                <tbody>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Warranty Code
+                                        </td>
+
+                                        <td id="summarySwbCode"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Status
+                                        </td>
+
+                                        <td id="summaryStatus"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Preferred Date
+                                        </td>
+
+                                        <td id="summaryPreferredDate"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Preferred Time
+                                        </td>
+
+                                        <td id="summaryPreferredTime"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr class="summary-text-row">
+
+                                        <td class="summary-label-cell">
+                                            Complaint
+                                        </td>
+
+                                        <td id="summaryComplaint"
+                                            class="summary-text-content">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ===================================================== -->
+                <!-- CUSTOMER & BOOKING -->
+                <!-- ===================================================== -->
+
+                <div class="col-xxl-5 col-xl-6">
+
+                    <div class="summary-card h-100">
+
+                        <!-- HEADER -->
+                        <div class="summary-card-header">
+
+                            <div class="summary-card-icon bg-success-subtle text-success">
+
+                                <i class="bi bi-person-lines-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <div class="summary-card-title">
+                                    Customer & Booking
+                                </div>
+
+                                <div class="summary-card-subtitle">
+                                    Linked booking and customer information
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- TABLE -->
+                        <div class="table-responsive">
+
+                            <table class="table summary-table align-middle mb-0">
+
+                                <tbody>
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Booking Reference Code
+                                        </td>
+
+                                        <td class="summary-value-cell">
+
+                                            <div class="d-flex justify-content-between align-items-center">
+
+                                                <span id="summaryBookingRef">
+                                                    -
+                                                </span>
+
+                                                <a id="bookingDetailsLink"
+                                                   href="#"
+                                                   class="btn btn-sm btn-outline-primary ms-3">
+
+                                                    <i class="bi bi-box-arrow-up-right me-1"></i>
+                                                    More Details
+
+                                                </a>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Service Booking Status
+                                        </td>
+
+                                        <td id="summaryBookingStatus"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Customer Name
+                                        </td>
+
+                                        <td id="summaryCustomerName"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Contact Number
+                                        </td>
+
+                                        <td id="summaryContactNo"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr class="summary-text-row">
+
+                                        <td class="summary-label-cell">
+                                            Customer Note
+                                        </td>
+
+                                        <td id="summaryCustomerNote"
+                                            class="summary-text-content">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ===================================================== -->
+    <!-- TAB 2 -->
+    <!-- ===================================================== -->
+
+    <div class="tab-pane fade"
+         id="warranty-media-pane"
+         role="tabpanel">
+
+        <div class="media-grid"
+             id="warrantyMediaContainer">
+
+            <!-- injected by JS -->
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MEDIA PREVIEW MODAL -->
+<div class="modal fade"
+     id="mediaPreviewModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+        <div class="modal-content bg-transparent border-0">
+
+            <button type="button"
+                    class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3"
+                    data-bs-dismiss="modal">
+            </button>
+
+            <img id="mediaPreviewImage"
+                 class="img-fluid rounded shadow">
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="~/js/service-warranty-booking-summary.js"></script>

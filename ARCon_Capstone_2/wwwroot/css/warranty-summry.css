@@ -1,0 +1,474 @@
+﻿.media-card {
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.media-preview-wrapper {
+    height: 250px;
+    background: #f8f9fa;
+    overflow: hidden;
+    position: relative;
+}
+
+.media-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: zoom-in;
+    transition: transform 0.25s ease;
+}
+
+    .media-preview-image:hover {
+        transform: scale(1.03);
+    }
+
+.media-preview-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #000;
+}
+
+.media-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =====================================================
+   GLOBAL SCALE (OPTIONAL BUT RECOMMENDED)
+===================================================== */
+
+html {
+    font-size: 14px; /* slight global increase */
+}
+
+/* =====================================================
+   TABLE SYSTEM
+===================================================== */
+
+/* =====================================================
+   TABLE SYSTEM (PADDED + CLEAN + ZEBRA)
+===================================================== */
+
+.table {
+    font-size: 0.9rem;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    /* =====================================================
+   HEADER
+===================================================== */
+
+    .table thead th {
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #6b7280;
+        background: #f8fafc;
+        padding: 10px 12px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* =====================================================
+   BODY
+===================================================== */
+
+    .table tbody td {
+        font-size: 0.86rem;
+        padding: 10px 12px;
+        vertical-align: middle;
+        color: #1f2937;
+        border-bottom: 1px solid #f1f3f5;
+    }
+
+    /* =====================================================
+   ZEBRA ROWS (FIXED)
+===================================================== */
+
+    .table tbody tr:nth-child(odd) td {
+        background: #ffffff;
+    }
+
+    .table tbody tr:nth-child(even) td {
+        background: #fafbfc;
+    }
+
+    /* =====================================================
+   ROW HOVER (OVERRIDE ZEBRA)
+===================================================== */
+
+    .table tbody tr:hover td {
+        background: #f1f5f9 !important;
+    }
+
+    /* =====================================================
+   ROW SPACING (CARD EFFECT SAFE)
+===================================================== */
+
+    .table tbody tr {
+        transition: background 0.15s ease;
+    }
+
+        /* spacing using pseudo row gap illusion */
+        .table tbody tr + tr td {
+            border-top: 6px solid #f5f7fb; /* 🔥 safe spacing */
+        }
+
+        /* =====================================================
+   FIX LAST ROW
+===================================================== */
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+/* =====================================================
+   DROPDOWN FIX
+===================================================== */
+
+.table-responsive,
+.table {
+    overflow: visible !important;
+}
+/* =====================================================
+   STATUS BADGES
+===================================================== */
+
+.status-badge {
+    font-size: 0.78rem;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.status-active {
+    background: #e6f7ee;
+    color: #198754;
+}
+
+.status-suspended {
+    background: #fdecea;
+    color: #dc3545;
+}
+
+/* =====================================================
+   ROLE TAGS
+===================================================== */
+
+.role-pill {
+    padding: 4px 9px;
+    font-size: 0.78rem;
+    border-radius: 999px;
+    background: #e7f1ff;
+    color: #0d6efd;
+}
+
+/* =====================================================
+   BUTTON SYSTEM
+===================================================== */
+
+.btn {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background: #0d6efd;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background: #0b5ed7;
+    }
+
+.btn-success {
+    background: #198754;
+    border: none;
+}
+
+    .btn-success:hover {
+        background: #157347;
+    }
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #374151;
+    border: none;
+}
+
+    .btn-secondary:hover {
+        background: #d1d5db;
+    }
+
+.btn-danger {
+    background: #dc3545;
+    border: none;
+}
+
+    .btn-danger:hover {
+        background: #bb2d3b;
+    }
+
+/* small */
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+}
+
+/* =====================================================
+   MODAL (JUSTIFIED + CLEAN)
+===================================================== */
+
+.modal-dialog {
+    max-width: 900px;
+}
+
+.modal-content {
+    border-radius: 10px;
+}
+
+.modal-header {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    font-size: 0.9rem;
+    padding: 24px;
+}
+
+    /* JUSTIFIED GRID */
+    .modal-body .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+        .modal-body .row > div {
+            flex: 1 1 calc(50% - 12px);
+        }
+
+        .modal-body .row > .col-12 {
+            flex: 1 1 100%;
+        }
+
+/* form */
+.form-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.form-control,
+.form-select {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+}
+
+/* tabs */
+.nav-tabs {
+    justify-content: center;
+}
+
+    .nav-tabs .nav-link {
+        font-size: 0.9rem;
+    }
+
+        .nav-tabs .nav-link.active {
+            font-weight: 600;
+        }
+
+/* =====================================================
+   PAGINATION
+===================================================== */
+
+.pagination .page-link {
+    font-size: 0.85rem;
+    padding: 5px 10px;
+}
+
+/* =====================================================
+   TOGGLE SWITCH
+===================================================== */
+
+.toggle-switch {
+    position: relative;
+    width: 36px;
+    height: 20px;
+}
+
+    .toggle-switch input {
+        display: none;
+    }
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #e5e7eb;
+    border-radius: 999px;
+}
+
+    .toggle-slider::before {
+        content: "";
+        position: absolute;
+        height: 15px;
+        width: 15px;
+        top: 2.5px;
+        left: 2px;
+        background: #fff;
+        border-radius: 50%;
+        transition: 0.2s;
+    }
+
+.toggle-switch input:checked + .toggle-slider {
+    background: #0d6efd;
+}
+
+    .toggle-switch input:checked + .toggle-slider::before {
+        transform: translateX(16px);
+    }
+
+/* =====================================================
+   ACTION MENU
+===================================================== */
+
+.action-wrapper {
+    position: relative;
+}
+
+.action-menu {
+    position: absolute;
+    right: 0;
+    bottom: 110%;
+    min-width: 150px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    opacity: 0;
+    transform: translateY(6px);
+    visibility: hidden;
+    transition: 0.15s ease;
+    z-index: 9999;
+}
+
+    .action-menu.show {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+    .action-menu button {
+        width: 100%;
+        padding: 8px 12px;
+        text-align: left;
+        font-size: inherit; /* matches table */
+        border: none;
+        background: none;
+        cursor: pointer;
+        line-height: 1.4;
+    }
+
+        .action-menu button:hover {
+            background: #f3f4f6;
+        }
+
+        .action-menu button:disabled {
+            color: #adb5bd;
+        }
+
+/* =====================================================
+   EXPAND ROW
+===================================================== */
+
+.expand-arrow {
+    cursor: pointer;
+    font-size: 15px;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+    .expand-arrow.open {
+        transform: rotate(90deg);
+    }
+
+.child-row td {
+    background-color: #f8f9fa;
+    border-top: none;
+}
+
+.selected-row {
+    background-color: #e7f1ff !important;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .modal-dialog {
+        max-width: 95%;
+    }
+
+    .modal-body .row > div {
+        flex: 1 1 100%;
+    }
+}
+
+
+.summary-card-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 28px 30px 24px;
+    border-bottom: 1px solid #f1f3f6;
+    background: linear-gradient( to bottom, #ffffff, #fcfcfd );
+}
+
+.summary-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.summary-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.summary-card-subtitle {
+    font-size: 0.95rem;
+    color: #6b7280;
+    line-height: 1.5;
+}

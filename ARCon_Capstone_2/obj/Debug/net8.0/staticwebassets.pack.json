@@ -69,6 +69,38 @@
       "PackagePath": "staticwebassets\\ImageSources\\Banner\\promotional.png"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Brand Logos\\carrier_logo.webp",
+      "PackagePath": "staticwebassets\\ImageSources\\Brand Logos\\carrier_logo.webp"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Brand Logos\\condura_logo.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Brand Logos\\condura_logo.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Brand Logos\\daikin_logo.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Brand Logos\\daikin_logo.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Brand Logos\\kolin_logo.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Brand Logos\\kolin_logo.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Brand Logos\\lg_logo.svg",
+      "PackagePath": "staticwebassets\\ImageSources\\Brand Logos\\lg_logo.svg"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Brand Logos\\mitsubishi_logo.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Brand Logos\\mitsubishi_logo.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Brand Logos\\panasonic_logo.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Brand Logos\\panasonic_logo.png"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Brand Logos\\samsung_logo.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Brand Logos\\samsung_logo.png"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Logo\\aircon.PNG",
       "PackagePath": "staticwebassets\\ImageSources\\Logo\\aircon.PNG"
     },
@@ -209,6 +241,10 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\warranty-summry.css",
+      "PackagePath": "staticwebassets\\css\\warranty-summry.css"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
@@ -299,6 +335,14 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\purchase-order-index.js",
       "PackagePath": "staticwebassets\\js\\purchase-order-index.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\service-warranty-booking-index.js",
+      "PackagePath": "staticwebassets\\js\\service-warranty-booking-index.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\service-warranty-booking-summary.js",
+      "PackagePath": "staticwebassets\\js\\service-warranty-booking-summary.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\services.js",

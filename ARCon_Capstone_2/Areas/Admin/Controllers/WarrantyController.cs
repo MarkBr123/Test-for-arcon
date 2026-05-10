@@ -13,7 +13,16 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        [Route("Admin/Warranty/Warranty_Claim_Summary/{id}")]
+        public IActionResult Warranty_Claim_Summary(int id)
+        {
+            return View();
+        }
     }
+
+    
 }
 
 

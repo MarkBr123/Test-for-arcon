@@ -50,6 +50,8 @@ namespace ARCon_Capstone_2.Models
 
         public string? swb_code { get; set; }
 
+        public bool? isactiveclaim { get; set; }
+
 
         /* =========================
            Relationships
