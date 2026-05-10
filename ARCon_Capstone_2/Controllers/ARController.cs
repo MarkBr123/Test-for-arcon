@@ -13,9 +13,9 @@ namespace ARCon_Capstone_2.Controllers
         }
 
         [HttpGet("ar/launch")]
-        public IActionResult Launch(string sku, string name)
+        public IActionResult Launch(string productModel, string name)
         {
-            ViewBag.SKU = sku ?? "CAR-SPL00001";
+            ViewBag.ProductModel = productModel ?? "default";
             ViewBag.ProductName = name ?? "Air Conditioner";
             return View();
         }
