@@ -2505,5 +2505,26 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WarrantyApiController",
+    "Method": "ApproveWarrantyClaim",
+    "RelativePath": "api/warranties/{id}/approve",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.ApproveWarrantyClaimDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

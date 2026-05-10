@@ -72,6 +72,8 @@ public class service_transaction
     public DateTime? updated_at { get; set; }
     public DateTime? started_at { get; set; }
 
+    public string? st_type { get; set; }
+
     /* ✅ RELATIONSHIPS */
 
     [ForeignKey("service_booking_id")]
@@ -82,5 +84,7 @@ public class service_transaction
 
     public virtual ICollection<service_transaction_technician> service_transaction_technicians { get; set; }
         = new List<service_transaction_technician>();
+
+    public virtual ICollection<service_warranty_booking> service_warranty_bookings { get; set; } = new List<service_warranty_booking>();
 }
 

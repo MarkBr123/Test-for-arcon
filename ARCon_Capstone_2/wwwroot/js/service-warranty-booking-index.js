@@ -146,9 +146,10 @@ function renderServiceWarrantyBookingsTable(items) {
                                     </button>
                                 </li>
 
-                                <li>
+                               <li>
                                     <button class="dropdown-item warranty-dropdown-item text-success"
-                                            type="button">
+                                            type="button"
+                                            onclick="openApproveWarrantyModal(${item.id})">
 
                                         <i class="bi bi-check-circle me-2"></i>
                                         Approve
@@ -277,4 +278,23 @@ function formatTime(timeString) {
             hour: "2-digit",
             minute: "2-digit"
         });
+}
+
+//////// Approval of Service Warranty //////////
+
+let selectedWarrantyId = null;
+
+function openApproveWarrantyModal(id) {
+
+    selectedWarrantyId = id;
+
+    const modal =
+        new bootstrap.Modal(
+            document.getElementById(
+                "approveWarrantyModal"
+            )
+        );
+
+    modal.show();
+
 }

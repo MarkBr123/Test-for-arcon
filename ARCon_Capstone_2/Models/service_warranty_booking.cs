@@ -39,7 +39,7 @@ namespace ARCon_Capstone_2.Models
         public string? technician_notes { get; set; }
 
         // Flags
-        public bool is_repeat_issue { get; set; } = false;
+        public bool? is_repeat_issue { get; set; } = false;
 
         // Audit Dates
         public DateTime created_at { get; set; }
@@ -51,7 +51,7 @@ namespace ARCon_Capstone_2.Models
         public string? swb_code { get; set; }
 
         public bool? isactiveclaim { get; set; }
-
+        public int? linked_service_transaction_id { get; set; }
 
         /* =========================
            Relationships
@@ -64,5 +64,7 @@ namespace ARCon_Capstone_2.Models
         public virtual customer? customer { get; set; }
 
         public virtual ICollection<service_warranty_attachment>service_warranty_attachments{ get; set; } = new List<service_warranty_attachment>();
+        [ForeignKey(nameof(linked_service_transaction_id))]
+        public virtual service_transaction? service_transaction { get; set; }
     }
 }

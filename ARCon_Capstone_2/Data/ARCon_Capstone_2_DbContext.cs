@@ -371,6 +371,14 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
             entity.HasIndex(e => e.actual_scheduled_time)
                 .HasDatabaseName("idx_service_transaction_schedule_time");
+
+            entity.HasMany(x => x.service_warranty_bookings)    
+                .WithOne(x => x.service_transaction)
+                .HasForeignKey(
+                 x => x.linked_service_transaction_id)
+                .OnDelete(DeleteBehavior.SetNull);
+
+
         });
 
         modelBuilder.Entity<service_transaction_item>(entity =>
@@ -600,6 +608,19 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .WithOne(x => x.service_warranty_booking)
                 .HasForeignKey(x => x.service_warranty_booking_id)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(d => d.service_transaction)
+
+               .WithMany(p => p.service_warranty_bookings)
+
+               .HasForeignKey(d => d.linked_service_transaction_id)
+
+               .OnDelete(DeleteBehavior.SetNull)
+
+               .HasConstraintName(
+                   "fk_service_warranty_linked_transaction"
+                 );
+
         });
 
 

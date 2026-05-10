@@ -192,10 +192,7 @@ public class WarrantyApiController : ControllerBase
 
         return Ok(new
         {
-
-            // =====================================
             // WARRANTY BOOKING
-            // =====================================
 
             warranty_booking = new
             {
@@ -230,11 +227,7 @@ public class WarrantyApiController : ControllerBase
                 warranty.cancelled_at
             },
 
-
-            // =====================================
             // CUSTOMER
-            // =====================================
-
             customer = new
             {
                 warranty.service_booking.customer.id,
@@ -250,10 +243,7 @@ public class WarrantyApiController : ControllerBase
                 warranty.service_booking.customer.email
             },
 
-
-            // =====================================
             // SERVICE BOOKING
-            // =====================================
 
             service_booking = new
             {
@@ -269,12 +259,7 @@ public class WarrantyApiController : ControllerBase
 
                 warranty.service_booking.customer_note
             },
-
-
-            // =====================================
             // ATTACHMENTS
-            // =====================================
-
             attachments = warranty
                 .service_warranty_attachments
                 .Select(a => new
@@ -289,6 +274,302 @@ public class WarrantyApiController : ControllerBase
                 })
                 .ToList()
         });
+    }
+
+    /// <summary>
+    /// Service Transaction Reference Code Generator
+    /// </summary>
+    /// <returns></returns>
+    private string GenerateServiceTransactionRefCode()
+    {
+        var now = DateTime.Now;
+        return $"SRV{now:MMdd}-{now:HHmmss}";
+    }
+
+
+    //Transaction Creation for Service_Warranty_Booking for (APPROVED warranty claims)
+    [HttpPost("{id}/approve")]
+    public async Task<IActionResult> ApproveWarrantyClaim(
+    int id,
+
+    [FromBody] ApproveWarrantyClaimDto dto)
+    {
+        await using var tx =
+            await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+
+            // GET WARRANTY
+
+            var warranty =
+                await _context.service_warranty_bookings
+
+                .Include(x => x.service_booking)
+
+                .FirstOrDefaultAsync(x => x.id == id);
+
+            if (warranty == null)
+            {
+                return NotFound(new
+                {
+                    message =
+                        "Warranty claim not found."
+                });
+            }
+
+            // VALIDATE STATUS
+
+            if (warranty.status != "PENDING_REVIEW")
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Only pending warranty claims can be approved."
+                });
+            }
+
+            // VALIDATE DIAGNOSIS NOTES
+
+            if (string.IsNullOrWhiteSpace(
+                    dto.diagnosis_notes))
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Diagnosis notes are required."
+                });
+            }
+
+            if (dto.diagnosis_notes.Trim().Length < 5)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Diagnosis notes must contain at least 5 characters."
+                });
+            }
+
+            // VALIDATE REPEAT ISSUE
+
+            if (dto.is_repeat_issue == null)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Please specify whether this is a repeat issue."
+                });
+            }
+
+            // VALIDATE TECHNICIANS
+
+            if (dto.no_technicians_req <= 0)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Number of technicians is required."
+                });
+            }
+
+
+            // VALIDATE DIFFICULTY
+
+            if (dto.difficulty_rate <= 0)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Difficulty rate is required."
+                });
+            }
+
+            // VALIDATE SCHEDULE
+
+
+            var scheduled =
+                dto.actual_scheduled_date.ToDateTime(
+                    TimeOnly.FromTimeSpan(
+                        dto.actual_scheduled_time
+                    )
+                );
+
+            if (scheduled < DateTime.Now)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Scheduled date/time cannot be in the past."
+                });
+            }
+
+            // VALIDATE ESTIMATED COMPLETION
+
+            var estimated =
+                dto.estimated_completion_date.ToDateTime(
+                    TimeOnly.FromTimeSpan(
+                        dto.estimated_completion_time
+                    )
+                );
+
+            if (estimated <= scheduled)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Estimated completion must be after scheduled date/time."
+                });
+            }
+
+            // VALIDATE RESERVICE FEE=
+
+            if (dto.reservice_fee < 0)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Reservice fee cannot be negative."
+                });
+            }
+
+            // GENERATE REF CODE
+            var stRefCode =
+                GenerateServiceTransactionRefCode();
+
+            // COUNT SERVICE TRIES
+
+            var tries =
+                await _context.service_transactions
+                .CountAsync(x =>
+
+                    x.service_booking_id ==
+                        warranty.service_booking_id
+                );
+
+            // UPDATE SERVICE BOOKING
+
+            warranty.service_booking.status =
+                "APPROVED_FOR_WARRANTY";
+
+            warranty.service_booking.updated_at =
+                DateTime.UtcNow;
+
+            // UPDATE WARRANTY
+
+
+            warranty.status =
+                "APPROVED";
+
+            warranty.approved_at =
+                DateTime.UtcNow;
+
+            warranty.diagnosis_notes =
+                dto.diagnosis_notes.Trim();
+
+            warranty.technician_notes =
+                dto.technician_notes?.Trim();
+
+            warranty.is_repeat_issue =
+                dto.is_repeat_issue;
+
+            // CREATE SERVICE TRANSACTION
+
+
+            var transaction =
+                new service_transaction
+                {
+                    service_booking_id =
+                        warranty.service_booking_id,
+
+                    st_ref_code =
+                        stRefCode,
+
+                    st_type =
+                        "SERVICE_WARRANTY",
+
+                    no_technicians_req =
+                        dto.no_technicians_req,
+
+                    difficulty_rate =
+                        dto.difficulty_rate,
+
+                    parts_needed =
+                        dto.parts_needed,
+
+                    tools_need =
+                        dto.tools_needed,
+
+                    actual_scheduled_date =
+                        dto.actual_scheduled_date,
+
+                    actual_scheduled_time =
+                        dto.actual_scheduled_time,
+
+                    estimated_completion_date =
+                        dto.estimated_completion_date,
+
+                    estimated_completion_time =
+                        dto.estimated_completion_time,
+
+                    reservice_fee =
+                        dto.reservice_fee,
+
+                    notes_to_technicians =
+                        dto.notes_to_technicians,
+
+                    service_tries =
+                        tries + 1,
+
+                    status =
+                        "FOR_TECH_ASSIGNMENT"
+                };
+
+            _context.service_transactions
+                .Add(transaction);
+
+            await _context.SaveChangesAsync();
+
+
+            // LINK WARRANTY TO TRANSACTION
+
+
+            warranty.linked_service_transaction_id =
+                transaction.id;
+
+            await _context.SaveChangesAsync();
+
+            // COMMIT
+
+            await tx.CommitAsync();
+
+
+            return Ok(new
+            {
+                message =
+                    "Warranty approved successfully.",
+
+                service_transaction_id =
+                    transaction.id,
+
+                st_ref_code =
+                    transaction.st_ref_code
+            });
+
+        }
+        catch (Exception ex)
+        {
+            var fullError = ex.InnerException?.Message ?? ex.Message;
+
+            Console.WriteLine("========== FULL ERROR ==========");
+            Console.WriteLine(ex.ToString());
+            Console.WriteLine("================================");
+
+            return StatusCode(500, new
+            {
+                message = fullError,
+                error = ex.Message
+            });
+        }
     }
 
 }
