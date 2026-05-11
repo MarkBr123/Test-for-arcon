@@ -23,7 +23,6 @@
             margin: 0;
             overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1a1a2e;
         }
 
         model-viewer {
@@ -43,15 +42,12 @@
             border-radius: 40px;
             z-index: 200;
             font-size: 16px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            pointer-events: none;
         }
 
         /* MAIN AR BUTTON */
         .ar-button {
             position: fixed !important;
-            bottom: 30px !important;
+            bottom: 80px !important;
             left: 50% !important;
             transform: translateX(-50%) !important;
             background: #007aff !important;
@@ -63,59 +59,13 @@
             font-weight: 600 !important;
             cursor: pointer !important;
             z-index: 1000 !important;
-            width: calc(100% - 40px) !important;
-            max-width: 300px !important;
+            min-width: 280px !important;
             text-align: center !important;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
             font-family: inherit !important;
         }
 
-        /* AR MODE CONTROLS - FLOATING BUTTONS */
-        .ar-controls {
-            position: fixed;
-            bottom: 120px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            z-index: 1000;
-            pointer-events: none;
-        }
-
-        .ar-control-btn {
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50px;
-            padding: 12px 24px;
-            color: white;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            pointer-events: auto;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .ar-control-btn:active {
-            transform: scale(0.95);
-            background: rgba(0,0,0,0.9);
-        }
-
-        /* Hide AR controls by default (show only in AR mode) */
-        .ar-controls {
-            display: none;
-        }
-
-        .ar-controls.visible {
-            display: flex;
-        }
-
-        /* Product info card */
+        /* Product info */
         .product-info {
             position: fixed;
             top: 20px;
@@ -137,7 +87,7 @@
             opacity: 0.8;
         }
 
-        /* QR CODE - RIGHT SIDE (NOT COVERING MODEL) */
+        /* QR CODE - RIGHT SIDE */
         .qr-wrapper {
             position: fixed;
             top: 50%;
@@ -152,22 +102,21 @@
         }
 
         #qrcode img, #qrcode canvas {
-            width: 180px !important;
-            height: 180px !important;
+            width: 160px !important;
+            height: 160px !important;
         }
 
         .qr-label {
             margin-top: 12px;
-            font-size: 14px;
+            font-size: 12px;
             color: #333;
-            font-weight: 500;
         }
 
         .close-qr {
             position: absolute;
             top: 5px;
             right: 10px;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             background: none;
             border: none;
@@ -176,7 +125,7 @@
 
         .status {
             position: fixed;
-            bottom: 110px;
+            bottom: 160px;
             left: 0;
             right: 0;
             text-align: center;
@@ -187,17 +136,38 @@
             font-size: 12px;
         }
 
-        @@media (max-width: 768px) {
+        /* Instruction hint for AR mode */
+        .ar-instructions {
+            position: fixed;
+            bottom: 160px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            z-index: 100;
+            font-size: 12px;
+            display: none;
+            backdrop-filter: blur(8px);
+        }
+@@media (max-width: 768px) {
             .qr-wrapper {
                 display: none;
             }
             .ar-button {
                 padding: 14px 28px !important;
                 font-size: 16px !important;
+                min-width: 240px !important;
+                bottom: 70px !important;
             }
-            .ar-control-btn {
-                padding: 10px 18px;
-                font-size: 12px;
+            .status {
+                bottom: 140px;
+                font-size: 11px;
+            }
+            .ar-instructions {
+                bottom: 140px;
+                font-size: 11px;
             }
         }
     </style>
@@ -211,18 +181,8 @@
 
     <div class="loading" id="loading">Loading 3D Model...</div>
     <div class="status" id="status">Preparing AR experience</div>
-
-    <!-- AR MODE CONTROLS - Appears when in AR -->
-    <div class="ar-controls" id="arControls">
-        <button class="ar-control-btn" id="moveBtn">
-            🖐️ Move
-        </button>
-        <button class="ar-control-btn" id="rotateBtn">
-            🔄 Rotate
-        </button>
-        <button class="ar-control-btn" id="resetBtn">
-            🔄 Reset
-        </button>
+    <div class="ar-instructions" id="arInstructions">
+        📍 TO PLACE: Tap on floor/wall | ✋ TO MOVE: Drag | 🔄 TO ROTATE: Two fingers
     </div>
 
     <!-- QR CODE -->
@@ -252,98 +212,67 @@
 
     <script>
         const productModel = "@productModel";
-        const productName = "@productName";
         const encodedModel = encodeURIComponent(productModel);
         const modelUrl = "https://raw.githubusercontent.com/MarkBr123/ar-models/main/" + encodedModel + ".glb";
 
         const viewer = document.getElementById('viewer');
         const loadingDiv = document.getElementById('loading');
         const statusDiv = document.getElementById('status');
-        const arControls = document.getElementById('arControls');
+        const arInstructions = document.getElementById('arInstructions');
         const qrWrapper = document.getElementById('qrWrapper');
 
         viewer.src = modelUrl;
 
-        // QR code
+        // QR code for desktop
         if (qrWrapper && window.innerWidth > 768) {
             new QRCode(document.getElementById('qrcode'), {
                 text: window.location.href,
-                width: 320,
-                height: 320
+                width: 160,
+                height: 160
             });
         }
 
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        // Hide QR on mobile
         if (isMobile && qrWrapper) {
             qrWrapper.style.display = 'none';
         }
 
         viewer.addEventListener('load', () => {
             loadingDiv.style.display = 'none';
-            statusDiv.textContent = isMobile ? '✓ Ready! Tap button to place aircon in your room' : '✓ Use mouse to inspect | Scan QR for AR';
+            if (isMobile) {
+                statusDiv.textContent = '✓ Ready! Tap "VIEW IN YOUR SPACE" below';
+            } else {
+                statusDiv.textContent = '✓ Use mouse to inspect | Scan QR on phone for AR';
+            }
         });
 
-        //  AR CONTROLS 
+        // SHOW INSTRUCTIONS WHEN ENTERING AR MODE
         viewer.addEventListener('ar-status', (event) => {
             if (event.detail.status === 'session-started') {
-                
-                arControls.classList.add('visible');
-                statusDiv.textContent = '📍 Aircon placed! Use controls to adjust position';
+                statusDiv.style.display = 'none';
+                arInstructions.style.display = 'block';
                 
                 // Hide QR if visible
                 if (qrWrapper) qrWrapper.style.display = 'none';
             }
             
             if (event.detail.status === 'session-ended') {
-                // Exited AR mode
-                arControls.classList.remove('visible');
+                statusDiv.style.display = 'block';
+                arInstructions.style.display = 'none';
             }
-        });
-
-        // AR CONTROL 
-        document.getElementById('moveBtn').addEventListener('click', () => {
-            statusDiv.textContent = '✋ Move mode: Drag to reposition the aircon';
-            // Triggers placement mode in AR
-            if (viewer.canActivateAR) {
-                // Re-activate placement mode
-                viewer.resetInteractionPrompt();
-            }
-            setTimeout(() => {
-                statusDiv.textContent = '📍 Drag the aircon to move it';
-            }, 2000);
-        });
-
-        document.getElementById('rotateBtn').addEventListener('click', () => {
-            statusDiv.textContent = '🔄 Rotate mode: Use two fingers to rotate';
-            setTimeout(() => {
-                statusDiv.textContent = '📍 Aircon placed! Use controls to adjust';
-            }, 2000);
-        });
-
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            statusDiv.textContent = '🔄 Resetting position...';
-            // Reset AR session
-            if (viewer.reset) {
-                viewer.reset();
-            }
-            setTimeout(() => {
-                statusDiv.textContent = '📍 Tap the screen to place aircon again';
-            }, 1500);
         });
 
         // Stop auto-rotate when user interacts
         viewer.addEventListener('camera-change', () => {
             if (viewer.autoRotate) {
                 viewer.autoRotate = false;
-                viewer.rotationPerSecond = '0deg';
             }
         });
 
         viewer.addEventListener('error', () => {
             loadingDiv.style.display = 'none';
-            statusDiv.textContent = '⚠️ Model unavailable. Please try again.';
+            statusDiv.textContent = '⚠️ Model unavailable. Please try again later.';
         });
     </script>
 </body>
