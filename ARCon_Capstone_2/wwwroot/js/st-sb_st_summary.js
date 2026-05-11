@@ -27,18 +27,55 @@ function renderSummary(data) {
     const techs = data.transaction.assignedTechnicians || [];
 
     document.getElementById("headerTransactionInfo").innerHTML = `
+            <div>
 
-    <div>
-        <h6 class="fw-bold mb-0">${data.transaction.referenceCode}</h6>
-        <small class="text-muted">Reference Code</small>     
-    </div>
+                <h6 class="fw-bold mb-0">
+                    ${data.transaction.referenceCode}
+                </h6>
 
-    <div>
-        <h6 class="fw-bold mb-0">${data.transaction.status}</h6>
-        <small class="text-muted">Status</small>   
-    </div>
+                <small class="text-muted">
+                    Reference Code
+                </small>
 
-`;
+            </div>
+
+            <div>
+
+                <h6 class="fw-bold mb-0">
+                    ${data.transaction.status}
+                </h6>
+
+                <small class="text-muted">
+                    Status
+                </small>
+
+            </div>
+
+            <div>
+
+                <h6 class="fw-bold mb-0">
+                    ${data.transaction.st_type}
+                </h6>
+
+                <small class="text-muted">
+                    Transaction Type
+                </small>
+
+            </div>
+
+            <div>
+
+                <h6 class="fw-bold mb-0">
+                    ${data.transaction.dateCompleted ?? "- - - - - - - - "}
+                </h6>
+
+                <small class="text-muted">
+                    Date Completed
+                </small>
+
+            </div>
+
+            `;
 
     // 🟡 TRANSACTION
     document.getElementById("transactionSection").innerHTML = `

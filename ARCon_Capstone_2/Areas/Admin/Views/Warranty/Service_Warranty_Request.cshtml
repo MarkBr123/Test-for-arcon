@@ -103,4 +103,738 @@
 
 </nav>
 
+
+<!-- ===================================================== -->
+<!-- APPROVE WARRANTY MODAL 1 -->
+<!-- ===================================================== -->
+
+<div class="modal fade"
+     id="approveWarrantyModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+
+        <div class="modal-content border-0">
+
+            <!-- HEADER -->
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h3 class="fw-bold mb-1">
+
+                        <i class="bi bi-check-circle-fill
+                                  text-success me-2"></i>
+
+                        Approve Warranty Claim
+
+                    </h3>
+
+                    <div class="text-muted">
+
+                        Review booking details and configure
+                        the SERVICE_WARRANTY transaction.
+
+                    </div>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+
+            <!-- BODY -->
+            <div class="modal-body pt-4">
+
+                <div class="container-fluid px-4">
+
+                    <div class="row justify-content-center g-4">
+
+                        <!-- ================================================= -->
+                        <!-- LEFT : SERVICE BOOKING -->
+                        <!-- ================================================= -->
+
+                        <div class="col-xl-4">
+
+                            <div class="approve-section-card h-100">
+
+                                <div class="approve-section-header">
+
+                                    <i class="bi bi-journal-check me-2"></i>
+
+                                    Service Booking
+
+                                </div>
+
+                                <table class="table approve-summary-table mb-0">
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td>Booking Ref</td>
+                                            <td id="approveBookingRef">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Status</td>
+                                            <td id="approveBookingStatus">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Customer</td>
+                                            <td id="approveCustomerName">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Contact No</td>
+                                            <td id="approveCustomerContact">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Paid At</td>
+                                            <td id="approvePaidAt">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Created At</td>
+                                            <td id="approveBookingCreated">-</td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ================================================= -->
+                        <!-- MIDDLE : WARRANTY -->
+                        <!-- ================================================= -->
+
+                        <div class="col-xl-4">
+
+                            <div class="approve-section-card h-100">
+
+                                <div class="approve-section-header">
+
+                                    <i class="bi bi-shield-check me-2"></i>
+
+                                    Warranty Claim
+
+                                </div>
+
+                                <table class="table approve-summary-table mb-0">
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td>Warranty Code</td>
+                                            <td id="approveWarrantyCode">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Status</td>
+                                            <td id="approveWarrantyStatus">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Preferred Date</td>
+                                            <td id="approvePreferredDate">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Preferred Time</td>
+                                            <td id="approvePreferredTime">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Created At</td>
+                                            <td id="approveWarrantyCreated">-</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Complaint</td>
+
+                                            <td id="approveComplaint"
+                                                class="approve-long-text">
+                                                -
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ================================================= -->
+                        <!-- RIGHT : INPUTS -->
+                        <!-- ================================================= -->
+
+                        <div class="col-xl-4">
+
+                            <div class="approve-section-card approve-input-section h-100">
+
+                                <div class="approve-section-header">
+
+                                    <i class="bi bi-tools me-2"></i>
+
+                                    Warranty Service Transaction
+
+                                </div>
+
+                                <div class="p-4">
+
+                                    <!-- ================================================= -->
+                                    <!-- SCHEDULING -->
+                                    <!-- ================================================= -->
+
+                                    <div class="approve-input-group mb-4">
+
+                                        <div class="approve-input-group-title">
+
+                                            <i class="bi bi-calendar-event me-2"></i>
+                                            Scheduling Information
+
+                                        </div>
+
+                                        <div class="row g-3">
+
+                                            <div class="col-md-6">
+
+                                                <label class="form-label fw-semibold">
+                                                    Scheduled Date
+                                                </label>
+
+                                                <input type="date"
+                                                       class="form-control"
+                                                       id="approveSchedDate">
+
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <label class="form-label fw-semibold">
+                                                    Scheduled Time
+                                                </label>
+
+                                                <input type="time"
+                                                       class="form-control"
+                                                       id="approveSchedTime">
+
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <label class="form-label fw-semibold">
+                                                    Estimated Date
+                                                </label>
+
+                                                <input type="date"
+                                                       class="form-control"
+                                                       id="approveEstDate">
+
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <label class="form-label fw-semibold">
+                                                    Estimated Time
+                                                </label>
+
+                                                <input type="time"
+                                                       class="form-control"
+                                                       id="approveEstTime">
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- ================================================= -->
+                                    <!-- SERVICE CONFIG -->
+                                    <!-- ================================================= -->
+
+                                    <div class="approve-input-group mb-4">
+
+                                        <div class="approve-input-group-title">
+
+                                            <i class="bi bi-tools me-2"></i>
+                                            Service Configuration
+
+                                        </div>
+
+                                        <div class="row g-3">
+
+                                            <div class="col-md-6">
+
+                                                <label class="form-label fw-semibold">
+                                                    No. Technicians
+                                                </label>
+
+                                                <input type="number"
+                                                       class="form-control"
+                                                       id="approveTechnicians">
+
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <label class="form-label fw-semibold">
+                                                    Difficulty Rate
+                                                </label>
+
+                                                <input type="number"
+                                                       step="0.1"
+                                                       class="form-control"
+                                                       id="approveDifficulty">
+
+                                            </div>
+
+                                            <div class="col-12">
+
+                                                <label class="form-label fw-semibold">
+                                                    Reservice Fee
+                                                </label>
+
+                                                <input type="number"
+                                                       step="0.01"
+                                                       class="form-control"
+                                                       id="approveFee"
+                                                       placeholder="Optional">
+
+                                            </div>
+
+                                            <div class="col-12">
+
+                                                <label class="form-label fw-semibold">
+                                                    Parts Needed
+                                                </label>
+
+                                                <textarea class="form-control"
+                                                          rows="2"
+                                                          id="approveParts"
+                                                          placeholder="List required parts"></textarea>
+
+                                            </div>
+
+                                            <div class="col-12">
+
+                                                <label class="form-label fw-semibold">
+                                                    Notes To Technicians
+                                                </label>
+
+                                                <textarea class="form-control"
+                                                          rows="3"
+                                                          id="approveNotesToTech"
+                                                          placeholder="Special instructions"></textarea>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- ================================================= -->
+                                    <!-- WARRANTY REVIEW -->
+                                    <!-- ================================================= -->
+
+                                    <div class="approve-input-group">
+
+                                        <div class="approve-input-group-title">
+
+                                            <i class="bi bi-shield-check me-2"></i>
+                                            Warranty Review
+
+                                        </div>
+
+                                        <div class="row g-3">
+
+                                            <div class="col-12">
+
+                                                <label class="form-label fw-semibold">
+                                                    Diagnosis Notes
+                                                </label>
+
+                                                <textarea class="form-control"
+                                                          rows="3"
+                                                          id="approveDiagnosisNotes"></textarea>
+
+                                            </div>
+
+                                            <div class="col-12">
+
+                                                <label class="form-label fw-semibold">
+                                                    Technician Notes
+                                                </label>
+
+                                                <textarea class="form-control"
+                                                          rows="3"
+                                                          id="approveTechnicianNotes"></textarea>
+
+                                            </div>
+
+                                            <div class="col-12">
+
+                                                <label class="form-label fw-semibold">
+                                                    Repeat Issue?
+                                                </label>
+
+                                                <select class="form-select"
+                                                        id="approveRepeatIssue">
+
+                                                    <option value="">
+                                                        Select
+                                                    </option>
+
+                                                    <option value="true">
+                                                        Yes
+                                                    </option>
+
+                                                    <option value="false">
+                                                        No
+                                                    </option>
+
+                                                </select>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+            <div class="modal-footer border-0 pt-0">
+
+                <button class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button class="btn btn-success px-4"
+                        onclick="openApproveConfirmationModal()">
+
+                    Next
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- MODAL 2 : CONFIRMATION -->
+<!-- ===================================================== -->
+
+<div class="modal fade"
+     id="approveWarrantyConfirmModal"
+     tabindex="-1"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg">
+
+            <div class="modal-body text-center p-5">
+
+                <div class="mb-4">
+
+                    <i class="bi bi-exclamation-triangle-fill
+                              text-warning"
+                       style="font-size:4rem;">
+                    </i>
+
+                </div>
+
+                <h4 class="fw-bold mb-3">
+                    Confirm Warranty Approval
+                </h4>
+
+                <p class="text-muted mb-4">
+
+                    This action will create a
+                    SERVICE_WARRANTY transaction
+                    and assign this warranty
+                    claim into the technician workflow.
+
+                </p>
+
+                <div class="alert alert-warning">
+
+                    Please review all entered data carefully.
+
+                </div>
+
+                <div class="text-muted small mb-4">
+
+                    Buttons will unlock in
+                    <span id="approveCountdown">
+                        5
+                    </span>
+                    seconds...
+
+                </div>
+
+                <div class="d-flex justify-content-center gap-3">
+
+                    <button class="btn btn-light"
+                            id="approveCancelBtn"
+                            disabled
+                            data-bs-dismiss="modal">
+
+                        Cancel
+
+                    </button>
+
+                    <button class="btn btn-success"
+                            id="approveSubmitBtn"
+                            disabled
+                            onclick="submitApproveWarranty()">
+
+                        <i class="bi bi-check-circle me-2"></i>
+                        Approve Warranty
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- ===================================== -->
+<!-- REJECT WARRANTY MODAL -->
+<!-- ===================================== -->
+
+<div class="modal fade"
+     id="rejectWarrantyModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1 text-danger">
+                        Reject Warranty Claim
+                    </h5>
+
+                    <small class="text-muted">
+                        Please provide a rejection reason.
+                    </small>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body pt-3">
+
+                <label class="form-label fw-semibold">
+                    Rejection Reason
+                </label>
+
+                <textarea class="form-control"
+                          id="rejectReason"
+                          rows="5"
+                          placeholder="Enter rejection reason..."></textarea>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-danger"
+                        id="proceedRejectBtn">
+
+                    Next
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===================================== -->
+<!-- FINAL CONFIRM MODAL -->
+<!-- ===================================== -->
+
+<div class="modal fade"
+     id="finalRejectModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold text-danger mb-1">
+                        Final Confirmation
+                    </h5>
+
+                    <small class="text-muted">
+                        Please confirm rejection.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body text-center py-4">
+
+                <div class="display-6 fw-bold text-danger mb-2">
+
+                    <span id="rejectCountdownText">
+                        5
+                    </span>
+
+                </div>
+
+                <div class="small text-muted mb-3">
+
+                    You may confirm once countdown finishes.
+
+                </div>
+
+                <div class="progress rounded-pill"
+                     style="height:10px;">
+
+                    <div class="progress-bar bg-danger"
+                         id="rejectCountdownBar"
+                         style="width:0%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-danger"
+                        id="confirmRejectBtn"
+                        disabled>
+
+                    Confirm Reject
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- GLOBAL TOAST CONTAINER -->
+<!-- ===================================== -->
+
+<div id="toastContainer"
+     class="toast-container position-fixed top-0 end-0 p-3"
+     style="z-index:99999;">
+</div>
+
 <script src="~/js/service-warranty-booking-index.js"></script>

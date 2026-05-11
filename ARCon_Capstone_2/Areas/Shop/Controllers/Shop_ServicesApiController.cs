@@ -276,7 +276,7 @@ public class Shop_ServicesApiController:ControllerBase
 
             .Where(b =>
                 b.customer_id == customerId &&
-                b.status == "PROCESSING" &&
+                (b.status == "PROCESSING" || b.status == "WARRANTY_APPROVED" )&&
 
                 //  MUST HAVE transaction FOR_TECH_ASSIGNMENT
                 b.service_transactions.Any(t => t.status == "SCHEDULED")

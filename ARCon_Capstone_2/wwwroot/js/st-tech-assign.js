@@ -474,79 +474,50 @@ document.getElementById("proceedCancelBtn").addEventListener("click", () => {
     showFinalCancelModal(reason);
 });
 
+let cancelInterval;
 
-function showConfirmModal(callback) {
+function showFinalCancelModal(reason) {
     let seconds = 5;
     const total = 5;
 
-    const countdownText = document.getElementById("countdownText");
-    const countdownBar = document.getElementById("countdownBar");
-    const confirmBtn = document.getElementById("confirmSubmitBtn");
+    const text = document.getElementById("cancelCountdownText");
+    const bar = document.getElementById("cancelCountdownBar");
+    const btn = document.getElementById("confirmCancelBtn");
 
-    const modalEl = document.getElementById("confirmModal");
+    const modalEl = document.getElementById("finalCancelModal");
     const modal = new bootstrap.Modal(modalEl);
 
-    // Reset UI
-    confirmBtn.disabled = true;
-    confirmBtn.innerText = "Please wait...";
-    countdownText.innerText = seconds;
-    countdownBar.style.width = "0%";
+    btn.disabled = true;
+    text.innerText = seconds;
+    bar.style.width = "0%";
 
     modal.show();
 
-    // Clear old interval
-    if (confirmInterval) clearInterval(confirmInterval);
+    if (cancelInterval) clearInterval(cancelInterval);
 
-    confirmInterval = setInterval(() => {
+    cancelInterval = setInterval(() => {
         seconds--;
 
-        countdownText.innerText = seconds;
-
-        const progress = ((total - seconds) / total) * 100;
-        countdownBar.style.width = progress + "%";
+        text.innerText = seconds;
+        bar.style.width = ((total - seconds) / total * 100) + "%";
 
         if (seconds <= 0) {
-            clearInterval(confirmInterval);
-            confirmBtn.disabled = false;
-            confirmBtn.innerText = "Confirm";
+            clearInterval(cancelInterval);
+            btn.disabled = false;
         }
 
     }, 1000);
 
-    // ✅ CONFIRM CLICK (FULL FIX)
-    confirmBtn.onclick = async () => {
-        confirmBtn.disabled = true;
-        confirmBtn.innerText = "Processing...";
-
-        try {
-            await callback(); // wait for API
-            modal.hide();
-
-            // ✅ SUCCESS FEEDBACK
-            showToast("Action completed successfully!", "success");
-
-            // ✅ REFRESH PAGE
-            setTimeout(() => {
-                location.reload();
-            }, 800);
-
-        } catch (err) {
-            console.error(err);
-
-            showToast("Something went wrong. Please try again.", "danger");
-
-            confirmBtn.disabled = false;
-            confirmBtn.innerText = "Confirm";
-        }
+    btn.onclick = () => {
+        modal.hide();
+        submitCancel(reason);
     };
 
-    // Reset on close
     modalEl.addEventListener("hidden.bs.modal", () => {
-        clearInterval(confirmInterval);
-        confirmBtn.disabled = true;
-        confirmBtn.innerText = "Confirm";
-        countdownBar.style.width = "0%";
-        countdownText.innerText = "5";
+        clearInterval(cancelInterval);
+        btn.disabled = true;
+        text.innerText = "5";
+        bar.style.width = "0%";
     }, { once: true });
 }
 
@@ -603,7 +574,7 @@ function getScheduleLabel(dateStr) {
     return `In ${diffDays} days`;
 }
 
-function showToast(message, type = "success", delay = 3000) {
+function showToast(message, type = "success", delay = 6000) {
 
     let container = document.getElementById("toastContainer");
 
@@ -642,4 +613,119 @@ function showToast(message, type = "success", delay = 3000) {
     toastEl.addEventListener("hidden.bs.toast", () => {
         toastEl.remove();
     });
+}
+
+function showFinalCancelModal() {
+
+    // =====================================
+    // VALIDATE REASON
+    // =====================================
+
+    const reason =
+        document.getElementById(
+            "cancelReason"
+        )?.value;
+
+    if (!reason ||
+        reason.trim().length < 5) {
+        alert(
+            "Please provide a valid cancellation reason."
+        );
+
+        return;
+    }
+
+
+
+    // =====================================
+    // OPEN FINAL CONFIRM MODAL
+    // =====================================
+
+    const finalModal =
+        new bootstrap.Modal(
+            document.getElementById(
+                "finalCancelModal"
+            )
+        );
+
+    finalModal.show();
+
+
+
+    // =====================================
+    // START COUNTDOWN
+    // =====================================
+
+    startCancelCountdown();
+}
+
+function startCancelCountdown() {
+
+    let seconds = 5;
+
+    const countdown =
+        document.getElementById(
+            "cancelCountdown"
+        );
+
+    const confirmBtn =
+        document.getElementById(
+            "confirmCancelBtn"
+        );
+
+    const closeBtn =
+        document.getElementById(
+            "closeCancelBtn"
+        );
+
+
+
+    // =====================================
+    // DISABLE BUTTONS
+    // =====================================
+
+    if (confirmBtn)
+        confirmBtn.disabled = true;
+
+    if (closeBtn)
+        closeBtn.disabled = true;
+
+
+
+    // =====================================
+    // INITIAL VALUE
+    // =====================================
+
+    if (countdown)
+        countdown.innerText = seconds;
+
+
+
+    // =====================================
+    // COUNTDOWN
+    // =====================================
+
+    const interval =
+        setInterval(() => {
+
+            seconds--;
+
+            if (countdown)
+                countdown.innerText = seconds;
+
+            if (seconds <= 0) {
+
+                clearInterval(interval);
+
+                if (confirmBtn)
+                    confirmBtn.disabled = false;
+
+                if (closeBtn)
+                    closeBtn.disabled = false;
+
+                if (countdown)
+                    countdown.innerText = "0";
+            }
+
+        }, 1000);
 }

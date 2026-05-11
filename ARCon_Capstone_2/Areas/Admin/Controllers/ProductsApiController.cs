@@ -272,7 +272,30 @@ public class ProductsApiController : ControllerBase
         catch (Exception ex)
         {
             await tx.RollbackAsync();
-            return BadRequest(ex.Message);
+            var fullError =
+                ex.InnerException?.Message ??
+                ex.Message;
+
+            Console.WriteLine(
+                "========== FULL ERROR =========="
+            );
+
+            Console.WriteLine(
+                ex.ToString()
+            );
+
+            Console.WriteLine(
+                "================================"
+            );
+
+            return StatusCode(500, new
+            {
+                message =
+                    fullError,
+
+                error =
+                    ex.Message
+            });
         }
     }
 

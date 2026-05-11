@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using ARCon_Capstone_2.Services;
 
 
-[AllowAnonymous]
 [ApiController]
 [Route("api/warranties")]
 public class WarrantyApiController : ControllerBase
@@ -24,7 +23,7 @@ public class WarrantyApiController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetServiceWarrantyBookings(
             [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 2,
+            [FromQuery] int pageSize = 15,
             [FromQuery] string? search = null,
             [FromQuery] string sortBy = "created_at",
             [FromQuery] string sortDirection = "desc",
@@ -130,6 +129,8 @@ public class WarrantyApiController : ControllerBase
                   x.id,
 
                   x.swb_code,
+
+                  x.diagnosis_notes,
 
                   x.service_booking_id,
 
@@ -289,10 +290,7 @@ public class WarrantyApiController : ControllerBase
 
     //Transaction Creation for Service_Warranty_Booking for (APPROVED warranty claims)
     [HttpPost("{id}/approve")]
-    public async Task<IActionResult> ApproveWarrantyClaim(
-    int id,
-
-    [FromBody] ApproveWarrantyClaimDto dto)
+    public async Task<IActionResult> ApproveWarrantyClaim(int id, [FromBody] ToBeApproveDto dto)
     {
         await using var tx =
             await _context.Database.BeginTransactionAsync();
@@ -318,6 +316,8 @@ public class WarrantyApiController : ControllerBase
                 });
             }
 
+
+            
             // VALIDATE STATUS
 
             if (warranty.status != "PENDING_REVIEW")
@@ -329,10 +329,12 @@ public class WarrantyApiController : ControllerBase
                 });
             }
 
-            // VALIDATE DIAGNOSIS NOTES
+            
 
+            // VALIDATE DIAGNOSIS NOTES
+    
             if (string.IsNullOrWhiteSpace(
-                    dto.diagnosis_notes))
+                    dto.DiagnosisNotes))
             {
                 return BadRequest(new
                 {
@@ -341,7 +343,7 @@ public class WarrantyApiController : ControllerBase
                 });
             }
 
-            if (dto.diagnosis_notes.Trim().Length < 5)
+            if (dto.DiagnosisNotes.Trim().Length < 5)
             {
                 return BadRequest(new
                 {
@@ -352,7 +354,7 @@ public class WarrantyApiController : ControllerBase
 
             // VALIDATE REPEAT ISSUE
 
-            if (dto.is_repeat_issue == null)
+            if (dto.IsRepeatIssue == null)
             {
                 return BadRequest(new
                 {
@@ -363,7 +365,7 @@ public class WarrantyApiController : ControllerBase
 
             // VALIDATE TECHNICIANS
 
-            if (dto.no_technicians_req <= 0)
+            if (dto.NoTechniciansReq <= 0)
             {
                 return BadRequest(new
                 {
@@ -375,7 +377,7 @@ public class WarrantyApiController : ControllerBase
 
             // VALIDATE DIFFICULTY
 
-            if (dto.difficulty_rate <= 0)
+            if (dto.DifficultyRate <= 0)
             {
                 return BadRequest(new
                 {
@@ -388,9 +390,9 @@ public class WarrantyApiController : ControllerBase
 
 
             var scheduled =
-                dto.actual_scheduled_date.ToDateTime(
+                dto.ActualSchedDate.ToDateTime(
                     TimeOnly.FromTimeSpan(
-                        dto.actual_scheduled_time
+                        dto.ActualSchedTime
                     )
                 );
 
@@ -406,9 +408,9 @@ public class WarrantyApiController : ControllerBase
             // VALIDATE ESTIMATED COMPLETION
 
             var estimated =
-                dto.estimated_completion_date.ToDateTime(
+                dto.EstimatedCompletionDate.ToDateTime(
                     TimeOnly.FromTimeSpan(
-                        dto.estimated_completion_time
+                        dto.EstimatedCompletionTime
                     )
                 );
 
@@ -423,7 +425,7 @@ public class WarrantyApiController : ControllerBase
 
             // VALIDATE RESERVICE FEE=
 
-            if (dto.reservice_fee < 0)
+            if (dto.ReserviceFee < 0)
             {
                 return BadRequest(new
                 {
@@ -431,6 +433,9 @@ public class WarrantyApiController : ControllerBase
                         "Reservice fee cannot be negative."
                 });
             }
+
+
+           
 
             // GENERATE REF CODE
             var stRefCode =
@@ -449,7 +454,7 @@ public class WarrantyApiController : ControllerBase
             // UPDATE SERVICE BOOKING
 
             warranty.service_booking.status =
-                "APPROVED_FOR_WARRANTY";
+                "WARRANTY_APPROVED";
 
             warranty.service_booking.updated_at =
                 DateTime.UtcNow;
@@ -464,13 +469,13 @@ public class WarrantyApiController : ControllerBase
                 DateTime.UtcNow;
 
             warranty.diagnosis_notes =
-                dto.diagnosis_notes.Trim();
+                dto.DiagnosisNotes.Trim();
 
             warranty.technician_notes =
-                dto.technician_notes?.Trim();
+                dto.TechnicianNotes?.Trim();
 
             warranty.is_repeat_issue =
-                dto.is_repeat_issue;
+                dto.IsRepeatIssue;
 
             // CREATE SERVICE TRANSACTION
 
@@ -488,34 +493,34 @@ public class WarrantyApiController : ControllerBase
                         "SERVICE_WARRANTY",
 
                     no_technicians_req =
-                        dto.no_technicians_req,
+                        dto.NoTechniciansReq,
 
                     difficulty_rate =
-                        dto.difficulty_rate,
+                        dto.DifficultyRate,
 
                     parts_needed =
-                        dto.parts_needed,
+                        dto.PartsNeeded,
 
                     tools_need =
-                        dto.tools_needed,
+                        dto.ToolsNeeded,
 
                     actual_scheduled_date =
-                        dto.actual_scheduled_date,
+                        dto.ActualSchedDate,
 
                     actual_scheduled_time =
-                        dto.actual_scheduled_time,
+                        dto.ActualSchedTime,
 
                     estimated_completion_date =
-                        dto.estimated_completion_date,
+                        dto.EstimatedCompletionDate,
 
                     estimated_completion_time =
-                        dto.estimated_completion_time,
+                        dto.EstimatedCompletionTime,
 
                     reservice_fee =
-                        dto.reservice_fee,
+                        dto.ReserviceFee,
 
                     notes_to_technicians =
-                        dto.notes_to_technicians,
+                        dto.NotesToTechnician,
 
                     service_tries =
                         tries + 1,
@@ -558,6 +563,8 @@ public class WarrantyApiController : ControllerBase
         }
         catch (Exception ex)
         {
+
+            await tx.RollbackAsync();
             var fullError = ex.InnerException?.Message ?? ex.Message;
 
             Console.WriteLine("========== FULL ERROR ==========");
@@ -568,6 +575,137 @@ public class WarrantyApiController : ControllerBase
             {
                 message = fullError,
                 error = ex.Message
+            });
+        }
+    }
+
+
+    ///Reject 
+    ///// Reject Warranty Claim
+
+    [HttpPut("{id}/reject")]
+    public async Task<IActionResult> RejectWarrantyClaim(int id, [FromBody] RejectWarrantyDto dto)
+    {
+        try
+        {
+            // =====================================
+            // VALIDATE INPUT
+            // =====================================
+
+            if (string.IsNullOrWhiteSpace(
+                    dto.rejection_reason))
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Rejection reason is required."
+                });
+            }
+
+
+
+            // =====================================
+            // GET WARRANTY CLAIM
+            // =====================================
+
+            var warranty =
+                await _context.service_warranty_bookings
+
+                .Include(x => x.service_booking)
+
+                .FirstOrDefaultAsync(x => x.id == id);
+
+            if (warranty == null)
+            {
+                return NotFound(new
+                {
+                    message =
+                        "Warranty claim not found."
+                });
+            }
+
+
+
+            // =====================================
+            // VALIDATE STATUS
+            // =====================================
+
+            if (warranty.status != "PENDING_REVIEW")
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Only pending warranty claims can be rejected."
+                });
+            }
+
+
+
+            // =====================================
+            // UPDATE WARRANTY CLAIM
+            // =====================================
+
+            warranty.status =
+                "REJECTED";
+
+            warranty.rejected_at =
+                DateTime.UtcNow;
+
+            warranty.rejection_reason =
+                dto.rejection_reason.Trim();
+
+            warranty.isactiveclaim =
+                false;
+
+            // OPTIONAL:
+            // KEEP SERVICE BOOKING COMPLETED
+
+            if (warranty.service_booking != null)
+            {
+                warranty.service_booking.status =
+                    "COMPLETED";
+
+                warranty.service_booking.updated_at =
+                    DateTime.UtcNow;
+            }
+
+            // SAVE
+
+            await _context.SaveChangesAsync();
+
+
+
+            return Ok(new
+            {
+                message =
+                    "Warranty claim rejected successfully."
+            });
+        }
+        catch (Exception ex)
+        {
+            var fullError =
+                ex.InnerException?.Message ??
+                ex.Message;
+
+            Console.WriteLine(
+                "========== FULL ERROR =========="
+            );
+
+            Console.WriteLine(
+                ex.ToString()
+            );
+
+            Console.WriteLine(
+                "================================"
+            );
+
+            return StatusCode(500, new
+            {
+                message =
+                    fullError,
+
+                error =
+                    ex.Message
             });
         }
     }

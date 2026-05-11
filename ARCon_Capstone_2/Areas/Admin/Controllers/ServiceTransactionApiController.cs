@@ -975,6 +975,9 @@ public class ServiceTransactionApiController : ControllerBase
                     rating = transaction.service_rating,
                     isCustomerAgreed = transaction.iscustomeragreed,
                     notes = transaction.notes_to_technicians,
+                    st_type = transaction.st_type,
+                    dateCompleted = transaction.date_completed,
+
 
                     // ================= CANCEL =================
                     cancelledAt = transaction.date_cancelled,
@@ -1103,6 +1106,11 @@ public class ServiceTransactionApiController : ControllerBase
     }
 
     ////////////////////////////////////////////////////////// (END)  This is the Service Booking and Service Transaction Master Summary /////////////////////////////////////////////////
+    ///
+    /// 
+    /// 
+    /// 
+    /// 
     /// Get list of suitable technicians to be assigned
 
     [HttpGet("{id}/available-technicians")]
@@ -1435,81 +1443,250 @@ public class ServiceTransactionApiController : ControllerBase
 
     /////////////////////////            Failed Service_Transaction             //////////////////////
     [HttpPut("{id}/failed")]
-    public async Task<IActionResult> MarkAsFailed(int id, [FromBody] FailedServiceTransactionDto dto)
+    public async Task<IActionResult> MarkAsFailed(
+     int id,
+
+     [FromBody]
+    FailedServiceTransactionDto dto)
     {
         try
         {
-            // Validate input
-            if (string.IsNullOrWhiteSpace(dto.failure_reason))
+            // =====================================
+            // VALIDATE INPUT
+            // =====================================
+
+            if (string.IsNullOrWhiteSpace(
+                    dto.failure_reason))
             {
                 return BadRequest(new
                 {
-                    message = "Failure reason is required"
+                    message =
+                        "Failure reason is required"
                 });
             }
 
-            var st = await _context.service_transactions
+
+
+            // =====================================
+            // GET SERVICE TRANSACTION
+            // =====================================
+
+            var st =
+                await _context.service_transactions
+
                 .Include(x => x.service_booking)
+
                 .Include(x => x.service_transaction_technicians)
+
                 .FirstOrDefaultAsync(x => x.id == id);
 
             if (st == null)
-                return NotFound(new { message = "Service transaction not found" });
+            {
+                return NotFound(new
+                {
+                    message =
+                        "Service transaction not found"
+                });
+            }
 
-            // Only allow if ONGOING
+
+
+            // =====================================
+            // VALIDATE STATUS
+            // =====================================
+
             if (st.status != "ONGOING")
             {
                 return BadRequest(new
                 {
-                    message = "Only ongoing transactions can be marked as failed"
+                    message =
+                        "Only ongoing transactions can be marked as failed"
                 });
             }
 
-            var now = DateTime.UtcNow;
+            var now =
+                DateTime.UtcNow;
 
-            // SERVICE BOOKING
-            var sb = st.service_booking;
+            var sb =
+                st.service_booking;
 
-            // Determine if ONLINE PAYMENT
-            var isOnlinePayment = sb?.payment_method == "ONLINE_PAYMENT";
 
-            // SERVICE TRANSACTION UPDATE
-            st.status = isOnlinePayment ? "FAILED_FOR_REFUND" : "FAILED";
-            st.failed = true;
-            st.fail_reason = dto.failure_reason;
-            st.failed_at = now;
-            st.updated_at = now;
 
-            // SERVICE BOOKING UPDATE
-            if (sb != null)
+            // =====================================
+            // NORMAL TRANSACTION LOGIC
+            // =====================================
+
+            if (st.st_type == "NORMAL")
             {
-                sb.status = st.status; // keep consistent with transaction
-                sb.failure_count = (sb.failure_count ?? 0) + 1;
-                sb.updated_at = now;
+                // ONLINE PAYMENT CHECK
+
+                var isOnlinePayment =
+                    sb?.payment_method ==
+                        "ONLINE_PAYMENT";
+
+
+
+                // SERVICE TRANSACTION
+
+                st.status =
+                    isOnlinePayment
+                        ? "FAILED_FOR_REFUND"
+                        : "FAILED";
+
+                st.failed =
+                    true;
+
+                st.fail_reason =
+                    dto.failure_reason;
+
+                st.failed_at =
+                    now;
+
+                st.updated_at =
+                    now;
+
+
+
+                // SERVICE BOOKING
+
+                if (sb != null)
+                {
+                    sb.status =
+                        st.status;
+
+                    sb.failure_count =
+                        (sb.failure_count ?? 0) + 1;
+
+                    sb.updated_at =
+                        now;
+                }
+
+
+
+                // RESPONSE MESSAGE
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    message =
+                        isOnlinePayment
+                            ? "Service marked as failed and queued for refund"
+                            : "Service marked as failed"
+                });
             }
 
-            // FREE TECHNICIANS
-            foreach (var tech in st.service_transaction_technicians)
+
+
+            // =====================================
+            // SERVICE WARRANTY LOGIC
+            // =====================================
+
+            else if (st.st_type == "SERVICE_WARRANTY")
             {
-                tech.isactiveservicetransac = false;
-                tech.updated_at = now;
+                // SERVICE TRANSACTION
+
+                st.status =
+                    "FAILED";
+
+                st.failed =
+                    true;
+
+                st.fail_reason =
+                    dto.failure_reason;
+
+                st.failed_at =
+                    now;
+
+                st.updated_at =
+                    now;
+
+
+
+                // SERVICE BOOKING
+
+                if (sb != null)
+                {
+                    // Keep booking completed
+                    // so customer can file
+                    // another warranty claim
+
+                    sb.status =
+                        "COMPLETED";
+
+                    sb.updated_at =
+                        now;
+                }
+
+
+
+                // WARRANTY CLAIM
+
+                var warranty =
+                    await _context
+                    .service_warranty_bookings
+
+                    .FirstOrDefaultAsync(x =>
+
+                        x.linked_service_transaction_id ==
+                            st.id
+                    );
+
+                if (warranty != null)
+                {
+                    warranty.status =
+                        "FAILED";
+
+                    warranty.isactiveclaim =
+                        false;
+                }
+
+
+
+                // FREE TECHNICIANS
+
+                foreach (var tech in
+                    st.service_transaction_technicians)
+                {
+                    tech.isactiveservicetransac =
+                        false;
+
+                    tech.updated_at =
+                        now;
+                }
+
+
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    message =
+                        "Warranty service marked as failed"
+                });
             }
 
-            await _context.SaveChangesAsync();
 
-            return Ok(new
+
+            // =====================================
+            // UNKNOWN TYPE
+            // =====================================
+
+            return BadRequest(new
             {
-                message = isOnlinePayment
-                    ? "Service marked as failed and queued for refund"
-                    : "Service marked as failed"
+                message =
+                    "Unsupported service transaction type"
             });
         }
         catch (Exception ex)
         {
             return StatusCode(500, new
             {
-                message = "Error updating status",
-                error = ex.Message
+                message =
+                    "Error updating status",
+
+                error =
+                    ex.Message
             });
         }
     }
@@ -1518,76 +1695,208 @@ public class ServiceTransactionApiController : ControllerBase
 
 
     [HttpPut("{id}/partially_completed")]
+    public async Task<IActionResult> MarkAsPartiallyComplete(
+     int id,
 
-    public async Task<IActionResult> MarkAsPartiallyComplete(int id, [FromBody] PartialServiceTransactionDto dto)
+     [FromBody]
+    PartialServiceTransactionDto dto)
     {
         try
         {
+            // VALIDATE INPUT
 
-            // Validate Input
-            if (string.IsNullOrWhiteSpace(dto.partially_completed_reason))
+
+            if (string.IsNullOrWhiteSpace(
+                    dto.partially_completed_reason))
             {
                 return BadRequest(new
                 {
-                    message = "Please indicate the reason why for its partiality."
+                    message =
+                        "Please indicate the reason why for its partiality."
                 });
             }
 
-            var st = await _context.service_transactions
+            // GET SERVICE TRANSACTION
+
+            var st =
+                await _context.service_transactions
+
                 .Include(x => x.service_booking)
+
                 .Include(x => x.service_transaction_technicians)
+
                 .FirstOrDefaultAsync(x => x.id == id);
 
             if (st == null)
-                return NotFound(new { message = "Service transaction not found" });
+            {
+                return NotFound(new
+                {
+                    message =
+                        "Service transaction not found"
+                });
+            }
+
+            // VALIDATE STATUS
 
             if (st.status != "ONGOING")
             {
                 return BadRequest(new
                 {
-
-                    message = "Only ongoing service can be marked as 'Partially Complete'"
+                    message =
+                        "Only ongoing service can be marked as 'Partially Complete'"
                 });
             }
 
-            var now = DateTime.UtcNow;
-            // ST Update
-            st.status = "PARTIALLY_COMPLETED";
-            st.ispartiallycompleted = true;
-            st.partially_completed_reason = dto.partially_completed_reason;
-            st.partially_at = now;
-            st.updated_at = now;
+            var now =
+                DateTime.UtcNow;
 
-            //SB Update
-            var sb = st.service_booking;
+            var sb =
+                st.service_booking;
 
-            if (sb != null)
+            // NORMAL TRANSACTION LOGIC
+            if (st.st_type == "NORMAL")
             {
-                sb.status = "PARTIALLY_COMPLETED";
-                sb.partial_complete_count = (sb.partial_complete_count ?? 0) + 1;
-                sb.updated_at = now;
+                // SERVICE TRANSACTION
+
+                st.status =
+                    "PARTIALLY_COMPLETED";
+
+                st.ispartiallycompleted =
+                    true;
+
+                st.partially_completed_reason =
+                    dto.partially_completed_reason;
+
+                st.partially_at =
+                    now;
+
+                st.updated_at =
+                    now;
+
+                // SERVICE BOOKING
+
+                if (sb != null)
+                {
+                    sb.status =
+                        "PARTIALLY_COMPLETED";
+
+                    sb.partial_complete_count =
+                        (sb.partial_complete_count ?? 0) + 1;
+
+                    sb.updated_at =
+                        now;
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    message =
+                        "Service marked as partially complete"
+                });
             }
-            await _context.SaveChangesAsync();
 
-            return Ok(new
+            // SERVICE WARRANTY LOGIC
+
+            else if (st.st_type == "SERVICE_WARRANTY")
             {
-                message = "Service marked as partially complete"
+                // SERVICE TRANSACTION
 
+                st.status =
+                    "PARTIALLY_COMPLETED";
+
+                st.ispartiallycompleted =
+                    true;
+
+                st.partially_completed_reason =
+                    dto.partially_completed_reason;
+
+                st.partially_at =
+                    now;
+
+                st.updated_at =
+                    now;
+
+                // SERVICE BOOKING
+
+                if (sb != null)
+                {
+                    // Keep booking completed
+                    // so customer can file
+                    // another warranty claim
+
+                    sb.status =
+                        "COMPLETED";
+
+                    sb.updated_at =
+                        now;
+                }
+
+                // WARRANTY CLAIM
+
+                var warranty =
+                    await _context
+                    .service_warranty_bookings
+
+                    .FirstOrDefaultAsync(x =>
+
+                        x.linked_service_transaction_id ==
+                            st.id
+                    );
+
+                if (warranty != null)
+                {
+                    warranty.status =
+                        "PARTIALLY_COMPLETED";
+
+                    warranty.isactiveclaim =
+                        false;
+                }
+
+
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    message =
+                        "Warranty service marked as partially completed"
+                });
+            }
+
+            // UNKNOWN TYPE
+
+            return BadRequest(new
+            {
+                message =
+                    "Unsupported service transaction type"
             });
-
         }
         catch (Exception ex)
         {
-            var fullError = ex.InnerException?.Message ?? ex.Message;
+            var fullError =
+                ex.InnerException?.Message ??
+                ex.Message;
 
-            Console.WriteLine("========== FULL ERROR ==========");
-            Console.WriteLine(ex.ToString());
-            Console.WriteLine("================================");
+            Console.WriteLine(
+                "========== FULL ERROR =========="
+            );
+
+            Console.WriteLine(
+                ex.ToString()
+            );
+
+            Console.WriteLine(
+                "================================"
+            );
 
             return StatusCode(500, new
             {
-                message = fullError,
-                error = ex.Message
+                message =
+                    fullError,
+
+                error =
+                    ex.Message
             });
         }
     }
@@ -1597,95 +1906,237 @@ public class ServiceTransactionApiController : ControllerBase
     [HttpPut("{id}/completed")]
     public async Task<IActionResult> CompetedServiceTransaction(int id)
     {
-        await using var transaction = await _context.Database.BeginTransactionAsync();
+        await using var transaction =
+            await _context.Database.BeginTransactionAsync();
 
         try
         {
-            var st = await _context.service_transactions
+            var st =
+                await _context.service_transactions
+
                 .Include(x => x.service_booking)
                     .ThenInclude(sb => sb.payment_transaction)
+
                 .FirstOrDefaultAsync(x => x.id == id);
 
             if (st == null)
-                return NotFound(new { message = "Service transaction not found" });
+            {
+                return NotFound(new
+                {
+                    message =
+                        "Service transaction not found"
+                });
+            }
 
             if (st.status != "ONGOING")
-                return BadRequest(new { message = "Only ongoing transactions can be marked as completed" });
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Only ongoing transactions can be marked as completed"
+                });
+            }
 
             var sb = st.service_booking;
+
             if (sb == null)
-                return BadRequest(new { message = "Service booking not found" });
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Service booking not found"
+                });
+            }
 
-            var now = DateTime.UtcNow;
+            var now =
+                DateTime.UtcNow;
 
-            //PAYMENT
+
+
+            // =====================================
+            // PAYMENT
+            // =====================================
+
             if (sb.payment_method == "AFTER_SERVICE")
             {
-                sb.payment_status = "PAID";
-                sb.paid_at = now;
-                sb.updated_at = now;
+                sb.payment_status =
+                    "PAID";
+
+                sb.paid_at =
+                    now;
+
+                sb.updated_at =
+                    now;
 
                 if (sb.payment_transaction != null)
                 {
-                    sb.payment_transaction.paid_at = now;
-                    sb.payment_transaction.after_service_status = "PAID";
+                    sb.payment_transaction.paid_at =
+                        now;
+
+                    sb.payment_transaction.after_service_status =
+                        "PAID";
                 }
             }
             else if (sb.payment_method == "ONLINE_PAYMENT")
             {
                 if (sb.payment_transaction == null ||
-                    sb.payment_transaction.paymongo_status != "PAID")
+
+                    sb.payment_transaction.paymongo_status !=
+                        "PAID")
                 {
                     return BadRequest(new
                     {
-                        message = "ONLINE_PAYMENT not yet paid"
+                        message =
+                            "ONLINE_PAYMENT not yet paid"
                     });
                 }
 
-                sb.paid_at = now;
-                sb.updated_at = now;
-                sb.payment_transaction.paid_at = now;
+                sb.paid_at =
+                    now;
+
+                sb.updated_at =
+                    now;
+
+                sb.payment_transaction.paid_at =
+                    now;
             }
 
-            //COMPLETION
-            sb.status = "COMPLETED";
 
-            st.status = "COMPLETED";
-            st.date_completed = DateOnly.FromDateTime(now);
-            st.time_completed = TimeOnly.FromTimeSpan(now.TimeOfDay);
-            st.updated_at = now;
 
-            /* This will Release Technicians. Commented out so that i wont be release and make the technician assigned viewable after Completing service
-            //FREE TECHNICIANS
-            var techs = await _context.service_transaction_technicians
-                .Where(x => x.service_transaction_id == id && x.isactiveservicetransac)
+            // =====================================
+            // COMPLETION
+            // =====================================
+
+            sb.status =
+                "COMPLETED";
+
+            sb.updated_at =
+                now;
+
+            st.status =
+                "COMPLETED";
+
+            st.date_completed =
+                DateOnly.FromDateTime(now);
+
+            st.time_completed =
+                TimeOnly.FromTimeSpan(
+                    now.TimeOfDay
+                );
+
+            st.updated_at =
+                now;
+
+
+
+            /*
+            // =====================================
+            // FREE TECHNICIANS
+            // =====================================
+
+            // Commented out so that
+            // technician assignment history
+            // remains visible after completion
+
+            var techs =
+                await _context
+                .service_transaction_technicians
+
+                .Where(x =>
+
+                    x.service_transaction_id == id &&
+
+                    x.isactiveservicetransac
+                )
+
                 .ToListAsync();
-
 
             foreach (var t in techs)
             {
-                t.isactiveservicetransac = false;
-                t.updated_at = now;
+                t.isactiveservicetransac =
+                    false;
+
+                t.updated_at =
+                    now;
             }
             */
 
+
+
+            // =====================================
+            // RESOLVE WARRANTY CLAIM
+            // =====================================
+
+            if (st.st_type != "NORMAL")
+            {
+                var warranty =
+                    await _context
+                    .service_warranty_bookings
+
+                    .FirstOrDefaultAsync(x =>
+
+                        x.linked_service_transaction_id ==
+                            st.id
+                    );
+
+                if (warranty != null)
+                {
+                    warranty.resolved_at =
+                        DateTime.UtcNow;
+
+                    warranty.status =
+                        "RESOLVED";
+
+                    warranty.isactiveclaim =
+                        false;
+                }
+            }
+
+
+
+            // =====================================
+            // SAVE + COMMIT
+            // =====================================
+
             await _context.SaveChangesAsync();
+
             await transaction.CommitAsync();
 
-            return Ok(new { message = "Service completed successfully" });
+
+
+            return Ok(new
+            {
+                message =
+                    "Service completed successfully"
+            });
         }
         catch (Exception ex)
         {
-            var fullError = ex.InnerException?.Message ?? ex.Message;
+            await transaction.RollbackAsync();
 
-            Console.WriteLine("========== FULL ERROR ==========");
-            Console.WriteLine(ex.ToString());
-            Console.WriteLine("================================");
+            var fullError =
+                ex.InnerException?.Message ??
+                ex.Message;
+
+            Console.WriteLine(
+                "========== FULL ERROR =========="
+            );
+
+            Console.WriteLine(
+                ex.ToString()
+            );
+
+            Console.WriteLine(
+                "================================"
+            );
 
             return StatusCode(500, new
             {
-                message = fullError,
-                error = ex.Message
+                message =
+                    fullError,
+
+                error =
+                    ex.Message
             });
         }
     }
@@ -1781,6 +2232,10 @@ public class ServiceTransactionApiController : ControllerBase
                 ? query.OrderBy(st => st.no_technicians_req)
                 : query.OrderByDescending(st => st.no_technicians_req),
 
+            "stType" => asc
+                ? query.OrderBy(st => st.st_type)
+                : query.OrderByDescending(st => st.st_type),
+
             "difficultyRate" => asc
                 ? query.OrderBy(st => st.difficulty_rate)
                 : query.OrderByDescending(st => st.difficulty_rate),
@@ -1803,7 +2258,7 @@ public class ServiceTransactionApiController : ControllerBase
                 bookingId = st.service_booking_id,
                 id = st.id,
                 stRefCode = st.st_ref_code,
-
+                stType = st.st_type,
                 paymentMethod = st.service_booking.payment_method,
                 paymentStatus = st.service_booking.payment_status,
 

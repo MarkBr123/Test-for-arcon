@@ -102,9 +102,25 @@ function renderTable(data) {
                 <td class="text-center">${formatDate(item.estimatedCompletionDate)}</td>
                 <td class="text-center">${formatTime(item.estimatedCompletionTime)}</td>
                 <td class="text-center">${item.techniciansRequired ?? 0}</td>
-                <td class="text-center">${item.difficultyRate ?? ""}</td>
-                <td class="text-center">${formatDateTime(item.createdAt)}</td>
-                <td class="text-center">${item.status ?? ""}</td>
+               <!-- WORK DIFFICULTY -->
+                    <td class="text-center">
+                        ${item.difficultyRate ?? ""}
+                    </td>
+
+                    <!-- ST CREATE DATE -->
+                    <td class="text-center">
+                        ${formatDateTime(item.createdAt)}
+                    </td>
+
+                    <!-- TRANSACTION TYPE -->
+                    <td class="text-center">
+                        ${item.stType ?? ""}
+                    </td>
+
+                    <!-- STATUS -->
+                    <td class="text-center">
+                        ${item.status ?? ""}
+                    </td>
                             <td class="text-center">
                                 <div class="dropdown">
 

@@ -779,3 +779,138 @@ async function submitComplete() {
         showToast("Error completing service", "danger");
     }
 }
+
+
+// =====================================
+// GLOBAL TOAST
+// =====================================
+
+function showToast(
+    message,
+    type = "success",
+    delay = 5000
+) {
+
+    const container =
+        document.getElementById(
+            "toastContainer"
+        );
+
+    if (!container) {
+        console.error(
+            "toastContainer not found."
+        );
+
+        return;
+    }
+
+    const toastId =
+        `toast-${Date.now()}`;
+
+    const bgClass = {
+
+        success: "toast-success",
+
+        danger: "toast-danger",
+
+        warning: "toast-warning",
+
+        info: "toast-info"
+
+    }[type] || "toast-info";
+
+
+
+    // =====================================
+    // ICONS
+    // =====================================
+
+    const icon = {
+
+        success:
+            `<i class="bi bi-check-circle-fill me-2"></i>`,
+
+        danger:
+            `<i class="bi bi-x-circle-fill me-2"></i>`,
+
+        warning:
+            `<i class="bi bi-exclamation-triangle-fill me-2"></i>`,
+
+        info:
+            `<i class="bi bi-info-circle-fill me-2"></i>`
+
+    }[type] || "";
+
+
+
+    // =====================================
+    // TEMPLATE
+    // =====================================
+
+    const toastHtml = `
+
+        <div id="${toastId}"
+             class="toast custom-toast ${bgClass}"
+             role="alert"
+             aria-live="assertive"
+             aria-atomic="true">
+
+            <div class="d-flex align-items-center">
+
+                <div class="toast-body">
+
+                    ${icon}
+                    ${message}
+
+                </div>
+
+                <button type="button"
+                        class="btn-close btn-close-white me-3 m-auto"
+                        data-bs-dismiss="toast">
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    container.insertAdjacentHTML(
+        "beforeend",
+        toastHtml
+    );
+
+
+
+    // =====================================
+    // INIT BOOTSTRAP TOAST
+    // =====================================
+
+    const toastEl =
+        document.getElementById(
+            toastId
+        );
+
+    const toast =
+        new bootstrap.Toast(
+            toastEl,
+            {
+                delay: delay
+            }
+        );
+
+    toast.show();
+
+
+
+    // =====================================
+    // CLEANUP
+    // =====================================
+
+    toastEl.addEventListener(
+        "hidden.bs.toast",
+
+        () => {
+            toastEl.remove();
+        }
+    );
+}

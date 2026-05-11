@@ -53,6 +53,11 @@ namespace ARCon_Capstone_2.Models
         public bool? isactiveclaim { get; set; }
         public int? linked_service_transaction_id { get; set; }
 
+        public DateTime? rejected_at { get; set; }
+
+        public String? rejection_reason { get; set; }
+       
+
         /* =========================
            Relationships
         ========================= */

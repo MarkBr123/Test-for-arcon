@@ -852,7 +852,6 @@ function resetProductModal() {
         formFactorID: 0,
         productModel: "",
         productSeries: "",
-        sku: "",
         partNumberA: "",
         partNumberB: null,
         originalSellingPrice: 0,
