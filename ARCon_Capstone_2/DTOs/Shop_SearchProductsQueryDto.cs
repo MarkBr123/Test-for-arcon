@@ -14,6 +14,8 @@ namespace ARCon_Capstone_2.DTOs;
 
     public List<string>? Hp { get; set; }
 
+    public List<string>? Tags { get; set; }
+
     public string? Stock { get; set; }
 
     public string? Sort { get; set; }

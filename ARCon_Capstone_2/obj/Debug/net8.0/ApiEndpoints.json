@@ -390,6 +390,32 @@
   },
   {
     "ContainingType": "ARCon_Capstone_2.Controllers.AuthApiController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/auth/change-password",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.ChangePasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.AuthApiController",
+    "Method": "GetProfile",
+    "RelativePath": "api/auth/profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.AuthApiController",
     "Method": "Register",
     "RelativePath": "api/auth/register",
     "HttpMethod": "POST",

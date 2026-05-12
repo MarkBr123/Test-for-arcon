@@ -31,7 +31,10 @@ public class Shop_CustomerAddressApiController : ControllerBase
             return Unauthorized();
 
         var addresses = await _context.customer_addresses
-            .Where(a => a.customer_id == customerId)
+            .Where(a =>
+                a.customer_id == customerId &&
+                a.status == "ACTIVE"
+            )
             .Select(a => new
             {
                 a.id,
@@ -48,6 +51,122 @@ public class Shop_CustomerAddressApiController : ControllerBase
             .ToListAsync();
 
         return Ok(addresses);
+    }
+
+    [HttpPut("addresses/{id}/archive")]
+    public async Task<IActionResult> ArchiveAddress(int id)
+    {
+        var customerId =
+            HttpContext.Session
+                .GetInt32("UserId");
+
+        var userType =
+            HttpContext.Session
+                .GetString("UserType");
+
+        /* =========================
+           SESSION CHECK
+        ========================= */
+
+        if (
+            customerId == null ||
+            userType != "CUSTOMER"
+        )
+        {
+            return Unauthorized();
+        }
+
+        /* =========================
+           GET ADDRESS
+        ========================= */
+
+        var address = await _context
+            .customer_addresses
+
+            .FirstOrDefaultAsync(a =>
+
+                a.id == id &&
+
+                a.customer_id == customerId
+            );
+
+        if (address == null)
+        {
+            return NotFound(new
+            {
+                message =
+                    "Address not found."
+            });
+        }
+
+        /* =========================
+           PREVENT LAST ADDRESS
+        ========================= */
+
+        var activeAddressCount = await _context
+            .customer_addresses
+
+            .CountAsync(a =>
+
+                a.customer_id == customerId &&
+
+                a.status != "ARCHIVED"
+            );
+
+        if (activeAddressCount <= 1)
+        {
+            return BadRequest(new
+            {
+                message =
+                    "You cannot archive your last active address."
+            });
+        }
+
+        /* =========================
+           ARCHIVE ADDRESS
+        ========================= */
+
+        address.status = "ARCHIVED";
+
+        address.is_default = false;
+
+        address.archived_at =
+            DateTime.UtcNow;
+
+        /* =========================
+           ASSIGN NEW DEFAULT
+        ========================= */
+
+        var newDefaultAddress = await _context
+            .customer_addresses
+
+            .Where(a =>
+
+                a.customer_id == customerId &&
+
+                a.status != "ARCHIVED" &&
+
+                a.id != id
+            )
+
+            .OrderByDescending(a =>
+                a.created_at
+            )
+
+            .FirstOrDefaultAsync();
+
+        if (newDefaultAddress != null)
+        {
+            newDefaultAddress.is_default = true;
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            message =
+                "Address archived successfully."
+        });
     }
 
     // POST create new address

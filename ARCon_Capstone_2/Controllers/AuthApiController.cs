@@ -5,6 +5,7 @@ using ARCon_Capstone_2.Data;
 using ARCon_Capstone_2.DTOs;
 using ARCon_Capstone_2.Models;
 using ARCon_Capstone_2.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -153,5 +154,245 @@ public class AuthApiController : ControllerBase
             throw;
         }
     }
+
+
+    /// GEt Specific User Profile
+    /// 
+    [Authorize]
+    [HttpGet("profile")]
+    public async Task<IActionResult> GetProfile()
+    {
+        try
+        {
+            /* =========================
+               SESSION CHECK
+            ========================= */
+
+            var customerIdClaim =
+                User.FindFirst("CustomerId")
+                    ?.Value;
+
+            if (
+                string.IsNullOrWhiteSpace(
+                    customerIdClaim
+                )
+            )
+            {
+                return Unauthorized(new
+                {
+                    message =
+                        "Customer is not authenticated."
+                });
+            }
+
+            int customerId =
+                int.Parse(customerIdClaim);
+
+            /* =========================
+               GET CUSTOMER
+            ========================= */
+
+            var customer = await _context.customers
+
+                .Where(c =>
+                    c.id == customerId
+                )
+
+                .Select(c => new
+                {
+                    id = c.id,
+
+                    first_name = c.first_name,
+
+                    last_name = c.last_name,
+
+                    middle_name = c.middle_name,
+
+                    birthday = c.birthday,
+
+                    email = c.email,
+
+                    contact_no = c.contact_no,
+
+                    created_at = c.created_at
+                })
+
+                .FirstOrDefaultAsync();
+
+            if (customer == null)
+            {
+                return NotFound(new
+                {
+                    message =
+                        "Customer not found."
+                });
+            }
+
+            return Ok(customer);
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
+
+    /// Change Password
+    /// 
+    [Authorize]
+    [HttpPut("change-password")]
+    public async Task<IActionResult> ChangePassword(
+    [FromBody] ChangePasswordDto dto
+)
+    {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState
+
+                .Where(x =>
+                    x.Value!.Errors.Count > 0
+                )
+
+                .Select(x => new
+                {
+                    field = x.Key,
+
+                    errors = x.Value.Errors
+                        .Select(e =>
+                            e.ErrorMessage
+                        )
+                });
+
+            return BadRequest(new
+            {
+                message =
+                    "Validation failed.",
+
+                errors
+            });
+        }
+
+        try
+        {
+            /* =========================
+               SESSION CHECK
+            ========================= */
+
+            var customerIdClaim =
+                User.FindFirst("CustomerId")
+                    ?.Value;
+
+            if (
+                string.IsNullOrWhiteSpace(
+                    customerIdClaim
+                )
+            )
+            {
+                return Unauthorized(new
+                {
+                    message =
+                        "Customer is not authenticated."
+                });
+            }
+
+            int customerId =
+                int.Parse(customerIdClaim);
+
+            /* =========================
+               GET CUSTOMER
+            ========================= */
+
+            var customer =
+                await _context.customers
+                    .FirstOrDefaultAsync(c =>
+
+                        c.id == customerId
+                    );
+
+            if (customer == null)
+            {
+                return NotFound(new
+                {
+                    message =
+                        "Customer not found."
+                });
+            }
+
+            /* =========================
+               VERIFY CURRENT PASSWORD
+            ========================= */
+
+            bool isPasswordCorrect =
+
+                BCrypt.Net.BCrypt.Verify(
+
+                    dto.current_password,
+
+                    customer.password_hash
+                );
+
+            if (!isPasswordCorrect)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Current password is incorrect."
+                });
+            }
+
+            /* =========================
+               PREVENT SAME PASSWORD
+            ========================= */
+
+            bool samePassword =
+
+                BCrypt.Net.BCrypt.Verify(
+
+                    dto.new_password,
+
+                    customer.password_hash
+                );
+
+            if (samePassword)
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "New password must be different from current password."
+                });
+            }
+
+            /* =========================
+               HASH NEW PASSWORD
+            ========================= */
+
+            customer.password_hash =
+
+                BCrypt.Net.BCrypt.HashPassword(
+                    dto.new_password
+                );
+
+            customer.updated_at =
+                DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                message =
+                    "Password updated successfully."
+            });
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
+
+
+
+
+
 }
 

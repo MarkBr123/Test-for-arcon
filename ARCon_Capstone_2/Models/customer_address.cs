@@ -19,6 +19,11 @@ public partial class customer_address
     [StringLength(100)]
     public string? street_name { get; set; }
 
+    [StringLength(15)]
+    public string? status { get; set; }
+
+    public DateTime? archived_at { get; set; }
+
 
     //barangay
     // -------------------------

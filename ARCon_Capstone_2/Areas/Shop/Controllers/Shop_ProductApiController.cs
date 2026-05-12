@@ -403,6 +403,61 @@ public class Shop_ProductApiController : ControllerBase
                 );
             }
 
+
+            /* =========================
+   TAG FILTER
+========================= */
+
+            if (
+                queryDto.Tags != null &&
+                queryDto.Tags.Any()
+            )
+            {
+                var tags =
+
+                    queryDto.Tags
+                        .Select(t => t.ToLower())
+                        .ToList();
+
+                /* INVERTER */
+
+                if (
+                    tags.Contains("inverter")
+                )
+                {
+                    query = query.Where(p =>
+
+                        p.product_tags.Any(t =>
+
+                            EF.Functions.ILike(
+                                t.tag.tag_name,
+                                "%inverter%"
+                            )
+                        )
+                    );
+                }
+
+                /* NON-INVERTER */
+
+                if (
+                    tags.Contains("non-inverter")
+                )
+                {
+                    query = query.Where(p =>
+
+                        !p.product_tags.Any(t =>
+
+                            EF.Functions.ILike(
+                                t.tag.tag_name,
+                                "%inverter%"
+                            )
+                        )
+                    );
+                }
+            }
+
+
+
             /* =========================
                PRICE FILTER
             ========================= */
@@ -456,6 +511,7 @@ public class Shop_ProductApiController : ControllerBase
                     )
                 );
             }
+
 
             /* =========================
                    PRESET FILTERS
@@ -530,6 +586,8 @@ public class Shop_ProductApiController : ControllerBase
 
                     break;
             }
+
+
 
             /* =========================
                SORTING
