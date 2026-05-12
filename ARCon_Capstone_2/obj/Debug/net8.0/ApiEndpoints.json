@@ -416,6 +416,22 @@
   },
   {
     "ContainingType": "ARCon_Capstone_2.Controllers.AuthApiController",
+    "Method": "UpdateContactInfo",
+    "RelativePath": "api/auth/profile/contact",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.UpdateCustomerContactDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.AuthApiController",
     "Method": "Register",
     "RelativePath": "api/auth/register",
     "HttpMethod": "POST",

@@ -567,3 +567,122 @@ textarea {
     border-radius: 999px;
 }
 
+/* =========================
+   ADDRESS MODAL
+========================= */
+
+#addressModal .modal-content {
+    border: none;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #f8fafc;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.14);
+}
+
+/* HEADER */
+
+#addressModal .modal-header {
+    background: white;
+    border-bottom: 1px solid #edf0f5;
+    padding: 20px 24px;
+}
+
+#addressModal .modal-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111827;
+}
+
+/* BODY */
+
+#addressModal .modal-body {
+    padding: 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* ADDRESS LIST */
+
+.address-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ADDRESS CARD */
+
+.address-card {
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    border: 1px solid #edf0f5;
+    transition: 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+    .address-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(0,0,0,0.07);
+        border-color: #2563eb;
+    }
+
+/* DEFAULT TAG */
+
+.address-default-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: #2563eb;
+    color: white;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+/* TITLE */
+
+.address-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+}
+
+/* FULL ADDRESS */
+
+.address-full {
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* LANDMARK */
+
+.address-landmark {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* EMPTY STATE */
+
+.address-empty {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 20px;
+    text-align: center;
+    border: 1px dashed #dbe3ee;
+}
+
+.address-empty-icon {
+    font-size: 52px;
+    margin-bottom: 14px;
+}
+
+.address-empty-text {
+    font-size: 15px;
+    color: #6b7280;
+}

@@ -105,6 +105,10 @@
       "PackagePath": "staticwebassets\\ImageSources\\Logo\\aircon.PNG"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Logo\\ar-logo.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Logo\\ar-logo.png"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Logo\\chat-logo.gif",
       "PackagePath": "staticwebassets\\ImageSources\\Logo\\chat-logo.gif"
     },
@@ -387,6 +391,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_product-details.js",
       "PackagePath": "staticwebassets\\js\\shop_js\\shop_product-details.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_my_profile.js",
+      "PackagePath": "staticwebassets\\js\\shop_my_profile.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\site.js",

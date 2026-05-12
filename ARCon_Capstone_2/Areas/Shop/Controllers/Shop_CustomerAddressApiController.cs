@@ -170,45 +170,220 @@ public class Shop_CustomerAddressApiController : ControllerBase
     }
 
     // POST create new address
+
     [HttpPost]
-    public async Task<IActionResult> CreateAddress(CustomerAddressesDto dto)
+    public async Task<IActionResult> CreateAddress(
+        [FromBody]
+    CustomerAddressesDto dto
+    )
     {
-        var customerId = HttpContext.Session.GetInt32("UserId");
-        var userType = HttpContext.Session.GetString("UserType");
+        /* =========================
+           MODEL VALIDATION
+        ========================= */
 
-        if (customerId == null || userType != "CUSTOMER")
-            return Unauthorized();
-
-        // If new address is default → remove old default
-        if (dto.IsDefault)
+        if (!ModelState.IsValid)
         {
-            var existingDefaults = await _context.customer_addresses
-                .Where(a => a.customer_id == customerId && a.is_default)
-                .ToListAsync();
+            var errors = ModelState
 
-            foreach (var addr in existingDefaults)
-                addr.is_default = false;
+                .Where(x =>
+                    x.Value!.Errors.Count > 0
+                )
+
+                .Select(x => new
+                {
+                    field = x.Key,
+
+                    errors = x.Value.Errors
+                        .Select(e =>
+                            e.ErrorMessage
+                        )
+                });
+
+            return BadRequest(new
+            {
+                message =
+                    "Validation failed.",
+
+                errors
+            });
         }
 
-        var address = new customer_address
+        /* =========================
+           SESSION CHECK
+        ========================= */
+
+        var customerId =
+            HttpContext.Session
+                .GetInt32("UserId");
+
+        var userType =
+            HttpContext.Session
+                .GetString("UserType");
+
+        if (
+            customerId == null ||
+            userType != "CUSTOMER"
+        )
         {
-            customer_id = customerId.Value,
-            house_unit = dto.HouseUnit,
-            street_name = dto.StreetName,
-            barangay_id = dto.BarangayId,
-            municipality_id = dto.MunicipalityId,
-            province_id = dto.ProvinceId,
-            region_id = dto.RegionId,
-            zip_code = dto.ZipCode,
-            landmark = dto.Landmark,
-            is_default = dto.IsDefault,
-            location_long = dto.LocationLong,
-            location_lat = dto.LocationLat
-        };
+            return Unauthorized(new
+            {
+                message =
+                    "Customer is not authenticated."
+            });
+        }
 
-        _context.customer_addresses.Add(address);
-        await _context.SaveChangesAsync();
+        await using var trx =
+            await _context.Database
+                .BeginTransactionAsync();
 
-        return Ok(address);
+        try
+        {
+            /* =========================
+               VALIDATE LOCATION IDS
+            ========================= */
+
+            bool regionExists =
+                await _context.regions
+                    .AnyAsync(r =>
+                        r.id == dto.RegionId
+                    );
+
+            bool provinceExists =
+                await _context.provinces
+                    .AnyAsync(p =>
+                        p.id == dto.ProvinceId
+                    );
+
+            bool municipalityExists =
+                await _context.municipality
+                    .AnyAsync(m =>
+                        m.id == dto.MunicipalityId
+                    );
+
+            bool barangayExists =
+                await _context.barangay
+                    .AnyAsync(b =>
+                        b.id == dto.BarangayId
+                    );
+
+            if (
+                !regionExists ||
+                !provinceExists ||
+                !municipalityExists ||
+                !barangayExists
+            )
+            {
+                return BadRequest(new
+                {
+                    message =
+                        "Invalid address hierarchy."
+                });
+            }
+
+            /* =========================
+               REMOVE EXISTING DEFAULT
+            ========================= */
+
+            if (dto.IsDefault)
+            {
+                var existingDefaults =
+                    await _context
+                        .customer_addresses
+
+                        .Where(a =>
+
+                            a.customer_id ==
+                                customerId
+
+                            &&
+
+                            a.is_default
+
+                            &&
+
+                            a.status !=
+                                "ARCHIVED"
+                        )
+
+                        .ToListAsync();
+
+                foreach (var addr
+                    in existingDefaults)
+                {
+                    addr.is_default =
+                        false;
+                }
+
+                await _context
+                    .SaveChangesAsync();
+            }
+            /* =========================
+               CREATE ADDRESS
+            ========================= */
+
+            var address =
+                new customer_address
+                {
+                    customer_id =
+                        customerId.Value,
+
+                    house_unit =
+                        dto.HouseUnit,
+
+                    street_name =
+                        dto.StreetName,
+
+                    barangay_id =
+                        dto.BarangayId,
+
+                    municipality_id =
+                        dto.MunicipalityId,
+
+                    province_id =
+                        dto.ProvinceId,
+
+                    region_id =
+                        dto.RegionId,
+
+                    zip_code =
+                        dto.ZipCode,
+
+                    landmark =
+                        dto.Landmark,
+
+                    is_default =
+                        dto.IsDefault,
+
+                    location_long =
+                        dto.LocationLong,
+
+                    location_lat =
+                        dto.LocationLat,
+
+                    status =
+                        "ACTIVE"
+                };
+
+            _context.customer_addresses
+                .Add(address);
+
+            await _context
+                .SaveChangesAsync();
+
+            await trx.CommitAsync();
+
+            return Ok(new
+            {
+                message =
+                    "Address added successfully.",
+
+                address
+            });
+        }
+        catch
+        {
+            await trx.RollbackAsync();
+            throw;
+        }
     }
 }

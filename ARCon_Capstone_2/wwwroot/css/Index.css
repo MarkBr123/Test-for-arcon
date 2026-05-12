@@ -1816,3 +1816,264 @@ cart-btn:hover .cart-btn i {
         transform: translateX(-100%);
     }
 }
+
+/* =========================
+   PROFILE MODAL
+========================= */
+
+#profileModal .modal-content {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #f8fafc;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+}
+
+/* HEADER */
+
+#profileModal .modal-header {
+    border-bottom: 1px solid #edf0f5;
+    background: white;
+    padding: 20px 24px;
+}
+
+#profileModal .modal-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+}
+
+/* BODY */
+
+#profileModal .modal-body {
+    padding: 24px;
+}
+
+/* CARDS */
+
+#profileModal .card {
+    border: 1px solid #edf0f5 !important;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+#profileModal .card-body {
+    padding: 22px;
+}
+
+#profileModal h5 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* INPUTS */
+
+#profileModal .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+#profileModal .form-control,
+#profileModal .form-select {
+    border-radius: 12px;
+    border: 1px solid #dbe3ee;
+    padding: 11px 14px;
+    font-size: 14px;
+    transition: 0.2s ease;
+    box-shadow: none;
+}
+
+    #profileModal .form-control:focus,
+    #profileModal .form-select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
+    }
+
+/* BUTTONS */
+
+#profileModal .btn {
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+#profileModal .btn-primary {
+    background: #2563eb;
+    border: none;
+}
+
+    #profileModal .btn-primary:hover {
+        background: #1d4ed8;
+    }
+
+#profileModal .btn-warning {
+    border: none;
+    color: white;
+}
+
+#profileModal .btn-danger {
+    border: none;
+}
+
+/* ADDRESS CARD */
+
+#addressContainer .border {
+    border: 1px solid #edf0f5 !important;
+    border-radius: 14px !important;
+    background: #fafcff;
+    transition: 0.2s ease;
+}
+
+    #addressContainer .border:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    }
+
+/* BADGES */
+
+#profileModal .badge {
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* FOOTER */
+
+#profileModal .modal-footer {
+    border-top: 1px solid #edf0f5;
+    background: white;
+    padding: 18px 24px;
+}
+
+/* =========================
+   PROFILE MODAL LAYOUT
+========================= */
+
+.profile-modal-body {
+    background: #f8fafc;
+    padding: 24px;
+}
+
+.profile-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+/* COLUMNS */
+
+.profile-left-column,
+.profile-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* SECTION CARDS */
+
+.profile-section-card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    border: 1px solid #edf0f5;
+}
+
+/* SECTION HEADER */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+    .section-header h5 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        color: #111827;
+    }
+
+/* GRID */
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 18px;
+}
+
+    /* LABELS */
+
+    .profile-grid label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #374151;
+    }
+
+    /* INPUTS */
+
+    .profile-grid .form-control {
+        border-radius: 12px;
+        min-height: 48px;
+        border: 1px solid #dbe3ee;
+    }
+
+/* ADDRESS CARDS */
+
+#addressContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+    #addressContainer .border {
+        border-radius: 16px !important;
+        background: #fafcff;
+        padding: 18px !important;
+    }
+
+/* MOBILE */
+
+@media (max-width: 992px) {
+
+    .profile-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   PASSWORD TOGGLE
+========================= */
+
+.password-wrapper {
+    position: relative;
+}
+
+    .password-wrapper .form-control {
+        padding-right: 48px;
+    }
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+}

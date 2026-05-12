@@ -158,7 +158,6 @@ public class AuthApiController : ControllerBase
 
     /// GEt Specific User Profile
     /// 
-    [Authorize]
     [HttpGet("profile")]
     public async Task<IActionResult> GetProfile()
     {
@@ -168,14 +167,17 @@ public class AuthApiController : ControllerBase
                SESSION CHECK
             ========================= */
 
-            var customerIdClaim =
-                User.FindFirst("CustomerId")
-                    ?.Value;
+            var customerId =
+                HttpContext.Session
+                    .GetInt32("UserId");
+
+            var userType =
+                HttpContext.Session
+                    .GetString("UserType");
 
             if (
-                string.IsNullOrWhiteSpace(
-                    customerIdClaim
-                )
+                customerId == null ||
+                userType != "CUSTOMER"
             )
             {
                 return Unauthorized(new
@@ -185,14 +187,12 @@ public class AuthApiController : ControllerBase
                 });
             }
 
-            int customerId =
-                int.Parse(customerIdClaim);
-
             /* =========================
                GET CUSTOMER
             ========================= */
 
-            var customer = await _context.customers
+            var customer = await _context
+                .customers
 
                 .Where(c =>
                     c.id == customerId
@@ -239,7 +239,7 @@ public class AuthApiController : ControllerBase
 
     /// Change Password
     /// 
-    [Authorize]
+
     [HttpPut("change-password")]
     public async Task<IActionResult> ChangePassword(
     [FromBody] ChangePasswordDto dto
@@ -274,18 +274,21 @@ public class AuthApiController : ControllerBase
 
         try
         {
-            /* =========================
+            /* 
                SESSION CHECK
-            ========================= */
+                               */
 
-            var customerIdClaim =
-                User.FindFirst("CustomerId")
-                    ?.Value;
+            var customerId =
+            HttpContext.Session
+                .GetInt32("UserId");
+
+            var userType =
+                HttpContext.Session
+                    .GetString("UserType");
 
             if (
-                string.IsNullOrWhiteSpace(
-                    customerIdClaim
-                )
+                customerId == null ||
+                userType != "CUSTOMER"
             )
             {
                 return Unauthorized(new
@@ -295,12 +298,9 @@ public class AuthApiController : ControllerBase
                 });
             }
 
-            int customerId =
-                int.Parse(customerIdClaim);
-
-            /* =========================
+            /* 
                GET CUSTOMER
-            ========================= */
+                            */
 
             var customer =
                 await _context.customers
@@ -318,9 +318,8 @@ public class AuthApiController : ControllerBase
                 });
             }
 
-            /* =========================
-               VERIFY CURRENT PASSWORD
-            ========================= */
+            /* 
+               VERIFY CURRENT PASSWORD   */
 
             bool isPasswordCorrect =
 
@@ -340,9 +339,8 @@ public class AuthApiController : ControllerBase
                 });
             }
 
-            /* =========================
-               PREVENT SAME PASSWORD
-            ========================= */
+            /* 
+                PREVENT SAME PASSWORD   */
 
             bool samePassword =
 
@@ -362,9 +360,8 @@ public class AuthApiController : ControllerBase
                 });
             }
 
-            /* =========================
-               HASH NEW PASSWORD
-            ========================= */
+            /* 
+               HASH NEW PASSWORD  */
 
             customer.password_hash =
 
@@ -383,9 +380,226 @@ public class AuthApiController : ControllerBase
                     "Password updated successfully."
             });
         }
-        catch
+        catch (Exception ex)
         {
-            throw;
+            var fullError =
+                ex.InnerException?.Message ??
+                ex.Message;
+
+            Console.WriteLine(
+                "========== FULL ERROR =========="
+            );
+
+            Console.WriteLine(
+                ex.ToString()
+            );
+
+            Console.WriteLine(
+                "================================"
+            );
+
+            return StatusCode(500, new
+            {
+                message =
+                    fullError,
+
+                error =
+                    ex.Message
+            });
+        }
+    }
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// Update Contact
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+
+    [HttpPut("profile/contact")]
+    public async Task<IActionResult> UpdateContactInfo(
+        [FromBody]
+    UpdateCustomerContactDto dto
+    )
+    {
+        /* 
+            VALIDATION    */
+
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState
+
+                .Where(x =>
+                    x.Value!.Errors.Count > 0
+                )
+
+                .Select(x => new
+                {
+                    field = x.Key,
+
+                    errors = x.Value.Errors
+                        .Select(e =>
+                            e.ErrorMessage
+                        )
+                });
+
+            return BadRequest(new
+            {
+                message =
+                    "Validation failed.",
+
+                errors
+            });
+        }
+
+        /* 
+              SESSION CHECK      */
+
+        var customerId =
+            HttpContext.Session
+                .GetInt32("UserId");
+
+        var userType =
+            HttpContext.Session
+                .GetString("UserType");
+
+        if (
+            customerId == null ||
+            userType != "CUSTOMER"
+        )
+        {
+            return Unauthorized(new
+            {
+                message =
+                    "Customer is not authenticated."
+            });
+        }
+
+        await using var trx =
+            await _context.Database
+                .BeginTransactionAsync();
+
+        try
+        {
+            /* 
+                   GET CUSTOMER       */
+
+            var customer = await _context
+                .customers
+
+                .FirstOrDefaultAsync(c =>
+
+                    c.id == customerId
+                );
+
+            if (customer == null)
+            {
+                return NotFound(new
+                {
+                    message =
+                        "Customer not found."
+                });
+            }
+
+            /* 
+                EMAIL UNIQUENESS    */
+
+            bool emailExists = await _context
+                .customers
+
+                .AnyAsync(c =>
+
+                    c.email == dto.email &&
+
+                    c.id != customerId
+                );
+
+            if (emailExists)
+            {
+                return Conflict(new
+                {
+                    message =
+                        "Email already exists."
+                });
+            }
+
+            /* 
+               CONTACT UNIQUENESS   */
+
+            bool contactExists = await _context
+                .customers
+
+                .AnyAsync(c =>
+
+                    c.contact_no == dto.contact_no &&
+
+                    c.id != customerId
+                );
+
+            if (contactExists)
+            {
+                return Conflict(new
+                {
+                    message =
+                        "Contact number already exists."
+                });
+            }
+
+            /* 
+               UPDATE   */
+
+            customer.email =
+                dto.email;
+
+            customer.contact_no =
+                dto.contact_no;
+
+            customer.updated_at =
+                DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            await trx.CommitAsync();
+
+            return Ok(new
+            {
+                message =
+                    "Contact information updated successfully."
+            });
+        }
+        catch (Exception ex)
+        {
+            await trx.RollbackAsync();
+            var fullError =
+                ex.InnerException?.Message ??
+                ex.Message;
+
+            Console.WriteLine(
+                "========== FULL ERROR =========="
+            );
+
+            Console.WriteLine(
+                ex.ToString()
+            );
+
+            Console.WriteLine(
+                "================================"
+            );
+
+            return StatusCode(500, new
+            {
+                message =
+                    fullError,
+
+                error =
+                    ex.Message
+            });
         }
     }
 

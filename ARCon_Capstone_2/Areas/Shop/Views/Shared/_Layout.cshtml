@@ -133,12 +133,15 @@
 
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
+
                             <a class="dropdown-item"
-                               asp-area="Shop"
-                               asp-controller="Profile"
-                               asp-action="MyProfile">
+                               href="#"
+                               id="openProfileModal">
+
                                 My Profile
+
                             </a>
+
                         </li>
 
                         <li>
@@ -185,14 +188,6 @@
         </div>
 
     </div>
-
-
-
-
-
-
-
-
 
 
 
@@ -346,7 +341,501 @@
 </body>
 </html>
 
+
+
+
+
+
+<!-- MY PROFILE MODAL -->
+
+<div class="modal fade"
+     id="profileModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog
+                modal-xl
+                modal-dialog-scrollable">
+
+        <div class="modal-content">
+
+            <!-- HEADER -->
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    My Profile
+
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <!-- BODY -->
+
+            <div class="modal-body profile-modal-body">
+
+                <div class="profile-layout">
+
+                    <!-- LEFT SIDE -->
+
+                    <div class="profile-left-column">
+
+                        <!-- PROFILE -->
+
+                        <div class="profile-section-card">
+
+                            <div class="section-header">
+
+                                <h5>
+                                    Personal Information
+                                </h5>
+
+                                <button class="btn btn-primary"
+                                        id="saveProfileBtn">
+
+                                    Save Profile
+
+                                </button>
+
+                            </div>
+
+                            <div class="profile-grid">
+
+                                <div>
+
+                                    <label>
+                                        First Name
+                                    </label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="profileFirstName"
+                                           readonly>
+
+
+                                </div>
+
+                                <div>
+
+                                    <label>
+                                        Middle Name
+                                    </label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="profileMiddleName"
+                                           readonly>
+
+                                </div>
+
+                                <div>
+
+                                    <label>
+                                        Last Name
+                                    </label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="profileLastName"
+                                           readonly>
+
+                                </div>
+
+                                <div>
+
+                                    <label>
+                                        Email
+                                    </label>
+
+                                    <input type="email"
+                                           class="form-control"
+                                           id="profileEmail">
+
+                                </div>
+
+                                <div>
+
+                                    <label>
+                                        Contact Number
+                                    </label>
+
+                                    <!-- CONTACT NUMBER -->
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="profileContactNo">
+
+                                </div>
+
+                                <div>
+
+                                    <label>
+                                        Birthday
+                                    </label>
+
+                                    <input type="date"
+                                           class="form-control"
+                                           id="profileBirthday"
+                                           readonly>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- PASSWORD -->
+
+                        <div class="profile-section-card">
+
+                            <div class="section-header">
+
+                                <h5>
+                                    Change Password
+                                </h5>
+
+                                <button class="btn btn-danger"
+                                        id="changePasswordBtn">
+
+                                    Change Password
+
+                                </button>
+
+                            </div>
+
+                            <div class="profile-grid">
+
+                                <div>
+
+                                    <label>
+                                        Current Password
+                                    </label>
+
+                                    <div class="password-wrapper">
+
+                                        <input type="password"
+                                               class="form-control"
+                                               id="currentPassword">
+
+                                        <button type="button"
+                                                class="password-toggle"
+                                                data-target="currentPassword">
+
+                                            👁️
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <div>
+
+                                    <label>
+                                        New Password
+                                    </label>
+
+                                    <div class="password-wrapper">
+
+                                        <input type="password"
+                                               class="form-control"
+                                               id="newPassword">
+
+                                        <button type="button"
+                                                class="password-toggle"
+                                                data-target="newPassword">
+
+                                            👁️
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <div>
+
+                                    <label>
+                                        Confirm Password
+                                    </label>
+
+                                    <div class="password-wrapper">
+
+                                        <input type="password"
+                                               class="form-control"
+                                               id="confirmPassword">
+
+                                        <button type="button"
+                                                class="password-toggle"
+                                                data-target="confirmPassword">
+
+                                            👁️
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT SIDE -->
+
+                    <div class="profile-right-column">
+
+                        <div class="profile-section-card">
+
+                            <div class="section-header">
+
+                                <h5>
+                                    Address Book
+                                </h5>
+
+                                <button class="btn btn-success"
+                                        id="addAddressBtn">
+
+                                    + Add Address
+
+                                </button>
+
+                            </div>
+
+                            <div id="addressContainer">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!--Add New Address modal-->
+<!-- ADD ADDRESS MODAL -->
+
+<div class="modal fade"
+     id="addAddressModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog
+                modal-lg
+                modal-dialog-scrollable">
+
+        <div class="modal-content">
+
+            <!-- HEADER -->
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    Add New Address
+
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <!-- BODY -->
+
+            <div class="modal-body">
+
+                <div class="row g-3">
+
+                    <!-- HOUSE / UNIT -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            House / Unit
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               id="addHouseUnit">
+
+                    </div>
+
+                    <!-- STREET -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Street Name
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               id="addStreetName">
+
+                    </div>
+
+                    <!-- ZIP -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            ZIP Code
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               id="addZipCode">
+
+                    </div>
+
+                    <!-- LANDMARK -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Landmark
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               id="addLandmark">
+
+                    </div>
+
+                    <!-- REGION -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Region
+                        </label>
+
+                        <select class="form-select"
+                                id="addRegion">
+
+                            <option value="">
+                                -- Select Region --
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- PROVINCE -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Province
+                        </label>
+
+                        <select class="form-select"
+                                id="addProvince"
+                                disabled>
+
+                            <option value="">
+                                -- Select Province --
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- MUNICIPALITY -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Municipality
+                        </label>
+
+                        <select class="form-select"
+                                id="addMunicipality"
+                                disabled>
+
+                            <option value="">
+                                -- Select Municipality --
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- BARANGAY -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Barangay
+                        </label>
+
+                        <select class="form-select"
+                                id="addBarangay"
+                                disabled>
+
+                            <option value="">
+                                -- Select Barangay --
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-success"
+                        id="saveAddressBtn">
+
+                    Save Address
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 <script src="~/js/view-js/layout_search.js"></script>
+<script src="~/js/shop_my_profile.js"></script>
 
 
 <!--Temporarily removed on Purpose by Marvin-->
