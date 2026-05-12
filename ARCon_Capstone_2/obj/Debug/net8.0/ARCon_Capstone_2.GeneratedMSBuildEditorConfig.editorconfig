@@ -246,6 +246,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xTaGFyZWRcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Shared/_Layout (MTC).cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xTaGFyZWRcX0xheW91dCAoTVRDKS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/marvinpc/Documents/GitHub/Test-for-arcon/ARCon_Capstone_2/Areas/Shop/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU2hvcFxWaWV3c1xTaGFyZWRcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
