@@ -106,48 +106,42 @@ function renderBasicInfo(p) {
 
 
 
-/* ===============================
-   IMAGES + THUMBNAILS
-================================= */
 function renderImages(images, arUrl) {
     const mainImage = document.getElementById("mainImage");
     const container = document.getElementById("thumbnailContainer");
 
     container.innerHTML = "";
 
-    // Create AR button block
-    const buttonWrapper = document.createElement("div");
-    buttonWrapper.classList.add("buttons");
+    if (!images || images.length === 0) return;
 
-    const arButton = document.createElement("button");
-    arButton.classList.add("ar");
-    arButton.innerText = "View in AR";
-
-    // If AR URL exists → enable redirect
-    if (arUrl && arUrl.trim() !== "") {
-        arButton.addEventListener("click", () => {
-            window.open(arUrl, "_blank");
-        });
-    } else {
-        arButton.disabled = true;
-        arButton.style.opacity = "0.5";
-        arButton.style.cursor = "not-allowed";
-    }
-
-
-    buttonWrapper.appendChild(arButton);
-
-    // If no images → still show button
-    if (!images || images.length === 0) {
-        container.appendChild(buttonWrapper);
-        return;
-    }
-
-    // Set main image
     mainImage.src = images[0];
 
-    // Create thumbnails
-    images.forEach(img => {
+    const MAX_VISIBLE = 3;
+
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("thumb-wrapper");
+
+    const visibleRow = document.createElement("div");
+    visibleRow.classList.add("visible-thumbs");
+
+    const hoverBox = document.createElement("div");
+    hoverBox.classList.add("hover-preview");
+
+    let hideTimeout;
+
+    function showHover() {
+        clearTimeout(hideTimeout);
+        hoverBox.style.display = "flex";
+    }
+
+    function hideHover() {
+        hideTimeout = setTimeout(() => {
+            hoverBox.style.display = "none";
+        }, 150); // delay prevents flicker
+    }
+
+    // ===== THUMBNAILS =====
+    images.forEach((img, index) => {
         const thumb = document.createElement("img");
         thumb.src = img;
         thumb.classList.add("thumbnail-img");
@@ -156,13 +150,54 @@ function renderImages(images, arUrl) {
             mainImage.src = img;
         });
 
-        container.appendChild(thumb);
+        if (index < MAX_VISIBLE) {
+            visibleRow.appendChild(thumb);
+        } else {
+            hoverBox.appendChild(thumb);
+        }
     });
 
-    // Add AR button at bottom
-    container.appendChild(buttonWrapper);
-}
+    // ===== SEE MORE BUTTON =====
+    if (images.length > MAX_VISIBLE) {
+        const seeMore = document.createElement("div");
+        seeMore.classList.add("see-more-text");
+        seeMore.innerText = `+${images.length - MAX_VISIBLE} More`;
 
+        // SHOW ON HOVER
+        seeMore.addEventListener("mouseenter", showHover);
+        hoverBox.addEventListener("mouseenter", showHover);
+
+        // HIDE ONLY WHEN BOTH ARE LEFT
+        seeMore.addEventListener("mouseleave", hideHover);
+        hoverBox.addEventListener("mouseleave", hideHover);
+
+        wrapper.appendChild(visibleRow);
+        wrapper.appendChild(seeMore);
+        wrapper.appendChild(hoverBox);
+    } else {
+        wrapper.appendChild(visibleRow);
+    }
+
+    container.appendChild(wrapper);
+
+    // ===== AR BUTTON =====
+    const arButton = document.createElement("button");
+    arButton.classList.add("ar");
+    arButton.setAttribute("data-tooltip", "View in AR");
+
+    const arImage = document.createElement("img");
+    arImage.src = "/ImageSources/Logo/ar-logo.png";
+    arImage.style.width = "65px";
+    arImage.style.height = "65px";
+
+    arButton.appendChild(arImage);
+
+    if (arUrl) {
+        arButton.onclick = () => window.open(arUrl, "_blank");
+    }
+
+    container.appendChild(arButton);
+}
 
 /* ===============================
    SPECIFICATIONS

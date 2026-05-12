@@ -21,8 +21,8 @@
     .container {
         width: 100%;
         max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
+        margin: 0 230px;
+        padding: 0 20px 0 0px;
         /* Optional: Adds spacing left/right */
     }
 
@@ -58,6 +58,122 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
+            .thumbnails img:hover {
+                transform: translateY(-3px);
+                opacity: 0.9;
+                cursor: pointer;
+            }
+
+        .thumbnails :hover {
+            transform: scale(1.08);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+
+    .thumbnail-img {
+        width: 70px;
+        height: 70px;
+        margin: 5px;
+        cursor: pointer;
+        object-fit: cover;
+    }
+
+    .see-more-btn {
+        margin: 5px;
+        padding: 8px 10px;
+        border: none;
+        background: #333;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .see-more-btn:hover {
+            background: #555;
+        }
+
+
+    .ar {
+        padding: 10px;
+        border: none;
+        background: transparent;
+        position: relative;
+        top: 0px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+        .ar img {
+            border: none;
+            outline: none;
+            box-shadow: none;
+            display: block;
+            height: 100%;
+            width: 65px;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        /* Hover effect */
+        .ar:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+
+            .ar:hover img {
+                transform: scale(1.08);
+                filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+            }
+
+    .ar {
+        position: relative;
+        cursor: pointer;
+    }
+
+        /* Tooltip bubble */
+        .ar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s ease;
+            z-index: 10;
+        }
+
+        /* Small arrow */
+        .ar::before {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: rgba(0,0,0,0.8) transparent transparent transparent;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s ease;
+        }
+
+        /* Show tooltip on hover */
+        .ar:hover::after,
+        .ar:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+
 
     .right-column {
         flex: 1;
@@ -217,34 +333,12 @@
 #quantity-wrap {
     padding-bottom: 20px;
 }
+
 #quantity {
     width: 40px;
     height: 25px;
     text-align: center;
 }
-
-.ar {
-    border-radius: 4px;
-    padding: 10px 10px 10px 10px;
-    border: none;
-    background: #ccc;
-    height: 40px;
-    position: relative;
-    bottom: 60px;
-    left: 65px;
-}
-
-.buttons{
-    
-}
-
-
-
-
-
-
-
-
 
 
 
@@ -322,6 +416,63 @@
         font-weight: 600;
         color: #fff;
     }
+
+
+/*Thumbnail pop up*/
+
+.thumb-wrapper {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.visible-thumbs {
+    display: flex;
+    gap: 8px;
+}
+
+.thumbnail-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+/* hidden preview panel */
+.hover-preview {
+    position: absolute;
+    top: 90px;
+    left: 0px;
+    display: none;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: white;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    /*box-shadow: 0 4px 15px rgba(0,0,0,0.2);*/
+    z-index: 999;
+}
+
+/* see more text */
+.see-more-text {
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px;
+    user-select: none;
+}
+
+    .see-more-text:hover {
+        color: #007bff;
+    }
+
+
+
+
+
 
 
 /*/////////////////////////////////// End Added By Marvin /////////////////////////////////*/
@@ -431,11 +582,3 @@
     color: #6b7280;
     padding: 10px;
 }
-
-
-
-
-
-
-
-

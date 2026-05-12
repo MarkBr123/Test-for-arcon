@@ -70,7 +70,7 @@
                         <img src="${imageUrl}">
                         <h3>${p.brandName} ${p.productSeries ?? ""} ${p.productModel}</h3>
                         <p>${p.horsePower ?? "-"} ${p.horsePower ? "HP" : ""}</p>
-                        <h3><strong>₱${p.actualSellingPrice.toLocaleString()}</strong></h3>
+                        <p><strong>₱${p.actualSellingPrice.toLocaleString()}</strong></p>
                     </a>
 
                     <div class="product-btns">
@@ -86,7 +86,6 @@
                             View Item
                         </button>
 
-                        ${addToCartButton}
 
                     </div>
 
