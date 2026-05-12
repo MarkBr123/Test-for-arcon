@@ -1,110 +1,459 @@
 ﻿@page
 @model ARCon_Capstone_2.Areas.Ecommerce.Views.Product.Search_resultsModel
+
 @section Styles {
-    <link rel="stylesheet" href="~/css/Search.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/css/Search.css"
+          asp-append-version="true" />
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
 }
 
 @section Scripts {
-    <script src="~/js/View-js/Search.js" asp-append-version="true"></script>
+    <script src="~/js/View-js/Search.js"
+            asp-append-version="true"></script>
 
-    <script src="~/js/View-js/Index.js" asp-append-version="true"></script>
+    <script src="~/js/View-js/Index.js"
+            asp-append-version="true"></script>
 }
 
 <div class="search-container">
 
-    <!-- LEFT SIDEBAR FILTERS -->
+    <!-- =========================
+         SIDEBAR FILTERS -->
     <aside class="filters">
 
-        <h4>Price, ₱</h4>
-        <div class="price-range">
-            <input type="number" placeholder="5000" />
-            <span> - </span>
-            <input type="number" placeholder="50000" />
+        <!-- FILTER HEADER -->
+        <div class="filter-header">
+
+            <h3>Filters</h3>
+
         </div>
 
-        <hr>
-
+        <!-- STOCK STATUS -->
         <div class="filter-section">
+
             <h5>Stock Status</h5>
-            <label><input type="checkbox" id="in-stock" /> In Stock</label><br />
-            <label><input type="checkbox" id="discontinued" /> Discontinued</label>
+
+            <div class="filter-scroll">
+
+                <label>
+                    <input type="checkbox"
+                           id="in-stock"
+                           value="IN_STOCK" />
+
+                    In Stock
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="out-stock"
+                           value="OUT_OF_STOCK" />
+
+                    Out of Stock
+                </label>
+
+            </div>
+
         </div>
 
         <hr>
 
+        <!-- PRICE -->
         <div class="filter-section">
+
+            <h5>Price Range</h5>
+
+            <div class="price-range">
+
+                <input type="number"
+                       id="minPrice"
+                       placeholder="5000" />
+
+                <span>-</span>
+
+                <<input type="number"
+                        id="maxPrice"
+                        placeholder="50000" />  
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <hr>
+
+        <!-- BRANDS -->
+        <div class="filter-section">
+
             <h5>Brands</h5>
+
             <div class="filter-scroll">
-                <label><input type="checkbox" id="samsung-cb"/> Samsung</label><br />
-                <label><input type="checkbox" id="lg-cb" /> LG</label><br />
-                <label><input type="checkbox" id="kolin-cb" /> Kolin</label><br />
-                <label><input type="checkbox" id="daikin-cb" /> Daikin</label><br />
-                <label><input type="checkbox" id="tcl-cb" /> TCL</label><br />
-                <label><input type="checkbox" id="carrier-cb" /> Carrier</label><br />
-                <label><input type="checkbox" id="panasonic-cb" /> Panasonic</label><br />
-                <label><input type="checkbox" id="hitachi-cb" /> Hitachi</label>
+
+                <label>
+                    <input type="checkbox"
+                           id="samsung-brand"
+                           value="Samsung" />
+                    Samsung
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="lg-brand"
+                           value="LG" />
+                    LG
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="kolin-brand"
+                           value="Kolin" />
+                    Kolin
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="carrier-brand"
+                           value="Carrier" />
+                    Carrier
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="fujidenzo-brand"
+                           value="Fujidenzo" />
+                    Fujidenzo
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="panasonic-brand"
+                           value="Panasonic" />
+                    Panasonic
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="daikin-brand"
+                           value="Daikin" />
+                    Daikin
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="koppel-brand"
+                           value="Koppel" />
+                    Koppel
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="gree-brand"
+                           value="GREE" />
+                    GREE
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="tosot-brand"
+                           value="TOSOT" />
+                    TOSOT
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="sharp-brand"
+                           value="Sharp" />
+                    Sharp
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="ox-brand"
+                           value="OX" />
+                    OX
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="aux-brand"
+                           value="AUX" />
+                    AUX
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="haier-brand"
+                           value="Haier" />
+                    Haier
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="midea-brand"
+                           value="Midea" />
+                    Midea
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="tcl-brand"
+                           value="TCL" />
+                    TCL
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="matrix-brand"
+                           value="Matrix" />
+                    Matrix
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="everest-brand"
+                           value="Everest" />
+                    Everest
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="condura-brand"
+                           value="Condura" />
+                    Condura
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="hisense-brand"
+                           value="Hisense" />
+                    Hisense
+                </label>
+
             </div>
+
         </div>
 
         <hr>
 
+        <!-- HP -->
         <div class="filter-section">
-            <h5>HP</h5>
+
+            <h5>Horsepower (HP)</h5>
+
             <div class="filter-scroll">
-                <label><input type="checkbox" id="1-hp" value="1" /> 1 HP</label><br />
-                <label><input type="checkbox" id="1.5-hp" value="1.5" /> 1.5 HP</label><br />
-                <label><input type="checkbox" id="2-hp" value="2" /> 2 HP</label><br />
-                <label><input type="checkbox" id="2.5-hp" /> 2.5 HP</label><br />
-                <label><input type="checkbox" id="3-hp" /> 3 HP</label><br />
-                <label><input type="checkbox" id="3.5-hp" /> 3.5 HP</label><br />
-                <label><input type="checkbox" id="4-hp" /> 4 HP</label><br />
-                <label><input type="checkbox" id="4.5-hp" /> 4.5 HP</label><br />
-                <label><input type="checkbox" id="5-hp" /> 5 HP</label>
+
+                <label>
+                    <input type="checkbox"
+                           id="0.75-hp"
+                           value="0.75" />
+                    0.75 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="1-hp"
+                           value="1" />
+                    1 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="1.5-hp"
+                           value="1.5" />
+                    1.5 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="2-hp"
+                           value="2" />
+                    2 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="2.5-hp"
+                           value="2.5" />
+                    2.5 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="3-hp"
+                           value="3" />
+                    3 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="3.5-hp"
+                           value="3.5" />
+                    3.5 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="4-hp"
+                           value="4" />
+                    4 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="4.5-hp"
+                           value="4.5" />
+                    4.5 HP
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="5-hp"
+                           value="5" />
+                    5 HP
+                </label>
+
             </div>
+
         </div>
 
         <hr>
 
+        <!-- FORM FACTORS -->
         <div class="filter-section">
-            <h5>Form Type</h5>
-            <label>
-                <input type="checkbox" id="split-productSeries" value="Split"> Split
-            </label><br />
 
-            <label>
-                <input type="checkbox" id="window-productSeries" value="Window"> Window
-            </label><br />
+            <h5>Form Factors</h5>
 
-            <label>
-                <input type="checkbox" id="ceiling-productSeries" value="Ceiling"> Ceiling 
-            </label>
+            <div class="filter-scroll">
+
+                <label>
+                    <input type="checkbox"
+                           id="window-type-ff"
+                           value="Window type" />
+                    Window Type
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="split-wall-mounted-ff"
+                           value="Split Type Wall-Mounted" />
+                    Split Type Wall-Mounted
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="wall-mounted-noninv-ff"
+                           value="Wall-mounted Non-Inverter" />
+                    Wall-mounted Non-Inverter
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="ceiling-suspended-ff"
+                           value="Ceiling Suspended" />
+                    Ceiling Suspended
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="ceiling-cassette-ff"
+                           value="Ceiling Cassette-Type" />
+                    Ceiling Cassette-Type
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="floor-standing-ff"
+                           value="Floor-standing / Tower" />
+                    Floor-standing / Tower
+                </label>
+
+                <label>
+                    <input type="checkbox"
+                           id="portable-tower-ff"
+                           value="Portable / Tower" />
+                    Portable / Tower
+                </label>
+
+            </div>
+
         </div>
 
-        <hr>
-
-        @* <button class="btn btn-primary mt-3">Apply Filters</button> *@
     </aside>
 
-
-    <!-- RIGHT SIDE PRODUCTS -->
+    <!-- =========================
+         RESULTS AREA
+    ========================== -->
     <section class="results">
 
+        <!-- RESULTS HEADER -->
         <div class="results-header">
-            <h3>Showing (no.) Results</h3>
-            <select>
-                <option>Relevance</option>
-                <option>Inverter</option>
-                <option>Non-Inverter</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-            </select>
+
+            <div class="results-top">
+
+                <h3 id="resultsCount">
+                    Showing 0 Results
+                </h3>
+
+            </div>
+
+            <!-- SORT -->
+            <div class="sort-wrapper">
+
+                <span class="material-icons">
+                    swap_vert
+                </span>
+
+                <select id="sortSelect">
+
+                    <option value="relevance">
+                        Relevance
+                    </option>
+
+                    <option value="inverter">
+                        Inverter
+                    </option>
+
+                    <option value="non-inverter">
+                        Non-Inverter
+                    </option>
+
+                    <option value="low-high">
+                        Price: Low to High
+                    </option>
+
+                    <option value="high-low">
+                        Price: High to Low
+                    </option>
+
+                    <option value="stock-high">
+                        Stock: High to Low
+                    </option>
+
+                    <option value="stock-low">
+                        Stock: Low to High
+                    </option>
+
+                </select>
+
+            </div>
+
         </div>
 
-        <div class="product-grid" id="productGrid">
-            @* placeholder for products *@
+        <!-- PRODUCT GRID -->
+        <div class="product-grid"
+             id="productGrid">
+
+            @* Products Render Here *@
         </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination-container"
+             id="paginationContainer">
+        </div>
+
 
     </section>
 

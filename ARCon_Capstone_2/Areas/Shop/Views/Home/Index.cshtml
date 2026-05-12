@@ -15,60 +15,402 @@
 }
 
 
+
+
+
+
+
 @* Page Headline *@
 <div class="toolbar" id="tb">
 
     <!-- Dropdown 1 -->
     <div class="text-dropdown" id="d1">
-        <span class="material-icons" id="list-icon">list</span>
-        <span class="dropdown-label" id="caterogries">Sort by Categories </span>
+
+        <span class="material-icons" id="list-icon">
+            list
+        </span>
+
+        <span class="dropdown-label" id="caterogries">
+            Sort by Categories
+        </span>
+
         <div class="dropdown-menu">
-            <div class="dropdown-item">Inverter</div>
-            <div class="dropdown-item">Non-Inverter</div>
-            <div class="dropdown-item">Price: High to Low</div>
-            <div class="dropdown-item">Price: Low to High</div>
+
+            <div class="dropdown-item"
+                 data-filter="sort"
+                 data-value="inverter">
+
+                Inverter
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="sort"
+                 data-value="non-inverter">
+
+                Non-Inverter
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="sort"
+                 data-value="high-low">
+
+                Price: High to Low
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="sort"
+                 data-value="low-high">
+
+                Price: Low to High
+
+            </div>
+
         </div>
+
     </div>
 
     <!-- Brands -->
     <div class="text-dropdown" id="d2">
-        <span class="dropdown-label">Brands ▾</span>
+
+        <span class="dropdown-label">
+            Brands ▾
+        </span>
+
         <div class="dropdown-menu">
-            <div class="dropdown-item" data-value="Samsung">Samsung</div>
-            <div class="dropdown-item" data-value="LG">LG</div>
-            <div class="dropdown-item" data-value="Kolin">Kolin</div>
-            <div class="dropdown-item" data-value="Daikin">Daikin</div>
-            <div class="dropdown-item" data-value="TCL">TCL</div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Samsung">
+
+                Samsung
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="LG">
+
+                LG
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Kolin">
+
+                Kolin
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Daikin">
+
+                Daikin
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="TCL">
+
+                TCL
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Carrier">
+
+                Carrier
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Panasonic">
+
+                Panasonic
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Hitachi">
+
+                Hitachi
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Condura">
+
+                Condura
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Midea">
+
+                Midea
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Sharp">
+
+                Sharp
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Fujidenzo">
+
+                Fujidenzo
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Haier">
+
+                Haier
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="brands"
+                 data-value="Gree">
+
+                Gree
+
+            </div>
+
         </div>
+
     </div>
 
     <!-- HP -->
-    <div class="text-dropdown" id="d2">
-        <span class="dropdown-label">HP ▾</span>
+    <div class="text-dropdown" id="d3">
+
+        <span class="dropdown-label">
+            HP ▾
+        </span>
+
         <div class="dropdown-menu">
-            <div class="dropdown-item" data-value="1">1 HP</div>
-            <div class="dropdown-item" data-value="1.5">1.5 HP</div>
-            <div class="dropdown-item" data-value="2">2 HP</div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="0.5">
+
+                0.5 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="0.75">
+
+                0.75 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="1">
+
+                1 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="1.5">
+
+                1.5 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="2">
+
+                2 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="2.5">
+
+                2.5 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="3">
+
+                3 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="3.5">
+
+                3.5 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="4">
+
+                4 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="4.5">
+
+                4.5 HP
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="hp"
+                 data-value="5">
+
+                5 HP
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="text-dropdown" id="d2">
-        <span class="dropdown-label">Form  ▾</span>
+    <!-- FORM FACTORS -->
+    <div class="text-dropdown" id="d4">
+
+        <span class="dropdown-label">
+            Form Factors▾
+        </span>
+
         <div class="dropdown-menu">
-            <div class="dropdown-item" data-value="Split">Split</div>
-            <div class="dropdown-item" data-value="Ceiling">Ceiling</div>
-            <div class="dropdown-item" data-value="Stand">Stand</div>
-            <div class="dropdown-item" data-value="Window">Window</div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Split type">
+
+                Split Type
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Window type">
+
+                Window Type
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Ceiling cassette">
+
+                Ceiling Cassette
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Floor standing">
+
+                Floor Standing
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Portable type">
+
+                Portable Type
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Tower type">
+
+                Tower Type
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Wall mounted">
+
+                Wall Mounted
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Ceiling suspended">
+
+                Ceiling Suspended
+
+            </div>
+
+            <div class="dropdown-item"
+                 data-filter="formFactors"
+                 data-value="Cassette inverter">
+
+                Cassette Inverter
+
+            </div>
+
         </div>
+
     </div>
 
     <!-- Buttons -->
-    <button class="text-button" id="b1">🔥 Best Deals</button>
-    <button class="text-button" id="b2">🚛 Free Shipping</button>
-    <button class="text-button" id="b3">⭐ Top Picks</button>
-    @* <button class="text-button" id="b4"></button> *@
+
+    <button class="text-button" id="b1">
+        🆕 Newest Products
+    </button>
+
+    <button class="text-button" id="b2">
+        💸 Best Deals
+    </button>
+
+    <button class="text-button" id="b3">
+        ⭐ Special Picks
+    </button>
+
+    <button class="text-button" id="b4">
+        🔥 Customer Favorites
+    </button>
 
 </div>
+
+
+
+
+
+
+
+
+
 
 <section class="hero">
     <div class="container">

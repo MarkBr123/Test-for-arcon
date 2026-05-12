@@ -117,10 +117,11 @@ body {
     gap: 40px;
 }
 
-    
+
     #tb #b1,
     #tb #b2,
-    #tb #b3 {
+    #tb #b3,
+    #tb #b4 {
         background: none;
         border: none;
         padding: 0;
@@ -132,7 +133,8 @@ body {
 
         #tb #b1:hover,
         #tb #b2:hover,
-        #tb #b3:hover {
+        #tb #b3:hover
+        #tb #b4:hover {
             color: #007bff;
         }
 
@@ -150,7 +152,9 @@ body {
         gap: 8px;
     }
 
-    #tb #d2 {
+    #tb #d2,
+    #tb #d3, 
+    #tb #d4 {
         cursor: pointer;
         position: relative;
         font-weight: 500;
@@ -169,6 +173,12 @@ body {
     #tb #d2:hover .dropdown-label {
         color: #007bff;
     }
+    #tb #d3:hover .dropdown-label {
+        color: #007bff;
+    }
+    #tb #d4:hover .dropdown-label {
+        color: #007bff;
+    }
 
     /* Dropdown menu */
     #tb .dropdown-menu {
@@ -185,7 +195,9 @@ body {
 
     /* Show dropdown on hover */
     #tb #d1:hover .dropdown-menu,
-    #tb #d2:hover .dropdown-menu {
+    #tb #d2:hover .dropdown-menu,
+    #tb #d3:hover .dropdown-menu,
+    #tb #d4:hover .dropdown-menu {
         display: block;
     }
 
@@ -1035,7 +1047,8 @@ cart-btn:hover .cart-btn i {
 
         #tb #b1,
         #tb #b2,
-        #tb #b3 {
+        #tb #b3,
+        #tb #b4 {
             font-size: 14px;
         }
 
@@ -1053,6 +1066,9 @@ cart-btn:hover .cart-btn i {
     }
 
     #b3 {
+        margin-left: 0; /* reset auto margin on mobile so it wraps naturally */
+    }
+    #b4 {
         margin-left: 0; /* reset auto margin on mobile so it wraps naturally */
     }
 
@@ -1251,7 +1267,7 @@ cart-btn:hover .cart-btn i {
         gap: 10px;
     }
 
-    #b1, #b2, #b3 {
+    #b1, #b2, #b3, #b4 {
         margin: 0 auto;
     }
 

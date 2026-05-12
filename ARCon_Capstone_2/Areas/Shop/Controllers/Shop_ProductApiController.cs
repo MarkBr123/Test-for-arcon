@@ -175,5 +175,538 @@ public class Shop_ProductApiController : ControllerBase
     }
 
 
+
+    /////////////////////////////////////////////////////////////////////            Product Search             //////////////////////////////////////////////////////////////////////////////
+    // =========================
+    // SEARCH API
+    // =========================
+
+    [HttpGet("search-products")]
+    public async Task<IActionResult> SearchProducts(
+        [FromQuery] Shop_SearchProductsQueryDto queryDto)
+    {
+        try
+        {
+            /* =========================
+               SAFETY
+            ========================= */
+
+            if (queryDto.Page <= 0)
+                queryDto.Page = 1;
+
+            if (queryDto.PageSize <= 0)
+                queryDto.PageSize = 18;
+
+            if (queryDto.PageSize > 50)
+                queryDto.PageSize = 50;
+
+            /* =========================
+               BASE QUERY
+            ========================= */
+
+            var query = _context.products
+
+                .AsNoTracking()
+
+                .Where(p =>
+                    p.status != "ARCHIVED"
+                )
+
+                .AsQueryable();
+
+            /* =========================
+               SEARCH
+            ========================= */
+
+            if (!string.IsNullOrWhiteSpace(queryDto.Search))
+            {
+                var search =
+                    queryDto.Search.Trim();
+
+                query = query.Where(p =>
+
+                    /* MODEL */
+                    EF.Functions.ILike(
+                        p.product_model,
+                        $"%{search}%"
+                    )
+
+                    ||
+
+                    /* SERIES */
+                    EF.Functions.ILike(
+                        p.product_series,
+                        $"%{search}%"
+                    )
+
+                    ||
+
+                    /* SKU */
+                    EF.Functions.ILike(
+                        p.sku,
+                        $"%{search}%"
+                    )
+
+                    ||
+
+                    /* PART NUMBER A */
+                    EF.Functions.ILike(
+                        p.part_number_a,
+                        $"%{search}%"
+                    )
+
+                    ||
+
+                    /* PART NUMBER B */
+                    (
+                        p.part_number_b != null &&
+
+                        EF.Functions.ILike(
+                            p.part_number_b,
+                            $"%{search}%"
+                        )
+                    )
+
+                    ||
+
+                    /* BRAND */
+                    EF.Functions.ILike(
+                        p.manufacturer.brand_name,
+                        $"%{search}%"
+                    )
+
+                    ||
+
+                    /* FORM FACTOR */
+                    EF.Functions.ILike(
+                        p.form_factor.form_factor1,
+                        $"%{search}%"
+                    )
+
+                    ||
+
+                    /* TAGS */
+                    p.product_tags.Any(t =>
+
+                        EF.Functions.ILike(
+                            t.tag.tag_name,
+                            $"%{search}%"
+                        )
+                    )
+
+                    ||
+
+                    /* TECHNOLOGIES */
+                    p.product_technologies.Any(t =>
+
+                        EF.Functions.ILike(
+                            t.technology.technology_name,
+                            $"%{search}%"
+                        )
+
+                        ||
+
+                        EF.Functions.ILike(
+                            t.technology.technology_desc,
+                            $"%{search}%"
+                        )
+                    )
+
+                    ||
+
+                    /* SPECIFICATIONS */
+                    p.technical_specifications.Any(s =>
+
+                        EF.Functions.ILike(
+                            s.key.keyname,
+                            $"%{search}%"
+                        )
+
+                        ||
+
+                        EF.Functions.ILike(
+                            s.value,
+                            $"%{search}%"
+                        )
+                    )
+                );
+            }
+
+            /* =========================
+               BRAND FILTER
+            ========================= */
+
+            if (
+                queryDto.Brands != null &&
+                queryDto.Brands.Any()
+            )
+            {
+                var brands =
+                    queryDto.Brands
+                        .Select(x => x.ToLower())
+                        .ToList();
+
+                query = query.Where(p =>
+
+                    brands.Contains(
+                        p.manufacturer.brand_name
+                            .ToLower()
+                    )
+                );
+            }
+
+            /* =========================
+               FORM FACTOR FILTER
+            ========================= */
+
+            if (
+                queryDto.FormFactors != null &&
+                queryDto.FormFactors.Any()
+            )
+            {
+                var formFactors =
+                    queryDto.FormFactors
+                        .Select(x => x.ToLower())
+                        .ToList();
+
+                query = query.Where(p =>
+
+                    formFactors.Contains(
+                        p.form_factor.form_factor1
+                            .ToLower()
+                    )
+                );
+            }
+
+            /* =========================
+                HP FILTER
+             ========================= */
+
+            if (
+                queryDto.Hp != null &&
+                queryDto.Hp.Any()
+            )
+            {
+                query = query.Where(p =>
+
+                    p.technical_specifications.Any(s =>
+
+                        s.key.keyname ==
+                            "Horsepower (HP)"
+
+                        &&
+
+                        queryDto.Hp.Contains(
+                            s.value
+                        )
+                    )
+                );
+            }
+
+            /* =========================
+               PRICE FILTER
+            ========================= */
+
+            if (queryDto.MinPrice.HasValue)
+            {
+                query = query.Where(p =>
+
+                    p.actual_selling_price >=
+                    queryDto.MinPrice.Value
+                );
+            }
+
+            if (queryDto.MaxPrice.HasValue)
+            {
+                query = query.Where(p =>
+
+                    p.actual_selling_price <=
+                    queryDto.MaxPrice.Value
+                );
+            }
+
+            /* =========================
+               STOCK FILTER
+            ========================= */
+
+            if (
+                queryDto.Stock ==
+                "IN_STOCK"
+            )
+            {
+                query = query.Where(p =>
+
+                    p.inventories.Any(i =>
+
+                        i.status == "GOOD_STOCK"
+                    )
+                );
+            }
+
+            if (
+                queryDto.Stock ==
+                "OUT_OF_STOCK"
+            )
+            {
+                query = query.Where(p =>
+
+                    !p.inventories.Any(i =>
+
+                        i.status == "GOOD_STOCK"
+                    )
+                );
+            }
+
+            /* =========================
+   PRESET FILTERS
+========================= */
+
+            switch (queryDto.Preset)
+            {
+                /* NEWEST PRODUCTS */
+
+                case "newest":
+
+                    query = query
+                        .OrderByDescending(p =>
+                            p.created_at
+                        );
+
+                    break;
+
+                /* BEST DEALS */
+
+                case "best-deals":
+
+                    query = query.Where(p =>
+
+                        p.discounted_selling_price > 0
+                    );
+
+                    break;
+
+                /* SPECIAL PICKS */
+
+                case "special-picks":
+
+                    query = query
+                        .OrderBy(p => Guid.NewGuid());
+
+                    break;
+
+                /* CUSTOMER FAVORITES */
+
+                case "favorites":
+
+                    query = query.Where(p =>
+
+                        p.inventories.Count(i =>
+
+                            i.status == "GOOD_STOCK"
+
+                        ) >= 3
+                    );
+
+                    break;
+            }
+
+            /* =========================
+               SORTING
+            ========================= */
+
+            query = queryDto.Sort switch
+            {
+                "low-high" =>
+
+                    query.OrderBy(p =>
+                        p.actual_selling_price
+                    ),
+
+                "high-low" =>
+
+                    query.OrderByDescending(p =>
+                        p.actual_selling_price
+                    ),
+
+                "stock-high" =>
+
+                    query.OrderByDescending(p =>
+
+                        p.inventories.Count(i =>
+                            i.status == "GOOD_STOCK"
+                        )
+                    ),
+
+                "stock-low" =>
+
+                    query.OrderBy(p =>
+
+                        p.inventories.Count(i =>
+                            i.status == "GOOD_STOCK"
+                        )
+                    ),
+
+                "inverter" =>
+
+                    query.Where(p =>
+
+                        p.product_tags.Any(t =>
+
+                            EF.Functions.ILike(
+                                t.tag.tag_name,
+                                "%inverter%"
+                            )
+                        )
+                    ),
+
+                "non-inverter" =>
+
+                    query.Where(p =>
+
+                        !p.product_tags.Any(t =>
+
+                            EF.Functions.ILike(
+                                t.tag.tag_name,
+                                "%inverter%"
+                            )
+                        )
+                    ),
+
+                _ =>
+
+                    query.OrderByDescending(p =>
+                        p.created_at
+                    )
+            };
+
+            /* =========================
+               TOTAL COUNT
+            ========================= */
+
+            var totalCount =
+                await query.CountAsync();
+
+            /* =========================
+               PAGINATION
+            ========================= */
+
+            var items = await query
+
+                .Skip(
+                    (queryDto.Page - 1)
+                    * queryDto.PageSize
+                )
+
+                .Take(queryDto.PageSize)
+
+                .Select(p =>
+
+                    new Shop_SearchProductCardDto
+                    {
+                        Id = p.id,
+
+                        BrandName =
+                            p.manufacturer.brand_name,
+
+                        ProductSeries =
+                            p.product_series,
+
+                        ProductModel =
+                            p.product_model,
+
+                        ActualSellingPrice =
+                            p.actual_selling_price,
+
+                        HorsePower =
+                            p.technical_specifications
+
+                                .Where(ts =>
+
+                                    ts.key.keyname ==
+                                    "Horsepower (HP)"
+                                )
+
+                                .Select(ts =>
+                                    ts.value
+                                )
+
+                                .FirstOrDefault(),
+
+                        AvailableStock =
+
+                            p.inventories.Count(i =>
+
+                                i.status ==
+                                "GOOD_STOCK"
+                            ),
+
+                        InStock =
+
+                            p.inventories.Any(i =>
+
+                                i.status ==
+                                "GOOD_STOCK"
+                            ),
+
+                        PrimaryImageUrl =
+
+                            p.products_media
+
+                                .Where(pm =>
+                                    pm.is_primary
+                                )
+
+                                .Select(pm =>
+                                    pm.media.url
+                                )
+
+                                .FirstOrDefault(),
+
+                        ArUrl = p.ar_url
+                    })
+
+                .ToListAsync();
+
+            /* =========================
+               RESPONSE
+            ========================= */
+
+            var response =
+                new PaginatedResponseDto
+                <
+                    Shop_SearchProductCardDto
+                >
+                {
+                    Page = queryDto.Page,
+
+                    PageSize =
+                        queryDto.PageSize,
+
+                    TotalCount =
+                        totalCount,
+
+                    TotalPages =
+
+                        (int)Math.Ceiling(
+                            totalCount /
+                            (double)queryDto.PageSize
+                        ),
+
+                    Items = items
+                };
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                message = ex.Message
+            });
+        }
+    }
+
+
+
 }
 

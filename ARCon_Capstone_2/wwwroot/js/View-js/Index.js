@@ -293,29 +293,109 @@ function pushOrderNotification(order) {
 }
 
 
-/*product js*/
+/* PRODUCT JS */
 
-document.querySelectorAll('.dropdown-item').forEach(item => {
-    item.addEventListener('click', function () {
-        const category = item.closest('.text-dropdown')
-            .querySelector('.dropdown-label')
-            .innerText.trim();
+document.querySelectorAll('.dropdown-item')
 
-        let queryParams = new URLSearchParams(window.location.search);
+    .forEach(item => {
 
-        if (category.includes('Brands')) {
-            queryParams.set('brands', item.dataset.value);
-        } else if (category.includes('HP')) {
-            // Convert to number before sending in query
-            queryParams.set('hp', parseFloat(item.dataset.value));
-        } else if (category.includes('Form')) {
-            queryParams.set('series', item.dataset.value);
-        }
+        item.addEventListener('click', function () {
 
-        // Redirect to search page
-        window.location.href = `/Shop/Product/Search_results?${queryParams.toString()}`;
+            const category = item.closest('.text-dropdown')
+
+                .querySelector('.dropdown-label')
+
+                .innerText.trim();
+
+            let queryParams =
+
+                new URLSearchParams();
+
+            /* BRANDS */
+
+            if (category.includes('Brands')) {
+
+                queryParams.set(
+                    'brands',
+                    item.dataset.value
+                );
+            }
+
+            /* HP */
+
+            else if (category.includes('HP')) {
+
+                queryParams.set(
+                    'hp',
+                    parseFloat(
+                        item.dataset.value
+                    )
+                );
+            }
+
+            /* FORM FACTORS */
+
+            else if (
+                category.includes('Form')
+            ) {
+
+                queryParams.set(
+                    'formFactors',
+                    item.dataset.value
+                );
+            }
+
+            /* SORT */
+
+            else if (
+                category.includes('Sort')
+            ) {
+
+                queryParams.set(
+                    'sort',
+                    item.dataset.value
+                );
+            }
+
+            /* REDIRECT */
+
+            window.location.href =
+
+                `/Shop/Home/Search?${queryParams.toString()}`;
+        });
     });
-});
+
+/* 
+   PRESET BUTTONS*/
+
+document.getElementById("b1")
+    ?.addEventListener("click", () => {
+
+        window.location.href =
+            "/Shop/Home/Search?preset=newest";
+    });
+
+document.getElementById("b2")
+    ?.addEventListener("click", () => {
+
+        window.location.href =
+            "/Shop/Home/Search?preset=best-deals";
+    });
+
+document.getElementById("b3")
+    ?.addEventListener("click", () => {
+
+        window.location.href =
+            "/Shop/Home/Search?preset=special-picks";
+    });
+
+document.getElementById("b4")
+    ?.addEventListener("click", () => {
+
+        window.location.href =
+            "/Shop/Home/Search?preset=favorites";
+    });
+
 
 // Mobile dropdown toggle (click-based for touch screens)
 if (window.innerWidth <= 480) {
