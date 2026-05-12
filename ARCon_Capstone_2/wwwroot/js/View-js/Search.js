@@ -401,6 +401,20 @@ async function loadProducts() {
             );
         }
 
+
+        /* TAGS */
+
+        const urlTag =
+            urlParams.get("tags");
+
+        if (urlTag) {
+
+            params.append(
+                "tags",
+                urlTag
+            );
+        }
+
         /* =========================
            SORT
         ========================= */

@@ -458,8 +458,8 @@ public class Shop_ProductApiController : ControllerBase
             }
 
             /* =========================
-   PRESET FILTERS
-========================= */
+                   PRESET FILTERS
+                ========================= */
 
             switch (queryDto.Preset)
             {
@@ -490,7 +490,28 @@ public class Shop_ProductApiController : ControllerBase
                 case "special-picks":
 
                     query = query
-                        .OrderBy(p => Guid.NewGuid());
+
+                        /* ACTIVE PRODUCTS ONLY */
+
+                        .Where(p =>
+
+                            p.status != "ARCHIVED"
+                        )
+
+                        /* PRIORITIZE PRODUCTS
+                           WITH STOCK */
+
+                        .OrderByDescending(p =>
+
+                            p.inventories.Count(i =>
+
+                                i.status == "GOOD_STOCK"
+                            )
+                        )
+
+                        /* THEN RANDOMIZE */
+
+                        .ThenBy(p => Guid.NewGuid());
 
                     break;
 

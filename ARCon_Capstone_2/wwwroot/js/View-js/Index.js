@@ -345,6 +345,19 @@ document.querySelectorAll('.dropdown-item')
                 );
             }
 
+            /* TECHNOLOGY */
+
+            else if (
+                item.dataset.filter ===
+                "tags"
+            ) {
+
+                queryParams.set(
+                    "tags",
+                    item.dataset.value
+                );
+            }
+
             /* SORT */
 
             else if (
