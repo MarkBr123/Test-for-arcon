@@ -25,7 +25,7 @@ chatBtn.addEventListener("click", async () => {
         if (isLoggedIn()) {
             await initConversation();
             await loadMessages();
-            startAutoRefresh(); 
+            startAutoRefresh();
         }
     } else {
         stopAutoRefresh(); //  stop when closing
@@ -69,7 +69,6 @@ async function initConversation() {
 
         const data = await res.json();
         conversationId = data.conversationId;
-
     } catch (err) {
         console.error("Init conversation error:", err);
     }
@@ -102,7 +101,6 @@ async function loadMessages() {
         if (isNearBottom) {
             scrollToBottom();
         }
-
     } catch (err) {
         console.error("Load messages error:", err);
     }
@@ -133,7 +131,6 @@ async function sendCustomerMessage() {
 
         // reload messages
         await loadMessages();
-
     } catch (err) {
         console.error("Send message error:", err);
     }
@@ -158,7 +155,6 @@ function addMessage(text, type, timeRaw = null) {
 }
 
 // ================= UI HELPERS =================
- 
 
 function addMessage(msg, type) {
     const row = document.createElement("div");
@@ -219,14 +215,12 @@ function scrollToBottom() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-
 chatInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault(); // stop newline
         sendCustomerMessage();
     }
 });
-
 
 function getCurrentTime() {
     const now = new Date();
@@ -324,7 +318,6 @@ async function markAsRead(conversationId) {
 
         //  reset badge instantly
         updateChatBadge(0);
-
     } catch (err) {
         console.error("Mark read error:", err);
     }

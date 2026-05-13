@@ -161,6 +161,10 @@
       "PackagePath": "staticwebassets\\assets\\airconi-logo.png"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\c3c957cf-9842-40a2-9974-041c2b6be7a4.png",
+      "PackagePath": "staticwebassets\\assets\\c3c957cf-9842-40a2-9974-041c2b6be7a4.png"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\favicon.png",
       "PackagePath": "staticwebassets\\assets\\favicon.png"
     },
@@ -211,6 +215,10 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\Login.css",
       "PackagePath": "staticwebassets\\css\\Login.css"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\MyPurchases.css",
+      "PackagePath": "staticwebassets\\css\\MyPurchases.css"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\css\\Product.css",

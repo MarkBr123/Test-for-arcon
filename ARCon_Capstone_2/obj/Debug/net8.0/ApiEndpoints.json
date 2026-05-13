@@ -985,6 +985,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_OrdersApiController",
+    "Method": "GetEligibleOutrightReplacementItems",
+    "RelativePath": "api/my-shop-orders/outright-replacement/eligible-items/{transactionId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transactionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_CustomerRatingApiControllers",
     "Method": "RateService",
     "RelativePath": "api/my-shop-ratings/{bookingId}/rate",
@@ -1251,6 +1267,32 @@
       {
         "Name": "sortBy",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_WarrantyClaimApiController",
+    "Method": "CreateOutrightReplacementClaim",
+    "RelativePath": "api/my-shop-warranty/outright-replacement/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customer_notes",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "items",
+        "Type": "System.Collections.Generic.List\u00601[[ARCon_Capstone_2.DTOs.CreateOutrightReplacementItemDto, ARCon_Capstone_2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "attachments",
+        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
         "IsRequired": false
       }
     ],

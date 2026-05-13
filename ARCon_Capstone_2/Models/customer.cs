@@ -78,4 +78,8 @@ public partial class customer
     public virtual ICollection<service_rating> service_ratings { get; set; } = new List<service_rating>();
     [InverseProperty("customer")]
     public virtual ICollection<service_warranty_booking> service_warranty_bookings { get; set; } = new List<service_warranty_booking>();
+
+    [InverseProperty("customer")]
+    public virtual ICollection<outright_replacement_warranty> outright_replacement_warranties { get; set; }
+    = new List<outright_replacement_warranty>();
 }

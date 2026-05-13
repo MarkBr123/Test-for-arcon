@@ -70,7 +70,6 @@
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
         }
 
-
     .thumbnail-img {
         width: 70px;
         height: 70px;
@@ -92,7 +91,6 @@
         .see-more-btn:hover {
             background: #555;
         }
-
 
     .ar {
         padding: 10px;
@@ -171,9 +169,6 @@
             opacity: 1;
             visibility: visible;
         }
-
-
-
 
     .right-column {
         flex: 1;
@@ -329,7 +324,6 @@
             margin: 0;
         }
 
-
 #quantity-wrap {
     padding-bottom: 20px;
 }
@@ -340,19 +334,16 @@
     text-align: center;
 }
 
-
-
-
 /*/////////////////////////////////// Added By Marvin /////////////////////////////////*/
 /*badges for tags (details.cshtml)*/
 .tag-badge {
     display: inline-block;
-    background-color: #007bff;
+    background-color: #007BFF;
     color: #fff;
     padding: 4px 10px;
     margin: 4px 6px 4px 0;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 8px;
     font-weight: 500;
 }
 
@@ -362,7 +353,6 @@
     font-weight: 700;
     font-size: 15px;
 }
-
 
 .discount-badge {
     display: inline-block;
@@ -377,7 +367,6 @@
 .strike-price {
     text-decoration: line-through;
 }
-
 
 /* Discount text bold + slightly larger (details.cshtml) */
 .discount-text {
@@ -416,7 +405,6 @@
         font-weight: 600;
         color: #fff;
     }
-
 
 /*Thumbnail pop up*/
 
@@ -469,14 +457,7 @@
         color: #007bff;
     }
 
-
-
-
-
-
-
 /*/////////////////////////////////// End Added By Marvin /////////////////////////////////*/
-
 
 /*         FOR RATINGS           */
 

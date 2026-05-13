@@ -476,7 +476,7 @@ public class Shop_OrdersApiController : ControllerBase
         int page = 1,
         int pageSize = 10,
         string sortBy = "latest"
-        )
+    )
     {
         var customerId = HttpContext.Session.GetInt32("UserId");
         var userType = HttpContext.Session.GetString("UserType");
@@ -495,32 +495,47 @@ public class Shop_OrdersApiController : ControllerBase
                 d.customer_transaction.customer_id == customerId.Value
             );
 
-        // filter by delivery status (BOOKED = to ship)
+        // filter by delivery status
         if (!string.IsNullOrEmpty(status))
         {
             query = query.Where(d => d.status == status);
         }
 
-        // sorting (based on transaction or schedule)
+        // sorting
         query = sortBy switch
         {
             "oldest" => query.OrderBy(d => d.customer_transaction.created_at),
-            "priceasc" => query.OrderBy(d => d.customer_transaction.grand_total),
-            "pricedesc" => query.OrderByDescending(d => d.customer_transaction.grand_total),
-            _ => query.OrderByDescending(d => d.customer_transaction.created_at)
+
+            "priceasc" => query.OrderBy(d =>
+                d.customer_transaction.grand_total),
+
+            "pricedesc" => query.OrderByDescending(d =>
+                d.customer_transaction.grand_total),
+
+            _ => query.OrderByDescending(d =>
+                d.customer_transaction.created_at)
         };
 
         var totalCount = await query.CountAsync();
 
         var rawData = await query
+
             .Skip((page - 1) * pageSize)
+
             .Take(pageSize)
+
             .Select(d => new
             {
+                // =========================
                 // DELIVERY INFO
+                // =========================
+
                 deliveryId = d.id,
+
                 deliveryCode = d.delivery_ref_code,
+
                 courier = d.courier,
+
                 scheduledDate = d.scheduled_at,
 
                 deliveryAddress =
@@ -532,58 +547,182 @@ public class Shop_OrdersApiController : ControllerBase
                     (d.customer_transaction.checkout.delivery_address.region.region_name ?? "") + " " +
                     (d.customer_transaction.checkout.delivery_address.zip_code ?? ""),
 
+                // =========================
                 // TRANSACTION INFO
+                // =========================
+
                 id = d.customer_transaction.id,
 
-                transactionCode = string.IsNullOrWhiteSpace(d.customer_transaction.transaction_code)
-                    ? "TXN-" + d.customer_transaction.id
-                    : d.customer_transaction.transaction_code,
+                transactionCode =
+                    string.IsNullOrWhiteSpace(
+                        d.customer_transaction.transaction_code
+                    )
+                        ? "TXN-" + d.customer_transaction.id
+                        : d.customer_transaction.transaction_code,
 
+                // =========================
+                // CUSTOMER RATING
+                // =========================
 
-
-
-                // 🔥 ADD THIS HERE
                 isRated = _context.customer_ratings
                     .Any(r =>
-                        r.transaction_id == d.customer_transaction.id &&
-                        r.customer_id == customerId.Value),
+                        r.transaction_id ==
+                            d.customer_transaction.id
+
+                        &&
+
+                        r.customer_id ==
+                            customerId.Value
+                    ),
+
+                // =========================
+                // CUSTOMER
+                // =========================
 
                 customerName =
                     (d.customer_transaction.customer.first_name ?? "") + " " +
                     (d.customer_transaction.customer.last_name ?? ""),
 
-                paymentMethod = d.customer_transaction.payment_transaction != null
-                    ? d.customer_transaction.payment_transaction.payment_method == "ONLINE_PAYMENT"
-                        ? "Online Payment"
-                        : d.customer_transaction.payment_transaction.payment_method == "CASH_ON_DELIVERY"
-                            ? "Cash on Delivery"
-                            : d.customer_transaction.payment_transaction.payment_method
-                    : "N/A",
+                // =========================
+                // PAYMENT
+                // =========================
 
-                dateConfirmed = d.customer_transaction.date_confirmed,
-                grandTotal = d.customer_transaction.grand_total,
-                createdAt = d.customer_transaction.created_at,
-                inTransitAt = d.in_transit_at,
-                deliveredAt = d.delivered_at,
+                paymentMethod =
+                    d.customer_transaction.payment_transaction != null
 
-                // Important: separate statuses
-                deliveryStatus = d.status,
-                transactionStatus = d.customer_transaction.status,
+                        ? d.customer_transaction
+                            .payment_transaction
+                            .payment_method == "ONLINE_PAYMENT"
 
-                shippingMethod = d.customer_transaction.shipping_method,
+                            ? "Online Payment"
 
-                // product items
-                items = d.customer_transaction.checkout.checkout_items.Select(ci => new
-                {
-                    productManufacturer = ci.product.manufacturer.brand_name ?? "N/A",
-                    productSeries = ci.product.product_series,
-                    productModel = ci.product.product_model,
-                    productSku = ci.product.sku,
+                            : d.customer_transaction
+                                .payment_transaction
+                                .payment_method == "CASH_ON_DELIVERY"
 
-                    qty = ci.qty,
-                    productPrice = ci.product_price
-                }).ToList()
+                                ? "Cash on Delivery"
+
+                                : d.customer_transaction
+                                    .payment_transaction
+                                    .payment_method
+
+                        : "N/A",
+
+                // =========================
+                // DATES
+                // =========================
+
+                dateConfirmed =
+                    d.customer_transaction.date_confirmed,
+
+                createdAt =
+                    d.customer_transaction.created_at,
+
+                inTransitAt =
+                    d.in_transit_at,
+
+                deliveredAt =
+                    d.delivered_at,
+
+                // =========================
+                // OUTRIGHT WARRANTY
+                // =========================
+
+                isOutrightReplacementEligible =
+
+                    d.delivered_at.HasValue &&
+
+                    DateTime.UtcNow <=
+
+                    d.delivered_at.Value.AddDays(
+
+                        d.customer_transaction
+                            .checkout
+                            .checkout_items
+
+                            .Max(ci =>
+                                ci.product
+                                    .outright_replacement_days ?? 0
+                            )
+                    ),
+
+                remainingWarrantyDays =
+
+                    d.delivered_at.HasValue
+
+                        ?
+
+                        (
+                            d.delivered_at.Value.AddDays(
+
+                                d.customer_transaction
+                                    .checkout
+                                    .checkout_items
+
+                                    .Max(ci =>
+                                        ci.product
+                                            .outright_replacement_days ?? 0
+                                    )
+                            ).Date
+
+                            -
+
+                            DateTime.UtcNow.Date
+                        ).Days
+
+                        : -1,
+
+                // =========================
+                // TOTALS
+                // =========================
+
+                grandTotal =
+                    d.customer_transaction.grand_total,
+
+                // =========================
+                // STATUSES
+                // =========================
+
+                deliveryStatus =
+                    d.status,
+
+                transactionStatus =
+                    d.customer_transaction.status,
+
+                shippingMethod =
+                    d.customer_transaction.shipping_method,
+
+                // =========================
+                // ITEMS
+                // =========================
+
+                items = d.customer_transaction
+                    .checkout
+                    .checkout_items
+
+                    .Select(ci => new
+                    {
+                        productManufacturer =
+                            ci.product.manufacturer.brand_name ?? "N/A",
+
+                        productSeries =
+                            ci.product.product_series,
+
+                        productModel =
+                            ci.product.product_model,
+
+                        productSku =
+                            ci.product.sku,
+
+                        qty =
+                            ci.qty,
+
+                        productPrice =
+                            ci.product_price
+                    })
+                    .ToList()
             })
+
             .ToListAsync();
 
         return Ok(new
@@ -922,6 +1061,225 @@ public class Shop_OrdersApiController : ControllerBase
 
                 serialNumber = di.inventory?.serial_number
             }).ToList()
+        });
+    }
+
+
+    /// To be Used For Outright Replacement Warranty
+    [HttpGet("outright-replacement/eligible-items/{transactionId}")]
+    public async Task<IActionResult> GetEligibleOutrightReplacementItems(int transactionId)
+    {
+        // ================= SESSION =================
+        var customerId = HttpContext.Session.GetInt32("UserId");
+        var userType = HttpContext.Session.GetString("UserType");
+
+        if (customerId == null || userType != "CUSTOMER")
+        {
+            return Unauthorized(new
+            {
+                message = "Unauthorized."
+            });
+        }
+
+        // ================= TRANSACTION =================
+        var transaction = await _context.customer_transactions
+
+            // CUSTOMER
+            .Include(ct => ct.customer)
+
+            // PAYMENT
+            .Include(ct => ct.payment_transaction)
+
+            // CHECKOUT + ADDRESS
+            .Include(ct => ct.checkout)
+                .ThenInclude(c => c.delivery_address)
+                    .ThenInclude(a => a.barangay)
+
+            .Include(ct => ct.checkout)
+                .ThenInclude(c => c.delivery_address)
+                    .ThenInclude(a => a.municipality)
+
+            .Include(ct => ct.checkout)
+                .ThenInclude(c => c.delivery_address)
+                    .ThenInclude(a => a.province)
+
+            .Include(ct => ct.checkout)
+                .ThenInclude(c => c.delivery_address)
+                    .ThenInclude(a => a.region)
+
+            // DELIVERIES
+            .Include(ct => ct.deliveries)
+                .ThenInclude(d => d.delivery_items)
+                    .ThenInclude(di => di.inventory)
+                        .ThenInclude(i => i.product)
+                            .ThenInclude(p => p.manufacturer)
+
+            .Include(ct => ct.deliveries)
+                .ThenInclude(d => d.delivery_items)
+                    .ThenInclude(di => di.checkout_item)
+
+            .FirstOrDefaultAsync(ct =>
+                ct.id == transactionId &&
+                ct.customer_id == customerId
+            );
+
+        if (transaction == null)
+        {
+            return NotFound(new
+            {
+                message = "Transaction not found."
+            });
+        }
+
+        // ================= DELIVERED DELIVERY =================
+        var deliveredDelivery = transaction.deliveries
+            .FirstOrDefault(d => d.status == "DELIVERED");
+
+        if (deliveredDelivery == null)
+        {
+            return BadRequest(new
+            {
+                message = "No completed delivery found."
+            });
+        }
+
+        // ================= ADDRESS =================
+        var address = transaction.checkout?.delivery_address;
+
+        var formattedAddress = address != null
+            ? $"{address.house_unit}, {address.street_name}, " +
+              $"{address.barangay?.barangay_name}, " +
+              $"{address.municipality?.municipality_name}, " +
+              $"{address.province?.province_name}, " +
+              $"{address.region?.region_name} {address.zip_code}"
+            : null;
+
+        // ================= PAYMENT =================
+        var payment = transaction.payment_transaction;
+
+        // ================= ITEMS =================
+        var items = new List<object>();
+
+        foreach (var di in deliveredDelivery.delivery_items)
+        {
+            if (di.inventory == null)
+                continue;
+
+            if (di.inventory.product == null)
+                continue;
+
+            var product = di.inventory.product;
+
+            // ================= WARRANTY =================
+            int outrightDays =
+                product.outright_replacement_days ?? 0;
+
+            bool eligible = false;
+
+            int remainingDays = 0;
+
+            if (deliveredDelivery.delivered_at.HasValue)
+            {
+                var expiryDate =
+                    deliveredDelivery.delivered_at.Value
+                        .AddDays(outrightDays);
+
+                remainingDays =
+                    (expiryDate.Date - DateTime.Now.Date).Days;
+
+                eligible = remainingDays >= 0;
+            }
+
+            // ================= CLAIM CHECK =================
+            bool alreadyClaimed =
+                await _context.outright_replacement_warranty_items
+                    .AnyAsync(w =>
+                        w.original_inventory_id == di.inventory.id
+                    );
+
+            items.Add(new
+            {
+                // IDS
+                deliveryItemId = di.id,
+                inventoryId = di.inventory.id,
+                productId = product.id,
+
+                // PRODUCT
+                productBrand = product.manufacturer.brand_name,
+                productSeries = product.product_series,
+                productModel = product.product_model,
+                productSku = product.sku,
+
+                // SERIALIZED UNIT
+                serialNumber = di.inventory.serial_number,
+
+                // INSTALLATION OPTIONS
+                standardInstallationOptionId =
+                    di.checkout_item.std_installation_option_id,
+
+                additionalInstallationOptionId =
+                    di.checkout_item.additional_installation_option_id,
+
+                standardInstallationPrice =
+                    di.checkout_item.std_installation_price,
+
+                additionalInstallationPrice =
+                    di.checkout_item.additional_installation_price,
+
+                // PRICING
+                productPrice = di.checkout_item.product_price,
+                totalItemAmount = di.checkout_item.total_item_amount,
+
+                // DELIVERY
+                deliveredAt = deliveredDelivery.delivered_at,
+
+                // WARRANTY
+                outrightReplacementDays = outrightDays,
+                remainingDays = remainingDays,
+
+                eligible = eligible,
+                alreadyClaimed = alreadyClaimed
+            });
+        }
+
+        // ================= RESPONSE =================
+        return Ok(new
+        {
+            // TRANSACTION
+            transactionId = transaction.id,
+            transactionCode = transaction.transaction_code,
+            transactionPlacedAt = transaction.created_at,
+
+            // CUSTOMER
+            customerName =
+                (transaction.customer?.first_name ?? "") + " " +
+                (transaction.customer?.last_name ?? ""),
+
+            customerContactNo =
+                transaction.customer?.contact_no,
+
+            customerEmail =
+                transaction.customer?.email,
+
+            // DELIVERY
+            shippingMethod = transaction.shipping_method,
+            deliveredAt = deliveredDelivery.delivered_at,
+            courier = deliveredDelivery.courier,
+
+            // ADDRESS
+            deliveryAddress = formattedAddress,
+
+            // PAYMENT
+            paymentMethod = transaction.payment_method,
+            paymentStatus =
+                payment?.paymongo_status ??
+                payment?.cod_status,
+
+            // TOTAL
+            grandTotal = transaction.grand_total,
+
+            // ITEMS
+            items = items
         });
     }
 

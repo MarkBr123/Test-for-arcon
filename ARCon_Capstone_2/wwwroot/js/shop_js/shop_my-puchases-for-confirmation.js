@@ -763,6 +763,29 @@ function renderDeliveredOrders(response) {
                     View Details
                 </button>
 
+                <!-- OUTRIGHT WARRANTY -->
+
+                ${order.isOutrightReplacementEligible
+                            ? `
+                        <button class="btn btn-sm btn-danger"
+                                onclick="openWarrantyClaim(${order.id})">
+
+                            Claim Warranty
+                            (${order.remainingWarrantyDays}
+                            Day${order.remainingWarrantyDays !== 1 ? "s" : ""} Left)
+
+                        </button>
+                    `
+                            : `
+                        <button class="btn btn-sm btn-secondary"
+                                disabled>
+
+                            Warranty Expired
+
+                        </button>
+                    `
+                }
+
             </div>
         </div>
         `;
@@ -1503,4 +1526,1394 @@ async function submitRatings() {
 //Close Rating
 function closeRatingModal() {
     document.getElementById("ratingModal").classList.add("hidden");
+}
+
+
+
+
+
+
+
+
+
+
+
+//// At This Point We Process the OUTRIGHT REPLACEMENT ////
+
+async function openWarrantyClaim(transactionId) {
+
+    try {
+
+        const response = await fetch(
+            `/api/my-shop-orders/outright-replacement/eligible-items/${transactionId}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to load warranty data.");
+        }
+
+        const data = await response.json();
+
+        console.log("Warranty Data:", data);
+
+        // ================= SAFE SETTER =================
+        const setText = (id, value) => {
+
+            const el = document.getElementById(id);
+
+            if (el) {
+                el.innerText = value ?? "-";
+            }
+        };
+
+        // ================= TRANSACTION INFO =================
+
+        setText(
+            "warrantyTransactionCode",
+            data.transactionCode
+        );
+
+        setText(
+            "warrantyPlacedAt",
+            data.transactionPlacedAt
+                ? formatDate(data.transactionPlacedAt)
+                : "-"
+        );
+
+        setText(
+            "warrantyDeliveredAt",
+            data.deliveredAt
+                ? formatDate(data.deliveredAt)
+                : "-"
+        );
+
+        setText(
+            "warrantyCourier",
+            data.courier
+        );
+
+        setText(
+            "warrantyShippingMethod",
+            data.shippingMethod
+        );
+
+        setText(
+            "warrantyCustomerName",
+            data.customerName
+        );
+
+        setText(
+            "warrantyCustomerContact",
+            data.customerContactNo
+        );
+
+        setText(
+            "warrantyCustomerEmail",
+            data.customerEmail
+        );
+
+        setText(
+            "warrantyPaymentMethod",
+            data.paymentMethod
+        );
+
+        setText(
+            "warrantyPaymentStatus",
+            data.paymentStatus
+        );
+
+        setText(
+            "warrantyDeliveryAddress",
+            data.deliveryAddress
+        );
+
+        setText(
+            "warrantyGrandTotal",
+            "₱ " + formatPrice(data.grandTotal ?? 0)
+        );
+
+        // ================= STORE ITEMS =================
+        window.warrantyEligibleItems = data.items ?? [];
+
+        // ================= RESET PRODUCT CONTAINER =================
+        const container =
+            document.getElementById("warrantyProductsContainer");
+
+        if (container) {
+            container.innerHTML = "";
+        }
+
+        // ================= RESET NOTES =================
+        const notes =
+            document.getElementById("warrantyCustomerNotes");
+
+        if (notes) {
+            notes.value = "";
+        }
+
+        // ================= RESET ATTACHMENTS =================
+        const attachments =
+            document.getElementById("warrantyAttachments");
+
+        if (attachments) {
+            attachments.value = "";
+        }
+
+        // ================= RESET PREVIEW =================
+        const preview =
+            document.getElementById("warrantyAttachmentPreview");
+
+        if (preview) {
+            preview.innerHTML = "";
+        }
+
+        // ================= ADD INITIAL PRODUCT ROW =================
+        addDefectiveProductRow();
+
+        // ================= OPEN MODAL =================
+        document
+            .getElementById("warrantyClaimModal")
+            .classList.remove("hidden");
+
+    }
+    catch (err) {
+
+        console.error("Warranty Modal Error:", err);
+
+        alert("Failed to load warranty information.");
+    }
+}
+
+
+// ================= ADD PRODUCT ROW =================
+function addDefectiveProductRow() {
+
+    const container =
+        document.getElementById("warrantyProductsContainer");
+
+    if (!container) return;
+
+    const items =
+        window.warrantyEligibleItems ?? [];
+
+    // ================= GET SELECTED =================
+    const selectedValues = Array.from(
+        document.querySelectorAll(".warranty-product-select")
+    )
+        .map(s => s.value)
+        .filter(v => v);
+
+    // ================= OPTIONS =================
+    let options = `
+        <option value="">
+            Select Delivered Product
+        </option>
+    `;
+
+    items.forEach(item => {
+
+        // Skip non-eligible
+        if (!item.eligible)
+            return;
+
+        // Skip already claimed
+        if (item.alreadyClaimed)
+            return;
+
+        // Prevent duplicates
+        if (
+            selectedValues.includes(
+                item.deliveryItemId.toString()
+            )
+        )
+            return;
+
+        options += `
+            <option
+                value="${item.deliveryItemId}"
+
+                data-delivery-item-id="${item.deliveryItemId}"
+                data-inventory-id="${item.inventoryId}"
+                data-product-id="${item.productId}"
+
+                data-brand="${item.productBrand ?? ""}"
+                data-series="${item.productSeries ?? ""}"
+                data-model="${item.productModel ?? ""}"
+
+                data-sku="${item.productSku ?? ""}"
+
+                data-serial="${item.serialNumber ?? ""}"
+
+                data-delivered-at="${item.deliveredAt ?? ""}"
+
+                data-outright-days="${item.outrightReplacementDays ?? 0}"
+                data-remaining-days="${item.remainingDays ?? 0}"
+
+                data-product-price="${item.productPrice ?? 0}"
+
+                data-standard-installation-price="${item.standardInstallationPrice ?? 0}"
+
+                data-additional-installation-price="${item.additionalInstallationPrice ?? 0}"
+            >
+
+                ${item.productBrand ?? ""}
+                ${item.productSeries ?? ""}
+                ${item.productModel ?? ""}
+
+                | SKU: ${item.productSku ?? "N/A"}
+
+                | Serial: ${item.serialNumber ?? "N/A"}
+
+            </option>
+        `;
+    });
+
+    // ================= ROW =================
+    const row = document.createElement("div");
+
+    row.classList.add("warranty-product-row");
+
+    row.innerHTML = `
+        <div class="row">
+
+            <!-- PRODUCT -->
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Delivered Product
+                </label>
+
+                <select class="form-select warranty-product-select">
+
+                    ${options}
+
+                </select>
+
+            </div>
+
+            <!-- SERIAL -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">
+                    Serial Number
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-serial-input"
+                       readonly />
+
+            </div>
+
+            <!-- REMAINING DAYS -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">
+                    Remaining Days
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-days-input"
+                       readonly />
+
+            </div>
+
+        </div>
+
+        <!-- DETAILS -->
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+                    Product Price
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-product-price"
+                       readonly />
+
+            </div>
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+                    Standard Installation
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-std-installation"
+                       readonly />
+
+            </div>
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+                    Additional Installation
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-add-installation"
+                       readonly />
+
+            </div>
+
+        </div>
+
+        <!-- COMPLAINT -->
+        <div class="mb-3">
+
+            <label class="form-label">
+                Issue / Complaint
+            </label>
+
+            <textarea class="form-control warranty-item-complaint"
+                      rows="3"
+                      maxlength="500"
+                      placeholder="Describe the issue with this product..."></textarea>
+
+        </div>
+
+        <!-- HIDDEN VALUES -->
+        <input type="hidden"
+               class="warranty-delivery-item-id" />
+
+        <input type="hidden"
+               class="warranty-inventory-id" />
+
+        <input type="hidden"
+               class="warranty-product-id" />
+
+        <!-- REMOVE -->
+        <div class="text-end">
+
+            <button type="button"
+                    class="btn btn-sm btn-outline-danger"
+                    onclick="removeDefectiveProductRow(this)">
+                Remove Product
+            </button>
+
+        </div>
+    `;
+
+    // ================= ELEMENTS =================
+    const select =
+        row.querySelector(".warranty-product-select");
+
+    const serialInput =
+        row.querySelector(".warranty-serial-input");
+
+    const daysInput =
+        row.querySelector(".warranty-days-input");
+
+    const productPriceInput =
+        row.querySelector(".warranty-product-price");
+
+    const stdInstallationInput =
+        row.querySelector(".warranty-std-installation");
+
+    const addInstallationInput =
+        row.querySelector(".warranty-add-installation");
+
+    // Hidden Inputs
+    const deliveryItemIdInput =
+        row.querySelector(".warranty-delivery-item-id");
+
+    const inventoryIdInput =
+        row.querySelector(".warranty-inventory-id");
+
+    const productIdInput =
+        row.querySelector(".warranty-product-id");
+
+    // ================= UPDATE DETAILS =================
+    const updateDetails = () => {
+
+        const option =
+            select.options[select.selectedIndex];
+
+        // Empty selection
+        if (!option || !option.value) {
+
+            serialInput.value = "";
+
+            daysInput.value = "";
+
+            productPriceInput.value = "";
+
+            stdInstallationInput.value = "";
+
+            addInstallationInput.value = "";
+
+            deliveryItemIdInput.value = "";
+
+            inventoryIdInput.value = "";
+
+            productIdInput.value = "";
+
+            return;
+        }
+
+        // SERIAL
+        serialInput.value =
+            option.dataset.serial ?? "";
+
+        // DAYS
+        daysInput.value =
+            `${option.dataset.remainingDays ?? 0} day(s) remaining`;
+
+        // PRODUCT PRICE
+        productPriceInput.value =
+            "₱ " + formatPrice(
+                option.dataset.productPrice ?? 0
+            );
+
+        // STD INSTALL
+        stdInstallationInput.value =
+            "₱ " + formatPrice(
+                option.dataset.standardInstallationPrice ?? 0
+            );
+
+        // ADD INSTALL
+        addInstallationInput.value =
+            "₱ " + formatPrice(
+                option.dataset.additionalInstallationPrice ?? 0
+            );
+
+        // ================= SAVE VALUES =================
+        deliveryItemIdInput.value =
+            option.dataset.deliveryItemId ?? "";
+
+        inventoryIdInput.value =
+            option.dataset.inventoryId ?? "";
+
+        productIdInput.value =
+            option.dataset.productId ?? "";
+    };
+
+    // ================= CHANGE EVENT =================
+    select.addEventListener(
+        "change",
+        updateDetails
+    );
+
+    // ================= APPEND =================
+    container.appendChild(row);
+
+    // ================= AUTO SELECT FIRST =================
+    if (select.options.length > 1) {
+
+        select.selectedIndex = 1;
+
+        updateDetails();
+    }
+}
+
+// ================= REMOVE =================
+function removeDefectiveProductRow(button) {
+
+    const row =
+        button.closest(".warranty-product-row");
+
+    if (row) {
+        row.remove();
+    }
+}
+
+/// Add Products that is for warranty claim 
+// ================= ADD PRODUCT ROW =================
+function addDefectiveProductRow() {
+
+    const container =
+        document.getElementById("warrantyProductsContainer");
+
+    if (!container) return;
+
+    const items =
+        window.warrantyEligibleItems ?? [];
+
+    // ================= GET SELECTED =================
+    const selectedValues = Array.from(
+        document.querySelectorAll(".warranty-product-select")
+    )
+        .map(s => s.value)
+        .filter(v => v);
+
+    // ================= OPTIONS =================
+    let options = `
+        <option value="">
+            Select Delivered Product
+        </option>
+    `;
+
+    items.forEach(item => {
+
+        // Skip already claimed
+        if (item.alreadyClaimed)
+            return;
+
+        // Prevent duplicates
+        if (
+            selectedValues.includes(
+                item.deliveryItemId.toString()
+            )
+        )
+            return;
+
+        options += `
+            <option
+                value="${item.deliveryItemId}"
+
+                data-delivery-item-id="${item.deliveryItemId}"
+                data-inventory-id="${item.inventoryId}"
+                data-product-id="${item.productId}"
+
+                data-brand="${item.productBrand ?? ""}"
+                data-series="${item.productSeries ?? ""}"
+                data-model="${item.productModel ?? ""}"
+
+                data-sku="${item.productSku ?? ""}"
+
+                data-serial="${item.serialNumber ?? ""}"
+
+                data-delivered-at="${item.deliveredAt ?? ""}"
+
+                data-outright-days="${item.outrightReplacementDays ?? 0}"
+                data-remaining-days="${item.remainingDays ?? 0}"
+
+                data-product-price="${item.productPrice ?? 0}"
+
+                data-standard-installation-price="${item.standardInstallationPrice ?? 0}"
+
+                data-additional-installation-price="${item.additionalInstallationPrice ?? 0}"
+            >
+
+                ${item.productBrand ?? ""}
+                ${item.productSeries ?? ""}
+                ${item.productModel ?? ""}
+
+                | SKU: ${item.productSku ?? "N/A"}
+
+                | Serial: ${item.serialNumber ?? "N/A"}
+
+            </option>
+        `;
+    });
+
+    // ================= ROW =================
+    const row = document.createElement("div");
+
+    row.classList.add("warranty-product-row");
+
+    row.innerHTML = `
+        <div class="row">
+
+            <!-- PRODUCT -->
+            <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                    Delivered Product
+                </label>
+
+                <select class="form-select warranty-product-select">
+
+                    ${options}
+
+                </select>
+
+            </div>
+
+            <!-- SERIAL -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">
+                    Serial Number
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-serial-input"
+                       readonly />
+
+            </div>
+
+            <!-- REMAINING DAYS -->
+            <div class="col-md-3 mb-3">
+
+                <label class="form-label">
+                    Remaining Days
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-days-input"
+                       readonly />
+
+            </div>
+
+        </div>
+
+        <!-- DETAILS -->
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+                    Product Price
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-product-price"
+                       readonly />
+
+            </div>
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+                    Standard Installation
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-std-installation"
+                       readonly />
+
+            </div>
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+                    Additional Installation
+                </label>
+
+                <input type="text"
+                       class="form-control warranty-add-installation"
+                       readonly />
+
+            </div>
+
+        </div>
+
+        <!-- COMPLAINT -->
+        <div class="mb-3">
+
+            <label class="form-label">
+                Issue / Complaint
+            </label>
+
+            <textarea class="form-control warranty-item-complaint"
+                      rows="3"
+                      maxlength="500"
+                      placeholder="Describe the issue with this product..."></textarea>
+
+        </div>
+
+        <!-- HIDDEN VALUES -->
+        <input type="hidden"
+               class="warranty-delivery-item-id" />
+
+        <input type="hidden"
+               class="warranty-inventory-id" />
+
+        <input type="hidden"
+               class="warranty-product-id" />
+
+        <!-- REMOVE -->
+        <div class="text-end">
+
+            <button type="button"
+                    class="btn btn-sm btn-outline-danger"
+                    onclick="removeDefectiveProductRow(this)">
+                Remove Product
+            </button>
+
+        </div>
+    `;
+
+    // ================= ELEMENTS =================
+    const select =
+        row.querySelector(".warranty-product-select");
+
+    const serialInput =
+        row.querySelector(".warranty-serial-input");
+
+    const daysInput =
+        row.querySelector(".warranty-days-input");
+
+    const productPriceInput =
+        row.querySelector(".warranty-product-price");
+
+    const stdInstallationInput =
+        row.querySelector(".warranty-std-installation");
+
+    const addInstallationInput =
+        row.querySelector(".warranty-add-installation");
+
+    // Hidden Inputs
+    const deliveryItemIdInput =
+        row.querySelector(".warranty-delivery-item-id");
+
+    const inventoryIdInput =
+        row.querySelector(".warranty-inventory-id");
+
+    const productIdInput =
+        row.querySelector(".warranty-product-id");
+
+    // ================= UPDATE DETAILS =================
+    const updateDetails = () => {
+
+        const option =
+            select.options[select.selectedIndex];
+
+        // Empty selection
+        if (!option || !option.value) {
+
+            serialInput.value = "";
+
+            daysInput.value = "";
+
+            productPriceInput.value = "";
+
+            stdInstallationInput.value = "";
+
+            addInstallationInput.value = "";
+
+            deliveryItemIdInput.value = "";
+
+            inventoryIdInput.value = "";
+
+            productIdInput.value = "";
+
+            toggleAddDefectiveButton();
+
+            return;
+        }
+
+        // SERIAL
+        serialInput.value =
+            option.dataset.serial ?? "";
+
+        // DAYS
+        daysInput.value =
+            `${option.dataset.remainingDays ?? 0} day(s) remaining`;
+
+        // PRODUCT PRICE
+        productPriceInput.value =
+            "₱ " + formatPrice(
+                option.dataset.productPrice ?? 0
+            );
+
+        // STD INSTALL
+        stdInstallationInput.value =
+            "₱ " + formatPrice(
+                option.dataset.standardInstallationPrice ?? 0
+            );
+
+        // ADD INSTALL
+        addInstallationInput.value =
+            "₱ " + formatPrice(
+                option.dataset.additionalInstallationPrice ?? 0
+            );
+
+        // SAVE VALUES
+        deliveryItemIdInput.value =
+            option.dataset.deliveryItemId ?? "";
+
+        inventoryIdInput.value =
+            option.dataset.inventoryId ?? "";
+
+        productIdInput.value =
+            option.dataset.productId ?? "";
+
+        toggleAddDefectiveButton();
+    };
+
+    // ================= CHANGE EVENT =================
+    select.addEventListener(
+        "change",
+        updateDetails
+    );
+
+    // ================= APPEND =================
+    container.appendChild(row);
+
+    // ================= AUTO SELECT FIRST =================
+    if (select.options.length > 1) {
+
+        select.selectedIndex = 1;
+
+        updateDetails();
+    }
+
+    toggleAddDefectiveButton();
+}
+
+// ================= REMOVE =================
+function removeDefectiveProductRow(button) {
+
+    const row =
+        button.closest(".warranty-product-row");
+
+    if (row) {
+        row.remove();
+    }
+
+    toggleAddDefectiveButton();
+}
+
+
+// ================= TOGGLE + BUTTON =================
+function toggleAddDefectiveButton() {
+
+    const button =
+        document.getElementById("btnAddDefectiveProduct");
+
+    if (!button) return;
+
+    const items =
+        window.warrantyEligibleItems ?? [];
+
+    // Selected values
+    const selectedValues = Array.from(
+        document.querySelectorAll(".warranty-product-select")
+    )
+        .map(s => s.value)
+        .filter(v => v);
+
+    // Remaining selectable items
+    const remaining = items.filter(item => {
+
+        if (!item.eligible)
+            return false;
+
+        if (item.alreadyClaimed)
+            return false;
+
+        return !selectedValues.includes(
+            item.deliveryItemId.toString()
+        );
+    });
+
+    // Disable button if none remaining
+    button.disabled = remaining.length === 0;
+
+    // Optional visual state
+    if (remaining.length === 0) {
+
+        button.classList.add("disabled");
+
+        button.innerText =
+            "No More Eligible Products";
+    }
+    else {
+
+        button.classList.remove("disabled");
+
+        button.innerText =
+            "+ Add Product Concern";
+    }
+}
+
+
+
+///////////////          Image/Video Attachments                ////////////
+// ================= WARRANTY FILE STORAGE =================
+window.warrantyUploadedFiles = [];
+
+// ================= WARRANTY FILES =================
+const warrantyFilesInput =
+    document.getElementById("warrantyFiles");
+
+if (warrantyFilesInput) {
+
+    warrantyFilesInput.addEventListener(
+        "change",
+        function () {
+
+            const container =
+                document.getElementById(
+                    "warrantyPreviewContainer"
+                );
+
+            if (!container) return;
+
+            // ================= APPEND FILES =================
+            Array.from(this.files).forEach(file => {
+
+                // Prevent duplicate same-name uploads
+                const exists =
+                    window.warrantyUploadedFiles.some(
+                        f =>
+                            f.name === file.name &&
+                            f.size === file.size
+                    );
+
+                if (exists)
+                    return;
+
+                // Save globally
+                window.warrantyUploadedFiles.push(file);
+
+                // Preview wrapper
+                const wrapper =
+                    document.createElement("div");
+
+                wrapper.classList.add(
+                    "warranty-preview-item"
+                );
+
+                wrapper.style.width = "120px";
+
+                wrapper.innerHTML = `
+                    <div style="
+                        border:1px solid #e5e7eb;
+                        border-radius:14px;
+                        overflow:hidden;
+                        background:#fafafa;
+                        position:relative;
+                    ">
+
+                        <!-- REMOVE -->
+                        <button type="button"
+                                style="
+                                    position:absolute;
+                                    top:6px;
+                                    right:6px;
+                                    z-index:5;
+                                    border:none;
+                                    background:rgba(0,0,0,.65);
+                                    color:white;
+                                    width:24px;
+                                    height:24px;
+                                    border-radius:50%;
+                                    cursor:pointer;
+                                ">
+                            ✕
+                        </button>
+
+                        <!-- MEDIA -->
+                        <div style="
+                            height:100px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            overflow:hidden;
+                            background:white;
+                        "
+                        class="preview-media-container">
+                        </div>
+
+                        <!-- FILE NAME -->
+                        <div style="
+                            padding:8px;
+                            font-size:.75rem;
+                            text-align:center;
+                            word-break:break-word;
+                        ">
+                            ${file.name}
+                        </div>
+
+                    </div>
+                `;
+
+                const mediaContainer =
+                    wrapper.querySelector(
+                        ".preview-media-container"
+                    );
+
+                // IMAGE
+                if (file.type.startsWith("image/")) {
+
+                    const img =
+                        document.createElement("img");
+
+                    img.src =
+                        URL.createObjectURL(file);
+
+                    img.style.width = "100%";
+
+                    img.style.height = "100%";
+
+                    img.style.objectFit = "cover";
+
+                    mediaContainer.appendChild(img);
+                }
+
+                // VIDEO
+                else if (
+                    file.type.startsWith("video/")
+                ) {
+
+                    const video =
+                        document.createElement("video");
+
+                    video.src =
+                        URL.createObjectURL(file);
+
+                    video.controls = true;
+
+                    video.style.width = "100%";
+
+                    video.style.height = "100%";
+
+                    video.style.objectFit = "cover";
+
+                    mediaContainer.appendChild(video);
+                }
+
+                // REMOVE BUTTON
+                const removeBtn =
+                    wrapper.querySelector("button");
+
+                removeBtn.addEventListener(
+                    "click",
+                    () => {
+
+                        window.warrantyUploadedFiles =
+                            window.warrantyUploadedFiles
+                                .filter(f => f !== file);
+
+                        wrapper.remove();
+                    }
+                );
+
+                container.appendChild(wrapper);
+            });
+
+            // Reset input so same file can be re-added later
+            this.value = "";
+        }
+    );
+}
+
+
+/// Close Modal ////
+function closeWarrantyClaimModal() {
+
+    const modal =
+        document.getElementById("warrantyClaimModal");
+
+    if (!modal) return;
+
+    modal.classList.add("hidden");
+
+    // OPTIONAL RESET
+    const container =
+        document.getElementById("warrantyProductsContainer");
+
+    if (container) {
+        container.innerHTML = "";
+    }
+
+    // CLEAR FILES
+    window.warrantyUploadedFiles = [];
+
+    // CLEAR PREVIEWS
+    const preview =
+        document.getElementById("warrantyPreviewContainer");
+
+    if (preview) {
+        preview.innerHTML = "";
+    }
+
+    // RESET NOTES
+    const notes =
+        document.getElementById("warrantyCustomerNotes");
+
+    if (notes) {
+        notes.value = "";
+    }
+}
+
+
+
+///// POST WARRANTY ///////
+
+async function submitWarrantyClaim() {
+
+    // =========================
+    // RESULT ELEMENT
+    // =========================
+
+    const resultBox =
+        document.getElementById(
+            "warrantySubmitResult"
+        );
+
+    if (resultBox) {
+
+        resultBox.classList.remove(
+            "success",
+            "error"
+        );
+
+        resultBox.classList.add(
+            "hidden"
+        );
+
+        resultBox.innerHTML = "";
+    }
+
+    try {
+
+        // =========================
+        // BUTTON LOADING
+        // =========================
+
+        const submitBtn =
+            document.getElementById(
+                "submitWarrantyBtn"
+            );
+
+        if (submitBtn) {
+
+            submitBtn.disabled = true;
+
+            submitBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Submitting...
+            `;
+        }
+
+        // =========================
+        // GET ROWS
+        // =========================
+
+        const rows =
+            document.querySelectorAll(
+                ".warranty-product-row"
+            );
+
+        if (rows.length === 0) {
+
+            throw new Error(
+                "Please add at least one defective product."
+            );
+        }
+
+        // =========================
+        // FORM DATA
+        // =========================
+
+        const formData =
+            new FormData();
+
+        // =========================
+        // CUSTOMER NOTES
+        // =========================
+
+        const customerNotes =
+            document.getElementById(
+                "warrantyCustomerNotes"
+            )?.value?.trim();
+
+        if (customerNotes) {
+
+            formData.append(
+                "customer_notes",
+                customerNotes
+            );
+        }
+
+        // =========================
+        // ITEMS
+        // =========================
+
+        rows.forEach((row, index) => {
+
+            const deliveryItemId =
+                row.querySelector(
+                    ".warranty-delivery-item-id"
+                )?.value;
+
+            const inventoryId =
+                row.querySelector(
+                    ".warranty-inventory-id"
+                )?.value;
+
+            const productId =
+                row.querySelector(
+                    ".warranty-product-id"
+                )?.value;
+
+            const complaint =
+                row.querySelector(
+                    ".warranty-item-complaint"
+                )?.value
+                    ?.trim();
+
+            // =========================
+            // VALIDATE
+            // =========================
+
+            if (
+                !deliveryItemId ||
+                !inventoryId ||
+                !productId ||
+                !complaint
+            ) {
+                throw new Error(
+                    "Please complete all defective product details."
+                );
+            }
+
+            // =========================
+            // APPEND ITEMS[]
+            // =========================
+
+            formData.append(
+                `items[${index}].delivery_item_id`,
+                deliveryItemId
+            );
+
+            formData.append(
+                `items[${index}].original_inventory_id`,
+                inventoryId
+            );
+
+            formData.append(
+                `items[${index}].product_id`,
+                productId
+            );
+
+            formData.append(
+                `items[${index}].issue_description`,
+                complaint
+            );
+        });
+
+        // =========================
+        // ATTACHMENTS
+        // =========================
+
+        if (
+            window.warrantyUploadedFiles &&
+            window.warrantyUploadedFiles.length > 0
+        ) {
+
+            window.warrantyUploadedFiles
+                .forEach(file => {
+
+                    formData.append(
+                        "attachments",
+                        file
+                    );
+                });
+        }
+
+        // =========================
+        // DEBUG
+        // =========================
+
+        for (let pair of formData.entries()) {
+
+            console.log(
+                pair[0],
+                pair[1]
+            );
+        }
+
+        // =========================
+        // API REQUEST
+        // =========================
+
+        const response =
+            await fetch(
+                "/api/my-shop-warranty/outright-replacement/create",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+        // =========================
+        // RESPONSE
+        // =========================
+
+        const result =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Failed to submit warranty claim."
+            );
+        }
+
+        // =========================
+        // SUCCESS
+        // =========================
+
+        if (resultBox) {
+
+            resultBox.classList.remove(
+                "hidden",
+                "error"
+            );
+
+            resultBox.classList.add(
+                "success"
+            );
+
+            resultBox.innerHTML =
+                result.message ||
+                "Warranty claim submitted successfully.";
+        }
+
+        console.log(result);
+
+        // =========================
+        // AUTO CLOSE
+        // =========================
+
+        setTimeout(() => {
+
+            closeWarrantyClaimModal();
+
+        }, 5000);
+    }
+    catch (err) {
+
+        console.error(
+            "Warranty Submit Error:",
+            err
+        );
+
+        // =========================
+        // ERROR MESSAGE
+        // =========================
+
+        if (resultBox) {
+
+            resultBox.classList.remove(
+                "hidden",
+                "success"
+            );
+
+            resultBox.classList.add(
+                "error"
+            );
+
+            resultBox.innerHTML =
+                err.message ||
+                "Failed to submit warranty claim.";
+        }
+    }
+    finally {
+
+        // =========================
+        // RESET BUTTON
+        // =========================
+
+        const submitBtn =
+            document.getElementById(
+                "submitWarrantyBtn"
+            );
+
+        if (submitBtn) {
+
+            submitBtn.disabled = false;
+
+            submitBtn.innerHTML =
+                `Submit Warranty Claim`;
+        }
+    }
 }

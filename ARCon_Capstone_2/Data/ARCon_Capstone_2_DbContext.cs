@@ -145,6 +145,10 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<service_warranty_attachment> service_warranty_attachments { get; set; }
 
+    public virtual DbSet<outright_replacement_warranty> outright_replacement_warranties { get; set; }
+    public virtual DbSet<outright_replacement_warranty_item> outright_replacement_warranty_items{ get; set; }
+    public virtual DbSet<outright_replacement_warranty_attachment> outright_replacement_warranty_attachments { get; set; }
+
     //end manually added
 
     public virtual DbSet<work_schedule> work_schedules { get; set; }
@@ -337,7 +341,13 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .IsRequired(false) // nullable
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("customer_ratings_delivery_item_id_fkey");
-                    });
+
+            entity.HasMany(d => d.outright_replacement_warranty_items)
+                .WithOne(p => p.original_delivery_item)
+                .HasForeignKey(d => d.original_delivery_item_id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("outright_replacement_warranty_items_original_delivery_item_id_fkey");
+        });
 
         modelBuilder.Entity<service_transaction>(entity =>
         {
@@ -653,6 +663,111 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
         });
 
 
+        modelBuilder.Entity<outright_replacement_warranty>(entity =>
+        {
+            entity.ToTable("outright_replacement_warranties");
+
+            entity.HasKey(e => e.id);
+
+            entity.HasIndex(e => e.warranty_code)
+                .IsUnique();
+
+            entity.Property(e => e.status)
+                .HasDefaultValue("FOR_VALIDATION");
+
+            entity.Property(e => e.created_at)
+                .HasDefaultValueSql("NOW()");
+
+            // Relationship: outright_replacement_warranty → customer
+            entity.HasOne(ow => ow.customer)
+                .WithMany(c => c.outright_replacement_warranties)
+                .HasForeignKey(ow => ow.customer_id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Relationship: outright_replacement_warranty → customer_transaction
+            entity.HasOne(ow => ow.customer_transaction)
+                .WithMany(ct => ct.outright_replacement_warranties)
+                .HasForeignKey(ow => ow.customer_transaction_id)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Relationship: outright_replacement_warranty → outright_replacement_warranty_items
+            entity.HasMany(ow => ow.outright_replacement_warranty_items)
+                .WithOne(owi => owi.outright_replacement_warranty)
+                .HasForeignKey(owi => owi.outright_replacement_warranty_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relationship: outright_replacement_warranty → attachments
+            entity.HasMany(ow => ow.outright_replacement_warranty_attachments)
+                .WithOne(a => a.outright_replacement_warranty)
+                .HasForeignKey(a => a.outright_replacement_warranty_id)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<outright_replacement_warranty_item>(entity =>
+        {
+            entity.ToTable("outright_replacement_warranty_items");
+
+            entity.HasKey(e => e.id);
+
+            entity.HasIndex(e => e.original_inventory_id)
+                .IsUnique();
+
+            entity.Property(e => e.item_status)
+                .HasDefaultValue("PENDING");
+
+            entity.Property(e => e.created_at)
+                .HasDefaultValueSql("NOW()");
+
+            // Relationship: outright_replacement_warranty_item → outright_replacement_warranty
+            entity.HasOne(owi => owi.outright_replacement_warranty)
+                .WithMany(ow => ow.outright_replacement_warranty_items)
+                .HasForeignKey(owi => owi.outright_replacement_warranty_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Relationship: outright_replacement_warranty_item → delivery_item
+            entity.HasOne(owi => owi.original_delivery_item)
+                .WithMany(di => di.outright_replacement_warranty_items)
+                .HasForeignKey(owi => owi.original_delivery_item_id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Relationship: outright_replacement_warranty_item → product
+            entity.HasOne(owi => owi.product)
+                .WithMany(p => p.outright_replacement_warranty_items)
+                .HasForeignKey(owi => owi.product_id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Relationship: outright_replacement_warranty_item → original inventory
+            entity.HasOne(owi => owi.original_inventory)
+                .WithMany(i => i.outright_replacement_warranty_itemoriginal_inventories)
+                .HasForeignKey(owi => owi.original_inventory_id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Relationship: outright_replacement_warranty_item → replacement inventory
+            entity.HasOne(owi => owi.replacement_inventory)
+                .WithMany(i => i.outright_replacement_warranty_itemreplacement_inventories)
+                .HasForeignKey(owi => owi.replacement_inventory_id)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
+
+        modelBuilder.Entity<outright_replacement_warranty_attachment>(entity =>
+        {
+            entity.ToTable("outright_replacement_warranty_attachments");
+
+            entity.HasKey(e => e.id);
+
+            entity.Property(e => e.created_at)
+                .HasDefaultValueSql("NOW()");
+
+            // Relationship: attachment → outright_replacement_warranty
+            entity.HasOne(a => a.outright_replacement_warranty)
+                .WithMany(ow => ow.outright_replacement_warranty_attachments)
+                .HasForeignKey(a => a.outright_replacement_warranty_id)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+
+
 
 
 
@@ -857,6 +972,12 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasForeignKey(x => x.customer_id)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            entity.HasMany(d => d.outright_replacement_warranties)
+                .WithOne(p => p.customer)
+                .HasForeignKey(d => d.customer_id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("outright_replacement_warranties_customer_id_fkey");
+
         });
 
         modelBuilder.Entity<customer_address>(entity =>
@@ -936,6 +1057,11 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasForeignKey(r => r.transaction_id)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("customer_ratings_transaction_id_fkey");
+
+            entity.HasMany(d => d.outright_replacement_warranties)
+            .WithOne(p => p.customer_transaction)
+            .HasForeignKey(d => d.customer_transaction_id)
+            .HasConstraintName("outright_replacement_warranties_customer_transaction_id_fkey");
         });
 
         modelBuilder.Entity<form_factor>(entity =>
@@ -999,6 +1125,16 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             entity.HasOne(d => d.updated_byNavigation).WithMany(p => p.inventoryupdated_byNavigations)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("inventory_updated_by_fkey");
+
+            entity.HasMany(d => d.outright_replacement_warranty_itemoriginal_inventories)
+                .WithOne(p => p.original_inventory)
+                .HasForeignKey(d => d.original_inventory_id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("outright_replacement_warranty_items_original_inventory_id_fkey");
+            entity.HasMany(d => d.outright_replacement_warranty_itemreplacement_inventories)
+                .WithOne(p => p.replacement_inventory)
+                .HasForeignKey(d => d.replacement_inventory_id)
+                .HasConstraintName("outright_replacement_warranty_items_replacement_inventory_id_fkey");
 
         });
 
@@ -1124,6 +1260,12 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasForeignKey(r => r.product_id)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("customer_ratings_product_id_fkey");
+
+            entity.HasMany(d => d.outright_replacement_warranty_items)
+                .WithOne(p => p.product)
+                .HasForeignKey(d => d.product_id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("outright_replacement_warranty_items_product_id_fkey");
 
         });
 

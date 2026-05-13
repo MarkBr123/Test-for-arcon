@@ -39,4 +39,8 @@ public class delivery_item
 
     [InverseProperty("delivery_item")]
     public virtual ICollection<customer_rating> customer_ratings { get; set; }
+
+    [InverseProperty("original_delivery_item")]
+    public virtual ICollection<outright_replacement_warranty_item> outright_replacement_warranty_items { get; set; }
+    = new List<outright_replacement_warranty_item>();
 }

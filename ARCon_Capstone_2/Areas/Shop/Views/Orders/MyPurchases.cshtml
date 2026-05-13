@@ -1,5 +1,6 @@
 ﻿    @section Styles {
         <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MyPurchases.css" asp-append-version="true" />
     }
 
     @{
@@ -143,5 +144,424 @@
 
     </div>
 </div>
+
+
+<!-- OUTRIGHT REPLACEMENT WARRANTY MODAL -->
+<div id="warrantyClaimModal" class="modal-overlay hidden">
+
+    <div class="modal-box modal-xl">
+
+        <!-- HEADER -->
+        <div class="modal-header">
+
+            <div>
+                <h2>
+                    Outright Replacement Warranty
+                </h2>
+
+                <p>
+                    Submit defective delivered units for warranty evaluation.
+                </p>
+            </div>
+
+            <button type="button"
+                    onclick="closeWarrantyClaimModal()">
+                ✕
+            </button>
+
+        </div>
+
+        <!-- BODY -->
+        <div class="modal-body">
+
+            <!-- WARRANTY POLICY -->
+            <div class="warranty-policy-box">
+
+                <h4>
+                    Warranty Policy
+                </h4>
+
+                <ul class="warranty-policy-list">
+
+                    <ul class="warranty-policy-list">
+
+                        <li>
+                            Products must be within the outright replacement period.
+                        </li>
+
+                        <li>
+                            Returned products must match the delivered serial number recorded in the system.
+                        </li>
+
+                        <li>
+                            Products showing signs of misuse, abuse, negligence, or improper handling may be rejected.
+                        </li>
+
+                        <li>
+                            Excessive modification, tampering, unauthorized repairs, or altered internal components void the warranty claim.
+                        </li>
+
+                        <li>
+                            Products with burnt components, electrical overloading damage, water damage, corrosion, or pest infestation are not eligible for outright replacement.
+                        </li>
+
+                        <li>
+                            Accidental damage including dropping, impact damage, cracked parts, dents, or broken panels is not covered.
+                        </li>
+
+                        <li>
+                            Damage caused by improper installation, unstable voltage, incompatible accessories, or external environmental factors is not covered.
+                        </li>
+
+                        <li>
+                            Complete accessories, manuals, remote controls, and original packaging may be required during inspection.
+                        </li>
+
+                        <li>
+                            Missing parts, missing accessories, or incomplete returned items may affect claim approval.
+                        </li>
+
+                        <li>
+                            The company reserves the right to inspect and verify all submitted products before approval.
+                        </li>
+
+                        <li>
+                            Fraudulent claims or mismatched returned units may result in claim rejection.
+                        </li>
+
+                    </ul>
+
+                </ul>
+
+            </div>
+
+            <!-- TRANSACTION INFO -->
+            <div class="warranty-section">
+
+                <h4>
+                    Transaction Information
+                </h4>
+
+                <div class="row">
+
+                    <!-- LEFT -->
+                    <div class="col-md-6">
+
+                        <div class="order-row">
+                            <span class="label">
+                                Transaction Code:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyTransactionCode">
+                                -
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="label">
+                                Placed At:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyPlacedAt">
+                                -
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="label">
+                                Delivered At:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyDeliveredAt">
+                                -
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="label">
+                                Courier:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyCourier">
+                                -
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="label">
+                                Shipping Method:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyShippingMethod">
+                                -
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="col-md-6">
+
+                        <div class="order-row">
+                            <span class="label">
+                                Customer Name:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyCustomerName">
+                                -
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="label">
+                                Contact Number:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyCustomerContact">
+                                -
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="label">
+                                Email:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyCustomerEmail">
+                                -
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="label">
+                                Payment Method:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyPaymentMethod">
+                                -
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="label">
+                                Payment Status:
+                            </span>
+
+                            <span class="value"
+                                  id="warrantyPaymentStatus">
+                                -
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ADDRESS -->
+                <div class="mt-4">
+
+                    <div class="order-row">
+
+                        <span class="label">
+                            Delivery Address:
+                        </span>
+
+                        <span class="value"
+                              id="warrantyDeliveryAddress">
+                            -
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- TOTAL -->
+                <div class="mt-4 d-flex justify-content-end">
+
+                    <div style="
+                        background:#fafafa;
+                        border:1px solid #ececec;
+                        border-radius:14px;
+                        padding:16px 20px;
+                        min-width:260px;
+                    ">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <span class="label">
+                                Grand Total
+                            </span>
+
+                            <strong id="warrantyGrandTotal"
+                                    style="
+                                        font-size:1.1rem;
+                                        color:#d32f2f;
+                                    ">
+                                ₱ 0.00
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- DEFECTIVE PRODUCTS -->
+            <div class="warranty-section">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+
+                        <h4 class="mb-1">
+                            Defective Products
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Add defective delivered units.
+                        </p>
+
+                    </div>
+                    <button type="button"
+                            id="btnAddDefectiveProduct"
+                            class="btn-add-product"
+                            onclick="addDefectiveProductRow()">
+
+                        + Defective Product
+
+                    </button>
+
+                </div>
+
+                <!-- DYNAMIC ROWS -->
+                <div id="warrantyProductsContainer">
+                </div>
+
+            </div>
+
+            <!-- ADDITIONAL NOTES -->
+            <div class="warranty-section">
+
+                <h4>
+                    Additional Notes
+                </h4>
+
+                <textarea id="warrantyCustomerNotes"
+                          class="form-control"
+                          rows="4"
+                          maxlength="1000"
+                          placeholder="Additional information regarding your warranty request..."></textarea>
+
+                <div class="char-count">
+
+                    <span id="warrantyComplaintCount">
+                        0
+                    </span>
+
+                    / 1000
+
+                </div>
+
+            </div>
+
+            <!-- ATTACHMENTS -->
+            <div class="warranty-section">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+
+                        <h4 class="mb-1">
+                            Attachments
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Upload photos or videos showing the issue.
+                        </p>
+
+                    </div>
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="document.getElementById('warrantyFiles').click()">
+
+                        <i class="bi bi-plus-lg"></i>
+                        Add Image / Video
+
+                    </button>
+
+                </div>
+
+                <!-- HIDDEN FILE INPUT -->
+                <input type="file"
+                       id="warrantyFiles"
+                       class="d-none"
+                       multiple
+                       accept="image/*,video/*">
+
+                <!-- PREVIEW CONTAINER -->
+                <div id="warrantyPreviewContainer"
+                     class="d-flex flex-wrap gap-3">
+                </div>
+
+                <small class="text-muted d-block mt-2">
+                    Supports images and videos up to 50MB total.
+                </small>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="modal-actions">
+
+            <!-- RESULT MESSAGE -->
+            <div id="warrantySubmitResult"
+                 class="warranty-submit-result hidden">
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="d-flex gap-2">
+
+                <button class="btn-secondary"
+                        type="button"
+                        onclick="closeWarrantyClaimModal()">
+
+                    Cancel
+
+                </button>
+
+                <button class="btn-primary"
+                        id="submitWarrantyBtn"
+                        type="button"
+                        onclick="submitWarrantyClaim()">
+
+                    Submit Warranty Claim
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
 
     <script src="~/js/shop_js/shop_my-puchases-for-confirmation.js"></script>

@@ -1,0 +1,414 @@
+﻿/* =========================================
+   WARRANTY MODAL OVERLAY
+========================================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+    .modal-overlay.hidden {
+        display: none;
+    }
+
+/* =========================================
+   MODAL CONTAINER
+========================================= */
+
+.modal-box {
+    width: 100%;
+    max-width: 1100px;
+    background: #ffffff;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 5px 15px rgba(0,0,0,0.06);
+    animation: modalFade .2s ease;
+    /* FIX */
+    display: flex;
+    flex-direction: column;
+    max-height: 92vh;
+}
+
+@keyframes modalFade {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.modal-header {
+    background: #16a9ff;
+    padding: 24px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
+    .modal-header h2,
+    .modal-header p {
+        color: white;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    .modal-header p {
+        margin-top: 6px;
+        margin-bottom: 0;
+        opacity: .9;
+        font-size: 0.95rem;
+    }
+
+    .modal-header button {
+        border: none;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: .2s ease;
+    }
+
+        .modal-header button:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+/* =========================================
+   BODY
+========================================= */
+
+.modal-body {
+    background: #f7f8fa;
+    padding: 28px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+/* =========================================
+   SECTIONS
+========================================= */
+
+.warranty-section {
+    background: white;
+    border: 1px solid #ececec;
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+    .warranty-section h4 {
+        margin-bottom: 16px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #263238;
+    }
+
+/* =========================================
+   POLICY BOX
+========================================= */
+
+.warranty-policy-box {
+    background: #ffffff;
+    border: 1px solid #ececec;
+    border-left: 5px solid #d32f2f;
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+    .warranty-policy-box h4 {
+        margin-bottom: 16px;
+        font-weight: 700;
+        color: #263238;
+    }
+
+.warranty-policy-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+    .warranty-policy-list li {
+        margin-bottom: 12px;
+        color: #374151;
+        line-height: 1.5;
+    }
+
+/* =========================================
+   ORDER ROWS
+========================================= */
+
+.order-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+    .order-row .label {
+        min-width: 150px;
+        font-weight: 700;
+        color: #64748b;
+    }
+
+    .order-row .value {
+        color: #374151;
+        font-weight: 700;
+    }
+
+/* =========================================
+   PRODUCT ROWS
+========================================= */
+
+.warranty-product-row {
+    background: #fafafa;
+    border: 1px solid #ececec;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: .2s ease;
+}
+
+    .warranty-product-row:hover {
+        border-color: #ef5350;
+        box-shadow: 0 4px 12px rgba(211,47,47,0.08);
+    }
+
+/* =========================================
+   LABELS
+========================================= */
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #263238;
+}
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.form-control,
+.form-select,
+.modal-input {
+    width: 100%;
+    border: 1px solid #d6dbe1;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    background: white;
+    transition: .2s ease;
+}
+
+    .form-control:focus,
+    .form-select:focus,
+    .modal-input:focus {
+        border-color: #d32f2f;
+        box-shadow: 0 0 0 3px rgba(211,47,47,0.08);
+        outline: none;
+    }
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* =========================================
+   ATTACHMENTS
+========================================= */
+
+.attachment-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.attachment-preview-item {
+    width: 100px;
+    height: 100px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    background: white;
+}
+
+    .attachment-preview-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+/* =========================================
+   CHARACTER COUNT
+========================================= */
+
+.char-count {
+    margin-top: 8px;
+    text-align: right;
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.modal-actions {
+    background: white;
+    border-top: 1px solid #ececec;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 22px 30px;
+    flex-shrink: 0;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.btn-primary {
+    background: #d32f2f;
+    color: white;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+    .btn-primary:hover {
+        background: #c62828;
+        transform: translateY(-1px);
+    }
+
+.btn-secondary {
+    background: #eceff1;
+    color: #374151;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+    .btn-secondary:hover {
+        background: #dfe5e8;
+    }
+
+.btn-outline-danger {
+    border: 1px solid #ef5350;
+    background: white;
+    color: #d32f2f;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+    .btn-outline-danger:hover {
+        background: #ffebee;
+    }
+
+/* =========================================
+   ADD PRODUCT BUTTON
+========================================= */
+
+.btn-add-product {
+    background: #263238;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+    .btn-add-product:hover {
+        background: #37474f;
+    }
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .modal-box {
+        max-width: 100%;
+        border-radius: 18px;
+    }
+
+    .modal-body {
+        padding: 18px;
+    }
+
+    .modal-header,
+    .modal-actions {
+        padding: 18px;
+    }
+
+    .order-row {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+        .order-row .label {
+            min-width: unset;
+        }
+}
+
+
+/* =========================================
+   SUBMIT RESULT
+========================================= */
+
+.warranty-submit-result {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: .92rem;
+    margin-right: auto;
+}
+
+    .warranty-submit-result.success {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #a5d6a7;
+    }
+
+    .warranty-submit-result.error {
+        background: #ffebee;
+        color: #c62828;
+        border: 1px solid #ef9a9a;
+    }
+
+    .warranty-submit-result.hidden {
+        display: none;
+    }

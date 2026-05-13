@@ -65,4 +65,8 @@ public partial class customer_transaction
 
     [InverseProperty("customer_transaction")]
     public virtual ICollection<delivery> deliveries { get; set; } = new List<delivery>();
+
+    [InverseProperty("customer_transaction")]
+    public virtual ICollection<outright_replacement_warranty> outright_replacement_warranties { get; set; }
+    = new List<outright_replacement_warranty>();
 }

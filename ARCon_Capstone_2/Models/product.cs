@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace ARCon_Capstone_2.Models;
 
@@ -132,8 +130,11 @@ public partial class product
     [ForeignKey("updated_by")]
     [InverseProperty("productupdated_byNavigations")]
     public virtual admin_user? updated_byNavigation { get; set; }
+
     public virtual ICollection<products_media> products_media { get; set; }
         = new List<products_media>();
 
-
+    [InverseProperty("product")]
+    public virtual ICollection<outright_replacement_warranty_item> outright_replacement_warranty_items { get; set; }
+    = new List<outright_replacement_warranty_item>();
 }

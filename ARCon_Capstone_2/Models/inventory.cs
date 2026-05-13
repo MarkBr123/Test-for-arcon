@@ -62,4 +62,12 @@ public partial class inventory
 
     [InverseProperty("inventory")]
     public virtual delivery_item? delivery_item { get; set; }
+
+    [InverseProperty("original_inventory")]
+    public virtual ICollection<outright_replacement_warranty_item> outright_replacement_warranty_itemoriginal_inventories { get; set; }
+    = new List<outright_replacement_warranty_item>();
+
+    [InverseProperty("replacement_inventory")]
+    public virtual ICollection<outright_replacement_warranty_item> outright_replacement_warranty_itemreplacement_inventories { get; set; }
+        = new List<outright_replacement_warranty_item>();
 }
