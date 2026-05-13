@@ -1,6 +1,8 @@
-﻿/* TOP PART */
+﻿
+/* TOP PART */
 .top-part {
     height: 75vh;
+    padding: 0px 100px 0px 100px;
 }
 
 #top-part-divider {
@@ -49,11 +51,12 @@
 }
 
 .image-wrapper {
+    padding: 0px 0px 0px 0px;
     position: relative;
     width: 100%;
-    height: 65vh;
+    height: 100%;
     overflow: hidden;
-    background-color: lightblue;
+    background-color: #ffffff;
 }
 
     .image-wrapper::before {
