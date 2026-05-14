@@ -698,7 +698,7 @@ body {
 
 
 /* BOTTOM IMAGE SECTION */
-.bottom-image {
+/*.bottom-image {
     position: relative;
     height: 600px;
 }
@@ -724,16 +724,16 @@ body {
     align-items: center;
     color: #ffffff;
     text-align: center;
-}
+}*/
 
 /* FOOTER NOTE */
-.bottom-note {
+/*.bottom-note {
     background: #007bff;
     color: #ffffff;
     text-align: center;
     padding: 25px 0 15px 0;
     font-size: 16px;
-}
+}*/
 
 
 /* Cart Modal */
@@ -1674,15 +1674,26 @@ cart-btn:hover .cart-btn i {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+
+    .service-grid-2col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
     .service-card-horizontal {
         flex-direction: column;
         text-align: center;
-        padding: 15px;
+        justify-content: center;
+        min-height: 260px; /* equal height */
+        padding: 18px;
     }
 
-    .card-icon-small {
-        margin-bottom: 10px;
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
     }
 }
 
@@ -1868,7 +1879,7 @@ cart-btn:hover .cart-btn i {
 
 /* LEFT SIDE */
 .banner-left {
-    padding-right: 10px;
+    padding-right: 0px;
 }
 
     .banner-left h2 {
@@ -1886,7 +1897,7 @@ cart-btn:hover .cart-btn i {
 /* IMAGE */
 .banner-image {
     width: 100%;
-    max-width: 485px;
+    max-width: 305px;
     border-radius: 16px;
     overflow: hidden;
     margin-bottom: 18px;
@@ -1898,22 +1909,31 @@ cart-btn:hover .cart-btn i {
         object-fit: cover;
     }
 
+/* IMAGE + BUTTONS WRAPPER */
+.image-and-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 /* BUTTONS */
 .banner-buttons {
     display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
 }
 
     .banner-buttons a {
-        padding: 10px 22px;
+        padding: 12px 24px;
         border-radius: 30px;
         background: white;
         color: #0b4fd4;
         text-decoration: none;
         font-weight: 600;
         transition: 0.3s ease;
+        text-align: center;
+        min-width: 160px;
+        width: 100%;
     }
 
         .banner-buttons a:hover {
@@ -2017,13 +2037,13 @@ cart-btn:hover .cart-btn i {
     .banner-middle {
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 30px;
+        gap: 10px;
     }
 }
 
 @media (max-width: 768px) {
     .contact-banner {
-        padding: 45px 6%;
+        padding: 25px 6%;
     }
 
     .contact-banner-container {
@@ -2052,3 +2072,7 @@ cart-btn:hover .cart-btn i {
         flex-direction: column;
     }
 }
+
+
+/*service responsiveness*/
+
