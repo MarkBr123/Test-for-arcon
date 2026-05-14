@@ -631,6 +631,36 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "DashboardApiController",
+    "Method": "GetCustomerTransactionCounts",
+    "RelativePath": "api/dashboard/dashboard/customer-transaction-counts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DashboardApiController",
+    "Method": "GetInventoryStatusCounts",
+    "RelativePath": "api/dashboard/inventory-status-counts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DashboardApiController",
+    "Method": "GetServiceBookingStatusCounts",
+    "RelativePath": "api/dashboard/service-booking-status-counts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "InventoryApiController",
     "Method": "GetInventoryByProduct",
     "RelativePath": "api/inventory/by-product/{productId}",

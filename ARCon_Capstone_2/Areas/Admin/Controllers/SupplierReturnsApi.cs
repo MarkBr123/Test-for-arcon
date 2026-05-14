@@ -1258,28 +1258,38 @@ public class SupplierReturnsApi : ControllerBase
                 // =====================================
 
                 var replacementInventory =
-                    new inventory
-                    {
-                        product_id =
-                            returnItem.product_id,
+                     new inventory
+                     {
+                         product_id =
+                             returnItem.product_id,
 
-                        serial_number =
-                            itemDto.ReplacementSerial
-                                .Trim()
-                                .ToUpper(),
+                         serial_number =
+                             itemDto.ReplacementSerial
+                                 .Trim()
+                                 .ToUpper(),
 
-                        supplier_return_item_id =
-                            returnItem.id,
 
-                        received_as =
-                            "REPLACEMENT",
 
-                        status =
-                            "GOOD_STOCK",
+                         // 🔥 PRESERVE ORIGINAL SUPPLIER LINEAGE
 
-                        created_at =
-                            DateTime.UtcNow
-                    };
+                         purchased_order_received_id =
+                             returnItem.inventory
+                                 ?.purchased_order_received_id,
+
+
+
+                         supplier_return_item_id =
+                             returnItem.id,
+
+
+
+                         received_as =
+                             "REPLACEMENT",
+
+                         status =
+                             "GOOD_STOCK",
+
+                     };
 
 
 
