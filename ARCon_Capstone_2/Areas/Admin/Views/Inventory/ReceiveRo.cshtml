@@ -1,0 +1,513 @@
+﻿@{
+    ViewData["Title"] = "Receive Supplier Replacement";
+    Layout = "_AdminLayout";
+}
+
+<link rel="stylesheet" href="~/css/render-rows.css" />
+
+<div class="container-fluid">
+
+    <!-- PAGE HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h4 class="mb-0">
+
+            Receive Supplier Replacement
+
+        </h4>
+
+        <a href="/admin/inventory"
+           class="btn btn-outline-secondary btn-sm">
+
+            ← Back to Return Orders
+
+        </a>
+
+    </div>
+
+
+
+    <!-- SECTION A -->
+    <!-- RETURN ORDER REFERENCE -->
+
+    <div class="card mb-3">
+
+        <div class="card-header fw-semibold">
+
+            Section A – Supplier Return Order (Reference)
+
+        </div>
+
+        <div class="card-body">
+
+            <button class="btn btn-outline-primary btn-sm"
+                    onclick="openReturnOrderModal()">
+
+                Select Return Order
+
+            </button>
+
+
+
+            <div id="returnOrderInfo"
+                 class="mt-3 d-none">
+
+                <div class="row g-3">
+
+                    <!-- ROW 1 -->
+
+                    <div class="col-md-2">
+
+                        <div class="text-muted small">
+
+                            Return #
+
+                        </div>
+
+                        <div id="returnNumber"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-2">
+
+                        <div class="text-muted small">
+
+                            Supplier
+
+                        </div>
+
+                        <div id="returnSupplier"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-2">
+
+                        <div class="text-muted small">
+
+                            Status
+
+                        </div>
+
+                        <div id="returnStatus"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-2">
+
+                        <div class="text-muted small">
+
+                            Return Method
+
+                        </div>
+
+                        <div id="returnMethod"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-2">
+
+                        <div class="text-muted small">
+
+                            Courier
+
+                        </div>
+
+                        <div id="returnCourier"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-2">
+
+                        <div class="text-muted small">
+
+                            Tracking #
+
+                        </div>
+
+                        <div id="returnTracking"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ROW 2 -->
+
+                    <div class="col-md-2">
+
+                        <div class="text-muted small">
+
+                            Total Items
+
+                        </div>
+
+                        <div id="returnItems"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-2">
+
+                        <div class="text-muted small">
+
+                            Shipping Cost
+
+                        </div>
+
+                        <div id="returnShipping"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-3">
+
+                        <div class="text-muted small">
+
+                            Remarks
+
+                        </div>
+
+                        <div id="returnRemarks"
+                             class="fw-semibold">
+
+                            —
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SECTION B -->
+    <!-- DEFECTIVE ITEMS -->
+
+    <div class="card mb-3 d-none"
+         id="returnItemsSection">
+
+        <div class="card-header fw-semibold">
+
+            Section B – Defective Returned Units
+
+        </div>
+
+
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-sm table-bordered align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>
+
+                            Defective Serial
+
+                        </th>
+
+                        <th>
+
+                            Product
+
+                        </th>
+
+                        <th>
+
+                            SKU
+
+                        </th>
+
+                        <th>
+
+                            Reason
+
+                        </th>
+
+                        <th class="text-center">
+
+                            Replacement Received
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="returnItemsBody">
+
+                    <!-- injected by JS -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SECTION C -->
+    <!-- REPLACEMENT INVENTORY -->
+
+    <div class="card mb-3 d-none"
+         id="replacementInventorySection">
+
+        <div class="card-header fw-semibold">
+
+            Section C – Replacement Inventory
+
+        </div>
+
+
+
+        <div class="card-body">
+
+            <div class="text-muted small mb-2">
+
+                Enter the NEW serial numbers received from the supplier.
+
+            </div>
+
+
+
+            <table class="table table-sm table-bordered align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>
+
+                            Product
+
+                        </th>
+
+                        <th>
+
+                            Defective Serial
+
+                        </th>
+
+                        <th>
+
+                            New Replacement Serial
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="replacementInventoryBody">
+
+                    <!-- injected by JS -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ACTION -->
+
+    <div class="text-end">
+
+        <button class="btn btn-success btn-sm"
+                onclick="receiveReplacementInventory()">
+
+            Receive Replacement Inventory
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- RETURN ORDER MODAL -->
+
+<div class="modal fade"
+     id="returnOrderModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    Select Supplier Return Order
+
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+
+            <div class="modal-body">
+
+                <table class="table table-sm table-bordered align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>
+
+                                Return #
+
+                            </th>
+
+                            <th>
+
+                                Supplier
+
+                            </th>
+
+                            <th>
+
+                                Status
+
+                            </th>
+
+                            <th>
+
+                                Return Method
+
+                            </th>
+
+                            <th>
+
+                                Total Items
+
+                            </th>
+
+                            <th>
+
+                                Created
+
+                            </th>
+
+                            <th style="width:90px;">
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="returnOrderModalBody">
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center text-muted">
+
+                                Loading return orders...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary btn-sm"
+                        data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script src="~/js/inventory-receive-ro.js"></script>

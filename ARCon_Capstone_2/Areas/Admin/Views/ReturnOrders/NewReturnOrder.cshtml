@@ -1,0 +1,449 @@
+﻿@{
+    var mode = ViewBag.Mode ?? "CREATE";
+
+    var returnId = ViewBag.ReturnId;
+}
+
+<form id="supplierReturnForm">
+
+    <!-- MODE + ID -->
+    <input type="hidden"
+           id="returnMode"
+           value="@mode" />
+
+    <input type="hidden"
+           id="returnId"
+           value="@returnId" />
+
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-3 px-3">
+
+        <h5 class="mb-0 fw-semibold">
+
+            <span id="pageTitleText">
+
+                Supplier Return Order
+
+            </span>
+
+            <span id="returnNumberBadge"
+                  class="text-muted fw-normal ms-2">
+
+            </span>
+
+        </h5>
+
+
+
+        <a href="/admin/ReturnOrders/ReturnIndex"
+           class="btn btn-outline-secondary btn-sm">
+
+            ← Back to Return Orders
+
+        </a>
+
+    </div>
+
+
+
+    <div class="mb-3">
+
+        <small class="fw-semibold text-muted">
+
+            Create and manage supplier return orders for
+            defective inventory units that will be sent
+            back to the supplier for replacement or evaluation.
+
+        </small>
+
+    </div>
+
+
+
+    <!-- RETURN ORDER DETAILS -->
+
+    <div class="card mb-3">
+
+        <div class="card-header fw-semibold">
+
+            Return Order Details
+
+        </div>
+
+
+
+        <div class="card-body row g-3">
+
+            <!-- SUPPLIER -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Supplier
+
+                </label>
+
+                <select id="supplierSelect"
+                        class="form-select">
+
+                    <option value="">
+
+                        Select supplier
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- RETURN METHOD -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Return Method
+
+                </label>
+
+                <select id="returnMethod"
+                        class="form-select">
+
+                    <option value="">
+
+                        Select return method
+
+                    </option>
+
+                    <option value="SUPPLIER_PICKUP">
+
+                        Supplier Pickup
+
+                    </option>
+
+                    <option value="SHIP_TO_SUPPLIER">
+
+                        Ship to Supplier
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Status
+
+                </label>
+
+                <input id="returnStatus"
+                       class="form-control"
+                       value="CREATED"
+                       readonly>
+
+            </div>
+
+
+
+            <!-- PICKUP DATE -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Pickup Date
+
+                </label>
+
+                <input type="date"
+                       id="pickupDate"
+                       class="form-control">
+
+            </div>
+
+
+
+            <!-- SHIPPED DATE -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Shipped Date
+
+                </label>
+
+                <input type="date"
+                       id="shippedDate"
+                       class="form-control">
+
+            </div>
+
+
+
+            <!-- SHIPPING COST -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Shipping Cost
+
+                </label>
+
+                <input type="number"
+                       id="shippingCost"
+                       class="form-control"
+                       value="0"
+                       min="0"
+                       step="0.01">
+
+            </div>
+
+
+
+            <!-- COURIER -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Courier Name
+
+                </label>
+
+                <input type="text"
+                       id="courierName"
+                       class="form-control"
+                       placeholder="e.g. Lalamove">
+
+            </div>
+
+
+
+            <!-- TRACKING -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Tracking Number
+
+                </label>
+
+                <input type="text"
+                       id="trackingNumber"
+                       class="form-control"
+                       placeholder="Optional">
+
+            </div>
+
+
+
+            <!-- TOTAL ITEMS -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Total Items
+
+                </label>
+
+                <input id="totalItems"
+                       class="form-control"
+                       value="0"
+                       readonly>
+
+            </div>
+
+
+
+            <!-- TOTAL AMOUNT -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Total Amount
+
+                </label>
+
+                <input id="totalAmount"
+                       class="form-control"
+                       value="0"
+                       readonly>
+
+            </div>
+
+
+
+            <!-- REMARKS -->
+
+            <div class="col-md-12">
+
+                <label class="form-label">
+
+                    Remarks
+
+                </label>
+
+                <textarea id="remarks"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Optional notes..."></textarea>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- DEFECTIVE INVENTORY -->
+
+    <div class="card">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+
+            <span class="fw-semibold">
+
+                Defective Inventory Units
+
+            </span>
+
+
+
+            <div class="d-flex gap-2">
+
+                <input type="text"
+                       id="inventorySearchInput"
+                       class="form-control form-control-sm"
+                       placeholder="Search defective inventory..."
+                       style="width:300px;">
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card-body">
+
+            <table class="table table-sm align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th width="50">
+
+                            Select
+
+                        </th>
+
+                        <th>
+
+                            Serial Number
+
+                        </th>
+
+                        <th>
+
+                            Product
+
+                        </th>
+
+                        <th>
+
+                            Brand
+
+                        </th>
+
+                        <th>
+
+                            SKU
+
+                        </th>
+
+                        <th>
+
+                            PO Number
+
+                        </th>
+
+                        <th>
+
+                            Received Date
+
+                        </th>
+
+                        <th>
+
+                            Status
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody id="defectiveInventoryTableBody">
+
+                    <!-- injected by JS -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FOOTER ACTIONS -->
+
+    <div class="d-flex justify-content-end gap-2 mt-3">
+
+        <button type="button"
+                class="btn btn-outline-secondary"
+                onclick="location.href='/Admin/SupplierReturns/Index'">
+
+            Cancel
+
+        </button>
+
+
+
+        <button type="button"
+                class="btn btn-primary"
+                id="saveReturnOrderBtn">
+
+            Save Return Order
+
+        </button>
+
+    </div>
+
+</form>
+
+
+
+<script src="~/js/supplier-return-create.js"></script>

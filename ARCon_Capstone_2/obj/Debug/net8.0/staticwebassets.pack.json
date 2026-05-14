@@ -341,6 +341,10 @@
       "PackagePath": "staticwebassets\\js\\inventory-receive-po.js"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\inventory-receive-ro.js",
+      "PackagePath": "staticwebassets\\js\\inventory-receive-ro.js"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\login.js",
       "PackagePath": "staticwebassets\\js\\login.js"
     },
@@ -447,6 +451,14 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\st-tech-assign.js",
       "PackagePath": "staticwebassets\\js\\st-tech-assign.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\supplier-return-create.js",
+      "PackagePath": "staticwebassets\\js\\supplier-return-create.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\supplier-return-index.js",
+      "PackagePath": "staticwebassets\\js\\supplier-return-index.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\suppliers.js",

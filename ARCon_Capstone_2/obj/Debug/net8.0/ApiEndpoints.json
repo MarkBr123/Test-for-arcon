@@ -1352,6 +1352,22 @@
   },
   {
     "ContainingType": "ARCon_Capstone_2.Controllers.OutrightReplacementsApi",
+    "Method": "CompleteReplacement",
+    "RelativePath": "api/outright-replacements/{id}/complete",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.OutrightReplacementsApi",
     "Method": "ProcessReplacement",
     "RelativePath": "api/outright-replacements/{id}/process",
     "HttpMethod": "POST",
@@ -2530,6 +2546,158 @@
         "Name": "sortDir",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SupplierReturnsApi",
+    "Method": "GetSupplierReturns",
+    "RelativePath": "api/supplier-returns",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SupplierReturnsApi",
+    "Method": "CreateSupplierReturn",
+    "RelativePath": "api/supplier-returns",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.CreateSupplierReturnDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SupplierReturnsApi",
+    "Method": "MarkAsSent",
+    "RelativePath": "api/supplier-returns/{id}/mark-sent",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SupplierReturnsApi",
+    "Method": "GeneratePdf",
+    "RelativePath": "api/supplier-returns/{id}/pdf",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SupplierReturnsApi",
+    "Method": "GetReceiveSummary",
+    "RelativePath": "api/supplier-returns/{id}/receive-summary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SupplierReturnsApi",
+    "Method": "ReceiveReplacementInventory",
+    "RelativePath": "api/supplier-returns/{supplierReturnId}/receive",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "supplierReturnId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.ReceiveSupplierReturnDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SupplierReturnsApi",
+    "Method": "GetForReceiving",
+    "RelativePath": "api/supplier-returns/for-receiving",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SupplierReturnsApi",
+    "Method": "GetDefectiveInventoriesBySupplier",
+    "RelativePath": "api/supplier-returns/supplier/{supplierId}/defective-inventories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "supplierId",
+        "Type": "System.Int32",
+        "IsRequired": true
       },
       {
         "Name": "search",

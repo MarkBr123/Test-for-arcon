@@ -1014,14 +1014,30 @@ public class Shop_OrdersApiController : ControllerBase
                         .ThenInclude(ci => ci.product)
                             .ThenInclude(p => p.manufacturer)
 
-            .FirstOrDefaultAsync(ct => ct.id == transactionId && ct.customer_id == customerId);
+            // 🔥 OUTRIGHT REPLACEMENTS
+            .Include(ct => ct.outright_replacement_warranties)
+                .ThenInclude(w => w.outright_replacement_warranty_items)
+                    .ThenInclude(i => i.product)
+
+            .Include(ct => ct.outright_replacement_warranties)
+                .ThenInclude(w => w.outright_replacement_warranty_items)
+                    .ThenInclude(i => i.original_inventory)
+
+            .Include(ct => ct.outright_replacement_warranties)
+                .ThenInclude(w => w.outright_replacement_warranty_items)
+                    .ThenInclude(i => i.replacement_inventory)
+                        .ThenInclude(ri => ri.product)
+
+            .FirstOrDefaultAsync(ct =>
+                ct.id == transactionId &&
+                ct.customer_id == customerId);
 
         if (transaction == null)
             return NotFound("Transaction not found.");
 
         var payment = transaction.payment_transaction;
 
-        // 🔥 GET ACTUAL DELIVERED RECORD (NOT latest)
+        // 🔥 GET ACTUAL DELIVERED RECORD
         var delivered = transaction.deliveries?
             .FirstOrDefault(d => d.delivered_at != null);
 
@@ -1037,17 +1053,15 @@ public class Shop_OrdersApiController : ControllerBase
             status = transaction.status,
             createdAt = transaction.created_at,
 
-                
             paymentMethod = transaction.payment_method,
             paymentStatus = payment?.paymongo_status ?? payment?.cod_status,
 
             shippingMethod = transaction.shipping_method,
             grandTotal = transaction.grand_total,
 
-            //  FIXED: DELIVERED DATE
             deliveredAt = delivered?.delivered_at,
 
-            //  ITEMS WITH SERIALS
+            // 🔥 ITEMS WITH SERIALS
             items = deliveryItems.Select(di => new
             {
                 productId = di.checkout_item.product_id,
@@ -1060,7 +1074,46 @@ public class Shop_OrdersApiController : ControllerBase
                 productPrice = di.checkout_item?.product_price,
 
                 serialNumber = di.inventory?.serial_number
-            }).ToList()
+            }).ToList(),
+
+            // 🔥 REPLACEMENT ITEMS
+            replacementItems =
+                transaction
+                    .outright_replacement_warranties
+
+                    .SelectMany(w =>
+                        w.outright_replacement_warranty_items)
+
+                    .Select(item => new
+                    {
+                        item.id,
+
+                        defectiveProduct =
+
+                            $"{item.product.product_series} " +
+                            $"{item.product.product_model}",
+
+                        defectiveSerial =
+                            item.original_inventory
+                                ?.serial_number,
+
+                        replacementProduct =
+
+                            item.replacement_inventory != null
+
+                                ? $"{item.replacement_inventory.product.product_series} " +
+                                  $"{item.replacement_inventory.product.product_model}"
+
+                                : null,
+
+                        replacementSerial =
+                            item.replacement_inventory
+                                ?.serial_number,
+
+                        replacementStatus =
+                            item.replacement_inventory
+                                ?.status
+                    }).ToList()
         });
     }
 

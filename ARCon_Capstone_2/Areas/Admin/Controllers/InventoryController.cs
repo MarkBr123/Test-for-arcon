@@ -24,6 +24,13 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
             return View();
         }
 
+        // GET: /Admin/Inventory/receive-ro
+        [HttpGet("receive-ro")]
+        public IActionResult ReceiveRo()
+        {
+            return View();
+        }
+
         // GET: /Admin/Inventory/receive-replacement
         [HttpGet("receive-replacement")]
         public IActionResult ReceiveReplacement()
