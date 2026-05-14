@@ -20,6 +20,21 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult Outright_Replacement_Request()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Route("Admin/Warranty/Outright_Replacement_Summary/{id}")]
+        public IActionResult Outright_Replacement_Summary(int id)
+        {
+            return View();
+        }
+
+
+
     }
 
     

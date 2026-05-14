@@ -412,3 +412,166 @@ textarea.form-control {
     .warranty-submit-result.hidden {
         display: none;
     }
+
+
+.scrollable-modal {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.scrollable-modal {
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.cancel-order-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient( 135deg, #ef4444, #dc2626 );
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.25);
+}
+
+    .cancel-order-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 14px rgba(220, 38, 38, 0.35);
+        filter: brightness(1.05);
+    }
+
+    .cancel-order-btn:active {
+        transform: scale(0.98);
+    }
+
+    .cancel-order-btn i {
+        font-size: 15px;
+    }
+
+
+.replacement-map-card {
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    background: #fff;
+}
+
+.replacement-map-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 18px;
+    align-items: center;
+}
+
+.replacement-side {
+    padding: 14px;
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.defective-side {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+}
+
+.replacement-side-success {
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+}
+
+.replacement-label {
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.replacement-arrow {
+    font-size: 28px;
+    color: #64748b;
+}
+
+
+.modern-product-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.modern-product-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.modern-product-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.4;
+}
+
+.modern-product-sku {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.modern-product-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2563eb;
+    white-space: nowrap;
+}
+
+.modern-product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    color: #334155;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.modern-serial-container {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.modern-serial-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+.modern-serial-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #334155;
+    padding: 4px 0;
+}

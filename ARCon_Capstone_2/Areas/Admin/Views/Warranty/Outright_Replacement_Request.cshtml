@@ -1,0 +1,983 @@
+﻿<link rel="stylesheet" href="~/css/render-rows.css" />
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h4 class="mb-0">
+        Outright Replacement Requests
+    </h4>
+
+    <div class="row mb-3">
+
+        <div class="col-auto">
+
+            <input type="text"
+                   id="outrightReplacementSearchInput"
+                   class="form-control form-control-sm"
+                   placeholder="Search outright replacement requests..."
+                   style="width: 620px;"
+                   oninput="searchOutrightReplacementRequests()" />
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <div id="orrCountInfo"
+         class="text-muted small mt-1">
+    </div>
+
+</div>
+
+<table class="table table-hover align-middle">
+
+    <thead class="table-light">
+
+        <tr>
+
+            <th onclick="sortOutrightReplacementRequests('warranty_code')"
+                role="button">
+                Warranty Code
+            </th>
+
+            <th onclick="sortOutrightReplacementRequests('transaction_code')"
+                role="button">
+                Transaction Code
+            </th>
+
+            <th onclick="sortOutrightReplacementRequests('customer_name')"
+                role="button">
+                Customer Name
+            </th>
+
+            <th>
+                Customer Notes
+            </th>
+
+            <th onclick="sortOutrightReplacementRequests('status')"
+                role="button">
+                Status
+            </th>
+
+            <th onclick="sortOutrightReplacementRequests('created_at')"
+                role="button">
+                Created At
+            </th>
+
+            <th class="text-center">
+                Actions
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="outrightReplacementRequestsTableBody">
+        <!-- injected by JS -->
+    </tbody>
+
+</table>
+
+<nav aria-label="Outright Replacement Requests Pagination"
+     class="mt-3">
+
+    <ul id="outrightReplacementPagination"
+        class="pagination justify-content-center">
+        <!-- injected by JS -->
+    </ul>
+
+</nav>
+
+
+
+<!-- ===================================== -->
+<!-- REJECT OUTRIGHT REPLACEMENT MODAL -->
+<!-- ===================================== -->
+
+<div class="modal fade"
+     id="rejectOutrightReplacementModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1 text-danger">
+                        Reject Replacement Request
+                    </h5>
+
+                    <small class="text-muted">
+                        Please provide the reason for rejecting this replacement request.
+                    </small>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body pt-3">
+
+                <label class="form-label fw-semibold">
+                    Rejection Reason
+                </label>
+
+                <textarea class="form-control"
+                          id="rejectReplacementReason"
+                          rows="5"
+                          placeholder="Example: Item shows signs of physical damage not covered by warranty."></textarea>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-danger"
+                        id="proceedRejectReplacementBtn">
+
+                    Next
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===================================== -->
+<!-- FINAL REJECT CONFIRMATION MODAL -->
+<!-- ===================================== -->
+
+<div class="modal fade"
+     id="finalRejectOutrightReplacementModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold text-danger mb-1">
+                        Final Confirmation
+                    </h5>
+
+                    <small class="text-muted">
+                        This action will permanently reject the replacement request.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body text-center py-4">
+
+                <div class="display-6 fw-bold text-danger mb-2">
+
+                    <span id="rejectReplacementCountdownText">
+                        5
+                    </span>
+
+                </div>
+
+                <div class="small text-muted mb-3">
+
+                    You may confirm once countdown finishes.
+
+                </div>
+
+                <div class="progress rounded-pill"
+                     style="height:10px;">
+
+                    <div class="progress-bar bg-danger"
+                         id="rejectReplacementCountdownBar"
+                         style="width:0%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-danger"
+                        id="confirmRejectReplacementBtn"
+                        disabled>
+
+                    Confirm Reject
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+<!-- ===================================================== -->
+<!-- PROCESS OUTRIGHT REPLACEMENT MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal fade"
+     id="processReplacementModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold text-primary mb-1">
+
+                        Process Outright Replacement
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Assign replacement inventory units for each defective item.
+
+                    </small>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body pt-3">
+
+                <div id="processReplacementItemsContainer">
+
+                    <!-- DYNAMIC WARRANTY ITEMS -->
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-primary"
+                        id="proceedProcessReplacementBtn">
+
+                    Next
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- FINAL CONFIRMATION MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal fade"
+     id="finalProcessReplacementModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold text-primary mb-1">
+
+                        Final Confirmation
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Please review replacement assignments carefully.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body text-center py-4">
+
+                <!-- CONFIRMATION MESSAGE -->
+
+                <div id="processReplacementConfirmLabel"
+                     class="mb-4">
+
+                    <!-- DYNAMIC MESSAGE -->
+
+                </div>
+
+
+
+                <!-- COUNTDOWN -->
+
+                <div class="display-6 fw-bold text-primary mb-2">
+
+                    <span id="processReplacementCountdownText">
+
+                        5
+
+                    </span>
+
+                </div>
+
+                <div class="small text-muted mb-3">
+
+                    You may confirm once countdown finishes.
+
+                </div>
+
+                <div class="progress rounded-pill"
+                     style="height:10px;">
+
+                    <div class="progress-bar bg-primary"
+                         id="processReplacementCountdownBar"
+                         style="width:0%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-primary"
+                        id="confirmProcessReplacementBtn"
+                        disabled>
+
+                    Confirm Process
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- RELEASE REPLACEMENT MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal fade"
+     id="releaseReplacementModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold text-success mb-1">
+
+                        Release Replacement
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Configure release and delivery details.
+
+                    </small>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body pt-3">
+
+                <!-- RELEASE METHOD -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+
+                        Release Method
+
+                    </label>
+
+                    <select class="form-select"
+                            id="releaseMethod">
+
+                        <option value="">
+                            Select Release Method
+                        </option>
+
+                        <option value="STORE_PICKUP">
+                            Store Pickup
+                        </option>
+
+                        <option value="DELIVERY">
+                            Delivery
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- PICKUP DETAILS -->
+
+                <div id="pickupFields"
+                     style="display:none;">
+
+                    <div class="mb-4">
+
+                        <label class="form-label fw-semibold">
+
+                            Pickup Date
+
+                        </label>
+
+                        <input type="datetime-local"
+                               class="form-control"
+                               id="pickupDate" />
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DELIVERY DETAILS -->
+
+                <div id="deliveryFields"
+                     style="display:none;">
+
+                    <div class="row">
+
+                        <!-- DELIVERY TYPE -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label fw-semibold">
+
+                                Delivery Type
+
+                            </label>
+
+                            <select class="form-select"
+                                    id="deliveryType">
+
+                                <option value="">
+                                    Select Delivery Type
+                                </option>
+
+                                <option value="IN_HOUSE">
+                                    In-House
+                                </option>
+
+                                <option value="COURIER">
+                                    Courier
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- DELIVERY DATE -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label fw-semibold">
+
+                                Delivery Date
+
+                            </label>
+
+                            <input type="datetime-local"
+                                   class="form-control"
+                                   id="deliveryDate" />
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- COURIER DETAILS -->
+
+                    <div id="courierFields"
+                         style="display:none;">
+
+                        <div class="row">
+
+                            <!-- COURIER NAME -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label fw-semibold">
+
+                                    Courier Name
+
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="courierName"
+                                       placeholder="e.g. Lalamove" />
+
+                            </div>
+
+
+
+                            <!-- TRACKING NUMBER -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label fw-semibold">
+
+                                    Tracking Number
+
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="trackingNumber"
+                                       placeholder="Optional" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-success"
+                        id="proceedReleaseReplacementBtn">
+
+                    Next
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- FINAL RELEASE CONFIRMATION MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal fade"
+     id="finalReleaseReplacementModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold text-success mb-1">
+
+                        Final Confirmation
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Please confirm release details.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body text-center py-4">
+
+                <!-- CONFIRMATION MESSAGE -->
+
+                <div id="releaseReplacementConfirmLabel"
+                     class="mb-4">
+
+                    <!-- DYNAMIC MESSAGE -->
+
+                </div>
+
+
+
+                <!-- COUNTDOWN -->
+
+                <div class="display-6 fw-bold text-success mb-2">
+
+                    <span id="releaseReplacementCountdownText">
+
+                        5
+
+                    </span>
+
+                </div>
+
+                <div class="small text-muted mb-3">
+
+                    You may confirm once countdown finishes.
+
+                </div>
+
+                <div class="progress rounded-pill"
+                     style="height:10px;">
+
+                    <div class="progress-bar bg-success"
+                         id="releaseReplacementCountdownBar"
+                         style="width:0%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-success"
+                        id="confirmReleaseReplacementBtn"
+                        disabled>
+
+                    Confirm Release
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- COMPLETE REPLACEMENT MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal fade"
+     id="completeReplacementModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0 pb-0">
+
+                <div>
+
+                    <h5 class="fw-bold text-success mb-1">
+
+                        Complete Replacement
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Confirm that the customer has received the replacement item.
+
+                    </small>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body text-center py-4">
+
+                <!-- ICON -->
+
+                <div class="mb-3">
+
+                    <i class="bi bi-check-circle-fill
+                              text-success"
+                       style="font-size:4rem;">
+                    </i>
+
+                </div>
+
+
+
+                <!-- MESSAGE -->
+
+                <div id="completeReplacementLabel"
+                     class="mb-4">
+
+                    <div class="fw-semibold fs-5 mb-2">
+
+                        Confirm Completion
+
+                    </div>
+
+                    <div class="text-muted">
+
+                        This will mark the outright replacement
+                        request as completed.
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- COUNTDOWN -->
+
+                <div class="display-6 fw-bold text-success mb-2">
+
+                    <span id="completeReplacementCountdownText">
+
+                        5
+
+                    </span>
+
+                </div>
+
+                <div class="small text-muted mb-3">
+
+                    You may confirm once countdown finishes.
+
+                </div>
+
+                <div class="progress rounded-pill"
+                     style="height:10px;">
+
+                    <div class="progress-bar bg-success"
+                         id="completeReplacementCountdownBar"
+                         style="width:0%">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0">
+
+                <button type="button"
+                        class="btn btn-light"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="btn btn-success"
+                        id="confirmCompleteReplacementBtn"
+                        disabled>
+
+                    Confirm Completion
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- ===================================== -->
+<!-- GLOBAL TOAST CONTAINER -->
+<!-- ===================================== -->
+
+<div id="toastContainer"
+     class="toast-container position-fixed top-0 end-0 p-3"
+     style="z-index:99999;">
+</div>
+
+<script src="~/js/outright_replacement_request.js"></script>

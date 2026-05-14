@@ -10,10 +10,8 @@ async function loadWarrantySummary() {
 
     try {
 
-
-
         // =========================================
-        // GET ID FROM URL
+        // GET WARRANTY ID
         // =========================================
 
         const pathParts =
@@ -24,172 +22,180 @@ async function loadWarrantySummary() {
 
         if (!id) {
 
-            alert("Warranty ID is missing.");
+            alert(
+                "Warranty ID is missing."
+            );
 
             return;
-
         }
 
 
 
         // =========================================
-        // FETCH SUMMARY
+        // FETCH WARRANTY SUMMARY
         // =========================================
 
         const response =
-            await fetch(`/api/warranties/${id}`);
+            await fetch(
+                `/api/warranties/${id}`
+            );
 
         if (!response.ok) {
 
             throw new Error(
                 "Failed to load warranty summary."
             );
-
         }
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        const bookingDetailsLink =
-            document.getElementById(
-                "bookingDetailsLink"
-            );
-
-        if (bookingDetailsLink) {
-
-            bookingDetailsLink.href =
-                `/Admin/Services/SBooking_Summary/${data.service_booking.id}`;
-
-        }
-
+        console.log(data);
 
 
         // =========================================
         // WARRANTY DETAILS
         // =========================================
 
-        setText(
-            "summarySwbCode",
-            data.warranty_booking.swb_code
-        );
+        document.getElementById(
+            "summaryWarrantyCode"
+        ).textContent =
+            data.warranty.warranty_code ?? "-";
 
-        setHtml(
-            "summaryStatus",
+
+
+        document.getElementById(
+            "summaryStatus"
+        ).innerHTML =
             renderStatusBadge(
-                data.warranty_booking.status
-            )
-        );
+                data.warranty.status
+            );
 
-        setText(
-            "summaryPreferredDate",
-            formatDate(
-                data.warranty_booking.preferred_date
-            )
-        );
 
-        setText(
-            "summaryPreferredTime",
-            formatTime(
-                data.warranty_booking.preferred_time
-            )
-        );
 
-        setText(
-            "summaryComplaint",
-            data.warranty_booking.complaint
-        );
+        document.getElementById(
+            "summaryReleaseMethod"
+        ).textContent =
+            data.warranty.release_method ?? "-";
 
-        setText(
-            "summaryDiagnosisNotes",
-            data.warranty_booking.diagnosis_notes
-        );
 
-        setText(
-            "summaryTechnicianNotes",
-            data.warranty_booking.technician_notes
-        );
 
-        setHtml(
-            "summaryRepeatIssue",
+        document.getElementById(
+            "summaryDeliveryType"
+        ).textContent =
+            data.warranty.delivery_type ?? "-";
 
-            data.warranty_booking.is_repeat_issue
 
-                ? `
-                    <span class="badge bg-danger">
-                        Yes
-                    </span>
-                `
 
-                : `
-                    <span class="badge bg-success">
-                        No
-                    </span>
-                `
-        );
+        document.getElementById(
+            "summaryCourierName"
+        ).textContent =
+            data.warranty.courier_name ?? "-";
 
-        setText(
-            "summaryCreatedAt",
+
+
+        document.getElementById(
+            "summaryTrackingNumber"
+        ).textContent =
+            data.warranty.tracking_number ?? "-";
+
+
+
+        document.getElementById(
+            "summaryCreatedAt"
+        ).textContent =
             formatDateTime(
-                data.warranty_booking.created_at
-            )
-        );
+                data.warranty.created_at
+            );
+
+
+
+        document.getElementById(
+            "summaryApprovedAt"
+        ).textContent =
+            formatDateTime(
+                data.warranty.approved_at
+            );
+
+
+
+        document.getElementById(
+            "summaryRejectedAt"
+        ).textContent =
+            formatDateTime(
+                data.warranty.rejected_at
+            );
+
+
+
+        document.getElementById(
+            "summaryReleasedAt"
+        ).textContent =
+            formatDateTime(
+                data.warranty.released_at
+            );
+
+
+
+        document.getElementById(
+            "summaryReceivedAt"
+        ).textContent =
+            formatDateTime(
+                data.warranty.received_by_customer_at
+            );
+
+
+
+        document.getElementById(
+            "summaryCustomerNotes"
+        ).textContent =
+            data.warranty.customer_notes ?? "-";
+
+
+
+        document.getElementById(
+            "summaryAdminNotes"
+        ).textContent =
+            data.warranty.admin_notes ?? "-";
+
+
+
+        document.getElementById(
+            "summaryRejectionReason"
+        ).textContent =
+            data.warranty.rejection_reason ?? "-";
+
 
 
 
         // =========================================
-        // CUSTOMER & BOOKING
+        // CUSTOMER
         // =========================================
 
-        setText(
-            "summaryBookingRef",
-            data.service_booking.booking_ref_code
-        );
+        if (data.customer) {
 
-        setHtml(
-            "summaryBookingStatus",
-            renderStatusBadge(
-                data.service_booking.status
-            )
-        );
+            document.getElementById(
+                "summaryCustomerName"
+            ).textContent =
 
-        setText(
-            "summaryCustomerName",
-
-            `${data.customer.first_name ?? ""} ` +
-            `${data.customer.middle_name ?? ""} ` +
-            `${data.customer.last_name ?? ""}`
-        );
-
-        setText(
-            "summaryContactNo",
-            data.customer.contact_no
-        );
-
-        setText(
-            "summaryEmail",
-            data.customer.email
-        );
-
-        setText(
-            "summaryPaidAt",
-            formatDateTime(
-                data.service_booking.paid_at
-            )
-        );
-
-        setText(
-            "summaryBookingCreatedAt",
-            formatDateTime(
-                data.service_booking.created_at
-            )
-        );
-
-        setText(
-            "summaryCustomerNote",
-            data.service_booking.customer_note
-        );
+                `${data.customer.first_name ?? ""} ` +
+                `${data.customer.middle_name ?? ""} ` +
+                `${data.customer.last_name ?? ""}`;
 
 
 
+            document.getElementById(
+                "summaryContactNo"
+            ).textContent =
+                data.customer.contact_no ?? "-";
+
+
+
+            document.getElementById(
+                "summaryEmail"
+            ).textContent =
+                data.customer.email ?? "-";
+        }
 
 
 
@@ -209,11 +215,8 @@ async function loadWarrantySummary() {
         alert(
             "Failed to load warranty summary."
         );
-
     }
-
 }
-
 
 
 function renderWarrantyMedia(attachments) {
@@ -406,35 +409,6 @@ function renderStatusBadge(status) {
 
 
 
-function setText(id, value) {
-
-    const el =
-        document.getElementById(id);
-
-    if (!el)
-        return;
-
-    el.textContent =
-        value ?? "-";
-
-}
-
-
-
-function setHtml(id, value) {
-
-    const el =
-        document.getElementById(id);
-
-    if (!el)
-        return;
-
-    el.innerHTML =
-        value ?? "-";
-
-}
-
-
 
 function formatDate(dateString) {
 
@@ -473,15 +447,3 @@ function formatTime(timeString) {
 
 }
 
-
-const bookingDetailsLink =
-    document.getElementById(
-        "bookingDetailsLink"
-    );
-
-if (bookingDetailsLink) {
-
-    bookingDetailsLink.href =
-        `/Admin/Services/SBooking_Summary/${data.service_booking.id}`;
-
-}

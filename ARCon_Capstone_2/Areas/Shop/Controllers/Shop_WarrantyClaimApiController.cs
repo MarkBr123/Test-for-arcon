@@ -794,14 +794,14 @@ public class Shop_WarrantyClaimApiController: ControllerBase
 
 
                 // VALIDATE OWNERSHIP
-
+                /*
                 var transactionOwner =
                     inventory
                         .delivery_item
                         ?.delivery
                         ?.customer_transaction
                         ?.customer_id;
-
+                
                 if (transactionOwner != customerId)
                 {
                     await transaction.RollbackAsync();
@@ -810,6 +810,21 @@ public class Shop_WarrantyClaimApiController: ControllerBase
                     {
                         message =
                             "You are not authorized to claim this product."
+                    });
+                }
+
+                */
+
+                // VALIDATE WARRANTY OWNERSHIP
+
+                if (warranty.customer_id != customerId)
+                {
+                    await transaction.RollbackAsync();
+
+                    return Unauthorized(new
+                    {
+                        message =
+                            "You are not authorized to claim this warranty."
                     });
                 }
 

@@ -597,6 +597,7 @@ public class ServiceTransactionApiController : ControllerBase
                 notes_to_technicians = dto.NoteToTechnicians,
 
                 status = "FOR_TECH_ASSIGNMENT".ToUpper(),
+                st_type = "NORMAL"
 
             };
 

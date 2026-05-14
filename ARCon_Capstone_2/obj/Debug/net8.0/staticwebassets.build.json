@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7H+ouXddsIA09IOMUvMsxWpskWRY1VIs3/Y8mQSj8WI=",
+  "Hash": "vaOGvQ8TxaGHMbrXkYFj2L/7gZJ3gbGF4kyxgfPGLno=",
   "Source": "ARCon_Capstone_2",
   "BasePath": "_content/ARCon_Capstone_2",
   "Mode": "Default",
@@ -566,6 +566,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\ImageSources\\Background\\coni.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\footer-img.png",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "ImageSources/Background/footer-img.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImageSources\\Background\\footer-img.png"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\install.jpg",
@@ -1195,12 +1214,12 @@
       "OriginalItemSpec": "wwwroot\\ImageSources\\Product\\samsung.avif"
     },
     {
-      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\charging.jpg",
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\charging.png",
       "SourceId": "ARCon_Capstone_2",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
       "BasePath": "_content/ARCon_Capstone_2",
-      "RelativePath": "ImageSources/Service/charging.jpg",
+      "RelativePath": "ImageSources/Service/charging.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1211,7 +1230,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\ImageSources\\Service\\charging.jpg"
+      "OriginalItemSpec": "wwwroot\\ImageSources\\Service\\charging.png"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\clean.png",
@@ -1252,12 +1271,12 @@
       "OriginalItemSpec": "wwwroot\\ImageSources\\Service\\install.png"
     },
     {
-      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\repairing.jpg",
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\repairing.png",
       "SourceId": "ARCon_Capstone_2",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
       "BasePath": "_content/ARCon_Capstone_2",
-      "RelativePath": "ImageSources/Service/repairing.jpg",
+      "RelativePath": "ImageSources/Service/repairing.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1268,7 +1287,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\ImageSources\\Service\\repairing.jpg"
+      "OriginalItemSpec": "wwwroot\\ImageSources\\Service\\repairing.png"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-chat.js",
@@ -1516,6 +1535,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\login.js"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\outright_replacement_request.js",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "js/outright_replacement_request.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\outright_replacement_request.js"
+    },
+    {
+      "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\outright-replacement-summary.js",
+      "SourceId": "ARCon_Capstone_2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\",
+      "BasePath": "_content/ARCon_Capstone_2",
+      "RelativePath": "js/outright-replacement-summary.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\outright-replacement-summary.js"
     },
     {
       "Identity": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\products.js",

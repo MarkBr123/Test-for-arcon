@@ -1,0 +1,766 @@
+﻿<link rel="stylesheet"
+      href="~/css/warranty-summry.css"
+      asp-append-version="true" />
+
+
+<!-- TABS -->
+<div class="d-flex justify-content-center mb-4">
+
+    <ul class="nav nav-pills warranty-tabs"
+        id="outrightReplacementSummaryTabs"
+        role="tablist">
+
+        <!-- TAB 1 -->
+        <li class="nav-item"
+            role="presentation">
+
+            <button class="nav-link active"
+                    id="replacement-info-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#replacement-info-pane"
+                    type="button"
+                    role="tab">
+
+                <i class="bi bi-arrow-repeat me-2"></i>
+
+                Outright Replacement Information
+
+            </button>
+
+        </li>
+
+        <!-- TAB 2 -->
+        <li class="nav-item"
+            role="presentation">
+
+            <button class="nav-link"
+                    id="replacement-items-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#replacement-items-pane"
+                    type="button"
+                    role="tab">
+
+                <i class="bi bi-box-seam me-2"></i>
+
+                Product/s of Concern
+
+            </button>
+
+        </li>
+
+        <!-- TAB 3 -->
+        <li class="nav-item"
+            role="presentation">
+
+            <button class="nav-link"
+                    id="replacement-media-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#replacement-media-pane"
+                    type="button"
+                    role="tab">
+
+                <i class="bi bi-images me-2"></i>
+
+                Media
+
+            </button>
+
+        </li>
+
+        <li class="nav-item"
+            role="presentation">
+
+            <button class="nav-link"
+                    id="replacement-units-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#replacement-units-pane"
+                    type="button"
+                    role="tab">
+
+                <i class="bi bi-arrow-repeat me-2"></i>
+
+                Replacement Units
+
+            </button>
+
+        </li>
+
+    </ul>
+
+</div>
+
+
+<!-- TAB CONTENT -->
+<div class="tab-content">
+
+    <!-- ===================================================== -->
+    <!-- TAB 1 -->
+    <!-- ===================================================== -->
+
+    <div class="tab-pane fade show active"
+         id="replacement-info-pane"
+         role="tabpanel">
+
+        <div class="summary-wrapper">
+
+            <div class="row justify-content-center g-4">
+
+                <!-- ===================================================== -->
+                <!-- REPLACEMENT DETAILS -->
+                <!-- ===================================================== -->
+
+                <div class="col-xxl-5 col-xl-6">
+
+                    <div class="summary-card h-100">
+
+                        <!-- HEADER -->
+
+                        <div class="summary-card-header">
+
+                            <div class="summary-card-icon bg-primary-subtle text-primary">
+
+                                <i class="bi bi-arrow-repeat"></i>
+
+                            </div>
+
+                            <div>
+
+                                <div class="summary-card-title">
+                                    Outright Replacement Claim
+                                </div>
+
+                                <div class="summary-card-subtitle">
+                                    Overview and lifecycle of the replacement request
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- TABLE -->
+
+                        <div class="table-responsive">
+
+                            <table class="table summary-table align-middle mb-0">
+
+                                <tbody>
+
+                                    <!-- ===================================== -->
+                                    <!-- CLAIM INFORMATION -->
+                                    <!-- ===================================== -->
+
+                                    <tr class="table-section-row">
+
+                                    <tr class="table-section-row">
+
+                                        <td colspan="2"
+                                            class="summary-section-title fs-6 fw-bold text-uppercase text-secondary py-3">
+
+                                            <div class="d-flex align-items-center gap-2">
+
+                                                <i class="bi bi-shield-check fs-5 text-primary"></i>
+
+                                                <span>
+                                                    Claim Information
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Warranty Code
+                                        </td>
+
+                                        <td id="summaryWarrantyCode"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Status
+                                        </td>
+
+                                        <td id="summaryStatus"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    <!-- ===================================== -->
+                                    <!-- RELEASE & DELIVERY -->
+                                    <!-- ===================================== -->
+                                    <tr class="table-section-row">
+
+                                        <td colspan="2"
+                                            class="summary-section-title fs-6 fw-bold text-uppercase text-secondary py-3">
+
+                                            <div class="d-flex align-items-center gap-2">
+
+                                                <i class="bi bi-truck fs-5 text-success"></i>
+
+                                                <span>
+                                                    Release & Delivery
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Release Method
+                                        </td>
+
+                                        <td id="summaryReleaseMethod"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Delivery Type
+                                        </td>
+
+                                        <td id="summaryDeliveryType"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Courier Name
+                                        </td>
+
+                                        <td id="summaryCourierName"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Tracking Number
+                                        </td>
+
+                                        <td id="summaryTrackingNumber"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    <!-- ===================================== -->
+                                    <!-- TIMELINE -->
+                                    <!-- ===================================== -->
+
+
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Created At
+                                        </td>
+
+                                        <td id="summaryCreatedAt"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Approved At
+                                        </td>
+
+                                        <td id="summaryApprovedAt"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Rejected At
+                                        </td>
+
+                                        <td id="summaryRejectedAt"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Released At
+                                        </td>
+
+                                        <td id="summaryReleasedAt"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Received By Customer
+                                        </td>
+
+                                        <td id="summaryReceivedAt"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    <!-- ===================================== -->
+                                    <!-- NOTES -->
+                                    <!-- ===================================== -->
+
+                                    <tr class="table-section-row">
+
+                                        <td colspan="2"
+                                            class="summary-section-title fs-6 fw-bold text-uppercase text-secondary py-3">
+
+                                            <div class="d-flex align-items-center gap-2">
+
+                                                <i class="bi bi-journal-text fs-5 text-primary"></i>
+
+                                                <span>
+                                                    Notes & Remarks
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr class="summary-text-row">
+
+                                        <td class="summary-label-cell">
+                                            Customer Notes
+                                        </td>
+
+                                        <td id="summaryCustomerNotes"
+                                            class="summary-text-content">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr class="summary-text-row">
+
+                                        <td class="summary-label-cell">
+                                            Admin Notes
+                                        </td>
+
+                                        <td id="summaryAdminNotes"
+                                            class="summary-text-content">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr class="summary-text-row">
+
+                                        <td class="summary-label-cell text-danger">
+                                            Rejection Reason
+                                        </td>
+
+                                        <td id="summaryRejectionReason"
+                                            class="summary-text-content text-danger">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ===================================================== -->
+                <!-- CUSTOMER & TRANSACTION -->
+                <!-- ===================================================== -->
+
+                <div class="col-xxl-5 col-xl-6">
+
+                    <div class="summary-card h-100">
+
+                        <!-- HEADER -->
+                        <div class="summary-card-header">
+
+                            <div class="summary-card-icon bg-success-subtle text-success">
+
+                                <i class="bi bi-person-lines-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <div class="summary-card-title">
+                                    Customer & Transaction
+                                </div>
+
+                                <div class="summary-card-subtitle">
+                                    Linked customer transaction information
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- TABLE -->
+                        <div class="table-responsive">
+
+                            <table class="table summary-table align-middle mb-0">
+
+                                <tbody>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Transaction Code
+                                        </td>
+
+                                        <td id="summaryTransactionCode"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Customer Name
+                                        </td>
+
+                                        <td id="summaryCustomerName"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Contact Number
+                                        </td>
+
+                                        <td id="summaryContactNo"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Email
+                                        </td>
+
+                                        <td id="summaryCustomerEmail"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Delivery Code
+                                        </td>
+
+                                        <td id="summaryDeliveryCode"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Delivery Status
+                                        </td>
+
+                                        <td id="summaryDeliveryStatus"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Courier
+                                        </td>
+
+                                        <td id="summaryCourier"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Delivered At
+                                        </td>
+
+                                        <td id="summaryDeliveredAt"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Shipping Method
+                                        </td>
+
+                                        <td id="summaryShippingMethod"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Payment Method
+                                        </td>
+
+                                        <td id="summaryPaymentMethod"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Payment Status
+                                        </td>
+
+                                        <td id="summaryPaymentStatus"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td class="summary-label-cell">
+                                            Grand Total
+                                        </td>
+
+                                        <td id="summaryGrandTotal"
+                                            class="summary-value-cell">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                    <tr class="summary-text-row">
+
+                                        <td class="summary-label-cell">
+                                            Delivery Address
+                                        </td>
+
+                                        <td id="summaryDeliveryAddress"
+                                            class="summary-text-content">
+                                            -
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ===================================================== -->
+    <!-- TAB 2 -->
+    <!-- ===================================================== -->
+
+    <div class="tab-pane fade"
+         id="replacement-items-pane"
+         role="tabpanel">
+
+        <div class="summary-card">
+
+            <div class="summary-card-header">
+
+                <div class="summary-card-icon bg-danger-subtle text-danger">
+
+                    <i class="bi bi-box-seam"></i>
+
+                </div>
+
+                <div>
+
+                    <div class="summary-card-title">
+                        Product/s of Concern
+                    </div>
+
+                    <div class="summary-card-subtitle">
+                        Products included in the replacement request
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table summary-table align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Product
+                            </th>
+
+                            <th>
+                                Serial Number
+                            </th>
+
+                            <th>
+                                Complaint
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="replacementItemsTableBody">
+
+                        <!-- injected by JS -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ===================================================== -->
+    <!-- TAB 3 -->
+    <!-- ===================================================== -->
+
+    <div class="tab-pane fade"
+         id="replacement-media-pane"
+         role="tabpanel">
+
+        <div class="media-grid"
+             id="replacementMediaContainer">
+
+            <!-- injected by JS -->
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- MEDIA PREVIEW MODAL -->
+<div class="modal fade"
+     id="mediaPreviewModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+        <div class="modal-content bg-transparent border-0">
+
+            <button type="button"
+                    class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3"
+                    data-bs-dismiss="modal">
+            </button>
+
+            <img id="mediaPreviewImage"
+                 class="img-fluid rounded shadow">
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="~/js/outright-replacement-summary.js"></script>

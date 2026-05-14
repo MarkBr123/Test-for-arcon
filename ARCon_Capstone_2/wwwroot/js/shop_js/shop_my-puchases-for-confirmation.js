@@ -226,7 +226,7 @@ function renderForConfirmOrders(data) {
                 </div>
 
                 <!-- BOTTOM -->
-                <div class="order-bottom">
+               <div class="order-bottom">
 
                     <div class="order-price">
                         ₱ ${formatPrice(order.grandTotal)}
@@ -234,15 +234,22 @@ function renderForConfirmOrders(data) {
 
                     <div class="order-footer-new">
 
-                <div class="order-footer-new">
-                    <button class="btn btn-sm btn-primary" onclick="openViewDetails(${order.id})">
-                        View Details
-                    </button>
-                </div>
+                        <button class="btn btn-sm btn-primary"
+                                onclick="openViewDetails(${order.id})">
 
-                    <button onclick="openCancelModal(${order.id})">
-                        Cancel Order
-                    </button>
+                            View Details
+
+                        </button>
+
+                        <button class="cancel-order-btn"
+                                onclick="openCancelModal(${order.id})">
+
+                            <i class="bi bi-x-circle"></i>
+
+                            Cancel Order
+
+                        </button>
+
                     </div>
 
                 </div>
@@ -371,11 +378,14 @@ function renderProcessingOrders(data) {
                         View Details
                     </button>
                 </div>
-                    <button onclick="openCancelModal(${order.id})">
-                        Cancel Order
+                    <button class="cancel-order-btn"
+                                onclick="openCancelModal(${order.id})">
 
+                            <i class="bi bi-x-circle"></i>
 
-                    </button>
+                            Cancel Order
+
+                        </button>
                 </div>
             </div>
         `;
@@ -1268,136 +1278,499 @@ function closeViewDetailsModal() {
 }
 
 function renderOrderDetails(order) {
-    const container = document.getElementById("orderDetailsContent");
+
+    const container =
+        document.getElementById(
+            "orderDetailsContent"
+        );
 
     if (!order) {
-        container.innerHTML = `<div class="text-muted">No data found.</div>`;
+
+        container.innerHTML = `
+            <div class="text-muted">
+                No data found.
+            </div>
+        `;
+
         return;
     }
 
-    // 🔥 GROUP ITEMS BY PRODUCT
+
+
+    // =====================================
+    // GROUP ITEMS BY PRODUCT
+    // =====================================
+
     const grouped = {};
 
     (order.items || []).forEach(item => {
-        const key = item.productSku || "unknown";
+
+        const key =
+            item.productSku || "unknown";
 
         if (!grouped[key]) {
+
             grouped[key] = {
-                productBrand: item.productBrand,
-                productSeries: item.productSeries,
-                productModel: item.productModel,
-                productSku: item.productSku,
-                quantity: item.quantity,
-                productPrice: item.productPrice,
+
+                productBrand:
+                    item.productBrand,
+
+                productSeries:
+                    item.productSeries,
+
+                productModel:
+                    item.productModel,
+
+                productSku:
+                    item.productSku,
+
+                quantity:
+                    item.quantity,
+
+                productPrice:
+                    item.productPrice,
+
                 serials: []
             };
         }
 
         if (item.serialNumber) {
-            grouped[key].serials.push(item.serialNumber);
+
+            grouped[key]
+                .serials
+                .push(item.serialNumber);
         }
     });
 
-    // 🔥 BUILD ITEMS HTML
+
+
+    // =====================================
+    // BUILD ITEMS HTML
+    // =====================================
+
     let itemsHtml = "";
 
     Object.values(grouped).forEach(item => {
-        let serialsHtml = item.serials.length > 0
-            ? `
-                <div class="serial-list">
-                    <div class="serial-title">Serial Numbers</div>
-                    ${item.serials.map(sn => `<div class="serial">• ${sn}</div>`).join("")}
-                </div>
-              `
-            : `<div class="serial text-muted">No serial assigned yet</div>`;
+
+        let serialsHtml =
+            item.serials.length > 0
+
+                ? `
+                    <div class="serial-list">
+
+                        <div class="serial-title">
+                            Serial Numbers
+                        </div>
+
+                        ${item.serials
+                    .map(sn => `
+                                <div class="serial">
+                                    • ${sn}
+                                </div>
+                            `).join("")}
+
+                    </div>
+                `
+
+                : `
+                    <div class="serial text-muted">
+                        No serial assigned yet
+                    </div>
+                `;
+
+
 
         itemsHtml += `
-            <div class="product-card">
-                <div class="product-name">
-                    ${item.productBrand || ""} 
-                    ${item.productSeries || ""} 
+
+    <div class="modern-product-card">
+
+        <!-- TOP -->
+
+        <div class="modern-product-header">
+
+            <div>
+
+                <div class="modern-product-title">
+
+                    ${item.productBrand || ""}
+
+                    ${item.productSeries || ""}
+
                     ${item.productModel || ""}
+
                 </div>
 
-                <div class="product-sub">SKU: ${item.productSku || "N/A"}</div>
-                <div class="product-sub">Quantity: ${item.quantity ?? 0}</div>
-                <div class="product-sub">Price: ₱${formatPrice(item.productPrice ?? 0)}</div>
+                <div class="modern-product-sku">
 
-                ${serialsHtml}
-            </div>
-        `;
-    });
+                    SKU:
+                    ${item.productSku || "N/A"}
 
-    // 🔥 FINAL LAYOUT
-    container.innerHTML = `
-        <div class="order-grid">
-
-            <!-- LEFT: BASIC INFO -->
-            <div class="order-section">
-                <div class="order-section-title">Basic Info</div>
-
-                <div class="order-row">
-                    <span class="label">Transaction Code:</span>
-                    <span class="value">${order.transactionCode || "N/A"}</span>
                 </div>
 
-                <div class="order-row">
-                    <span class="label">Status:</span>
-                    <span class="value">${order.status}</span>
-                </div>
-
-                <div class="order-row">
-                    <span class="label">Order Date:</span>
-                    <span class="value">
-                        ${order.createdAt ? formatDate(order.createdAt) : "N/A"}
-                    </span>
-                </div>
-
-                <div class="order-row">
-                    <span class="label">Total:</span>
-                    <span class="value">
-                        ₱${formatPrice(order.grandTotal ?? 0)}
-                    </span>
-                </div>
             </div>
 
-            <!-- RIGHT: DELIVERY INFO -->
-            <div class="order-section">
-                <div class="order-section-title">Delivery Info</div>
+            <div class="modern-product-price">
 
-                <div class="order-row">
-                    <span class="label">Shipping Method:</span>
-                    <span class="value">${order.shippingMethod || "N/A"}</span>
-                </div>
+                ₱${formatPrice(
+            item.productPrice ?? 0
+        )}
 
-                <div class="order-row">
-                    <span class="label">Payment Method:</span>
-                    <span class="value">${order.paymentMethod || "N/A"}</span>
-                </div>
-
-                <div class="order-row">
-                    <span class="label">Payment Status:</span>
-                    <span class="value">${order.paymentStatus || "N/A"}</span>
-                </div>
-
-                <div class="order-row">
-                    <span class="label">Delivered At:</span>
-                    <span class="value">
-                        ${order.deliveredAt ? formatDate(order.deliveredAt) : "Not delivered yet"}
-                    </span>
-                </div>
             </div>
 
         </div>
 
-        <!-- FULL WIDTH ITEMS -->
+
+
+        <!-- META -->
+
+        <div class="modern-product-meta">
+
+            <div class="meta-pill">
+
+                <i class="bi bi-box-seam"></i>
+
+                Qty:
+                ${item.quantity ?? 0}
+
+            </div>
+
+            <div class="meta-pill">
+
+                <i class="bi bi-upc-scan"></i>
+
+                Serialized Item
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SERIALS -->
+
+        <div class="modern-serial-container">
+
+            <div class="modern-serial-title">
+
+                <i class="bi bi-hdd-network me-2"></i>
+
+                Serial Numbers
+
+            </div>
+
+            ${item.serials.length > 0
+
+                ? item.serials.map(sn => `
+
+                    <div class="modern-serial-item">
+
+                        <i class="bi bi-dot"></i>
+
+                        ${sn}
+
+                    </div>
+
+                `).join("")
+
+                : `
+
+                    <div class="text-muted small">
+
+                        No serial assigned yet
+
+                    </div>
+                `
+            }
+
+        </div>
+
+    </div>
+`;
+    });
+
+
+
+    // =====================================
+    // BUILD REPLACEMENT HTML
+    // =====================================
+
+    let replacementHtml = "";
+
+    (order.replacementItems || [])
+        .forEach(item => {
+
+            replacementHtml += `
+
+                    <div class="replacement-map-card">
+
+                        <div class="replacement-map-grid">
+
+                            <!-- DEFECTIVE -->
+
+                            <div class="replacement-side defective-side">
+
+                                <div class="replacement-label text-danger">
+
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                                    Defective Unit
+
+                                </div>
+
+                                <div class="product-name">
+
+                                    ${item.defectiveProduct || "Unknown Product"}
+
+                                </div>
+
+                                <div class="product-sub">
+
+                                    Serial:
+                                    ${item.defectiveSerial || "N/A"}
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- ARROW -->
+
+                            <div class="replacement-arrow">
+
+                                <i class="bi bi-arrow-left-right"></i>
+
+                            </div>
+
+
+
+                            <!-- REPLACEMENT -->
+
+                            <div class="replacement-side replacement-side-success">
+
+                                <div class="replacement-label text-success">
+
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+
+                                    Replacement Unit
+
+                                </div>
+
+                                <div class="product-name">
+
+                                    ${item.replacementProduct || "Replacement Pending"}
+
+                                </div>
+
+                                <div class="product-sub">
+
+                                    Serial:
+                                    ${item.replacementSerial || "N/A"}
+
+                                </div>
+
+                                <div class="product-sub">
+
+                                    Status:
+                                    ${item.replacementStatus || "N/A"}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+        });
+
+
+
+    // =====================================
+    // FINAL LAYOUT
+    // =====================================
+
+    container.innerHTML = `
+
+        <div class="order-grid">
+
+            <!-- LEFT -->
+            <div class="order-section">
+
+                <div class="order-section-title">
+                    Basic Info
+                </div>
+
+                <div class="order-row">
+
+                    <span class="label">
+                        Transaction Code:
+                    </span>
+
+                    <span class="value">
+                        ${order.transactionCode || "N/A"}
+                    </span>
+
+                </div>
+
+                <div class="order-row">
+
+                    <span class="label">
+                        Status:
+                    </span>
+
+                    <span class="value">
+                        ${order.status}
+                    </span>
+
+                </div>
+
+                <div class="order-row">
+
+                    <span class="label">
+                        Order Date:
+                    </span>
+
+                    <span class="value">
+
+                        ${order.createdAt
+
+            ? formatDate(order.createdAt)
+
+            : "N/A"
+        }
+
+                    </span>
+
+                </div>
+
+                <div class="order-row">
+
+                    <span class="label">
+                        Total:
+                    </span>
+
+                    <span class="value">
+
+                        ₱${formatPrice(
+            order.grandTotal ?? 0
+        )}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RIGHT -->
+            <div class="order-section">
+
+                <div class="order-section-title">
+                    Delivery Info
+                </div>
+
+                <div class="order-row">
+
+                    <span class="label">
+                        Shipping Method:
+                    </span>
+
+                    <span class="value">
+                        ${order.shippingMethod || "N/A"}
+                    </span>
+
+                </div>
+
+                <div class="order-row">
+
+                    <span class="label">
+                        Payment Method:
+                    </span>
+
+                    <span class="value">
+                        ${order.paymentMethod || "N/A"}
+                    </span>
+
+                </div>
+
+                <div class="order-row">
+
+                    <span class="label">
+                        Payment Status:
+                    </span>
+
+                    <span class="value">
+                        ${order.paymentStatus || "N/A"}
+                    </span>
+
+                </div>
+
+                <div class="order-row">
+
+                    <span class="label">
+                        Delivered At:
+                    </span>
+
+                    <span class="value">
+
+                        ${order.deliveredAt
+
+            ? formatDate(
+                order.deliveredAt
+            )
+
+            : "Not delivered yet"
+        }
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ITEMS -->
+
         <div class="order-section mt-3">
-            <div class="order-section-title">Items</div>
-            ${itemsHtml || `<div class="text-muted">No items available</div>`}
+
+            <div class="order-section-title">
+                Items
+            </div>
+
+            ${itemsHtml ||
+
+        `<div class="text-muted">
+                    No items available
+                </div>`
+        }
+
+        </div>
+
+
+
+        <!-- REPLACEMENT ITEMS -->
+
+        <div class="order-section mt-3">
+
+            <div class="order-section-title">
+                Replacement Items
+            </div>
+
+            ${replacementHtml ||
+
+        `<div class="text-muted">
+                    No replacement items available
+                </div>`
+        }
+
         </div>
     `;
 }
-
 
 ////////////////             Rating Modal             //////////////
 

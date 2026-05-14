@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\ImageSources\\Background\\coni.jpg"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\footer-img.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Background\\footer-img.png"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Background\\install.jpg",
       "PackagePath": "staticwebassets\\ImageSources\\Background\\install.jpg"
     },
@@ -141,8 +145,8 @@
       "PackagePath": "staticwebassets\\ImageSources\\Product\\samsung.avif"
     },
     {
-      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\charging.jpg",
-      "PackagePath": "staticwebassets\\ImageSources\\Service\\charging.jpg"
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\charging.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Service\\charging.png"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\clean.png",
@@ -153,8 +157,8 @@
       "PackagePath": "staticwebassets\\ImageSources\\Service\\install.png"
     },
     {
-      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\repairing.jpg",
-      "PackagePath": "staticwebassets\\ImageSources\\Service\\repairing.jpg"
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\ImageSources\\Service\\repairing.png",
+      "PackagePath": "staticwebassets\\ImageSources\\Service\\repairing.png"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\assets\\airconi-logo.png",
@@ -339,6 +343,14 @@
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\login.js",
       "PackagePath": "staticwebassets\\js\\login.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\outright-replacement-summary.js",
+      "PackagePath": "staticwebassets\\js\\outright-replacement-summary.js"
+    },
+    {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\outright_replacement_request.js",
+      "PackagePath": "staticwebassets\\js\\outright_replacement_request.js"
     },
     {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\products.js",

@@ -1080,7 +1080,10 @@ async function submitRejectWarranty(reason) {
 
 
 
-//// Toast
+
+
+
+
 
 // =====================================
 // GLOBAL TOAST FUNCTION
@@ -1102,6 +1105,7 @@ function showToast(
     // AUTO CREATE CONTAINER
 
     if (!container) {
+
         container =
             document.createElement("div");
 
@@ -1126,18 +1130,18 @@ function showToast(
     const bgClass = {
 
         success:
-            "toast-success",
+            "bg-success text-white",
 
         danger:
-            "toast-danger",
+            "bg-danger text-white",
 
         warning:
-            "toast-warning",
+            "bg-warning text-dark",
 
         info:
-            "toast-info"
+            "bg-info text-dark"
 
-    }[type] || "toast-info";
+    }[type] || "bg-secondary text-white";
 
 
 
@@ -1167,10 +1171,22 @@ function showToast(
         document.createElement("div");
 
     toastEl.className =
-        `toast custom-toast align-items-center ${bgClass} border-0`;
+        `toast fade show align-items-center border-0 ${bgClass}`;
 
     toastEl.role =
         "alert";
+
+    toastEl.setAttribute(
+        "aria-live",
+        "assertive"
+    );
+
+    toastEl.setAttribute(
+        "aria-atomic",
+        "true"
+    );
+
+
 
     toastEl.innerHTML = `
 
@@ -1184,8 +1200,9 @@ function showToast(
             </div>
 
             <button type="button"
-                    class="btn-close btn-close-white me-3"
-                    data-bs-dismiss="toast">
+                    class="btn-close btn-close-white me-2 m-auto"
+                    data-bs-dismiss="toast"
+                    aria-label="Close">
             </button>
 
         </div>
@@ -1201,7 +1218,7 @@ function showToast(
 
 
 
-    // INIT BOOTSTRAP TOAST
+    // INIT TOAST
 
     const toast =
         new bootstrap.Toast(
@@ -1215,7 +1232,7 @@ function showToast(
 
 
 
-    // REMOVE AFTER HIDE
+    // REMOVE AFTER HIDDEN
 
     toastEl.addEventListener(
 

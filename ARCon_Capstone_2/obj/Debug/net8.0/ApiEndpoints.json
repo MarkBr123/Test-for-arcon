@@ -1351,6 +1351,137 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ARCon_Capstone_2.Controllers.OutrightReplacementsApi",
+    "Method": "ProcessReplacement",
+    "RelativePath": "api/outright-replacements/{id}/process",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.ProcessOutrightReplacementDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.OutrightReplacementsApi",
+    "Method": "RejectWarranty",
+    "RelativePath": "api/outright-replacements/{id}/reject",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.RejectOutrightReplacementDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.OutrightReplacementsApi",
+    "Method": "ReleaseReplacement",
+    "RelativePath": "api/outright-replacements/{id}/release",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.ReleaseOutrightReplacementDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.OutrightReplacementsApi",
+    "Method": "GetAvailableReplacementUnits",
+    "RelativePath": "api/outright-replacements/{warrantyItemId}/available-replacements",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "warrantyItemId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.OutrightReplacementsApi",
+    "Method": "GetAllOutrightReplacementClaims",
+    "RelativePath": "api/outright-replacements/admin/outright-replacements",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortDirection",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Controllers.OutrightReplacementsApi",
+    "Method": "GetOutrightReplacementSummary",
+    "RelativePath": "api/outright-replacements/summary/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ARCon_Capstone_2.Controllers.ProvincesApiController",
     "Method": "GetProvinces",
     "RelativePath": "api/provinces/regionID/{regionID}",
