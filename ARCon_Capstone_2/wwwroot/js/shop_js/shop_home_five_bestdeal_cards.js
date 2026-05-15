@@ -39,7 +39,7 @@ function renderBestDeals(products) {
                     <div class="modal-body" id="modalBody"></div>
                     <div class="modal-footer">
                         <a id="viewMoreBtn" class="btn btn-primary" href="#">View more</a>
-                        <button id="modalAddToCart" class="btn btn-primary">🛒</button>
+                        <button id="modalAddToCart" class="btn btn-primary"></button>
                     </div>
                 </div>
             </div>
@@ -137,9 +137,7 @@ function renderBestDeals(products) {
                     <strong class="discount-price">₱${formatPrice(price)}</strong>
                 </p>
 
-                <div class="buttons">
-                    <button class="ar btn btn-primary" id="viewAR">View in AR</button>
-                </div>
+                
             </div>
         `;
             const modalAddBtn = document.getElementById('modalAddToCart');
