@@ -24,10 +24,10 @@ public class AuthController : Controller
 
     [HttpPost]
     public async Task<IActionResult> UserLogin(
-    string identifier,
-    string password,
-    string? accessId
-)
+        string identifier,
+        string password,
+        string? accessId
+    )
     {
         // =========================
         // BASIC VALIDATION
@@ -90,10 +90,13 @@ public class AuthController : Controller
                 return InvalidLogin();
             }
 
+            // =========================
             // LOAD ROLES
+            // =========================
 
             var roles = await (
                 from ur in _context.user_roles
+
                 join r in _context.roles
                     on ur.role_id equals r.id
 
@@ -103,13 +106,16 @@ public class AuthController : Controller
                    {
                     "ADMIN",
                     "CSM",
-                    "AIRCON_TECHNICIAN"
+                    "AIRCON_TECHNICIAN",
+                    "SUPER_ADMIN"
                    }
                    .Contains(r.role_name)
 
                 select r.role_name
 
             ).ToListAsync();
+
+
 
             if (!roles.Any())
             {
@@ -118,12 +124,19 @@ public class AuthController : Controller
                 );
             }
 
+
+
+            // =========================
             // PRIMARY ROLE
+            // =========================
 
             string primaryRole;
 
             if (roles.Contains("ADMIN"))
                 primaryRole = "ADMIN";
+
+            else if (roles.Contains("SUPER_ADMIN"))
+                primaryRole = "SUPER_ADMIN";
 
             else if (roles.Contains("CSM"))
                 primaryRole = "CSM";
@@ -132,19 +145,30 @@ public class AuthController : Controller
                 primaryRole =
                     "AIRCON_TECHNICIAN";
 
+
+
+            // =========================
             // UPDATE LOGIN INFO
+            // =========================
 
             admin.login_attempts = 0;
-            admin.last_login = DateTime.UtcNow;
+
+            admin.last_login =
+                DateTime.UtcNow;
+
             admin.is_online = true;
 
             await _context.SaveChangesAsync();
+
+
 
             // =========================
             // OTP
             // =========================
 
             var otp = GenerateOtp();
+
+
 
             // DELETE OLD OTP
 
@@ -157,41 +181,105 @@ public class AuthController : Controller
             _context.auth_otps
                 .RemoveRange(oldOtp);
 
+
+
             // INSERT OTP
 
             _context.auth_otps.Add(
                 new auth_otp
                 {
                     user_id = admin.id,
+
                     user_type = primaryRole,
+
                     otp_code = otp,
+
                     expires_at =
-                        DateTime.UtcNow.AddMinutes(5),
+                        DateTime.UtcNow
+                            .AddMinutes(5),
 
                     attempt_count = 0
                 });
 
             await _context.SaveChangesAsync();
 
+
+
+            // =========================
             // SEND EMAIL
+            // =========================
 
             await SendOtpEmail(
                 admin.email_address,
                 otp);
 
+
+
+            // =========================
             // TEMP SESSION
+            // =========================
 
             HttpContext.Session.SetInt32(
                 "OtpUserId",
                 admin.id);
 
+
+
             HttpContext.Session.SetString(
                 "OtpUserType",
                 primaryRole);
 
+
+
             HttpContext.Session.SetString(
                 "OtpRoles",
                 string.Join(",", roles));
+
+
+
+            // =========================
+            // MAIN SESSION
+            // FOR ROLE AUTHORIZATION
+            // =========================
+
+            HttpContext.Session.SetString(
+                "UserRole",
+                primaryRole
+            );
+
+
+
+            HttpContext.Session.SetString(
+                "UserType",
+                "INTERNAL"
+            );
+
+
+
+            HttpContext.Session.SetInt32(
+                "AdminUserId",
+                admin.id
+            );
+
+
+
+            HttpContext.Session.SetString(
+                "AdminName",
+                $"{admin.first_name} {admin.last_name}"
+            );
+
+
+
+            HttpContext.Session.SetString(
+                "AllRoles",
+                string.Join(",", roles)
+            );
+
+
+
+            // =========================
+            // REDIRECT TO OTP
+            // =========================
 
             return RedirectToAction(
                 "VerifyOtp",
@@ -245,11 +333,15 @@ public class AuthController : Controller
 
             await _context.SaveChangesAsync();
 
+
+
             // =========================
             // OTP
             // =========================
 
             var otp = GenerateOtp();
+
+
 
             // DELETE OLD OTP
 
@@ -262,27 +354,37 @@ public class AuthController : Controller
             _context.auth_otps
                 .RemoveRange(oldOtp);
 
+
+
             // INSERT OTP
 
             _context.auth_otps.Add(
                 new auth_otp
                 {
                     user_id = customer.id,
+
                     user_type = "CUSTOMER",
+
                     otp_code = otp,
+
                     expires_at =
-                        DateTime.UtcNow.AddMinutes(5),
+                        DateTime.UtcNow
+                            .AddMinutes(5),
 
                     attempt_count = 0
                 });
 
             await _context.SaveChangesAsync();
 
+
+
             // SEND EMAIL
 
             await SendOtpEmail(
                 customer.email,
                 otp);
+
+
 
             // TEMP SESSION
 
@@ -293,6 +395,8 @@ public class AuthController : Controller
             HttpContext.Session.SetString(
                 "OtpUserType",
                 "CUSTOMER");
+
+
 
             return RedirectToAction(
                 "VerifyOtp",
@@ -306,6 +410,8 @@ public class AuthController : Controller
 
         return InvalidLogin();
     }
+
+
 
 
 

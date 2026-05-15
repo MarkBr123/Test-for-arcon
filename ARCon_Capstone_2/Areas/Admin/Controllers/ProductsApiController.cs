@@ -6,6 +6,7 @@ using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ARCon_Capstone_2.Attributes;
 
 [AllowAnonymous]
 //[Area("Admin")]
@@ -405,6 +406,7 @@ public class ProductsApiController : ControllerBase
 
 
     [HttpDelete("{id}")]
+    [RoleAuthorize("ADMIN")]
     public async Task<IActionResult> Archive(int id)
     {
         var product = await _context.products.FindAsync(id);
@@ -675,6 +677,7 @@ public class ProductsApiController : ControllerBase
 
     //Update Product
     [HttpPut("{id}")]
+    [RoleAuthorize("ADMIN")]
     public async Task<IActionResult> EditProduct(int id, [FromBody] EditProductDto dto)
     {
         // VALIDATION
@@ -1204,6 +1207,7 @@ public class ProductsApiController : ControllerBase
     /// <param name="dto"></param>
     /// <returns></returns>upload media
     [HttpPost("{id}/images")]
+    [RoleAuthorize("ADMIN")]
     public async Task<IActionResult> UploadImages(
        int id,
        [FromForm] ProductMediaUploadDto dto)
@@ -1322,6 +1326,7 @@ public class ProductsApiController : ControllerBase
     }
 
     [HttpPut("{id}/images")]
+    [RoleAuthorize("ADMIN")]
     public async Task<IActionResult> EditImages(
     int id,
     [FromForm] EditProductImagesDto dto)

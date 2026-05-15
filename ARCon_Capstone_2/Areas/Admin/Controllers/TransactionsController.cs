@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ARCon_Capstone_2.Attributes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [RoleAuthorize(
+        "ADMIN",
+        "SUPER_ADMIN",
+        "CSM"
+    )]
     public class TransactionsController : BaseAdminController
     {
         public IActionResult Index()

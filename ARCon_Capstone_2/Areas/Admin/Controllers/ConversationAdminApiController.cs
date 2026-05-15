@@ -49,7 +49,7 @@ public class ConversationAdminApiController : ControllerBase
         if (userId == null || userType == null)
             return Unauthorized();
 
-        var allowedRoles = new[] { "ADMIN", "CSM", "AIRCON_TECHNICIAN" };
+        var allowedRoles = new[] { "ADMIN", "CSM", "AIRCON_TECHNICIAN", "SUPER_ADMIN" };
 
         if (!allowedRoles.Contains(userType))
             return Forbid();
@@ -537,7 +537,7 @@ public class ConversationAdminApiController : ControllerBase
         if (userId == null || userType == null)
             return Unauthorized();
 
-        var allowedRoles = new[] { "ADMIN", "CSM" };
+        var allowedRoles = new[] { "ADMIN", "CSM", "SUPER_ADMIN"};
 
         if (!allowedRoles.Contains(userType))
             return Forbid();

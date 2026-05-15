@@ -2173,7 +2173,9 @@ public class ServiceTransactionApiController : ControllerBase
                 st.status == "FAILED" ||
                 st.status == "PARTIALLY_COMPLETED" ||
                 st.status == "CANCELLED" ||
-                st.status == "FAILED_FOR_REFUND"
+                st.status == "FAILED_FOR_REFUND" ||
+                st.status == "FOR_TECH_ASSIGNMENT" ||
+                st.status == "SCHEDULED"
             );
         }
 

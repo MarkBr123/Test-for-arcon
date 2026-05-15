@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ARCon_Capstone_2.Data;
+using ARCon_Capstone_2.Attributes;
 
 
 namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [RoleAuthorize(
+        "SUPER_ADMIN",
+        "ADMIN",
+        "CSM"
+    )]
     public class AdminUsersController : BaseAdminController
     {
         private readonly ARCon_Capstone_2_DbContext _context;

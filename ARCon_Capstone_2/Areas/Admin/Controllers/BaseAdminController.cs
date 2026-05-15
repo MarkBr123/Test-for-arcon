@@ -1,41 +1,97 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using ARCon_Capstone_2.Attributes;
 
 namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-    public abstract class BaseAdminController : Controller
+
+    [ResponseCache(
+        NoStore = true,
+        Location = ResponseCacheLocation.None
+    )]
+
+    public abstract class BaseAdminController
+        : Controller
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public override void OnActionExecuting(
+            ActionExecutingContext context)
         {
-            var httpContext = context.HttpContext;
-            var session = httpContext.Session;
-            var response = httpContext.Response;
+            var httpContext =
+                context.HttpContext;
 
-            //Prevent browser caching
-            response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
-            response.Headers["Pragma"] = "no-cache";
-            response.Headers["Expires"] = "0";
+            var session =
+                httpContext.Session;
 
-            //Get user session
-            var userType = session.GetString("UserType");
+            var response =
+                httpContext.Response;
 
-            //Allowed roles (internal users)
-            var allowedRoles = new[] { "ADMIN", "CSM", "AIRCON_TECHNICIAN" };
 
-            //Block access if not logged in or not allowed
-            if (string.IsNullOrEmpty(userType) || !allowedRoles.Contains(userType))
-            {
-                context.Result = new RedirectToActionResult(
-                    "Login",
-                    "Home",
-                    new { area = "Shop" }
+
+            // =====================================
+            // PREVENT BROWSER CACHE
+            // =====================================
+
+            response.Headers["Cache-Control"] =
+                "no-store, no-cache, must-revalidate, max-age=0";
+
+            response.Headers["Pragma"] =
+                "no-cache";
+
+            response.Headers["Expires"] =
+                "0";
+
+
+
+            // =====================================
+            // CHECK LOGIN
+            // =====================================
+
+            var userType =
+                session.GetString(
+                    "UserType"
                 );
+
+
+
+            // Not logged in
+
+            if (string.IsNullOrEmpty(userType))
+            {
+                context.Result =
+                    new RedirectToActionResult(
+                        "Login",
+                        "Home",
+                        new { area = "Shop" }
+                    );
+
                 return;
             }
 
-            base.OnActionExecuting(context);
+
+
+            // =====================================
+            // OPTIONAL:
+            // MAKE ROLE AVAILABLE TO VIEWS
+            // =====================================
+
+            ViewBag.UserRole =
+                session.GetString(
+                    "UserRole"
+                );
+
+
+
+            ViewBag.AdminName =
+                session.GetString(
+                    "AdminName"
+                );
+
+
+
+            base.OnActionExecuting(
+                context
+            );
         }
     }
 }

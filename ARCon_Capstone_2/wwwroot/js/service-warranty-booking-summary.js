@@ -10,349 +10,218 @@ async function loadWarrantySummary() {
 
     try {
 
-        // =========================================
-        // GET WARRANTY ID
-        // =========================================
+        const warrantyId = window.warrantyBookingId;
 
-        const pathParts =
-            window.location.pathname.split("/");
+        showWarrantyLoading();
 
-        const id =
-            pathParts[pathParts.length - 1];
-
-        if (!id) {
-
-            alert(
-                "Warranty ID is missing."
-            );
-
-            return;
-        }
-
-
-
-        // =========================================
-        // FETCH WARRANTY SUMMARY
-        // =========================================
-
-        const response =
-            await fetch(
-                `/api/warranties/${id}`
-            );
+        const response = await fetch(`/api/warranties/${warrantyId}`);
 
         if (!response.ok) {
-
-            throw new Error(
-                "Failed to load warranty summary."
-            );
+            throw new Error("Failed to load warranty summary.");
         }
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
-        console.log(data);
+        console.log("Warranty Summary:", data);
 
-
-        // =========================================
-        // WARRANTY DETAILS
-        // =========================================
-
-        document.getElementById(
-            "summaryWarrantyCode"
-        ).textContent =
-            data.warranty.warranty_code ?? "-";
-
-
-
-        document.getElementById(
-            "summaryStatus"
-        ).innerHTML =
-            renderStatusBadge(
-                data.warranty.status
-            );
-
-
-
-        document.getElementById(
-            "summaryReleaseMethod"
-        ).textContent =
-            data.warranty.release_method ?? "-";
-
-
-
-        document.getElementById(
-            "summaryDeliveryType"
-        ).textContent =
-            data.warranty.delivery_type ?? "-";
-
-
-
-        document.getElementById(
-            "summaryCourierName"
-        ).textContent =
-            data.warranty.courier_name ?? "-";
-
-
-
-        document.getElementById(
-            "summaryTrackingNumber"
-        ).textContent =
-            data.warranty.tracking_number ?? "-";
-
-
-
-        document.getElementById(
-            "summaryCreatedAt"
-        ).textContent =
-            formatDateTime(
-                data.warranty.created_at
-            );
-
-
-
-        document.getElementById(
-            "summaryApprovedAt"
-        ).textContent =
-            formatDateTime(
-                data.warranty.approved_at
-            );
-
-
-
-        document.getElementById(
-            "summaryRejectedAt"
-        ).textContent =
-            formatDateTime(
-                data.warranty.rejected_at
-            );
-
-
-
-        document.getElementById(
-            "summaryReleasedAt"
-        ).textContent =
-            formatDateTime(
-                data.warranty.released_at
-            );
-
-
-
-        document.getElementById(
-            "summaryReceivedAt"
-        ).textContent =
-            formatDateTime(
-                data.warranty.received_by_customer_at
-            );
-
-
-
-        document.getElementById(
-            "summaryCustomerNotes"
-        ).textContent =
-            data.warranty.customer_notes ?? "-";
-
-
-
-        document.getElementById(
-            "summaryAdminNotes"
-        ).textContent =
-            data.warranty.admin_notes ?? "-";
-
-
-
-        document.getElementById(
-            "summaryRejectionReason"
-        ).textContent =
-            data.warranty.rejection_reason ?? "-";
-
-
-
-
-        // =========================================
-        // CUSTOMER
-        // =========================================
-
-        if (data.customer) {
-
-            document.getElementById(
-                "summaryCustomerName"
-            ).textContent =
-
-                `${data.customer.first_name ?? ""} ` +
-                `${data.customer.middle_name ?? ""} ` +
-                `${data.customer.last_name ?? ""}`;
-
-
-
-            document.getElementById(
-                "summaryContactNo"
-            ).textContent =
-                data.customer.contact_no ?? "-";
-
-
-
-            document.getElementById(
-                "summaryEmail"
-            ).textContent =
-                data.customer.email ?? "-";
-        }
-
-
-
-        // =========================================
-        // MEDIA
-        // =========================================
-
-        renderWarrantyMedia(
-            data.attachments
-        );
+        populateWarrantySummary(data);
 
     }
-    catch (error) {
+    catch (err) {
 
-        console.error(error);
+        console.error(err);
 
-        alert(
-            "Failed to load warranty summary."
-        );
+        showToast("error", err.message || "Something went wrong.");
+
     }
+    finally {
+
+        hideWarrantyLoading();
+
+    }
+
 }
+
+
+
+function populateWarrantySummary(data) {
+
+    const warranty = data.warranty_booking;
+    const customer = data.customer;
+    const booking = data.service_booking;
+    const attachments = data.attachments || [];
+
+
+
+    // =========================================================
+    // WARRANTY DETAILS
+    // =========================================================
+
+    setText("summarySwbCode", warranty.swb_code);
+
+    setStatusBadge(
+        "summaryStatus",
+        warranty.status
+    );
+
+    setText(
+        "summaryPreferredDate",
+        formatDate(warranty.preferred_date)
+    );
+
+    setText(
+        "summaryPreferredTime",
+        formatTime(warranty.preferred_time)
+    );
+
+    setText(
+        "summaryComplaint",
+        warranty.complaint || "-"
+    );
+
+
+
+    // =========================================================
+    // CUSTOMER & BOOKING
+    // =========================================================
+
+    setText(
+        "summaryBookingRef",
+        booking.booking_ref_code
+    );
+
+    setStatusBadge(
+        "summaryBookingStatus",
+        booking.status
+    );
+
+    const fullName = [
+        customer.first_name,
+        customer.middle_name,
+        customer.last_name
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+    setText(
+        "summaryCustomerName",
+        fullName
+    );
+
+    setText(
+        "summaryContactNo",
+        customer.contact_no || "-"
+    );
+
+    setText(
+        "summaryCustomerNote",
+        booking.customer_note || "-"
+    );
+
+
+
+    // =========================================================
+    // BOOKING DETAILS LINK
+    // =========================================================
+
+    const bookingLink = document.getElementById("bookingDetailsLink");
+
+    if (bookingLink) {
+
+        bookingLink.href =
+            `/Admin/ServiceBookings/Details/${booking.id}`;
+
+    }
+
+
+
+    // =========================================================
+    // MEDIA
+    // =========================================================
+
+    renderWarrantyMedia(attachments);
+
+}
+
 
 
 function renderWarrantyMedia(attachments) {
 
-    const container =
-        document.getElementById(
-            "warrantyMediaContainer"
-        );
+    const container = document.getElementById("warrantyMediaContainer");
 
-    if (!container)
-        return;
+    if (!container) return;
 
     container.innerHTML = "";
 
 
 
-    // =========================================
-    // EMPTY
-    // =========================================
+    if (attachments.length === 0) {
 
-    if (!attachments ||
-        attachments.length === 0) {
         container.innerHTML = `
-            <div class="text-center text-muted py-5 w-100">
+            <div class="empty-media-state">
 
-                <i class="bi bi-images fs-1 d-block mb-3"></i>
+                <i class="bi bi-images"></i>
 
-                No attachments uploaded.
-
-            </div>
-        `;
-
-        return;
-    }
-
-
-
-    // =========================================
-    // RENDER MEDIA
-    // =========================================
-
-    attachments.forEach(item => {
-
-        const isImage =
-            item.file_path?.match(
-                /\.(jpg|jpeg|png|gif|webp)$/i
-            );
-
-        const isVideo =
-            item.file_path?.match(
-                /\.(mp4|webm|ogg|mov)$/i
-            );
-
-
-
-        container.innerHTML += `
-
-            <div>
-
-                <div class="card media-card shadow-sm border-0">
-
-                    <div class="media-preview-wrapper">
-
-                        ${isImage
-
-                ? `
-                                    <img src="${item.file_path}"
-                                         class="media-preview-image"
-                                         onclick="
-                                            openMediaPreview(
-                                                '${item.file_path}'
-                                            )
-                                         ">
-                                `
-
-                : isVideo
-
-                    ? `
-                                        <video controls
-                                               class="media-preview-video">
-
-                                            <source src="${item.file_path}">
-
-                                        </video>
-                                    `
-
-                    : `
-                                        <div class="media-placeholder">
-
-                                            <div class="text-center text-muted">
-
-                                                <i class="bi bi-file-earmark fs-1"></i>
-
-                                                <div class="small mt-2">
-                                                    Preview not available
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    `
-            }
-
-                    </div>
-
-                    <div class="card-body py-2 px-3">
-
-                        <div class="small text-muted text-truncate">
-
-                            ${item.file_name ?? "-"}
-
-                        </div>
-
-                    </div>
-
+                <div class="mt-3">
+                    No uploaded media found.
                 </div>
 
             </div>
         `;
 
+        return;
+
+    }
+
+
+
+    attachments.forEach(file => {
+
+        const card = document.createElement("div");
+
+        card.className = "media-card";
+
+        card.innerHTML = `
+            <img src="${file.file_path}"
+                 alt="${file.file_name}"
+                 class="media-image">
+
+            <div class="media-overlay">
+
+                <button class="btn btn-light btn-sm preview-btn">
+
+                    <i class="bi bi-zoom-in me-1"></i>
+                    Preview
+
+                </button>
+
+            </div>
+        `;
+
+        card.querySelector(".preview-btn")
+            .addEventListener("click", () => {
+
+                openMediaPreview(file.file_path);
+
+            });
+
+        container.appendChild(card);
+
     });
 
 }
 
-function openMediaPreview(src) {
 
-    const modal =
-        new bootstrap.Modal(
-            document.getElementById(
-                "mediaPreviewModal"
-            )
-        );
 
-    document.getElementById(
-        "mediaPreviewImage"
-    ).src = src;
+function openMediaPreview(imagePath) {
+
+    const image = document.getElementById("mediaPreviewImage");
+
+    image.src = imagePath;
+
+    const modal = new bootstrap.Modal(
+        document.getElementById("mediaPreviewModal")
+    );
 
     modal.show();
 
@@ -360,75 +229,89 @@ function openMediaPreview(src) {
 
 
 
-function renderStatusBadge(status) {
+function setText(id, value) {
 
-    switch (status) {
+    const el = document.getElementById(id);
 
-        case "PENDING_REVIEW":
+    if (!el) return;
 
-            return `
-                <span class="badge bg-warning text-dark">
-                    Pending Review
-                </span>
-            `;
+    el.textContent = value || "-";
+
+}
+
+
+
+function setStatusBadge(id, status) {
+
+    const el = document.getElementById(id);
+
+    if (!el) return;
+
+    const badgeClass = getStatusBadgeClass(status);
+
+    el.innerHTML = `
+        <span class="badge ${badgeClass}">
+            ${formatStatus(status)}
+        </span>
+    `;
+
+}
+
+
+
+function getStatusBadgeClass(status) {
+
+    switch ((status || "").toUpperCase()) {
+
+        case "PENDING":
+            return "bg-warning text-dark";
 
         case "APPROVED":
+            return "bg-primary";
 
-            return `
-                <span class="badge bg-primary">
-                    Approved
-                </span>
-            `;
-
-        case "REJECTED":
-
-            return `
-                <span class="badge bg-danger">
-                    Rejected
-                </span>
-            `;
+        case "INSPECTING":
+            return "bg-info text-dark";
 
         case "RESOLVED":
+            return "bg-success";
 
-            return `
-                <span class="badge bg-success">
-                    Resolved
-                </span>
-            `;
+        case "REJECTED":
+            return "bg-danger";
+
+        case "CANCELLED":
+            return "bg-secondary";
 
         default:
-
-            return `
-                <span class="badge bg-secondary">
-                    ${status ?? "-"}
-                </span>
-            `;
+            return "bg-dark";
     }
 
 }
 
 
 
+function formatStatus(status) {
 
-function formatDate(dateString) {
+    if (!status) return "-";
 
-    if (!dateString)
-        return "-";
-
-    return new Date(dateString)
-        .toLocaleDateString();
+    return status
+        .replaceAll("_", " ")
+        .toLowerCase()
+        .replace(/\b\w/g, l => l.toUpperCase());
 
 }
 
 
 
-function formatDateTime(dateString) {
+function formatDate(dateString) {
 
-    if (!dateString)
-        return "-";
+    if (!dateString) return "-";
 
     return new Date(dateString)
-        .toLocaleString();
+        .toLocaleDateString("en-PH", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
 
 }
 
@@ -436,14 +319,34 @@ function formatDateTime(dateString) {
 
 function formatTime(timeString) {
 
-    if (!timeString)
-        return "-";
+    if (!timeString) return "-";
 
-    return new Date(`1970-01-01T${timeString}`)
-        .toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+    const [hour, minute] = timeString.split(":");
+
+    const date = new Date();
+
+    date.setHours(hour);
+    date.setMinutes(minute);
+
+    return date.toLocaleTimeString("en-PH", {
+        hour: "numeric",
+        minute: "2-digit"
+    });
 
 }
 
+
+
+function showWarrantyLoading() {
+
+    console.log("Loading warranty summary...");
+
+}
+
+
+
+function hideWarrantyLoading() {
+
+    console.log("Warranty summary loaded.");
+
+}

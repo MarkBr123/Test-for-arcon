@@ -1,4 +1,5 @@
-﻿using ARCon_Capstone_2.Data;
+﻿using ARCon_Capstone_2.Attributes;
+using ARCon_Capstone_2.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,10 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [RoleAuthorize(
+        "ADMIN",
+        "SUPER_ADMIN"
+    )]
     public class SupplierController : BaseAdminController
     {
         private readonly ARCon_Capstone_2_DbContext _context;

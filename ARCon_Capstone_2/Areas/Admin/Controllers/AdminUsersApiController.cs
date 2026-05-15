@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ARCon_Capstone_2.Services;
+using ARCon_Capstone_2.Attributes;
 
 [AllowAnonymous]
 [ApiController]
@@ -26,6 +27,7 @@ public class AdminUsersApiController : ControllerBase
     }
 
     [HttpPost("create")]
+    [RoleAuthorize("SUPER_ADMIN")]
     public async Task<IActionResult> Create([FromBody]CreateAdminUserDto dto)
     {
         if (!ModelState.IsValid)
@@ -188,6 +190,7 @@ public class AdminUsersApiController : ControllerBase
 
     //soft delete (ARCHIVE)
     [HttpDelete("{id}")]
+    [RoleAuthorize("SUPER_ADMIN")]
     public async Task<IActionResult> Archive(int id)
     {
         var admin_user = await _context.admin_users.FindAsync(id);
@@ -256,6 +259,7 @@ public class AdminUsersApiController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize("SUPER_ADMIN")]
     public async Task<IActionResult> UpdateAdminUser(
     int id,
     [FromBody] AdminUserUpdateDto dto)

@@ -6,6 +6,13 @@
     var isFullHeight = ViewData["IsFullHeight"] as bool? ?? false;
 }
 
+
+@using System.Security.Claims
+
+@{
+    var role = Context.Session.GetString("UserRole");
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,6 +51,7 @@
                     <span>Home</span>
                 </a>
 
+<<<<<<< Updated upstream
                 <a href="#" class="menu-item">
                     <i class="bi bi-megaphone-fill icon-sales"></i>
                     <span>Sales & Promotions</span>
@@ -52,173 +60,223 @@
                     <i class="bi bi-people-fill icon-users"></i>
                     <span>Users & Roles</span>
                 </a>
+=======
+                @if (role == "ADMIN" || role == "SUPER_ADMIN")
+                {
+                    <a href="#" class="menu-item">
+                        <i class="bi bi-megaphone-fill icon-sales"></i>
+                        <span>Sales</span>
+                    </a>
+                }
 
-                <!-- ACCORDION ITEM Suppliers -->
-                <div class="menu-item accordion-item has-submenu">
-                    <div class="accordion-header">
-                        <i class="bi bi-truck icon-suppliers"></i>
-                        <span>Suppliers</span>
-                        <span class="arrow">▸</span>
+                @if (role == "AIRCON_TECHNICIAN" )
+                        {
+                            <a href="https://localhost:7224/admin/TechnicianCalendar/MyWorkCalendar" class="menu-item">
+                                <i class="bi bi-calendar-week-fill icon-calendar"></i>
+                                <span>My Calendar</span>
+                            </a>
+                        }
+>>>>>>> Stashed changes
+
+
+                @if (role == "ADMIN" || role == "SUPER_ADMIN" || role == "CSM")
+                {
+                    <a href="https://localhost:7224/admin/adminusers" class="menu-item">
+                        <i class="bi bi-people-fill icon-users"></i>
+                        <span>Users & Roles</span>
+                    </a>
+                }
+
+                @if (role == "ADMIN" || role == "SUPER_ADMIN")
+                {
+                    <!-- ACCORDION ITEM Suppliers -->
+                    <div class="menu-item accordion-item has-submenu">
+                        <div class="accordion-header">
+                            <i class="bi bi-truck icon-suppliers"></i>
+                            <span>Suppliers</span>
+                            <span class="arrow">▸</span>
+                        </div>
+
+                        <div class="submenu">
+                            <a href="/admin/supplier">
+                                <i class="bi bi-people icon-sub"></i>
+                                Suppliers
+                            </a>
+                        </div>
                     </div>
+                }
 
-                    <div class="submenu">
-                        <a href="/admin/supplier">
-                            <i class="bi bi-people icon-sub"></i>
-                            Suppliers
-                        </a>
+
+
+                    <!-- ACCORDION ITEM services -->
+                    <div class="menu-item accordion-item has-submenu">
+                        <div class="accordion-header">
+                            <i class="bi bi-tools icon-services"></i>
+                            <span>Service Request</span>
+                            <span class="arrow">▸</span>
+                        </div>
+
+                        <div class="submenu">
+                             @if (role == "ADMIN" || role == "SUPER_ADMIN" || role == "CSM")
+                           {
+                            <a href="/admin/services/for_confirmation">
+                                <i class="bi bi-hourglass-split icon-sub"></i>
+                                For Confirmation
+                            </a>
+
+                            <a href="/admin/services/processing">
+                                <i class="bi bi-gear-wide-connected icon-sub"></i>
+                                Processing
+                            </a>
+
+                            <a href="/admin/services/tech_assign">
+                                <i class="bi bi-person-workspace icon-sub"></i>
+                                Technician Assignment
+                            </a>
+
+                            <a href="/admin/services/scheduled">
+                                <i class="bi bi-calendar-check icon-sub"></i>
+                                Scheduled
+                            </a>
+
+                            <a href="/Admin/Services/All_Bookings">
+                                <i class="bi bi-clock-history icon-sub"></i>
+                                All Booking History
+                            </a>
+                            }
+                                        <a href="/admin/services/all_service_transactions">
+                                            <i class="bi bi-clock-history icon-sub"></i>
+                                            All Service History
+                                        </a>
+                          @if (role == "ADMIN" || role == "SUPER_ADMIN" || role == "CSM")
+                           {
+                            <a href="/admin/services">
+                                    <i class="bi bi-list-ul icon-sub"></i>
+                                    Services Offered
+                                </a>
+                                <a href="/admin/services/service_payments">
+                                    <i class="bi bi-cash-stack icon-sub"></i>
+                                    Service Payments
+                                </a>
+                           }
+                        </div>
                     </div>
-                </div>
-                <!-- ACCORDION ITEM services -->
-                <div class="menu-item accordion-item has-submenu">
-                    <div class="accordion-header">
-                        <i class="bi bi-tools icon-services"></i>
-                        <span>Service Request</span>
-                        <span class="arrow">▸</span>
+                
+
+
+
+                @if (role == "ADMIN" || role == "SUPER_ADMIN" || role == "CSM")
+                {
+                    <!-- ACCORDION ITEM Customer Orders -->
+                    <div class="menu-item accordion-item has-submenu">
+                        <div class="accordion-header">
+                            <i class="bi bi-bag-check icon-orders"></i>
+                            <span>Customer Orders</span>
+                            <span class="arrow">▸</span>
+                        </div>
+
+                        <div class="submenu">
+
+                            <a href="/admin/transactions">
+                                <i class="bi bi-credit-card icon-sub"></i>
+                                Payment Pendings
+                            </a>
+
+                            <a href="/admin/transactions/processing">
+                                <i class="bi bi-gear-wide-connected icon-sub"></i>
+                                Processing
+                            </a>
+
+                            <a href="/admin/transactions/forshipping">
+                                <i class="bi bi-box-arrow-up icon-sub"></i>
+                                For Shipping
+                            </a>
+
+                            <a href="/admin/transactions/intransit">
+                                <i class="bi bi-truck icon-sub"></i>
+                                In Transit
+                            </a>
+
+                            <a href="/admin/transactions/delivered">
+                                <i class="bi bi-check-circle icon-sub"></i>
+                                Delivered
+                            </a>
+
+                            <a href="/admin/transactions/cancelled_failed">
+                                <i class="bi bi-x-circle icon-sub"></i>
+                                Cancelled / Failed
+                            </a>
+                            <a href="/admin/transactions/customer_payments">
+                                <i class="bi bi-cash-stack icon-sub"></i>
+                                Customer Payments
+                            </a>
+
+                        </div>
                     </div>
+                }
 
-                    <div class="submenu">
 
-                        <a href="/admin/services/for_confirmation">
-                            <i class="bi bi-hourglass-split icon-sub"></i>
-                            For Confirmation
-                        </a>
+                @if (role == "ADMIN" || role == "SUPER_ADMIN" || role == "CSM")
+                {
+                    <!-- ACCORDION ITEM Inventory -->
+                    <div class="menu-item accordion-item has-submenu">
+                        <div class="accordion-header">
+                            <i class="bi bi-box-seam icon-inventory"></i>
+                            <span>Inventory and Stocks</span>
+                            <span class="arrow">▸</span>
+                        </div>
 
-                        <a href="/admin/services/processing">
-                            <i class="bi bi-gear-wide-connected icon-sub"></i>
-                            Processing
-                        </a>
+                        <div class="submenu">
 
-                        <a href="/admin/services/tech_assign">
-                            <i class="bi bi-person-workspace icon-sub"></i>
-                            Technician Assignment
-                        </a>
+                            <a href="/admin/inventory">
+                                <i class="bi bi-archive icon-sub"></i>
+                                Inventory
+                            </a>
 
-                        <a href="/admin/services/scheduled">
-                            <i class="bi bi-calendar-check icon-sub"></i>
-                            Scheduled
-                        </a>
+                            <a href="/admin/products">
+                                <i class="bi bi-box icon-sub"></i>
+                                Products
+                            </a>
 
-                        <a href="/Admin/Services/All_Bookings">
-                            <i class="bi bi-clock-history icon-sub"></i>
-                            All Booking History
-                        </a>
-                        <a href="/admin/services/all_service_transactions">
-                            <i class="bi bi-clock-history icon-sub"></i>
-                            All Service History
-                        </a>
+                            <a href="/admin/purchaseorders/index">
+                                <i class="bi bi-receipt icon-sub"></i>
+                                Purchase Orders
+                            </a>
 
-                        <a href="/admin/services">
-                            <i class="bi bi-list-ul icon-sub"></i>
-                            Services Offered
-                        </a>
-                        <a href="/admin/services/service_payments">
-                            <i class="bi bi-cash-stack icon-sub"></i>
-                            Service Payments
-                        </a>
+                            <a href="/admin/ReturnOrders/ReturnIndex">
+                                <i class="bi bi-arrow-return-left icon-sub"></i>
+                                Return Orders
+                            </a>
 
+                        </div>
                     </div>
-                </div>
-
-                <!-- ACCORDION ITEM Customer Orders -->
-                <div class="menu-item accordion-item has-submenu">
-                    <div class="accordion-header">
-                        <i class="bi bi-bag-check icon-orders"></i>
-                        <span>Customer Orders</span>
-                        <span class="arrow">▸</span>
-                    </div>
-
-                    <div class="submenu">
-
-                        <a href="/admin/transactions">
-                            <i class="bi bi-credit-card icon-sub"></i>
-                            Payment Pendings
-                        </a>
-
-                        <a href="/admin/transactions/processing">
-                            <i class="bi bi-gear-wide-connected icon-sub"></i>
-                            Processing
-                        </a>
-
-                        <a href="/admin/transactions/forshipping">
-                            <i class="bi bi-box-arrow-up icon-sub"></i>
-                            For Shipping
-                        </a>
-
-                        <a href="/admin/transactions/intransit">
-                            <i class="bi bi-truck icon-sub"></i>
-                            In Transit
-                        </a>
-
-                        <a href="/admin/transactions/delivered">
-                            <i class="bi bi-check-circle icon-sub"></i>
-                            Delivered
-                        </a>
-
-                        <a href="/admin/transactions/cancelled_failed">
-                            <i class="bi bi-x-circle icon-sub"></i>
-                            Cancelled / Failed
-                        </a>
-                        <a href="/admin/transactions/customer_payments">
-                            <i class="bi bi-cash-stack icon-sub"></i>
-                            Customer Payments
-                        </a>
-
-                    </div>
-                </div>
-
-                <!-- ACCORDION ITEM Inventory -->
-                <div class="menu-item accordion-item has-submenu">
-                    <div class="accordion-header">
-                        <i class="bi bi-box-seam icon-inventory"></i>
-                        <span>Inventory and Stocks</span>
-                        <span class="arrow">▸</span>
-                    </div>
-
-                    <div class="submenu">
-
-                        <a href="/admin/inventory">
-                            <i class="bi bi-archive icon-sub"></i>
-                            Inventory
-                        </a>
-
-                        <a href="/admin/products">
-                            <i class="bi bi-box icon-sub"></i>
-                            Products
-                        </a>
-
-                        <a href="/admin/purchaseorders/index">
-                            <i class="bi bi-receipt icon-sub"></i>
-                            Purchase Orders
-                        </a>
+                }
                         
-                        <a href="/admin/ReturnOrders/ReturnIndex">
-                            <i class="bi bi-arrow-return-left icon-sub"></i>
-                            Return Orders
-                        </a>
+                @if (role == "ADMIN" || role == "SUPER_ADMIN" || role == "CSM")
+                {
+                    <!-- ACCORDION Waranties -->
+                    <div class="menu-item accordion-item has-submenu">
+                        <div class="accordion-header">
+                            <i class="bi bi-shield-check icon-inventory"></i>
+                            <span>Warranty</span>
+                            <span class="arrow">▸</span>
+                        </div>
+                        <div class="submenu">
+                            <a href="/admin/Warranty/Outright_Replacement_Request">
+                                <i class="bi bi-arrow-repeat icon-sub"></i>
+                                Outright Replacement Requests
+                            </a>
 
+                            <a href="/admin/Warranty/Service_Warranty_Request">
+                                <i class="bi bi-archive icon-sub"></i>
+                                Service Warranty Requests
+                            </a>
+                        </div>
                     </div>
-                </div>
+                }
 
+ 
 
-                <!-- ACCORDION Waranties -->
-                <div class="menu-item accordion-item has-submenu">
-                    <div class="accordion-header">
-                        <i class="bi bi-shield-check icon-inventory"></i>
-                        <span>Warranty</span>
-                        <span class="arrow">▸</span>
-                    </div>
-                    <div class="submenu">
-                        <a href="/admin/Warranty/Outright_Replacement_Request">
-                            <i class="bi bi-arrow-repeat icon-sub"></i>
-                            Outright Replacement Requests
-                        </a>
-
-                        <a href="/admin/Warranty/Service_Warranty_Request">
-                            <i class="bi bi-archive icon-sub"></i>
-                            Service Warranty Requests
-                        </a>
-                    </div>
-                </div>
 
                 <!-- ACCORDION ITEM conversation -->
                 <div class="menu-item accordion-item has-submenu">
@@ -236,21 +294,27 @@
                     </div>
                 </div>
 
-                <!-- ACCORDION ITEM utilities-->
-                <div class="menu-item accordion-item has-submenu">
-                    <div class="accordion-header">
-                        <i class="bi bi-sliders icon-utilities"></i>
-                        <span>Utilities</span>
-                        <span class="arrow">▸</span>
-                    </div>
 
-                    <div class="submenu">
-                        <a href="/admin/utilities">
-                            <i class="bi bi-gear icon-sub"></i>
-                            System Utilities
-                        </a>
+
+                @if (role == "ADMIN" || role == "SUPER_ADMIN" || role == "CSM")
+                {
+                    <!-- ACCORDION ITEM utilities-->
+                    <div class="menu-item accordion-item has-submenu">
+                        <div class="accordion-header">
+                            <i class="bi bi-sliders icon-utilities"></i>
+                            <span>Utilities</span>
+                            <span class="arrow">▸</span>
+                        </div>
+
+                        <div class="submenu">
+                            <a href="/admin/utilities">
+                                <i class="bi bi-gear icon-sub"></i>
+                                System Utilities
+                            </a>
+                        </div>
                     </div>
-                </div>
+                }
+
 
             </div>
         </aside>

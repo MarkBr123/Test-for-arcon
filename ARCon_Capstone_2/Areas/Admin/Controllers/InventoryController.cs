@@ -1,4 +1,5 @@
-﻿using ARCon_Capstone_2.Data;
+﻿using ARCon_Capstone_2.Attributes;
+using ARCon_Capstone_2.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,8 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ARCon_Capstone_2.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+
     [Route("Admin/Inventory")]
+
+    [Area("Admin")]
+
+    [RoleAuthorize(
+        "ADMIN",
+        "SUPER_ADMIN",
+        "CSM"
+    )]
+
     public class InventoryController : BaseAdminController
     {
         // GET: /Admin/Inventory
@@ -17,6 +27,9 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
             return View();
         }
 
+        [RoleAuthorize(
+        "ADMIN"
+        )]
         // GET: /Admin/Inventory/receive-po
         [HttpGet("receive-po")]
         public IActionResult ReceivePo()
@@ -24,6 +37,9 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
             return View();
         }
 
+        [RoleAuthorize(
+        "ADMIN"
+        )]
         // GET: /Admin/Inventory/receive-ro
         [HttpGet("receive-ro")]
         public IActionResult ReceiveRo()
