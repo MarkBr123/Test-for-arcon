@@ -2853,32 +2853,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "TechCalendarApiController",
-    "Method": "GetTechnicianCalendarBookings",
-    "RelativePath": "api/tech-calendar/technician/{technicianId}/calendar-bookings",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "technicianId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "start",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "end",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "ARCon_Capstone_2.Controllers.TestController",
     "Method": "SendTestEmail",
     "RelativePath": "api/test/send-email",
