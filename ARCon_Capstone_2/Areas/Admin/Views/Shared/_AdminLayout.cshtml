@@ -58,13 +58,7 @@
                         <span>Users & Roles</span>
                     </a>
                 }
-                @if (role == "ADMIN" || role == "SUPER_ADMIN")
-                {
-                    <a href="#" class="menu-item">
-                        <i class="bi bi-megaphone-fill icon-sales"></i>
-                        <span>Sales</span>
-                    </a>
-                }
+
 
                 @if (role == "AIRCON_TECHNICIAN" )
                         {
@@ -142,10 +136,7 @@
                                     <i class="bi bi-list-ul icon-sub"></i>
                                     Services Offered
                                 </a>
-                                <a href="/admin/services/service_payments">
-                                    <i class="bi bi-cash-stack icon-sub"></i>
-                                    Service Payments
-                                </a>
+
                            }
                         </div>
                     </div>
@@ -194,10 +185,7 @@
                                 <i class="bi bi-x-circle icon-sub"></i>
                                 Cancelled / Failed
                             </a>
-                            <a href="/admin/transactions/customer_payments">
-                                <i class="bi bi-cash-stack icon-sub"></i>
-                                Customer Payments
-                            </a>
+
 
                         </div>
                     </div>

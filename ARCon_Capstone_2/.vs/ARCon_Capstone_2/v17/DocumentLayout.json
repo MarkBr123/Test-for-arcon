@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\shop\\views\\cart\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\shop\\views\\cart\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\wwwroot\\js\\shop_js\\shop_checkout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:wwwroot\\js\\shop_js\\shop_checkout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
@@ -83,10 +95,6 @@
       "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\warrantyapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|c:\\users\\marvinpc\\documents\\github\\test-for-arcon\\arcon_capstone_2\\areas\\admin\\controllers\\warrantycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E24DC333-CADA-4E91-A1F3-407C324F3829}|ARCon_Capstone_2.csproj|solutionrelative:areas\\admin\\controllers\\warrantycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -98,7 +106,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 24,
           "Children": [
             {
               "$type": "Bookmark",
@@ -110,20 +118,44 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "shop_checkout.js",
-              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_checkout.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\shop_js\\shop_checkout.js",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_checkout.js*",
-              "RelativeToolTip": "wwwroot\\js\\shop_js\\shop_checkout.js*",
-              "ViewState": "AgIAAK0AAAAAAAAAAADwv74AAAAbAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "shop_my-puchases-for-confirmation.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js",
+              "RelativeToolTip": "wwwroot\\js\\shop_js\\shop_my-puchases-for-confirmation.js",
+              "ViewState": "AgIAADoAAAAAAAAAAAAcwEsAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-05-15T20:16:53.339Z",
+              "WhenOpened": "2026-05-15T20:23:25.889Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "Checkout.cshtml",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Cart\\Checkout.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Shop\\Views\\Cart\\Checkout.cshtml",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Cart\\Checkout.cshtml",
+              "RelativeToolTip": "Areas\\Shop\\Views\\Cart\\Checkout.cshtml",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAhwG4AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-15T20:20:32.778Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "shop_checkout.js",
+              "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_checkout.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\shop_js\\shop_checkout.js",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\shop_js\\shop_checkout.js",
+              "RelativeToolTip": "wwwroot\\js\\shop_js\\shop_checkout.js",
+              "ViewState": "AgIAAK0AAAAAAAAAAADwv74AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-05-15T20:16:53.339Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Repair.js",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\Repair.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\Repair.js",
@@ -131,12 +163,11 @@
               "RelativeToolTip": "wwwroot\\js\\Repair.js",
               "ViewState": "AgIAAH4DAAAAAAAAAAAAAJwDAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-05-15T20:13:17.185Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T20:13:17.185Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "FreonCharge.js",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\FreonCharge.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\FreonCharge.js",
@@ -144,12 +175,11 @@
               "RelativeToolTip": "wwwroot\\js\\FreonCharge.js",
               "ViewState": "AgIAAFgDAAAAAAAAAAAAAHMDAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-05-15T20:13:00.616Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T20:13:00.616Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Cleaning.js",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\Cleaning.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\Cleaning.js",
@@ -157,12 +187,11 @@
               "RelativeToolTip": "wwwroot\\js\\Cleaning.js",
               "ViewState": "AgIAAC0DAAAAAAAAAAAhwEQDAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-05-15T20:12:16.428Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T20:12:16.428Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "Success.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Service\\Success.cshtml.cs",
               "RelativeDocumentMoniker": "Areas\\Shop\\Views\\Service\\Success.cshtml.cs",
@@ -170,12 +199,11 @@
               "RelativeToolTip": "Areas\\Shop\\Views\\Service\\Success.cshtml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T20:06:32.593Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T20:06:32.593Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Success.cshtml",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Service\\Success.cshtml",
               "RelativeDocumentMoniker": "Areas\\Shop\\Views\\Service\\Success.cshtml",
@@ -183,12 +211,11 @@
               "RelativeToolTip": "Areas\\Shop\\Views\\Service\\Success.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-15T20:04:09.215Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T20:04:09.215Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "Repair.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Service\\Repair.cshtml.cs",
               "RelativeDocumentMoniker": "Areas\\Shop\\Views\\Service\\Repair.cshtml.cs",
@@ -196,12 +223,11 @@
               "RelativeToolTip": "Areas\\Shop\\Views\\Service\\Repair.cshtml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T20:03:31.013Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T20:03:31.013Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Installing.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Service\\Installing.cshtml.cs",
               "RelativeDocumentMoniker": "Areas\\Shop\\Views\\Service\\Installing.cshtml.cs",
@@ -209,12 +235,11 @@
               "RelativeToolTip": "Areas\\Shop\\Views\\Service\\Installing.cshtml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T20:03:11.487Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T20:03:11.487Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "ServiceController.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Controllers\\ServiceController.cs",
               "RelativeDocumentMoniker": "Areas\\Shop\\Controllers\\ServiceController.cs",
@@ -222,12 +247,11 @@
               "RelativeToolTip": "Areas\\Shop\\Controllers\\ServiceController.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAgwCgAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T19:53:50.483Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:53:50.483Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "Shop_ServiceBookingsApiController.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Controllers\\Shop_ServiceBookingsApiController.cs",
               "RelativeDocumentMoniker": "Areas\\Shop\\Controllers\\Shop_ServiceBookingsApiController.cs",
@@ -235,12 +259,11 @@
               "RelativeToolTip": "Areas\\Shop\\Controllers\\Shop_ServiceBookingsApiController.cs",
               "ViewState": "AgIAAIYCAAAAAAAAAAAQwA0CAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T19:42:35.27Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:42:35.27Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Installing.js",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\Installing.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\Installing.js",
@@ -248,12 +271,11 @@
               "RelativeToolTip": "wwwroot\\js\\Installing.js",
               "ViewState": "AgIAADEDAAAAAAAAAAAhwEQDAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-05-15T19:41:36.693Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:41:36.693Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "Installing.cshtml",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Shop\\Views\\Service\\Installing.cshtml",
               "RelativeDocumentMoniker": "Areas\\Shop\\Views\\Service\\Installing.cshtml",
@@ -261,12 +283,11 @@
               "RelativeToolTip": "Areas\\Shop\\Views\\Service\\Installing.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-15T19:38:06.48Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:38:06.48Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "AdminUsersApiController.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\AdminUsersApiController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\AdminUsersApiController.cs",
@@ -274,12 +295,11 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\AdminUsersApiController.cs",
               "ViewState": "AgIAAOIAAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T19:11:12.901Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:11:12.901Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "InventoryController.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\InventoryController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\InventoryController.cs",
@@ -287,12 +307,11 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\InventoryController.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAACgAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T19:08:10.87Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:08:10.87Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "InventoryApiController.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\InventoryApiController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\InventoryApiController.cs",
@@ -300,12 +319,11 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\InventoryApiController.cs",
               "ViewState": "AgIAAG8AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T19:07:54.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:07:54.456Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "admin-chat.js",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\admin-chat.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\admin-chat.js",
@@ -313,12 +331,11 @@
               "RelativeToolTip": "wwwroot\\js\\admin-chat.js",
               "ViewState": "AgIAAJAAAAAAAAAAAIAwwJoAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-05-15T19:05:34Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:05:34Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "customer-chat.js",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\customer-chat.js",
               "RelativeDocumentMoniker": "wwwroot\\js\\customer-chat.js",
@@ -326,12 +343,11 @@
               "RelativeToolTip": "wwwroot\\js\\customer-chat.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoBAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-05-15T19:05:01.584Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:05:01.584Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "ConversationAdminApiController.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\ConversationAdminApiController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\ConversationAdminApiController.cs",
@@ -339,12 +355,11 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\ConversationAdminApiController.cs",
               "ViewState": "AgIAAMsAAAAAAAAAAADgv94AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T19:03:59.509Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T19:03:59.509Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 22,
               "Title": "WarrantyApiController.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\WarrantyApiController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\WarrantyApiController.cs",
@@ -352,12 +367,11 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\WarrantyApiController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T18:42:44.05Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T18:42:44.05Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "OutrightReplacementsApi.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\OutrightReplacementsApi.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\OutrightReplacementsApi.cs",
@@ -365,25 +379,24 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\OutrightReplacementsApi.cs",
               "ViewState": "AgIAAO8FAAAAAAAAAAAAAAIBAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T18:39:08.368Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T18:39:08.368Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 0,
               "Title": "_AdminLayout.cshtml",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
               "RelativeDocumentMoniker": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAEsAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml*",
+              "RelativeToolTip": "Areas\\Admin\\Views\\Shared\\_AdminLayout.cshtml*",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAAIoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-05-15T18:32:02.714Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "WarrantyController.cs",
               "DocumentMoniker": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\Areas\\Admin\\Controllers\\WarrantyController.cs",
               "RelativeDocumentMoniker": "Areas\\Admin\\Controllers\\WarrantyController.cs",
@@ -391,8 +404,7 @@
               "RelativeToolTip": "Areas\\Admin\\Controllers\\WarrantyController.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAACgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T18:22:22.885Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T18:22:22.885Z"
             }
           ]
         }
