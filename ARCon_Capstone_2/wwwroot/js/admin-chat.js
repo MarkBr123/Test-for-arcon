@@ -152,7 +152,7 @@ function renderUsers(users) {
     }
 
     const isExternal = currentTab === "EXTERNAL";
-    const canTake = ["ADMIN", "CSM"].includes(currentUserRole);
+    const canTake = ["ADMIN", "CSM", "SUPER_ADMIN"].includes(currentUserRole);
 
     users.forEach(user => {
         const userDiv = document.createElement("div");

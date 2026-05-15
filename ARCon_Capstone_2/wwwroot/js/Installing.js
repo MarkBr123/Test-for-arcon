@@ -1,499 +1,943 @@
-﻿
+﻿// INIT 
+document.addEventListener('DOMContentLoaded', initForm);
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Configuration - Installation specific data
-    const installationData = {
-        'window': { basePrice: 3500, description: 'Window Type Installation' },
-        'split_wall': { basePrice: 4500, description: 'Split Type Wall Mounted Installation' },
-        'split_floor': { basePrice: 5000, description: 'Split Type Floor Mounted Installation' },
-        'split_ceiling': { basePrice: 6000, description: 'Split Type Ceiling Cassette Installation' },
-        'central': { basePrice: 15000, description: 'Central AC System Installation' },
-        'portable': { basePrice: 2500, description: 'Portable AC Setup' }
-    };
+let airconCounter = 1;
 
-    const capacityMultiplier = {
-        '0.5': 1.0,
-        '1.0': 1.2,
-        '1.5': 1.5,
-        '2.0': 1.8,
-        '2.5': 2.2,
-        '3.0': 2.8
-    };
+const API_CACHE = {
+    airconTypes: null,
+    categories: null,
+    serviceMap: {} // "acTypeId-categoryId" → serviceId
+};
 
-    const installationTypeMultiplier = {
-        'new': 1.0,
-        'replacement': 0.8,
-        'relocation': 0.9,
-        'commercial': 1.5
-    };
+async function initForm() {
+    await preloadDropdownData();
+    initAircon(1);
+    setupEventDelegation();
+    setupNavigation();
+}
 
-    const difficultyMultiplier = {
-        'easy': 1.0,
-        'medium': 1.2,
-        'difficult': 1.5,
-        'very_difficult': 2.0
-    };
-
-    // DOM Elements
-    const pages = {
-        page1: document.getElementById('page1'),
-        page2: document.getElementById('page2'),
-        page3: document.getElementById('page3'),
-        progressSteps: document.querySelectorAll('.progress-step'),
-        backBtn: document.getElementById('backBtn'),
-        nextBtn: document.getElementById('nextBtn'),
-        submitBtn: document.getElementById('submitBtn'),
-        unitEntries: document.getElementById('unitEntries'),
-        addUnitBtn: document.getElementById('addUnitBtn'),
-        uploadBox: document.getElementById('uploadBox'),
-        mediaUpload: document.getElementById('mediaUpload'),
-        installationForm: document.getElementById('installationForm')
-    };
-
-    // State
-    let currentPage = 1;
-    let unitCount = 1;
-    const totalPages = 3;
-
-    // Initialize
-    initForm();
-
-    // Functions
-    function initForm() {
-        setupEventListeners();
-        updateSummary();
+//  PRELOAD 
+async function preloadDropdownData() {
+    if (!API_CACHE.airconTypes) {
+        API_CACHE.airconTypes = await fetch('/api/service-aircon-types/dropdown')
+            .then(r => r.json());
     }
 
-    function setupEventListeners() {
-        // Page navigation
-        pages.nextBtn.addEventListener('click', goToNextPage);
-        pages.backBtn.addEventListener('click', goToPreviousPage);
+    if (!API_CACHE.categories) {
+        const allCategories = await fetch('/api/service-categories/dropdown')
+            .then(r => r.json());
 
-        // Add unit
-        pages.addUnitBtn.addEventListener('click', addUnitEntry);
-
-        // File upload
-        pages.uploadBox.addEventListener('click', () => pages.mediaUpload.click());
-        pages.mediaUpload.addEventListener('change', handleFileUpload);
-
-        // Form submission
-        pages.installationForm.addEventListener('submit', handleSubmit);
-
-        // Real-time updates for page 2 inputs
-        document.getElementById('propertyType').addEventListener('change', updateSummary);
-        document.getElementById('floorLevel').addEventListener('change', updateSummary);
-        document.getElementById('accessDifficulty').addEventListener('change', updateSummary);
-        document.getElementById('powerSource').addEventListener('change', updateSummary);
-        document.getElementById('wallType').addEventListener('change', updateSummary);
-        document.getElementById('installationHeight').addEventListener('change', updateSummary);
+        API_CACHE.categories = allCategories.filter(c =>
+            c.serviceClass === "INSTALLATION"
+        );
     }
 
-    function goToNextPage() {
-        if (!validateCurrentPage()) return;
+    populateInitialDropdowns();
+}
 
-        if (currentPage < totalPages) {
-            currentPage++;
-            showPage(currentPage);
+function populateInitialDropdowns() {
+    document.querySelectorAll('.ac-type').forEach(select => {
+        select.innerHTML = '<option value="">Select AC Type...</option>';
+        API_CACHE.airconTypes.forEach(t =>
+            select.appendChild(new Option(t.name, t.id))
+        );
+    });
 
-            // Update button visibility
-            if (currentPage === totalPages) {
-                pages.nextBtn.classList.add('hidden');
-                pages.submitBtn.classList.remove('hidden');
-            } else {
-                pages.nextBtn.classList.remove('hidden');
-                pages.submitBtn.classList.add('hidden');
-            }
+    document.querySelectorAll('.service-type').forEach(select => {
+        select.innerHTML = '<option value="">Select Service...</option>';
+        API_CACHE.categories.forEach(c =>
+            select.appendChild(new Option(c.name, c.id))
+        );
+    });
+}
 
-            if (currentPage > 1) {
-                pages.backBtn.classList.remove('hidden');
+//  AIRCON LOGIC 
+function initAircon(id) {
+    const acType = document.getElementById(`acType-${id}`);
+    const service = document.getElementById(`serviceType-${id}`);
+    const priceTier = document.getElementById(`priceTier-${id}`);
+
+    if (!acType || !service || !priceTier) return;
+
+    acType.addEventListener('change', () => updatePriceTierDropdown(id));
+    service.addEventListener('change', () => updatePriceTierDropdown(id));
+    priceTier.addEventListener('change', updateTotal);
+}
+
+async function updatePriceTierDropdown(id) {
+    const acTypeId = document.getElementById(`acType-${id}`).value;
+    const categoryId = document.getElementById(`serviceType-${id}`).value;
+    const priceTier = document.getElementById(`priceTier-${id}`);
+
+    if (!acTypeId || !categoryId) {
+        priceTier.innerHTML = '<option value="">Select Service first</option>';
+        priceTier.disabled = true;
+        return;
+    }
+
+    const key = `${acTypeId}-${categoryId}`;
+    let serviceId = API_CACHE.serviceMap[key];
+
+    if (!serviceId) {
+        const res = await fetch(
+            `/api/services/by-combo?categoryId=${categoryId}&airconTypeId=${acTypeId}`
+        );
+
+        if (!res.ok) {
+            priceTier.innerHTML = '<option value="">No price tier available</option>';
+            priceTier.disabled = true;
+            updateTotal();
+            return;
+        }
+
+        const svc = await res.json();
+        serviceId = svc.id;
+        API_CACHE.serviceMap[key] = serviceId;
+    }
+    priceTier.dataset.serviceId = serviceId;
+    const tiers = await fetch(`/api/service-price-tiers/by-service/${serviceId}`)
+        .then(r => r.json());
+
+    if (!tiers || tiers.length === 0) {
+        priceTier.innerHTML = '<option value="">No service available</option>';
+        priceTier.disabled = true;
+        updateTotal();
+        return;
+    }
+
+    priceTier.innerHTML = '<option value="">Select Price Tier...</option>';
+    priceTier.disabled = false;
+
+    tiers.forEach(t => {
+        const opt = document.createElement('option');
+
+        opt.value = t.id;
+        opt.dataset.price = t.price;
+        opt.dataset.unit = t.unit;
+        opt.dataset.min = t.capacity_min_range;
+        opt.dataset.max = t.capacity_max_range;
+
+        const fmt = n => Number(n).toFixed(1).replace(/\.0$/, '');
+        opt.textContent = `${fmt(t.min)}-${fmt(t.max)} ${t.unit} — ₱${t.price.toLocaleString()}`;
+
+        priceTier.appendChild(opt);
+        console.log(t);
+    });
+
+    updateTotal();
+}
+
+//  TOTAL
+function updateTotal() {
+    let total = 0;
+
+    document.querySelectorAll('.aircon-entry').forEach(entry => {
+        const id = entry.dataset.airconId;
+        const tier = document.getElementById(`priceTier-${id}`);
+        const units = entry.querySelector('.units-input');
+
+        if (!tier || !units) return;
+
+        const price = Number(tier.selectedOptions[0]?.dataset.price || 0);
+        const count = Number(units.value || 1);
+
+        total += price * count;
+    });
+
+    const el = document.getElementById('estimatedPrice');
+    if (el) el.textContent = `₱ ${total.toLocaleString()}`;
+}
+
+// UI EVENTS
+function setupEventDelegation() {
+    document.addEventListener('click', e => {
+
+        // + Units
+        if (e.target.classList.contains('plus')) {
+            const input = e.target.parentElement.querySelector('.units-input');
+            if (input && input.value < 10) input.value++;
+            updateTotal();
+        }
+
+        // − Units
+        if (e.target.classList.contains('minus')) {
+            const input = e.target.parentElement.querySelector('.units-input');
+            if (input && input.value > 1) input.value--;
+            updateTotal();
+        }
+
+        // Add Aircon
+        if (e.target.id === 'addAirconBtn' || e.target.closest('#addAirconBtn')) {
+            addAircon();
+        }
+
+        // Remove Aircon
+        if (e.target.classList.contains('remove-aircon-btn')) {
+            const entry = e.target.closest('.aircon-entry');
+            if (entry && document.querySelectorAll('.aircon-entry').length > 1) {
+                entry.remove();
+                renumberAircons();
+                updateTotal();
             }
         }
-    }
+    });
 
-    function goToPreviousPage() {
-        if (currentPage > 1) {
-            currentPage--;
-            showPage(currentPage);
+    document.addEventListener('input', e => {
+        if (e.target.classList.contains('units-input')) updateTotal();
+    });
+}
 
-            // Update button visibility
-            if (currentPage === 1) {
-                pages.backBtn.classList.add('hidden');
-            }
+//ADD AIRCON
+function addAircon() {
+    airconCounter++;
+    const id = airconCounter;
 
-            pages.nextBtn.classList.remove('hidden');
-            pages.submitBtn.classList.add('hidden');
-        }
-    }
+    const html = `
+    <div class="aircon-entry" data-aircon-id="${id}">
+        <div class="aircon-entry-header">
+            <div class="aircon-entry-title">Service #${id}</div>
+            <button type="button" class="remove-aircon-btn">Remove</button>
+        </div>
 
-    function showPage(pageNumber) {
-        // Hide all pages
-        pages.page1.classList.remove('active');
-        pages.page2.classList.remove('active');
-        pages.page3.classList.remove('active');
+        <div class="aircon-entry-content">
+            <div class="form-group">
+                <label>AC Type *</label>
+                <select id="acType-${id}" class="ac-type" required></select>
+            </div>
+            <div class="form-group">
+                <label>Service Type *</label>
+                <select id="serviceType-${id}" class="service-type" required></select>
+            </div>
+        </div>
 
-        // Show target page
-        document.getElementById(`page${pageNumber}`).classList.add('active');
+        <div class="aircon-entry-content">
+            <div class="form-group">
+                <label>Price Tier *</label>
+                <select id="priceTier-${id}" class="price-tier" required></select>
+            </div>
+            <div class="form-group">
+                <label>Brand</label>
+                <select id="brand-${id}" class="aircon-brand">
+                    <option value="">Select Brand...</option>
+                                            <option value="Samsung">Samsung</option>
+                                            <option value="LG">LG</option>
+                                            <option value="Panasonic">Panasonic</option>
+                                            <option value="Daikin">Daikin</option>
+                                            <option value="Koppel">Koppel</option>
+                                            <option value="Fujidenzo">Fujidenzo</option>
+                                            <option value="Sharp">Sharp</option>
+                                            <option value="other">Other</option>
+                </select>
+            </div>
+        </div>
 
-        // Update progress indicator
-        pages.progressSteps.forEach(step => {
-            step.classList.remove('active');
-            if (parseInt(step.dataset.page) <= pageNumber) {
-                step.classList.add('active');
-            }
-        });
+        <div class="units-warranty">
+            <div class="form-group">
+                <label>Units *</label>
+                <div class="counter-box">
+                    <button type="button" class="minus">−</button>
+                    <input class="units-input" type="number" value="1" min="1" max="10">
+                    <button type="button" class="plus">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
 
-        // Update summary on page 3
-        if (pageNumber === 3) {
-            updateSummary();
-        }
-    }
+    document.getElementById('airconEntries')
+        .insertAdjacentHTML('beforeend', html);
+    populateDropdownsFor(id); // ✅ ONLY new one
+    initAircon(id);
+}
 
-    function validateCurrentPage() {
-        if (currentPage === 1) {
-            const unitEntries = document.querySelectorAll('.aircon-entry');
+// HELPERS 
+function renumberAircons() {
+    document.querySelectorAll('.aircon-entry')
+        .forEach((entry, i) =>
+            entry.querySelector('.aircon-entry-title').textContent = `Service #${i + 1}`
+        );
+}
 
-            for (const entry of unitEntries) {
-                const acType = entry.querySelector('.ac-type');
-                const capacity = entry.querySelector('.capacity');
-                const brand = entry.querySelector('.aircon-brand');
-                const installationType = entry.querySelector('.installation-type');
-                const units = entry.querySelector('.units-input');
+function getEntrySignature(entry) {
+    const id = entry.dataset.airconId;
+    const acType = document.getElementById(`acType-${id}`)?.value || '';
+    const service = document.getElementById(`serviceType-${id}`)?.value || '';
+    const tier = document.getElementById(`priceTier-${id}`)?.value || '';
+    const brand = document.getElementById(`brand-${id}`)?.value || '';
+    return `${acType}|${service}|${tier}|${brand}`;
+}
 
-                if (!acType.value || !capacity.value || !brand.value || !installationType.value || !units.value) {
-                    alert('Please fill all required fields for AC Unit #' + entry.dataset.unitId);
-                    return false;
-                }
-            }
-        } else if (currentPage === 2) {
-            const propertyType = document.getElementById('propertyType');
-            const floorLevel = document.getElementById('floorLevel');
+function mergeDuplicateAircons() {
+    const entries = Array.from(document.querySelectorAll('.aircon-entry'));
+    const map = new Map();
 
-            if (!propertyType.value || !floorLevel.value) {
-                alert('Please fill all required fields in Location Details');
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function addUnitEntry() {
-        unitCount++;
-        const template = document.querySelector('.aircon-entry').cloneNode(true);
-
-        template.dataset.unitId = unitCount;
-        template.querySelector('.aircon-entry-title').textContent = `AC Unit #${unitCount}`;
-
-    
-        template.querySelectorAll('[data-unit]').forEach(el => {
-            el.dataset.unit = unitCount;
-            const id = el.id ? el.id.replace(/\d+$/, unitCount) : null;
-            if (id) el.id = id;
-        });
-
-        // Clear values
-        template.querySelector('.ac-type').value = '';
-        template.querySelector('.capacity').value = '';
-        template.querySelector('.aircon-brand').value = '';
-        template.querySelector('.installation-type').value = '';
-        template.querySelector('.units-input').value = 1;
-        template.querySelector('.install-date').value = '';
-
-        // Show remove button
-        template.querySelector('.remove-aircon-btn').classList.remove('hidden');
-        template.querySelector('.remove-aircon-btn').addEventListener('click', function () {
-            if (unitCount > 1) {
-                template.remove();
-                unitCount--;
-                updateSummary();
-            }
-        });
-
-        // Add event listeners
-        addUnitEventListeners(template, unitCount);
-
-        // Append to container
-        pages.unitEntries.appendChild(template);
-
-        // Update summary
-        updateSummary();
-    }
-
-    function addUnitEventListeners(entry, unitId) {
-        // All dropdown changes trigger summary update
-        entry.querySelector('.ac-type').addEventListener('change', updateSummary);
-        entry.querySelector('.capacity').addEventListener('change', updateSummary);
-        entry.querySelector('.aircon-brand').addEventListener('change', updateSummary);
-        entry.querySelector('.installation-type').addEventListener('change', updateSummary);
-        entry.querySelector('.install-date').addEventListener('change', updateSummary);
-
-        // Units counter
-        const minusBtn = entry.querySelector('.minus');
-        const plusBtn = entry.querySelector('.plus');
+    for (const entry of entries) {
+        const sig = getEntrySignature(entry);
         const unitsInput = entry.querySelector('.units-input');
+        const units = Number(unitsInput?.value || 1);
 
-        minusBtn.addEventListener('click', function () {
-            const current = parseInt(unitsInput.value);
-            if (current > 1) {
-                unitsInput.value = current - 1;
-                updateSummary();
+        if (!sig || sig.includes('||')) continue;
+
+        if (map.has(sig)) {
+            const existing = map.get(sig);
+            const existingUnitsInput = existing.querySelector('.units-input');
+            existingUnitsInput.value =
+                Number(existingUnitsInput.value) + units;
+            entry.remove();
+        } else {
+            map.set(sig, entry);
+        }
+    }
+
+    renumberAircons();
+    updateTotal();
+}
+
+function populateDropdownsFor(id) {
+    const acTypeSelect = document.getElementById(`acType-${id}`);
+    const serviceSelect = document.getElementById(`serviceType-${id}`);
+
+    if (acTypeSelect) {
+        acTypeSelect.innerHTML = '<option value="">Select AC Type...</option>';
+        API_CACHE.airconTypes.forEach(t =>
+            acTypeSelect.appendChild(new Option(t.name, t.id))
+        );
+    }
+
+    if (serviceSelect) {
+        serviceSelect.innerHTML = '<option value="">Select Service...</option>';
+        API_CACHE.categories.forEach(c =>
+            serviceSelect.appendChild(new Option(c.name, c.id))
+        );
+    }
+}
+
+// NAVIGATION 
+function setupNavigation() {
+    const nextBtn = document.getElementById('nextBtn');
+    if (!nextBtn) return;
+
+    nextBtn.addEventListener('click', () => {
+
+        //  Not logged in
+        if (!IS_LOGGED_IN) {
+            const returnUrl = encodeURIComponent(window.location.pathname);
+            window.location.href = `/Shop/Home/Login?returnUrl=${returnUrl}`;
+            return;
+        }
+
+        const entries = document.querySelectorAll('.aircon-entry');
+
+        //  No aircon
+        if (entries.length === 0) {
+            alert('Please add at least one aircon service.');
+            return;
+        }
+
+        //  Validate each
+        for (const entry of entries) {
+            const id = entry.dataset.airconId;
+
+            const acType = document.getElementById(`acType-${id}`);
+            const service = document.getElementById(`serviceType-${id}`);
+            const tier = document.getElementById(`priceTier-${id}`);
+            const units = entry.querySelector('.units-input');
+
+            const invalidUnits = !units || !units.value || Number(units.value) < 1;
+
+            if (
+                !acType?.value ||
+                !service?.value ||
+                !tier?.value ||
+                tier?.disabled ||
+                invalidUnits
+            ) {
+                alert(`Service #${id} is incomplete.`);
+                entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                entry.style.border = '2px solid #e53935';
+                setTimeout(() => entry.style.border = '', 2000);
+                return;
             }
-        });
-
-        plusBtn.addEventListener('click', function () {
-            const current = parseInt(unitsInput.value);
-            if (current < 10) {
-                unitsInput.value = current + 1;
-                updateSummary();
-            }
-        });
-
-        unitsInput.addEventListener('change', updateSummary);
-    }
-
-    function handleFileUpload(event) {
-        const files = event.target.files;
-        const preview = document.getElementById('preview');
-        preview.innerHTML = '';
-
-        for (const file of files) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const div = document.createElement('div');
-                div.style.display = 'inline-block';
-                div.style.margin = '5px';
-
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.alt = 'Preview';
-                img.style.maxWidth = '100px';
-                img.style.maxHeight = '100px';
-                img.style.borderRadius = '5px';
-
-                div.appendChild(img);
-                preview.appendChild(div);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function updateSummary() {
-        const unitEntries = document.querySelectorAll('.aircon-entry');
-        let totalUnits = 0;
-        let totalPrice = 0;
-        let totalCapacity = 0;
-        const unitTypes = [];
-        const installationTypes = new Set();
-        const brands = new Set();
-
-        // Calculate totals from units
-        unitEntries.forEach(entry => {
-            const units = parseInt(entry.querySelector('.units-input').value) || 1;
-            const acType = entry.querySelector('.ac-type').value;
-            const capacity = entry.querySelector('.capacity').value;
-            const brand = entry.querySelector('.aircon-brand').value;
-            const installationType = entry.querySelector('.installation-type').value;
-
-            totalUnits += units;
-            totalCapacity += (parseFloat(capacity) || 0) * units;
-
-            if (acType && installationData[acType]) {
-                const typeName = entry.querySelector('.ac-type option:checked').textContent;
-                unitTypes.push(`${typeName} (${units} unit${units > 1 ? 's' : ''})`);
-            }
-
-            if (brand) {
-                const brandName = entry.querySelector('.aircon-brand option:checked').textContent;
-                brands.add(brandName);
-            }
-
-            if (installationType) {
-                const typeName = entry.querySelector('.installation-type option:checked').textContent;
-                installationTypes.add(typeName);
-            }
-
-            // Calculate price
-            if (acType && installationData[acType]) {
-                let unitPrice = installationData[acType].basePrice;
-
-                // Adjust for capacity
-                if (capacity && capacityMultiplier[capacity]) {
-                    unitPrice *= capacityMultiplier[capacity];
-                }
-
-                // Adjust for installation type
-                if (installationType && installationTypeMultiplier[installationType]) {
-                    unitPrice *= installationTypeMultiplier[installationType];
-                }
-
-                totalPrice += Math.round(unitPrice * units);
-            }
-        });
-
-        // Additional services
-        const additionalCheckboxes = document.querySelectorAll('input[name="additional"]:checked');
-        const additionalServices = additionalCheckboxes.length > 0
-            ? Array.from(additionalCheckboxes).map(cb => {
-                const labels = {
-                    'electrical_wiring': 'Electrical Wiring',
-                    'drainage_piping': 'Drainage Piping',
-                    'wall_cutting': 'Wall Cutting',
-                    'scaffolding': 'Scaffolding Required',
-                    'disposal': 'Old Unit Disposal'
-                };
-                return labels[cb.value] || cb.value;
-            }).join(', ')
-            : 'None';
-
-        // Add additional service costs
-        if (additionalCheckboxes.length > 0) {
-            additionalCheckboxes.forEach(cb => {
-                if (cb.value === 'electrical_wiring') totalPrice += 1500;
-                if (cb.value === 'drainage_piping') totalPrice += 800;
-                if (cb.value === 'wall_cutting') totalPrice += 1200;
-                if (cb.value === 'scaffolding') totalPrice += 2000;
-                if (cb.value === 'disposal') totalPrice += 500;
-            });
         }
 
-        // Adjust for location factors
-        const difficulty = document.getElementById('accessDifficulty').value;
-        const floorLevel = document.getElementById('floorLevel').value;
-        const propertyType = document.getElementById('propertyType').value;
+        // Merge same configs
+        mergeDuplicateAircons();
 
-        if (difficulty && difficultyMultiplier[difficulty]) {
-            totalPrice *= difficultyMultiplier[difficulty];
-        }
+        // Then render summary
+        renderAirconSummary();
 
-        // Adjust for floor level
-        if (floorLevel && floorLevel >= 2) {
-            totalPrice *= 1.1; // 10% increase per floor above ground
-        }
+        // Proceed
+        document.getElementById('page1').classList.remove('active');
+        document.getElementById('page2').classList.add('active');
 
-        // Round to nearest 100
-        totalPrice = Math.round(totalPrice / 100) * 100;
+        nextBtn.classList.add('hidden');
+        document.getElementById('backBtn').classList.remove('hidden');
+        document.getElementById('submitBtn').classList.remove('hidden');
 
-        // Update DOM
-        if (document.getElementById('summaryUnits')) {
-            document.getElementById('summaryUnits').querySelector('.summary-value').textContent =
-                unitTypes.length > 0 ? unitTypes.join(', ') : 'Not selected';
-        }
+        // progress indicator
+        document.querySelectorAll('.progress-step')[0].classList.remove('active');
+        document.querySelectorAll('.progress-step')[1].classList.add('active');
 
-        if (document.getElementById('summaryCapacity')) {
-            document.getElementById('summaryCapacity').querySelector('.summary-value').textContent =
-                totalCapacity > 0 ? `${totalCapacity} HP` : '0 HP';
-        }
-
-        if (document.getElementById('summaryInstallationType')) {
-            document.getElementById('summaryInstallationType').querySelector('.summary-value').textContent =
-                installationTypes.size > 0 ? Array.from(installationTypes).join(', ') : 'Not selected';
-        }
-
-        if (document.getElementById('summaryPropertyType')) {
-            const propertySelect = document.getElementById('propertyType');
-            const propertyValue = propertySelect.options[propertySelect.selectedIndex]?.textContent || 'Not selected';
-            document.getElementById('summaryPropertyType').querySelector('.summary-value').textContent = propertyValue;
-        }
-
-        if (document.getElementById('summaryDifficulty')) {
-            const difficultySelect = document.getElementById('accessDifficulty');
-            const difficultyValue = difficultySelect.options[difficultySelect.selectedIndex]?.textContent || 'Not specified';
-            document.getElementById('summaryDifficulty').querySelector('.summary-value').textContent = difficultyValue;
-        }
-
-        if (document.getElementById('summaryAdditional')) {
-            document.getElementById('summaryAdditional').querySelector('.summary-value').textContent = additionalServices;
-        }
-
-        if (document.getElementById('summaryPrice')) {
-            document.getElementById('summaryPrice').textContent = `₱ ${totalPrice.toLocaleString()}`;
-        }
-
-        if (document.getElementById('estimatedPrice')) {
-            document.getElementById('estimatedPrice').textContent = `₱ ${totalPrice.toLocaleString()}`;
-        }
-    }
-
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        if (!validateCurrentPage()) return;
-
-        // Collect form data
-        const formData = {
-            installationDetails: collectInstallationDetails(),
-            locationDetails: collectLocationDetails(),
-            personalInfo: collectPersonalInfo(),
-            files: Array.from(pages.mediaUpload.files).map(file => file.name),
-            totalPrice: parsePrice(document.getElementById('summaryPrice').textContent)
-        };
-
-      //this would send this to our server
-        console.log('Installation form submitted:', formData);
-        alert('Installation request submitted successfully! Our team will contact you within 24 hours.');
-
-
-        // pages.installationForm.reset();
-        // currentPage = 1;
-        // showPage(1);
-    }
-
-    function collectInstallationDetails() {
-        const entries = [];
-
-        document.querySelectorAll('.aircon-entry').forEach(entry => {
-            entries.push({
-                acType: entry.querySelector('.ac-type').value,
-                capacity: entry.querySelector('.capacity').value,
-                brand: entry.querySelector('.aircon-brand').value,
-                installationType: entry.querySelector('.installation-type').value,
-                units: entry.querySelector('.units-input').value,
-                installDate: entry.querySelector('.install-date').value
-            });
-        });
-
-        return entries;
-    }
-
-    function collectLocationDetails() {
-        return {
-            propertyType: document.getElementById('propertyType').value,
-            floorLevel: document.getElementById('floorLevel').value,
-            roomDimensions: document.getElementById('roomDimensions').value,
-            accessDifficulty: document.getElementById('accessDifficulty').value,
-            powerSource: document.getElementById('powerSource').value,
-            wallType: document.getElementById('wallType').value,
-            installationHeight: document.getElementById('installationHeight').value,
-            specialRequirements: document.getElementById('specialRequirements').value
-        };
-    }
-
-    function collectPersonalInfo() {
-        return {
-            fullName: document.getElementById('fullName').value,
-            customerType: document.getElementById('customerType').value,
-            address: document.getElementById('address').value,
-            landmark: document.getElementById('landmark').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value,
-            preferredTime: document.getElementById('preferredTime').value
-        };
-    }
-
-    function parsePrice(priceString) {
-        return parseInt(priceString.replace(/[^\d]/g, ''));
-    }
-
-    // Initialize event listeners for first unit
-    addUnitEventListeners(document.querySelector('.aircon-entry'), 1);
-
-    // Initialize additional checkboxes
-    document.querySelectorAll('input[name="additional"]').forEach(checkbox => {
-        checkbox.addEventListener('change', updateSummary);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        updateTotal();
     });
 
-    // Set minimum date for installation date inputs
-    const today = new Date().toISOString().split('T')[0];
-    document.querySelectorAll('.install-date').forEach(input => {
-        input.min = today;
+
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    //  BACK BUTTON LOGIC 
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+
+            // Show Page 1
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+
+            // Toggle buttons
+            document.getElementById('backBtn').classList.add('hidden');
+            document.getElementById('submitBtn').classList.add('hidden');
+            document.getElementById('nextBtn').classList.remove('hidden');
+
+            // Progress indicator
+            const steps = document.querySelectorAll('.progress-step');
+            if (steps.length >= 2) {
+                steps[1].classList.remove('active');
+                steps[0].classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+
+    //  CUSTOMER TYPE → BUSINESS FIELD 
+    const businessNameInput = document.getElementById("businessName");
+    const customerTypeRadios = document.querySelectorAll('input[name="customer_type"]');
+
+    function updateBusinessField() {
+        const selected = document.querySelector('input[name="customer_type"]:checked')?.value;
+        const isBusiness = selected === "BUSINESS";
+
+        businessNameInput.disabled = !isBusiness;
+        businessNameInput.required = isBusiness;
+
+        // Optional: clear value if switching to Personal
+        if (!isBusiness) {
+            businessNameInput.value = "";
+        }
+    }
+
+    // Run on page load
+    updateBusinessField();
+
+    // Run when radio changes
+    customerTypeRadios.forEach(radio => {
+        radio.addEventListener("change", updateBusinessField);
     });
+
+    //Listener for toggleOnlinePayment
+    document.querySelectorAll('input[name="payment_method"]')
+        .forEach(r => r.addEventListener('change', togglePaymentUI));
+
 });
+
+
+//////////////////// ADDRESS MODAL ////////////////////
+
+const addressModal = document.getElementById('addressModal');
+const container = document.getElementById("addressListContainer");
+const chooseAddressBtn = document.getElementById('chooseAddressBtn');
+const selectedAddressBox = document.getElementById('selectedAddressBox');
+const selectedAddressText = document.getElementById('selectedAddressText');
+const customerAddressIdInput = document.getElementById('customerAddressId');
+const changeAddressBtn = document.getElementById('changeAddressBtn');
+
+
+// OPEN MODAL 
+async function openAddressModal() {
+    const modal = bootstrap.Modal.getOrCreateInstance(addressModal);
+    modal.show();
+    await loadCustomerAddresses();
+}
+
+chooseAddressBtn?.addEventListener('click', openAddressModal);
+changeAddressBtn?.addEventListener('click', openAddressModal);
+
+
+// LOAD ADDRESSES 
+async function loadCustomerAddresses() {
+
+    container.innerHTML = `<div class="loading">Loading addresses...</div>`;
+
+    try {
+        const res = await fetch('/api/shop/addresses', {
+            credentials: "same-origin"
+        });
+
+        if (!res.ok) throw new Error('Failed to load');
+
+        const addresses = await res.json();
+
+        container.innerHTML = '';
+
+        if (!addresses.length) {
+            container.innerHTML = `
+                <div class="empty">
+                    No saved addresses found.
+                </div>`;
+            return;
+        }
+
+        addresses.forEach(addr => {
+
+            // Normalize casing (camelCase or PascalCase — both work)
+            const barangay = addr.barangay ?? addr.Barangay ?? '';
+            const municipality = addr.municipality ?? addr.Municipality ?? '';
+            const province = addr.province ?? addr.Province ?? '';
+            const region = addr.region ?? addr.Region ?? '';
+
+            const card = document.createElement('div');
+            card.className = 'address-card';
+            if (addr.is_default) card.classList.add('default');
+
+            card.innerHTML = `
+                <div class="addr-main">
+                    ${addr.house_unit ?? ''}, ${addr.street_name ?? ''}
+                </div>
+                <div class="addr-sub">
+                    ${barangay}, ${municipality}, ${province}
+                </div>
+                <div class="addr-sub">
+                    ${region} • ${addr.zip_code ?? ''}
+                </div>
+                ${addr.landmark ? `<div class="addr-sub">Landmark: ${addr.landmark}</div>` : ''}
+                ${addr.is_default ? `<div class="addr-badge">Default</div>` : ''}
+            `;
+
+            card.addEventListener('click', () => selectAddress(addr));
+            container.appendChild(card);
+        });
+
+    } catch (err) {
+        container.innerHTML = `
+            <div class="error">
+                Failed to load addresses.
+            </div>`;
+        console.error(err);
+    }
+}
+
+
+//SELECT ADDRESS 
+function selectAddress(addr) {
+
+    //  Normalize casing
+    const barangay = addr.barangay ?? addr.Barangay ?? '';
+    const municipality = addr.municipality ?? addr.Municipality ?? '';
+    const province = addr.province ?? addr.Province ?? '';
+    const region = addr.region ?? addr.Region ?? '';
+
+    // Save ID
+    customerAddressIdInput.value = addr.id;
+
+    // Show preview
+    selectedAddressBox.classList.remove('hidden');
+
+    selectedAddressText.innerHTML = `
+        <strong>${addr.house_unit ?? ''}, ${addr.street_name ?? ''}</strong><br>
+        ${barangay}, ${municipality}, ${province}<br>
+        ${region} • ${addr.zip_code ?? ''}
+        ${addr.landmark ? `<br>Landmark: ${addr.landmark}` : ''}
+    `;
+
+    // Close modal
+    bootstrap.Modal.getInstance(addressModal)?.hide();
+}
+
+//RENDER AIRCON SUMMARY (PAGE 2) 
+function renderAirconSummary() {
+    const container = document.getElementById('airconSummaryContainer');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const entries = document.querySelectorAll('.aircon-entry');
+
+    if (!entries.length) {
+        container.innerHTML = '<div class="text-muted">No aircon services added.</div>';
+        return;
+    }
+
+    entries.forEach((entry, index) => {
+        const id = entry.dataset.airconId;
+
+        // FIXED IDs
+        const acTypeText = getSelectedText(`acType-${id}`);
+        const serviceText = getSelectedText(`serviceType-${id}`);
+        const tierText = getSelectedText(`priceTier-${id}`);
+        const brandText = getSelectedText(`brand-${id}`);
+
+        const units = entry.querySelector('.units-input')?.value || 1;
+
+        const card = document.createElement('div');
+        card.className = 'card p-3 mb-3';
+
+        card.innerHTML = `
+                <div class="svc-row">
+
+                    <div class="svc-left">
+                        <div class="svc-title">Service #${index + 1}</div>
+                        <div class="svc-meta">
+                            ${acTypeText} • ${serviceText}
+                        </div>
+                    </div>
+
+                    <div class="svc-mid">
+                        <div class="svc-tier">${tierText}</div>
+                        <div class="svc-brand">${brandText}</div>
+                    </div>
+
+                    <div class="svc-right">
+                        ${units} unit${units > 1 ? 's' : ''}
+                    </div>
+
+                </div>
+            `;
+
+        container.appendChild(card);
+    });
+}
+
+
+//HELPER
+function getSelectedText(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return '-';
+
+    const option = select.options[select.selectedIndex];
+
+    // placeholder usually has value=""
+    if (!option || !option.value) return '-';
+
+    return option.textContent.trim();
+}
+
+
+/// toggle online payment button
+function togglePaymentUI() {
+    const method = document.querySelector('input[name="payment_method"]:checked')?.value;
+    const section = document.getElementById('onlinePaymentSection');
+
+    if (!section) return;
+
+    section.style.display = method === "ONLINE_PAYMENT" ? "block" : "none";
+}
+
+
+
+//Online Payment Method
+async function createPaymentMethod() {
+
+    const cardNumber = document.getElementById('cardNumber').value;
+    const expMonth = document.getElementById('expMonth').value;
+    const expYear = document.getElementById('expYear').value;
+    const cvc = document.getElementById('cvc').value;
+
+    const res = await fetch("https://api.paymongo.com/v1/payment_methods", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Basic " + btoa("pk_test_Yg5DNu2XYgqhsoVBJL8nmXjY") // PUBLIC KEY
+        },
+        body: JSON.stringify({
+            data: {
+                attributes: {
+                    type: "card",
+                    details: {
+                        card_number: cardNumber.replace(/\s/g, ''),
+                        exp_month: Number(expMonth),
+                        exp_year: Number(expYear),
+                        cvc: cvc
+                    }
+                }
+            }
+        })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        throw new Error(data.errors?.[0]?.detail || "Card error");
+    }
+
+    return data.data.id;
+}
+
+
+
+
+///Post///
+async function submitBooking() {
+
+    const btn = document.getElementById('submitBtn');
+
+    //  BASIC VALIDATION 
+    const addressId = Number(document.getElementById('customerAddressId')?.value);
+    const scheduleDate = document.getElementById('scheduleDate')?.value;
+    const propertyType = document.querySelector('[name="property_type"]')?.value;
+    const paymentMethod = getRadioValue('payment_method');
+    const preferredTimeInput = document.getElementById('preferredTime');
+
+    const showInfo = (msg) => {
+        document.getElementById('infoMessage').textContent = msg;
+        new bootstrap.Modal(document.getElementById('infoModal')).show();
+    };
+
+    if (!addressId) return showInfo("Please select a service address.");
+    if (!scheduleDate) return showInfo("Please select your preferred service date.");
+    if (!propertyType) return showInfo("Please select the property type.");
+    if (!paymentMethod) return showInfo("Please choose a payment method.");
+
+    // BUILD PAYLOAD
+    const payload = {
+        customer_addresses_id: addressId,
+        schedule_date: scheduleDate,
+        preferred_time: preferredTimeInput.value
+            ? preferredTimeInput.value + ":00"
+            : null,
+        property_type: propertyType.toUpperCase(),
+        business_name: document.getElementById('businessName')?.value?.trim() || null,
+        customer_note: document.querySelector('[name="customer_note"]')?.value || null,
+        payment_method: paymentMethod.toUpperCase(),
+        paymentMethodId: null,
+        sbitems: []
+    };
+
+    //  COLLECT ITEMS
+    const entries = document.querySelectorAll('.aircon-entry');
+
+    if (!entries.length) {
+        return showInfo("Please add at least one aircon service.");
+    }
+
+    for (const entry of entries) {
+        const id = entry.dataset.airconId;
+        const tierSelect = document.getElementById(`priceTier-${id}`);
+        const unitsInput = entry.querySelector('.units-input');
+        const brandSelect = document.getElementById(`brand-${id}`);
+
+        if (!tierSelect?.value) continue;
+
+        const selectedOption = tierSelect.selectedOptions[0];
+        const price = Number(selectedOption?.dataset.price || 0);
+        const serviceId = Number(tierSelect.dataset.serviceId);
+
+        if (!serviceId) continue;
+
+        payload.sbitems.push({
+            services_id: serviceId,
+            service_price_tiers_id: Number(tierSelect.value),
+            unit_count: Math.max(1, Number(unitsInput?.value || 1)),
+            unit_brand: brandSelect?.value || null,
+            unit: selectedOption?.dataset.unit || null,
+            capacity_range: selectedOption?.textContent || null,
+            price: price
+        });
+    }
+
+    if (!payload.sbitems.length) {
+        return showInfo("Please complete the service details before booking.");
+    }
+
+    // CREATE PAYMENT METHOD 
+    if (paymentMethod === "ONLINE_PAYMENT") {
+
+        try {
+            const cardNumber = document.getElementById('cardNumber')?.value;
+            const expMonth = document.getElementById('expMonth')?.value;
+            const expYear = document.getElementById('expYear')?.value;
+            const cvc = document.getElementById('cvc')?.value;
+
+            if (!cardNumber || !expMonth || !expYear || !cvc) {
+                return showInfo("Please complete card details.");
+            }
+
+            const resPM = await fetch("https://api.paymongo.com/v1/payment_methods", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Basic " + btoa("pk_test_Yg5DNu2XYgqhsoVBJL8nmXjY")
+                },
+                body: JSON.stringify({
+                    data: {
+                        attributes: {
+                            type: "card",
+                            details: {
+                                card_number: cardNumber.replace(/\s/g, ''),
+                                exp_month: Number(expMonth),
+                                exp_year: Number(expYear),
+                                cvc: cvc
+                            }
+                        }
+                    }
+                })
+            });
+
+            const pmData = await resPM.json();
+
+            if (!resPM.ok) {
+                throw new Error(pmData.errors?.[0]?.detail || "Card error");
+            }
+
+            payload.paymentMethodId = pmData.data.id;
+        }
+        catch (err) {
+            return showInfo(err.message || "Failed to process card.");
+        }
+    }
+
+    console.log("📦 FINAL PAYLOAD:", payload);
+
+    //  LOADING 
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+
+    try {
+        const res = await fetch("/api/service-bookings/installation", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.message || "Booking failed.");
+        }
+
+        //  WAIT FOR WEBHOOK 
+        document.getElementById('successBookingId').textContent =
+            data.reference ?? data.bookingId;
+
+        new bootstrap.Modal(
+            document.getElementById('successModal')
+        ).show();
+
+        resetBookingForm();
+
+
+        //OPTIONAL: WAIT A BIT FOR WEBHOOK
+        setTimeout(() => {
+            window.location.href =
+                `/Shop/Service/Success?id=${data.bookingId}`;
+        }, 5000);
+
+    }
+
+    catch (err) {
+
+        document.getElementById('errorMessage').textContent =
+            err.message || "Network error.";
+
+        new bootstrap.Modal(document.getElementById('errorModal')).show();
+
+        btn.disabled = false;
+        btn.textContent = "Book Service";
+    }
+
+}
+
+// After transaction it resets everything
+function resetBookingForm() {
+
+    // Reset radio buttons
+    document.querySelectorAll('input[name="payment_method"]')
+        .forEach(r => r.checked = false);
+
+    // Hide card section
+    const section = document.getElementById('onlinePaymentSection');
+    if (section) section.style.display = "none";
+
+    //Clear card inputs
+    ['cardNumber', 'expMonth', 'expYear', 'cvc'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+
+    //Clear basic fields
+    document.getElementById('scheduleDate').value = "";
+    document.getElementById('preferredTime').value = "";
+    document.getElementById('businessName').value = "";
+
+    const note = document.querySelector('[name="customer_note"]');
+    if (note) note.value = "";
+
+    // 🔹 Clear service entries
+    document.querySelectorAll('.aircon-entry').forEach(entry => {
+        const selects = entry.querySelectorAll('select');
+        const inputs = entry.querySelectorAll('input');
+
+        selects.forEach(s => s.selectedIndex = 0);
+        inputs.forEach(i => {
+            if (i.type !== "hidden") i.value = "";
+        });
+    });
+}
+
+
+
+
+
+function getRadioValue(name) {
+    return document.querySelector(`input[name="${name}"]:checked`)?.value || null;
+}
+
+///Submit Button///
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('submitBtn')
+        ?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await submitBooking();
+        });
+});
+
+function updateBusinessField() {
+    const selected = document.querySelector('input[name="customer_type"]:checked')?.value;
+    const isBusiness = selected === "BUSINESS";
+
+    businessNameInput.disabled = !isBusiness;
+    businessNameInput.required = isBusiness;
+
+    if (!isBusiness) businessNameInput.value = "";
+}
+
+function updateTotal() {
+    let total = 0;
+
+    document.querySelectorAll('.aircon-entry').forEach(entry => {
+        const id = entry.dataset.airconId;
+        const tier = document.getElementById(`priceTier-${id}`);
+        const units = entry.querySelector('.units-input');
+
+        const price = Number(tier?.selectedOptions[0]?.dataset.price || 0);
+        const count = Math.max(1, Number(units?.value) || 1);
+
+        total += price * count;
+    });
+
+    // Page 1 total
+    const est = document.getElementById('estimatedPrice');
+    if (est) est.textContent = `₱ ${total.toLocaleString()}`;
+
+    // Page 2 total
+    const final = document.getElementById('totalAmount');
+    if (final) final.textContent = `₱ ${total.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })}`;
+}

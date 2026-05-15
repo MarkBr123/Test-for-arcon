@@ -922,7 +922,7 @@ async function submitBooking() {
         //OPTIONAL: WAIT A BIT FOR WEBHOOK
         setTimeout(() => {
             window.location.href =
-                `/Shop/Booking/Success?id=${data.bookingId}`;
+                `/Shop/Service/Success?id=${data.bookingId}`;
         }, 5000);
 
     }

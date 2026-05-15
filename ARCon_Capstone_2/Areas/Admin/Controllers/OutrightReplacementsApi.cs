@@ -258,17 +258,6 @@ public class OutrightReplacementsApi
             var userType =
                 HttpContext.Session.GetString("UserType");
 
-            if (adminId == null ||
-                userType != "ADMIN")
-            {
-                return Unauthorized(new
-                {
-                    message = "Unauthorized"
-                });
-            }
-
-
-
             // =========================================
             // GET WARRANTY
             // =========================================

@@ -1,0 +1,355 @@
+﻿@{
+    ViewData["Title"] = "Booking Successful";
+}
+
+<div class="container py-5">
+
+    <div class="success-wrapper mx-auto">
+
+        <!-- SUCCESS ICON -->
+        <div class="success-icon-wrapper">
+            <div class="success-icon">
+                ✓
+            </div>
+        </div>
+
+        <!-- SUCCESS MESSAGE -->
+        <div class="text-center mt-4">
+
+            <h1 class="success-title">
+                Booking Successfully Submitted
+            </h1>
+
+            <p class="success-subtitle">
+                Your service booking request has been received.
+                Our team will review and process your booking shortly.
+            </p>
+
+        </div>
+
+        <!-- BOOKING CARD -->
+        <div class="booking-card mt-5">
+
+            <div class="booking-header">
+
+                <div>
+                    <div class="booking-label">
+                        Service Booking ID
+                    </div>
+
+                    <div class="booking-id">
+                        #@Context.Request.Query["id"]
+                    </div>
+                </div>
+
+                <span class="booking-status">
+                    PENDING
+                </span>
+
+            </div>
+
+            <hr />
+
+            <div class="booking-grid">
+
+                <div class="booking-item">
+                    <div class="booking-item-label">
+                        Booking Date
+                    </div>
+
+                    <div class="booking-item-value">
+                        @DateTime.Now.ToString("MMMM dd, yyyy")
+                    </div>
+                </div>
+
+                <div class="booking-item">
+                    <div class="booking-item-label">
+                        Booking Time
+                    </div>
+
+                    <div class="booking-item-value">
+                        @DateTime.Now.ToString("hh:mm tt")
+                    </div>
+                </div>
+
+                <div class="booking-item">
+                    <div class="booking-item-label">
+                        Payment Status
+                    </div>
+                </div>
+
+                <div class="booking-item">
+                    <div class="booking-item-label">
+                        Service Status
+                    </div>
+
+                    <div class="booking-item-value text-primary fw-bold">
+                        FOR REVIEW
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- INFO SECTION -->
+        <div class="info-card mt-4">
+
+            <div class="info-title">
+                What Happens Next?
+            </div>
+
+            <div class="timeline mt-4">
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+
+                    <div>
+                        <div class="timeline-title">
+                            Booking Review
+                        </div>
+
+                        <div class="timeline-text">
+                            Our support team will review your booking details.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+
+                    <div>
+                        <div class="timeline-title">
+                            Technician Assignment
+                        </div>
+
+                        <div class="timeline-text">
+                            Available technicians will be assigned to your request.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+
+                    <div>
+                        <div class="timeline-title">
+                            Service Scheduling
+                        </div>
+
+                        <div class="timeline-text">
+                            You will receive updates once the schedule is finalized.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="d-flex flex-wrap gap-3 justify-content-center mt-5">
+
+            <a href="/Shop/MyBookings"
+               class="btn btn-primary btn-lg px-4 rounded-pill">
+                View My Bookings
+            </a>
+
+            <a href="/Shop"
+               class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
+                Continue Browsing
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    body {
+        background: #f4f7fb;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .success-wrapper {
+        max-width: 850px;
+    }
+
+    .success-icon-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .success-icon {
+        width: 120px;
+        height: 120px;
+
+        background: linear-gradient(
+            135deg,
+            #16a34a,
+            #22c55e
+        );
+
+        color: white;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 55px;
+        font-weight: bold;
+
+        box-shadow:
+            0 15px 35px rgba(34, 197, 94, 0.25);
+    }
+
+    .success-title {
+        font-size: 42px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .success-subtitle {
+        max-width: 650px;
+        margin: 15px auto 0;
+
+        color: #64748b;
+        font-size: 18px;
+        line-height: 1.7;
+    }
+
+    .booking-card,
+    .info-card {
+        background: white;
+
+        border-radius: 24px;
+
+        padding: 35px;
+
+        box-shadow:
+            0 12px 35px rgba(15, 23, 42, 0.06);
+    }
+
+    .booking-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .booking-label {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .booking-id {
+        font-size: 32px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .booking-status {
+        background: #dbeafe;
+        color: #1d4ed8;
+
+        padding: 10px 18px;
+
+        border-radius: 999px;
+
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .booking-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+        margin-top: 25px;
+    }
+
+    .booking-item-label {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .booking-item-value {
+        color: #0f172a;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .info-title {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .timeline-item {
+        display: flex;
+        gap: 18px;
+        align-items: flex-start;
+    }
+
+    .timeline-dot {
+        width: 18px;
+        height: 18px;
+
+        min-width: 18px;
+
+        background: #2563eb;
+
+        border-radius: 50%;
+
+        margin-top: 5px;
+
+        box-shadow:
+            0 0 0 6px rgba(37, 99, 235, 0.12);
+    }
+
+    .timeline-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 4px;
+    }
+
+    .timeline-text {
+        color: #64748b;
+        line-height: 1.6;
+    }
+
+    @@media (max-width: 768px) {
+
+        .success-title {
+            font-size: 32px;
+        }
+
+        .booking-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .booking-id {
+            font-size: 26px;
+        }
+
+        .booking-card,
+        .info-card {
+            padding: 25px;
+        }
+    }
+</style>
+```

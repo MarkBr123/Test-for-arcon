@@ -34,4 +34,10 @@ public class ServiceController : Controller
         SetLoginState();
         return View();
     }
+
+    public IActionResult Success()
+    {
+        SetLoginState();
+        return View();
+    }
 }

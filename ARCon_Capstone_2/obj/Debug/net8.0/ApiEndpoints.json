@@ -1901,6 +1901,22 @@
   },
   {
     "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServiceBookingsApiController",
+    "Method": "CreateInstallationBooking",
+    "RelativePath": "api/service-bookings/installation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ARCon_Capstone_2.DTOs.Shop_CleaningServiceBookingDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_ServiceBookingsApiController",
     "Method": "CreateRepairBooking",
     "RelativePath": "api/service-bookings/repair",
     "HttpMethod": "POST",

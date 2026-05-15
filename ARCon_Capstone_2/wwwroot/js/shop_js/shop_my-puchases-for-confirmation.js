@@ -3241,7 +3241,7 @@ async function submitWarrantyClaim() {
 
             closeWarrantyClaimModal();
 
-        }, 5000);
+        }, 500);
     }
     catch (err) {
 

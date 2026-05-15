@@ -28,7 +28,7 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
         }
 
         [RoleAuthorize(
-        "ADMIN"
+        "ADMIN", "SUPER_ADMIN"
         )]
         // GET: /Admin/Inventory/receive-po
         [HttpGet("receive-po")]
@@ -38,7 +38,7 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers
         }
 
         [RoleAuthorize(
-        "ADMIN"
+      "ADMIN", "SUPER_ADMIN"
         )]
         // GET: /Admin/Inventory/receive-ro
         [HttpGet("receive-ro")]

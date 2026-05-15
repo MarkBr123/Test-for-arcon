@@ -188,7 +188,7 @@ async function loadCheckoutItems() {
     updateCheckoutTotals();
 }
 
-const MOCK_SHIPPING_FEE = 800.00;
+const MOCK_SHIPPING_FEE = 0.00;
 
 function updateCheckoutTotals() {
 
