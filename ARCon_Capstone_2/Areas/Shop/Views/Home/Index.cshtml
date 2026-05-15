@@ -1,5 +1,5 @@
 ﻿﻿@{
-    ViewData["Title"] = "AIRCON-i";
+ViewData["Title"] = "AIRCON-i";
 }
 
 @section Styles {
@@ -73,7 +73,7 @@
             </div>
 
         </div>
-        </div>
+    </div>
 
     <!-- Brands -->
     <div class="text-dropdown" id="d2">
@@ -489,7 +489,7 @@
                 </div>
 
                 @* SLIDE 2 *@
-               @*  <div class="deal-slide">
+                @*  <div class="deal-slide">
                     <div class="deal-cards">
                         <div class="card product-card text-dark">
                             <a asp-controller="Home" asp-action="Product">
@@ -754,8 +754,8 @@
                 </div>
 
                 <div class="banner-buttons">
-                    <a href="#">Book Service</a>
-                    <a href="#">Learn More</a>
+                    <a asp-controller="Home" asp-action="Index" asp-fragment="services">Book Service</a>
+                    <a asp-controller="Home" asp-action="Index" asp-fragment="faq-section">Learn More</a>
                 </div>
             </div>
         </div>
@@ -768,8 +768,8 @@
                 <h3>Discover</h3>
 
                 <a href="#">Home</a>
-                <a href="#">Services</a>
-                <a href="#">Products</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="services">Services</a>
+                <a asp-controller="Home" asp-action="Search">Products</a>
                 <a href="#">About Us</a>
                 <a href="#">Contact</a>
             </div>
@@ -778,11 +778,10 @@
             <div class="banner-column">
                 <h3>Our Services</h3>
 
-                <a href="#">Aircon Cleaning</a>
-                <a href="#">Aircon Repair</a>
-                <a href="#">Installation</a>
-                <a href="#">Freon Charging</a>
-                <a href="#">Maintenance</a>
+                <a asp-controller="Service" asp-action="Cleaning" asp-fragment="service-cont"> Aircon Cleaning</a>
+                <a asp-controller="Service" asp-action="Repair" asp-fragment="faq-section"> Aircon Repair</a>
+                <a asp-controller="Service" asp-action="Installation" asp-fragment="faq-section"> Installation</a>
+                <a asp-controller="Service" asp-action="Freoncharging" asp-fragment="faq-section"> Freon Charging</a>
             </div>
 
         </div>
@@ -792,16 +791,19 @@
             <h3>Connect with us</h3>
 
             <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61568605542894"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-tiktok"></i></a>
                 <a href="#"><i class="fab fa-youtube"></i></a>
             </div>
 
             <div class="contact-details">
-                <p><i class="fas fa-phone"></i> to be filled out</</p>
-                <p><i class="fas fa-envelope"></i> to be filled out</</p>
-                <p><i class="fas fa-location-dot"></i> to be filled out</p>
+                <p>
+                    <i class="fas fa-phone"></i>
+                    0928 098 3567</
+                </p>
+                <p><i class="fas fa-envelope"></i> airconi.apptrading@gmail.com</</p>
+                <p><i class="fas fa-location-dot"></i> #20 abangan sur mc arthur hiway, Marilao, Philippines, 3019</p>
             </div>
 
             <a href="#" class="contact-btn">Contact Us</a>

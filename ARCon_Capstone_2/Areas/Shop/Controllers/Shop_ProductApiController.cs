@@ -54,7 +54,7 @@ public class Shop_ProductApiController : ControllerBase
 
                  ar_url = p.ar_url
             })
-            .Take(10)
+            .Take(18)
             .ToListAsync();
 
         return Ok(products);
@@ -106,7 +106,7 @@ public class Shop_ProductApiController : ControllerBase
 
               ar_url = p.ar_url
             })
-            .Take(12)
+            .Take(6)
             .AsNoTracking()
             .ToListAsync();
 

@@ -11,7 +11,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 40px;
+        padding: 10px;
         /*background: linear-gradient(to left, #a4caf1, #f7f9fc, #ffffff);*/
         /*background: linear-gradient(to right, #a4caf1, #ffffff);*/
         background: white;
@@ -562,4 +562,12 @@
     font-size: 14px;
     color: #6b7280;
     padding: 10px;
+}
+
+@media (max-width: 468px) {
+    .ar {
+        position: relative;
+        top: -85px;
+        right: 60px;
+    }
 }
