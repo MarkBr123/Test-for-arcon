@@ -473,6 +473,10 @@
       "PackagePath": "staticwebassets\\js\\suppliers.js"
     },
     {
+      "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\tech-cal.js",
+      "PackagePath": "staticwebassets\\js\\tech-cal.js"
+    },
+    {
       "Id": "C:\\Users\\marvinpc\\Documents\\GitHub\\Test-for-arcon\\ARCon_Capstone_2\\wwwroot\\js\\transaction-cancelledFailed.js",
       "PackagePath": "staticwebassets\\js\\transaction-cancelledFailed.js"
     },
