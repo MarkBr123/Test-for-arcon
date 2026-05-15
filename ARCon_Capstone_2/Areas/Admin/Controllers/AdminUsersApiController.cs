@@ -27,7 +27,7 @@ public class AdminUsersApiController : ControllerBase
     }
 
     [HttpPost("create")]
-    [RoleAuthorize("SUPER_ADMIN")]
+    [RoleAuthorize("SUPER_ADMIN", "ADMIN")]
     public async Task<IActionResult> Create([FromBody]CreateAdminUserDto dto)
     {
         if (!ModelState.IsValid)

@@ -24,6 +24,10 @@ public class ProductsApiController : ControllerBase
     }
 
     [HttpPost("add")]
+    [RoleAuthorize(
+        "SUPER_ADMIN",
+        "ADMIN"
+    )]
     public async Task<IActionResult> Add([FromBody] AddProductsDto dto)
     {
         using var tx = await _context.Database.BeginTransactionAsync();
@@ -406,7 +410,10 @@ public class ProductsApiController : ControllerBase
 
 
     [HttpDelete("{id}")]
-    [RoleAuthorize("ADMIN")]
+    [RoleAuthorize(
+        "SUPER_ADMIN",
+        "ADMIN"
+    )]
     public async Task<IActionResult> Archive(int id)
     {
         var product = await _context.products.FindAsync(id);
@@ -677,7 +684,7 @@ public class ProductsApiController : ControllerBase
 
     //Update Product
     [HttpPut("{id}")]
-    [RoleAuthorize("ADMIN")]
+    [RoleAuthorize("ADMIN", "SUPER_ADMIN")]
     public async Task<IActionResult> EditProduct(int id, [FromBody] EditProductDto dto)
     {
         // VALIDATION
@@ -1131,6 +1138,10 @@ public class ProductsApiController : ControllerBase
 
     //save spec for updateAPI 
     [HttpPut("{id}/specs")]
+    [RoleAuthorize(
+        "SUPER_ADMIN",
+        "ADMIN"
+    )]
     public async Task<IActionResult> UpdateSpecs(
     int id,
     [FromBody] List<SpecUpdateDto> specs)
@@ -1207,7 +1218,10 @@ public class ProductsApiController : ControllerBase
     /// <param name="dto"></param>
     /// <returns></returns>upload media
     [HttpPost("{id}/images")]
-    [RoleAuthorize("ADMIN")]
+    [RoleAuthorize(
+        "SUPER_ADMIN",
+        "ADMIN"
+    )]
     public async Task<IActionResult> UploadImages(
        int id,
        [FromForm] ProductMediaUploadDto dto)
@@ -1326,7 +1340,10 @@ public class ProductsApiController : ControllerBase
     }
 
     [HttpPut("{id}/images")]
-    [RoleAuthorize("ADMIN")]
+    [RoleAuthorize(
+        "SUPER_ADMIN",
+        "ADMIN"
+    )]
     public async Task<IActionResult> EditImages(
     int id,
     [FromForm] EditProductImagesDto dto)
