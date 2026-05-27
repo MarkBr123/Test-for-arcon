@@ -10,8 +10,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Place Aircon in Your Space - @productName</title>
+
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -23,6 +25,7 @@
             margin: 0;
             overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
         }
 
         model-viewer {
@@ -47,22 +50,23 @@
         /* MAIN AR BUTTON */
         .ar-button {
             position: fixed !important;
-            bottom: 80px !important;
+            bottom: 120px !important;
             left: 50% !important;
             transform: translateX(-50%) !important;
             background: #007aff !important;
             color: white !important;
             border: none !important;
             border-radius: 50px !important;
-            padding: 16px 32px !important;
+            padding: 18px 36px !important;
             font-size: 18px !important;
             font-weight: 600 !important;
             cursor: pointer !important;
             z-index: 1000 !important;
-            min-width: 280px !important;
+            min-width: 300px !important;
             text-align: center !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.35) !important;
             font-family: inherit !important;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Product info */
@@ -82,12 +86,12 @@
             max-width: 60%;
         }
 
-        .product-info small {
-            font-size: 11px;
-            opacity: 0.8;
-        }
+            .product-info small {
+                font-size: 11px;
+                opacity: 0.8;
+            }
 
-        /* QR CODE - RIGHT SIDE */
+        /* QR CODE */
         .qr-wrapper {
             position: fixed;
             top: 50%;
@@ -101,7 +105,8 @@
             text-align: center;
         }
 
-        #qrcode img, #qrcode canvas {
+        #qrcode img,
+        #qrcode canvas {
             width: 160px !important;
             height: 160px !important;
         }
@@ -125,7 +130,7 @@
 
         .status {
             position: fixed;
-            bottom: 160px;
+            bottom: 210px;
             left: 0;
             right: 0;
             text-align: center;
@@ -136,60 +141,55 @@
             font-size: 12px;
         }
 
-        /* Instruction hint for AR mode */
-        .ar-instructions {
-            position: fixed;
-            bottom: 160px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: white;
-            background: rgba(0,0,0,0.7);
-            padding: 10px;
-            z-index: 100;
-            font-size: 12px;
-            display: none;
-            backdrop-filter: blur(8px);
-        }
-@@media (max-width: 768px) {
+        @@media (max-width: 768px) {
+
             .qr-wrapper {
                 display: none;
             }
+
             .ar-button {
-                padding: 14px 28px !important;
+                padding: 16px 30px !important;
                 font-size: 16px !important;
-                min-width: 240px !important;
-                bottom: 70px !important;
+                min-width: 260px !important;
+                bottom: 110px !important;
             }
+
             .status {
-                bottom: 140px;
-                font-size: 11px;
-            }
-            .ar-instructions {
-                bottom: 140px;
+                bottom: 180px;
                 font-size: 11px;
             }
         }
     </style>
 </head>
+
 <body>
+
     <div class="product-info">
         🧊 @productName
         <br>
         <small>View in your room</small>
     </div>
 
-    <div class="loading" id="loading">Loading 3D Model...</div>
-    <div class="status" id="status">Preparing AR experience</div>
-    <div class="ar-instructions" id="arInstructions">
-        📍 TO PLACE: Tap on floor/wall | ✋ TO MOVE: Drag | 🔄 TO ROTATE: Two fingers
+    <div class="loading" id="loading">
+        Loading 3D Model...
+    </div>
+
+    <div class="status" id="status">
+        Preparing AR experience
     </div>
 
     <!-- QR CODE -->
     <div class="qr-wrapper" id="qrWrapper">
-        <button class="close-qr" onclick="document.getElementById('qrWrapper').style.display='none'">×</button>
+        <button class="close-qr"
+                onclick="document.getElementById('qrWrapper').style.display='none'">
+            ×
+        </button>
+
         <div id="qrcode"></div>
-        <div class="qr-label">📱 SCAN WITH PHONE</div>
+
+        <div class="qr-label">
+            📱 SCAN WITH PHONE
+        </div>
     </div>
 
     <model-viewer id="viewer"
@@ -204,76 +204,114 @@
                   exposure="1.2"
                   environment-image="neutral"
                   ar-scale="auto"
-                  ar-placement="floor">
+                  ar-placement="wall"
+                  touch-action="pan-y"
+                  interaction-prompt="none"
+                  orbit-sensitivity="0.8"
+                  min-camera-orbit="auto auto 50%"
+                  max-camera-orbit="auto auto 300%"
+                  camera-orbit="0deg 75deg 2m"
+                  field-of-view="35deg">
+
         <button slot="ar-button" class="ar-button">
             📍 VIEW IN YOUR SPACE
         </button>
+
     </model-viewer>
 
     <script>
+
         const productModel = "@productModel";
+
         const encodedModel = encodeURIComponent(productModel);
-        const modelUrl = "https://raw.githubusercontent.com/MarkBr123/ar-models/main/" + encodedModel + ".glb";
+
+        const modelUrl =
+            "https://raw.githubusercontent.com/MarkBr123/ar-models/main/"
+            + encodedModel +
+            ".glb";
 
         const viewer = document.getElementById('viewer');
+
         const loadingDiv = document.getElementById('loading');
+
         const statusDiv = document.getElementById('status');
-        const arInstructions = document.getElementById('arInstructions');
+
         const qrWrapper = document.getElementById('qrWrapper');
 
         viewer.src = modelUrl;
 
-        // QR code for desktop
+        // QR CODE FOR DESKTOP
         if (qrWrapper && window.innerWidth > 768) {
+
             new QRCode(document.getElementById('qrcode'), {
+
                 text: window.location.href,
+
                 width: 160,
                 height: 160
             });
         }
 
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const isMobile =
+            /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         if (isMobile && qrWrapper) {
             qrWrapper.style.display = 'none';
         }
 
+        // MODEL LOADED
         viewer.addEventListener('load', () => {
+
             loadingDiv.style.display = 'none';
+
             if (isMobile) {
-                statusDiv.textContent = '✓ Ready! Tap "VIEW IN YOUR SPACE" below';
+
+                statusDiv.textContent =
+                    '✓ Ready! Tap "VIEW IN YOUR SPACE" below';
+
             } else {
-                statusDiv.textContent = '✓ Use mouse to inspect | Scan QR on phone for AR';
+
+                statusDiv.textContent =
+                    '✓ Use mouse to inspect | Scan QR on phone for AR';
             }
         });
 
-        // SHOW INSTRUCTIONS WHEN ENTERING AR MODE
+        // ENTER / EXIT AR
         viewer.addEventListener('ar-status', (event) => {
+
             if (event.detail.status === 'session-started') {
+
                 statusDiv.style.display = 'none';
-                arInstructions.style.display = 'block';
-                
-                // Hide QR if visible
-                if (qrWrapper) qrWrapper.style.display = 'none';
+
+                if (qrWrapper) {
+                    qrWrapper.style.display = 'none';
+                }
             }
-            
+
             if (event.detail.status === 'session-ended') {
+
                 statusDiv.style.display = 'block';
-                arInstructions.style.display = 'none';
             }
         });
 
-        // Stop auto-rotate when user interacts
+        
         viewer.addEventListener('camera-change', () => {
+
             if (viewer.autoRotate) {
                 viewer.autoRotate = false;
             }
         });
 
+        // ERROR
         viewer.addEventListener('error', () => {
+
             loadingDiv.style.display = 'none';
-            statusDiv.textContent = '⚠️ Model unavailable. Please try again later.';
+
+            statusDiv.textContent =
+                '⚠️ Model unavailable. Please try again later.';
         });
+
     </script>
+
 </body>
 </html>
