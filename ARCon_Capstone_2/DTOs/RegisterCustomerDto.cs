@@ -25,8 +25,11 @@ public class RegisterCustomerDto
 
 
     [Required(ErrorMessage = "Email is required.")]
-    [EmailAddress(ErrorMessage = "Invalid email format.")]
     [MaxLength(255, ErrorMessage = "Email cannot exceed 255 characters.")]
+    [RegularExpression(
+    @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
+    ErrorMessage = "Please enter a valid email address."
+    )]
     public string email { get; set; } = null!;
 
 

@@ -72,18 +72,87 @@ public class AuthApiController : ControllerBase
                 });
             }
 
+            //Basic User Data Validation Check
+            if (string.IsNullOrWhiteSpace(dto.first_name))
+            {
+                return BadRequest("First name is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.last_name))
+            {
+                return BadRequest("Last name is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.email))
+            {
+                return BadRequest("Email is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.contact_no))
+            {
+                return BadRequest("Contact number is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.password))
+            {
+                return BadRequest("Password is required.");
+            }
+
+            // 📍 Address validation
+            if (dto.address == null)
+            {
+                return BadRequest("Address is required.");
+            }
+
+            if (dto.address.region_id <= 0)
+            {
+                return BadRequest("Region is required.");
+            }
+
+            if (dto.address.province_id <= 0)
+            {
+                return BadRequest("Province is required.");
+            }
+
+            if (dto.address.municipality_id <= 0)
+            {
+                return BadRequest("Municipality is required.");
+            }
+
+            if (dto.address.barangay_id <= 0)
+            {
+                return BadRequest("Barangay is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.address.house_unit))
+            {
+                return BadRequest("House/Unit is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.address.street_name))
+            {
+                return BadRequest("Street name is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.address.zip_code))
+            {
+                return BadRequest("ZIP code is required.");
+            }
+
+
+
             // 🔐 Hash password
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.password);
 
             // 👤 Create customer (NO created_at here)
             var customer = new customer
             {
-                first_name = dto.first_name,
-                last_name = dto.last_name,
-                middle_name = dto.middle_name,
+                first_name = dto.first_name.Trim(),
+                last_name = dto.last_name.Trim(),
+                middle_name = dto.middle_name?.Trim(),
                 birthday = dto.birthday,
-                email = dto.email,
-                contact_no = dto.contact_no,
+                email = dto.email.Trim().ToLower(),
+                contact_no = dto.contact_no.Trim(),
                 password_hash = hashedPassword
             };
 
@@ -126,16 +195,15 @@ public class AuthApiController : ControllerBase
                 municipality_id = dto.address.municipality_id,
                 barangay_id = dto.address.barangay_id,
 
-                house_unit = dto.address.house_unit,
-                street_name = dto.address.street_name,
-                zip_code = dto.address.zip_code,
-                landmark = dto.address.landmark,
+                house_unit = dto.address.house_unit.Trim(),
+                street_name = dto.address.street_name.Trim(),
+                zip_code = dto.address.zip_code.Trim(),
+                landmark = dto.address.landmark?.Trim(),
 
                 location_lat = lat,
                 location_long = lon,
 
                 is_default = true
-                // created_at handled by PostgreSQL
             };
 
             _context.customer_addresses.Add(address);

@@ -27,8 +27,58 @@
     const lname = document.getElementById("lname");
     const mname = document.getElementById("mname");
 
+    const nameFields = [fname, lname, mname];
+
+    nameFields.forEach(field => {
+
+        field.addEventListener("input", function () {
+
+            // Remove invalid characters
+            let value = this.value.replace(
+                /[^A-Za-zÑñ .'-]/g,
+                ""
+            );
+
+            // Prevent multiple spaces
+            value = value.replace(/\s{2,}/g, " ");
+
+            // Prevent repeated symbols
+            value = value.replace(/([.'-]){2,}/g, "$1");
+
+            // Prevent symbols at the beginning
+            value = value.replace(/^[ .'-]+/, "");
+
+            this.value = value;
+
+        });
+
+    });
+
     const email = document.getElementById("email");
     const contact = document.getElementById("contact");
+
+    contact.addEventListener("input", function () {
+
+        // Allow numbers and +
+        let value = this.value.replace(/[^0-9+]/g, "");
+
+        // Only allow + at the beginning
+        value = value.replace(/(?!^)\+/g, "");
+
+        // Limit length
+        if (value.startsWith("+639")) {
+
+            value = value.slice(0, 13);
+
+        } else {
+
+            value = value.slice(0, 11);
+
+        }
+
+        this.value = value;
+
+    });
 
     const birthday = document.getElementById("birthday");
 
@@ -42,7 +92,18 @@
 
     const house_unit = document.getElementById("house_unit");
     const street_name = document.getElementById("street_name");
+
     const zip_code = document.getElementById("zip_code");
+
+    zip_code.addEventListener("input", function () {
+
+        // Numbers only
+        let value = this.value.replace(/\D/g, "");
+
+        // Limit to 4 digits
+        this.value = value.slice(0, 4);
+
+    });
     const landmark = document.getElementById("landmark");
 
     // =========================
@@ -247,7 +308,7 @@
             `<option value="">-- Select Province --</option>`;
 
         municipality.innerHTML =
-            `<option value="">-- Select Municipality --</option>`;
+            `<option value="">-- Select Municipality / City --</option>`;
 
         barangay.innerHTML =
             `<option value="">-- Select Barangay --</option>`;
@@ -294,7 +355,7 @@
     province.addEventListener("change", async () => {
 
         municipality.innerHTML =
-            `<option value="">-- Select Municipality --</option>`;
+            `<option value="">-- Select Municipality / City --</option>`;
 
         barangay.innerHTML =
             `<option value="">-- Select Barangay --</option>`;
@@ -425,7 +486,11 @@
             contact,
             birthday,
             password,
-            cpassword
+            cpassword,
+            house_unit,
+            street_name,
+            zip_code,
+            landmark
         ];
 
         let hasError = false;
@@ -449,12 +514,23 @@
             return;
         }
 
+
+        if (!house_unit.value.trim()) markInvalid(house_unit);
+        if (!street_name.value.trim()) markInvalid(street_name);
+        if (!zip_code.value.trim()) markInvalid(zip_code);
+        if (!landmark.value.trim()) markInvalid(landmark);
         if (!region.value) markInvalid(region);
         if (!province.value) markInvalid(province);
         if (!municipality.value) markInvalid(municipality);
         if (!barangay.value) markInvalid(barangay);
 
+
         if (
+
+            !house_unit.value.trim() ||
+            !street_name.value.trim() ||
+            !zip_code.value.trim() || 
+            !landmark.value.trim() || 
             !region.value ||
             !province.value ||
             !municipality.value ||
@@ -469,9 +545,9 @@
         }
 
         const emailRegex =
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-        if (!emailRegex.test(email.value)) {
+        if (!emailRegex.test(email.value.trim())) {
 
             markInvalid(email);
 
@@ -550,6 +626,10 @@
 
         termsModal.classList.add("active");
     });
+
+
+
+
 
     // CLOSE MODAL
 
