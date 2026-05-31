@@ -1,48 +1,32 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <!-- ADD THIS -->
     <title>Verify OTP</title>
-
-    ```
     <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
-
-    ```
-
 </head>
-
 <body>
-
     <div class="login-page">
         <div class="login-wrapper">
-
-            ```
             <!-- Left side -->
             <div class="login-illustration">
                 <img src="~/ImageSources/Background/login.png" alt="Illustration" />
             </div>
-
             <!-- Right side -->
             <div class="login-form">
                 <h2>Verify OTP</h2>
                 <p>We sent a 6-digit code to your email</p>
-
                 <form id="otpForm"
                       asp-controller="Auth"
                       asp-action="VerifyOtp"
                       asp-area=""
                       method="post">
-
-                    <!-- Hidden input (sent to backend) -->
                     <input type="hidden" name="code" id="code" />
-
-                    <!-- 6 OTP boxes -->
-                    <div class="otp-container d-flex justify-content-center gap-2 my-4">
+                    <div class="otp-container">
                         <input type="text" maxlength="1" class="otp-box form-control text-center" />
                         <input type="text" maxlength="1" class="otp-box form-control text-center" />
                         <input type="text" maxlength="1" class="otp-box form-control text-center" />
@@ -50,41 +34,23 @@
                         <input type="text" maxlength="1" class="otp-box form-control text-center" />
                         <input type="text" maxlength="1" class="otp-box form-control text-center" />
                     </div>
-
                     @if (TempData["Error"] != null)
                     {
-                        <div class="error-message">
-                            @TempData["Error"]
-                        </div>
+                        <div class="error-message">@TempData["Error"]</div>
                     }
-
-                    <button type="submit" id="verifyBtn" class="btn-login">
-                        Verify
-                    </button>
-
+                    <button type="submit" id="verifyBtn" class="btn-login">Verify</button>
                     <p id="timer"></p>
-
                     <div class="text-center mt-2">
-                        <button type="button" id="resendBtn" class="resend-link">
-                            Resend OTP
-                        </button>
+                        <button type="button" id="resendBtn" class="resend-link">Resend OTP</button>
                     </div>
-
                 </form>
-
                 <div class="divider">Or</div>
-
                 <div class="sign-btn">
                     <a asp-controller="Home" asp-action="Login">Back to Login</a>
                 </div>
             </div>
         </div>
-        ```
-
     </div>
-
-
     <script src="~/js/View-js/otp.js" asp-append-version="true"></script>
-
 </body>
 </html>
