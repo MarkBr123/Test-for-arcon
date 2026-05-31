@@ -82,4 +82,17 @@ public partial class customer
     [InverseProperty("customer")]
     public virtual ICollection<outright_replacement_warranty> outright_replacement_warranties { get; set; }
     = new List<outright_replacement_warranty>();
+
+
+    /// Notification
+
+    [InverseProperty("sender_customer")]
+    public virtual ICollection<airconi_notification>
+    sent_notifications_customer{ get;set;}  =  new List<airconi_notification>();
+
+
+
+    [InverseProperty("recipient_customer")]
+    public virtual ICollection<airconi_notification>
+        received_notifications_customer {get;set;} = new List<airconi_notification>();
 }

@@ -55,289 +55,94 @@
         <div class="dashboard-block">
 
             <!-- HEADER -->
-
             <div class="dashboard-block-header">
-
                 <div>
-
                     <div class="dashboard-block-title">
-
-                        Customer Transactions
-
+                        Customer Transaction Analytics
                     </div>
-
                     <div class="dashboard-block-subtitle">
-
-                        Ecommerce transaction monitoring
-
+                        Ecommerce sales and transaction insights
                     </div>
-
                 </div>
 
-                <i class="bi bi-cart-check dashboard-block-icon"></i>
-
+                <i class="bi bi-graph-up-arrow dashboard-block-icon"></i>
             </div>
 
-
-
-            <!-- SUMMARY -->
+            <!-- KPI CARDS -->
 
             <div class="dashboard-summary-card card-primary">
-
                 <div class="dashboard-summary-left">
-
                     <div class="dashboard-summary-label">
-
-                        Total Transactions
-
+                        Total Transactions (Orders)
                     </div>
 
                     <div id="totalTransactions"
                          class="dashboard-summary-value">
-
                         --
-
                     </div>
-
                 </div>
 
                 <div class="dashboard-summary-icon">
-
                     <i class="bi bi-receipt-cutoff"></i>
-
                 </div>
-
             </div>
 
-
-
-            <!-- DETAILS -->
-
-            <div class="dashboard-details-list">
-
-                <!-- PENDING -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-hourglass-split text-warning"></i>
-
-                        <span>
-                            Pending Confirmation
-                        </span>
-
+            <div class="dashboard-summary-card card-success">
+                <div class="dashboard-summary-left">
+                    <div class="dashboard-summary-label">
+                        Total Revenue (Product Sales)
                     </div>
 
-                    <div id="pendingConfirmation"
-                         class="dashboard-detail-value">
-
-                        --
-
+                    <div id="totalRevenue"
+                         class="dashboard-summary-value">
+                        ₱0.00
                     </div>
-
                 </div>
 
+                <div class="dashboard-summary-icon">
+                    <i class="bi bi-cash-stack"></i>
+                </div>
+            </div>
 
-
-                <!-- CONFIRMED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-patch-check text-info"></i>
-
-                        <span>
-                            Confirmed
-                        </span>
-
+            <div class="dashboard-summary-card card-info">
+                <div class="dashboard-summary-left">
+                    <div class="dashboard-summary-label">
+                        Average Order Value
                     </div>
 
-                    <div id="confirmedTransactions"
-                         class="dashboard-detail-value">
-
-                        --
-
+                    <div id="averageOrderValue"
+                         class="dashboard-summary-value">
+                        ₱0.00
                     </div>
-
                 </div>
 
-
-
-                <!-- PROCESSED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-box-seam text-primary"></i>
-
-                        <span>
-                            Processed
-                        </span>
-
-                    </div>
-
-                    <div id="processedTransactions"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
+                <div class="dashboard-summary-icon">
+                    <i class="bi bi-calculator"></i>
                 </div>
+            </div>
 
+            <!-- CHARTS -->
 
+            <div class="dashboard-chart-container mt-4">
+                <h6>Transactions Per Month</h6>
+                <canvas id="transactionsPerMonthChart"></canvas>
+            </div>
 
-                <!-- REPROCESS -->
+            <div class="dashboard-chart-container mt-4">
+                <h6>Revenue Per Month</h6>
+                <canvas id="revenuePerMonthChart"></canvas>
+            </div>
 
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-arrow-repeat text-orange"></i>
-
-                        <span>
-                            Pending Reprocess
-                        </span>
-
-                    </div>
-
-                    <div id="pendingReprocess"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
+            <div class="dashboard-chart-container mt-4">
+                <h6>Payment Method Distribution</h6>
+                <div class="payment-chart-container">
+                    <canvas id="paymentMethodChart"></canvas>
                 </div>
+            </div>
 
-
-
-                <!-- COMPLETED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-check2-circle text-success"></i>
-
-                        <span>
-                            Completed
-                        </span>
-
-                    </div>
-
-                    <div id="completedTransactions"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- REJECTED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-x-circle text-danger"></i>
-
-                        <span>
-                            Rejected
-                        </span>
-
-                    </div>
-
-                    <div id="rejectedTransactions"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- REJECTED REFUND -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-cash-stack text-danger"></i>
-
-                        <span>
-                            Rejected For Refund
-                        </span>
-
-                    </div>
-
-                    <div id="rejectedRefundTransactions"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- CANCELLED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-slash-circle text-secondary"></i>
-
-                        <span>
-                            Cancelled
-                        </span>
-
-                    </div>
-
-                    <div id="cancelledTransactions"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- CANCELLED REFUND -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-wallet2 text-purple"></i>
-
-                        <span>
-                            Cancelled For Refund
-                        </span>
-
-                    </div>
-
-                    <div id="cancelledRefundTransactions"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
+            <div class="dashboard-chart-container mt-4">
+                <h6>Transaction Status Distribution</h6>
+                <canvas id="statusDistributionChart"></canvas>
             </div>
 
         </div>
@@ -347,7 +152,7 @@
 
 
         <!-- ===================================== -->
-        <!-- SERVICE BOOKINGS BLOCK -->
+        <!-- SERVICE BOOKINGS ANALYTICS BLOCK -->
         <!-- ===================================== -->
 
         <div class="dashboard-block">
@@ -360,13 +165,13 @@
 
                     <div class="dashboard-block-title">
 
-                        Service Bookings
+                        Service Booking Analytics
 
                     </div>
 
                     <div class="dashboard-block-subtitle">
 
-                        Service operations monitoring
+                        Service operations monitoring and revenue insights
 
                     </div>
 
@@ -378,7 +183,7 @@
 
 
 
-            <!-- SUMMARY -->
+            <!-- TOTAL SERVICE BOOKINGS -->
 
             <div class="dashboard-summary-card card-primary">
 
@@ -409,257 +214,115 @@
 
 
 
-            <!-- DETAILS -->
+            <!-- TOTAL REVENUE -->
 
-            <div class="dashboard-details-list">
+            <div class="dashboard-summary-card card-success">
 
-                <!-- PENDING -->
+                <div class="dashboard-summary-left">
 
-                <div class="dashboard-detail-row">
+                    <div class="dashboard-summary-label">
 
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-hourglass-split text-warning"></i>
-
-                        <span>
-                            Pending
-                        </span>
+                        Total Revenue (Services)
 
                     </div>
 
-                    <div id="servicePending"
-                         class="dashboard-detail-value">
+                    <div id="serviceTotalRevenue"
+                         class="dashboard-summary-value">
 
-                        --
+                        ₱ 0.00
 
                     </div>
 
                 </div>
 
+                <div class="dashboard-summary-icon">
+
+                    <i class="bi bi-cash-stack"></i>
+
+                </div>
+
+            </div>
 
 
-                <!-- CONFIRMED -->
 
-                <div class="dashboard-detail-row">
+            <!-- AVERAGE SERVICE VALUE -->
 
-                    <div class="dashboard-detail-left">
+            <div class="dashboard-summary-card card-info">
 
-                        <i class="bi bi-check-circle text-info"></i>
+                <div class="dashboard-summary-left">
 
-                        <span>
-                            Confirmed
-                        </span>
+                    <div class="dashboard-summary-label">
+
+                        Average Service Value
 
                     </div>
 
-                    <div id="serviceConfirmed"
-                         class="dashboard-detail-value">
+                    <div id="averageServiceValue"
+                         class="dashboard-summary-value">
 
-                        --
+                        ₱0.00
 
                     </div>
 
                 </div>
 
+                <div class="dashboard-summary-icon">
 
-
-                <!-- PROCESSING -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-gear-wide-connected text-primary"></i>
-
-                        <span>
-                            Processing
-                        </span>
-
-                    </div>
-
-                    <div id="serviceProcessing"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
+                    <i class="bi bi-calculator"></i>
 
                 </div>
 
-
-
-                <!-- COMPLETED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-check2-all text-success"></i>
-
-                        <span>
-                            Completed
-                        </span>
-
-                    </div>
-
-                    <div id="serviceCompleted"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
+            </div>
 
 
 
-                <!-- PARTIALLY COMPLETED -->
+            <!-- SERVICE BOOKINGS PER MONTH -->
 
-                <div class="dashboard-detail-row">
+            <div class="dashboard-chart-container mt-4">
 
-                    <div class="dashboard-detail-left">
+                <h6>Service Bookings Per Month</h6>
 
-                        <i class="bi bi-exclamation-triangle text-orange"></i>
+                <canvas id="serviceBookingPerMonthChart"></canvas>
 
-                        <span>
-                            Partially Completed
-                        </span>
+            </div>
 
-                    </div>
 
-                    <div id="servicePartiallyCompleted"
-                         class="dashboard-detail-value">
 
-                        --
+            <!-- SERVICE REVENUE PER MONTH -->
 
-                    </div>
+            <div class="dashboard-chart-container mt-4">
+
+                <h6>Service Revenue Per Month</h6>
+
+                <canvas id="serviceRevenuePerMonthChart"></canvas>
+
+            </div>
+
+
+
+            <!-- PAYMENT METHOD DISTRIBUTION -->
+
+            <div class="dashboard-chart-container mt-4">
+
+                <h6>Payment Method Distribution</h6>
+
+                <div class="payment-chart-container">
+
+                    <canvas id="servicePaymentMethodChart"></canvas>
 
                 </div>
 
-
-
-                <!-- WARRANTY -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-shield-check text-purple"></i>
-
-                        <span>
-                            Warranty Approved
-                        </span>
-
-                    </div>
-
-                    <div id="serviceWarrantyApproved"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
+            </div>
 
 
 
-                <!-- FAILED -->
+            <!-- STATUS DISTRIBUTION -->
 
-                <div class="dashboard-detail-row">
+            <div class="dashboard-chart-container mt-4">
 
-                    <div class="dashboard-detail-left">
+                <h6>Service Status Distribution</h6>
 
-                        <i class="bi bi-x-circle text-danger"></i>
-
-                        <span>
-                            Failed
-                        </span>
-
-                    </div>
-
-                    <div id="serviceFailed"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- FAILED REFUND -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-cash-stack text-danger"></i>
-
-                        <span>
-                            Failed For Refund
-                        </span>
-
-                    </div>
-
-                    <div id="serviceFailedRefund"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- CANCELLED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-slash-circle text-secondary"></i>
-
-                        <span>
-                            Cancelled
-                        </span>
-
-                    </div>
-
-                    <div id="serviceCancelled"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- REJECTED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-ban text-danger"></i>
-
-                        <span>
-                            Rejected
-                        </span>
-
-                    </div>
-
-                    <div id="serviceRejected"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
+                <canvas id="serviceStatusDistributionChart"></canvas>
 
             </div>
 
@@ -667,7 +330,7 @@
 
 
         <!-- ===================================== -->
-        <!-- INVENTORY OVERVIEW BLOCK -->
+        <!-- INVENTORY ANALYTICS BLOCK -->
         <!-- ===================================== -->
 
         <div class="dashboard-block">
@@ -680,13 +343,13 @@
 
                     <div class="dashboard-block-title">
 
-                        Inventory Overview
+                        Inventory Analytics
 
                     </div>
 
                     <div class="dashboard-block-subtitle">
 
-                        Inventory status monitoring
+                        Inventory insights and stock monitoring
 
                     </div>
 
@@ -696,32 +359,263 @@
 
             </div>
 
+                <div class="inventory-kpi-grid">
+
+                        <!-- TOTAL SKUS -->
+
+                        <div class="dashboard-summary-card card-primary">
+
+                            <div class="dashboard-summary-left">
+
+                                <div class="dashboard-summary-label">
+
+                                    Total SKUs
+
+                                </div>
+
+                                <div id="totalSkus"
+                                     class="dashboard-summary-value">
+
+                                    --
+
+                                </div>
+
+                            </div>
+
+                            <div class="dashboard-summary-icon">
+
+                                <i class="bi bi-upc-scan"></i>
+
+                            </div>
+
+                        </div>
 
 
-            <!-- SUMMARY -->
 
-            <div class="dashboard-summary-card card-primary">
+                        <!-- TOTAL UNITS -->
 
-                <div class="dashboard-summary-left">
+                        <div class="dashboard-summary-card card-info">
 
-                    <div class="dashboard-summary-label">
+                            <div class="dashboard-summary-left">
 
-                        Total Inventory
+                                <div class="dashboard-summary-label">
 
-                    </div>
+                                    Total Units
 
-                    <div id="totalInventory"
-                         class="dashboard-summary-value">
+                                </div>
 
-                        --
+                                <div id="totalUnits"
+                                     class="dashboard-summary-value">
 
-                    </div>
+                                    --
+
+                                </div>
+
+                            </div>
+
+                            <div class="dashboard-summary-icon">
+
+                                <i class="bi bi-boxes"></i>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ACTIVE PRODUCTS -->
+
+                        <div class="dashboard-summary-card card-success">
+
+                            <div class="dashboard-summary-left">
+
+                                <div class="dashboard-summary-label">
+
+                                    Active Products
+
+                                </div>
+
+                                <div id="activeProducts"
+                                     class="dashboard-summary-value">
+
+                                    --
+
+                                </div>
+
+                            </div>
+
+                            <div class="dashboard-summary-icon">
+
+                                <i class="bi bi-check-circle"></i>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Archived PRODUCTS -->
+
+                        <div class="dashboard-summary-card card-secondary">
+
+                            <div class="dashboard-summary-left">
+
+                                <div class="dashboard-summary-label">
+
+                                    Archived Products
+
+                                </div>
+
+                                <div id="archivedProducts"
+                                     class="dashboard-summary-value">
+
+                                    --
+
+                                </div>
+
+                            </div>
+
+                            <div class="dashboard-summary-icon">
+
+                                <i class="bi bi-archive-fill"></i>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- DISCOUNTED PRODUCTS -->
+
+                        <div class="dashboard-summary-card card-warning">
+
+                            <div class="dashboard-summary-left">
+
+                                <div class="dashboard-summary-label">
+
+                                    Discounted Products
+
+                                </div>
+
+                                <div id="discountedProducts"
+                                     class="dashboard-summary-value">
+
+                                    --
+
+                                </div>
+
+                            </div>
+
+                            <div class="dashboard-summary-icon">
+
+                                <i class="bi bi-tag-fill"></i>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- LOW STOCK -->
+
+                        <div class="dashboard-summary-card card-danger">
+
+                            <div class="dashboard-summary-left">
+
+                                <div class="dashboard-summary-label">
+
+                                    Low Stock Products
+
+                                </div>
+
+                                <div id="lowStockProducts"
+                                     class="dashboard-summary-value">
+
+                                    --
+
+                                </div>
+
+                            </div>
+
+                            <div class="dashboard-summary-icon">
+
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- OUT OF STOCK -->
+
+                        <div class="dashboard-summary-card card-danger">
+
+                            <div class="dashboard-summary-left">
+
+                                <div class="dashboard-summary-label">
+
+                                    Out of Stock Products
+
+                                </div>
+
+                                <div id="outOfStockProducts"
+                                     class="dashboard-summary-value">
+
+                                    --
+
+                                </div>
+
+                            </div>
+
+                            <div class="dashboard-summary-icon">
+
+                                <i class="bi bi-x-octagon-fill"></i>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- UNITS SOLD -->
+
+                        <div class="dashboard-summary-card card-success">
+
+                            <div class="dashboard-summary-left">
+
+                                <div class="dashboard-summary-label">
+
+                                    Units Sold
+
+                                </div>
+
+                                <div id="unitsSold"
+                                     class="dashboard-summary-value">
+
+                                    --
+
+                                </div>
+
+                            </div>
+
+                            <div class="dashboard-summary-icon">
+
+                                <i class="bi bi-bag-check-fill"></i>
+
+                            </div>
 
                 </div>
 
-                <div class="dashboard-summary-icon">
+            </div>
 
-                    <i class="bi bi-boxes"></i>
+            <!-- STATUS DISTRIBUTION -->
+
+            <div class="dashboard-chart-container mt-4">
+
+                <h6>Inventory Status Distribution</h6>
+
+                <div class="payment-chart-container">
+
+                    <canvas id="inventoryStatusChart"></canvas>
 
                 </div>
 
@@ -729,131 +623,25 @@
 
 
 
-            <!-- DETAILS -->
+            <!-- TOP PRODUCTS -->
 
-            <div class="dashboard-details-list">
+            <div class="dashboard-chart-container mt-4">
 
-                <!-- GOOD STOCK -->
+                <h6>Best Selling Products</h6>
 
-                <div class="dashboard-detail-row">
+                <canvas id="topProductsChart"></canvas>
 
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-check-circle-fill text-success"></i>
-
-                        <span>
-                            Good Stock
-                        </span>
-
-                    </div>
-
-                    <div id="goodStock"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
+            </div>
 
 
 
-                <!-- RESERVED -->
+            <!-- NEWEST PRODUCTS -->
 
-                <div class="dashboard-detail-row">
+            <div class="dashboard-chart-container mt-4">
 
-                    <div class="dashboard-detail-left">
+                <h6>Newest Products</h6>
 
-                        <i class="bi bi-truck text-warning"></i>
-
-                        <span>
-                            Reserved For Delivery
-                        </span>
-
-                    </div>
-
-                    <div id="reservedForDelivery"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- SOLD -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-bag-check-fill text-info"></i>
-
-                        <span>
-                            Sold
-                        </span>
-
-                    </div>
-
-                    <div id="soldInventory"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- AS REPLACEMENT -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-arrow-repeat text-purple"></i>
-
-                        <span>
-                            As Replacement
-                        </span>
-
-                    </div>
-
-                    <div id="asReplacement"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- RETURNED -->
-
-                <div class="dashboard-detail-row">
-
-                    <div class="dashboard-detail-left">
-
-                        <i class="bi bi-arrow-return-left text-danger"></i>
-
-                        <span>
-                            Returned To Supplier
-                        </span>
-
-                    </div>
-
-                    <div id="returnedToSupplier"
-                         class="dashboard-detail-value">
-
-                        --
-
-                    </div>
-
+                <div id="newestProductsList">
                 </div>
 
             </div>
@@ -868,5 +656,5 @@
 
 </div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="~/js/dashboard.js"></script>

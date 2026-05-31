@@ -148,13 +148,18 @@
 
         <!--Section B-->
         <h5 class="fw-bold mb-3">B. Delivery Details</h5>
+        <div class="bg-light border rounded px-3 py-2 mb-3">
+            <small class="text-danger fw-semibold">
+                (*) Fields marked with an asterisk (*) are required.
+            </small>
+        </div>
 
         <div class="card mb-4">
             <div class="card-body">
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label class="form-label fw-semibold">Courier</label>
+                        <label class="form-label fw-semibold">* Courier</label>
                         <select class="form-select" id="deliveryCourier">
                             <option value="">Select Courier</option>
                             <option value="LALAMOVE">Lalamove</option>
@@ -164,7 +169,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label class="form-label fw-semibold">Scheduled Date</label>
+                        <label class="form-label fw-semibold">* Scheduled Date</label>
                         <input type="date" 
                    class="form-control" 
                    id="deliveryScheduledDate"
@@ -182,6 +187,11 @@
         <!--Section C-->
 
         <h5 class="fw-bold mb-3">C. Delivery Items</h5>
+        <div class="bg-light border rounded px-3 py-2 mb-3">
+            <small class="text-danger fw-semibold">
+                (*) Fields marked with an asterisk (*) are required.
+            </small>
+        </div>
 
         <div class="card mb-4">
             <div class="card-body p-0">
@@ -192,7 +202,7 @@
                             <th>Product</th>
                             <th class="text-center">Ordered Qty</th>
                             <th class="text-center">Stock Available</th>
-                            <th class="text-center">Selected</th>
+                            <th class="text-center">* Selected</th>
                             <th>Select Inventory</th>                      
                         </tr>
                     </thead>

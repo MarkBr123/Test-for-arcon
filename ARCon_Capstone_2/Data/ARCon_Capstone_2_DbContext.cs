@@ -149,6 +149,8 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
     public virtual DbSet<outright_replacement_warranty_item> outright_replacement_warranty_items{ get; set; }
     public virtual DbSet<outright_replacement_warranty_attachment> outright_replacement_warranty_attachments { get; set; }
 
+    public virtual DbSet<airconi_notification> airconi_notifications { get; set; }
+
     //end manually added
 
     public virtual DbSet<work_schedule> work_schedules { get; set; }
@@ -767,8 +769,64 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
         });
 
 
+        modelBuilder.Entity<airconi_notification>(entity =>
+        {
+            entity.ToTable("airconi_notifications");
 
+            entity.HasKey(e => e.id);
 
+            entity.Property(e => e.title)
+                  .IsRequired()
+                  .HasMaxLength(255);
+
+            entity.Property(e => e.category)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+            entity.Property(e => e.reference_type)
+                  .HasMaxLength(50);
+
+            entity.Property(e => e.is_read)
+                  .HasDefaultValue(false);
+
+            entity.Property(e => e.created_at)
+                  .HasDefaultValueSql("NOW()");
+
+            // SENDER CUSTOMER
+
+            entity.HasOne(d => d.sender_customer)
+                  .WithMany(p => p.sent_notifications_customer)
+                  .HasForeignKey(d => d.sender_customer_id)
+                  .OnDelete(DeleteBehavior.SetNull);
+
+            // RECIPIENT CUSTOMER
+
+            entity.HasOne(d => d.recipient_customer)
+                  .WithMany(p => p.received_notifications_customer)
+                  .HasForeignKey(d => d.recipient_customer_id)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            // SENDER ADMIN
+
+            entity.HasOne(d => d.sender_admin_user)
+                  .WithMany(p => p.sent_notifications_admin)
+                  .HasForeignKey(d => d.sender_admin_user_id)
+                  .OnDelete(DeleteBehavior.SetNull);
+
+            // RECIPIENT ADMIN
+
+            entity.HasOne(d => d.recipient_admin_user)
+                  .WithMany(p => p.received_notifications_admin)
+                  .HasForeignKey(d => d.recipient_admin_user_id)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            // CREATED BY ADMIN
+
+            entity.HasOne(d => d.created_by_admin)
+                  .WithMany(p => p.created_notifications_admin)
+                  .HasForeignKey(d => d.created_by)
+                  .OnDelete(DeleteBehavior.SetNull);
+        });
 
 
         //End Manually Added
@@ -796,21 +854,28 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("admin_users_updated_by_fkey");
 
-            /*entity.HasMany(d => d.roles).WithMany(p => p.users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "user_role",
-                    r => r.HasOne<role>().WithMany()
-                        .HasForeignKey("role_id")
-                        .HasConstraintName("user_roles_role_id_fkey"),
-                    l => l.HasOne<admin_user>().WithMany()
-                        .HasForeignKey("user_id")
-                        .HasConstraintName("user_roles_user_id_fkey"),
-                    j =>
-                    {
-                        j.HasKey("user_id", "role_id").HasName("user_roles_pkey");
-                        j.ToTable("user_roles");
-                    });
-            */
+            // NOTIFICATIONS SENT
+
+            entity.HasMany(d => d.sent_notifications_admin)
+                .WithOne(p => p.sender_admin_user)
+                .HasForeignKey(p => p.sender_admin_user_id)
+                .OnDelete(DeleteBehavior.SetNull);
+
+
+            // NOTIFICATIONS RECEIVED
+
+            entity.HasMany(d => d.received_notifications_admin)
+                .WithOne(p => p.recipient_admin_user)
+                .HasForeignKey(p => p.recipient_admin_user_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            // NOTIFICATIONS CREATED
+
+            entity.HasMany(d => d.created_notifications_admin)
+                .WithOne(p => p.created_by_admin)
+                .HasForeignKey(p => p.created_by)
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<arcon_store_branch>(entity =>
@@ -977,6 +1042,21 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
                 .HasForeignKey(d => d.customer_id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("outright_replacement_warranties_customer_id_fkey");
+
+
+            // NOTIFICATIONS SENT
+
+            entity.HasMany(d => d.sent_notifications_customer)
+                .WithOne(p => p.sender_customer)
+                .HasForeignKey(p => p.sender_customer_id)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // NOTIFICATIONS RECEIVED
+
+            entity.HasMany(d => d.received_notifications_customer)
+                .WithOne(p => p.recipient_customer)
+                .HasForeignKey(p => p.recipient_customer_id)
+                .OnDelete(DeleteBehavior.Cascade);
 
         });
 

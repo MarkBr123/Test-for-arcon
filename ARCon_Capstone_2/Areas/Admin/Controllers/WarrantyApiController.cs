@@ -13,10 +13,12 @@ using ARCon_Capstone_2.Services;
 public class WarrantyApiController : ControllerBase
 {
     private readonly ARCon_Capstone_2_DbContext _context;
+    private readonly INotificationService _notificationService;
 
-    public WarrantyApiController(ARCon_Capstone_2_DbContext context)
+    public WarrantyApiController(ARCon_Capstone_2_DbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
 
     //Get Main Table for Service Warranty
@@ -547,6 +549,24 @@ public class WarrantyApiController : ControllerBase
 
             await tx.CommitAsync();
 
+            await _notificationService
+            .SendToCustomerAsync(
+
+
+                warranty.service_booking.customer_id,
+
+                "Warranty Claim Approved",
+
+                $"Good news! Your warranty claim for booking {warranty.service_booking.booking_ref_code} has been approved. A service schedule has been prepared and our team will begin processing your request. We'll keep you updated as your warranty service progresses.",
+
+                "SERVICE_BOOKING",
+
+                warranty.service_booking.id,
+
+                "SERVICE_BOOKING"
+            );
+
+
 
             return Ok(new
             {
@@ -673,6 +693,22 @@ public class WarrantyApiController : ControllerBase
 
             await _context.SaveChangesAsync();
 
+            await _notificationService
+                    .SendToCustomerAsync(
+
+
+                        warranty.service_booking.customer_id,
+
+                        "Warranty Claim Rejected",
+
+                        $"We regret to inform you that your warranty claim for booking {warranty.service_booking.booking_ref_code} has not been approved. If you have any questions or would like more information regarding this decision, please contact our customer support team.",
+
+                        "SERVICE_BOOKING",
+
+                        warranty.service_booking.id,
+
+                        "SERVICE_BOOKING"
+                    );
 
 
             return Ok(new

@@ -17,9 +17,11 @@ public class OutrightReplacementsApi
     : ControllerBase
 {
     private readonly ARCon_Capstone_2_DbContext _context;
-    public OutrightReplacementsApi(ARCon_Capstone_2_DbContext context)
+    private readonly INotificationService _notificationService;
+    public OutrightReplacementsApi(ARCon_Capstone_2_DbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
 
     [HttpGet("admin/outright-replacements")]
@@ -32,23 +34,6 @@ public class OutrightReplacementsApi
     {
         try
         {
-            // SESSION VALIDATION
-            /*
-            var adminId =
-                HttpContext.Session.GetInt32("UserId");
-
-            var userType =
-                HttpContext.Session.GetString("UserType");
-
-            if (adminId == null ||
-                userType != "ADMIN")
-            {
-                return Unauthorized(new
-                {
-                    message = "Unauthorized"
-                });
-            }
-            */
 
 
             // QUERY
@@ -799,7 +784,6 @@ public class OutrightReplacementsApi
             }
 
 
-
             // =====================================
             // GET WARRANTY
             // =====================================
@@ -807,15 +791,21 @@ public class OutrightReplacementsApi
             var warranty = await _context
                 .outright_replacement_warranties
 
-                .Include(w => w.outright_replacement_warranty_items)
+                .Include(w =>
+                    w.customer_transaction)
 
-                .FirstOrDefaultAsync(w => w.id == id);
+                .Include(w =>
+                    w.outright_replacement_warranty_items)
+
+                .FirstOrDefaultAsync(w =>
+                    w.id == id);
 
             if (warranty == null)
             {
                 return NotFound(new
                 {
-                    message = "Warranty request not found."
+                    message =
+                        "Warranty request not found."
                 });
             }
 
@@ -896,6 +886,27 @@ public class OutrightReplacementsApi
             // =====================================
 
             await _context.SaveChangesAsync();
+
+            await _notificationService
+                .SendToCustomerAsync(
+
+                    warranty.customer_transaction.customer_id,
+
+                    "Warranty Claim Rejected",
+
+                    $"Unfortunately, your outright replacement warranty claim for transaction {warranty.customer_transaction.transaction_code} has been rejected. Reason: {warranty.rejection_reason}. If you have any questions or need further assistance, please contact our customer support team.",
+
+                    "OUTRIGHT_REPLACEMENT",
+
+                    warranty.customer_transaction.id,
+
+                    "OUTRIGHT_REPLACEMENT"
+                );
+
+
+
+
+
 
 
 
@@ -1042,14 +1053,17 @@ public class OutrightReplacementsApi
             // =====================================
 
             var warranty =
-                await _context
-                    .outright_replacement_warranties
+             await _context
+                 .outright_replacement_warranties
 
-                    .Include(w =>
-                        w.outright_replacement_warranty_items)
+                 .Include(w =>
+                     w.customer_transaction)
 
-                    .FirstOrDefaultAsync(w =>
-                        w.id == id);
+                 .Include(w =>
+                     w.outright_replacement_warranty_items)
+
+                 .FirstOrDefaultAsync(w =>
+                     w.id == id);
 
             if (warranty == null)
             {
@@ -1239,6 +1253,22 @@ public class OutrightReplacementsApi
             await _context.SaveChangesAsync();
 
             await transaction.CommitAsync();
+
+            await _notificationService
+                .SendToCustomerAsync(
+
+                    warranty.customer_transaction.customer_id,
+
+                    "Warranty Claim Approved",
+
+                    $"Good news! Your outright replacement warranty claim for transaction {warranty.customer_transaction.transaction_code} has been approved. Our team will now proceed with the replacement process and keep you updated on its progress.",
+
+                    "OUTRIGHT_REPLACEMENT",
+
+                    warranty.customer_transaction.id,
+
+                    "OUTRIGHT_REPLACEMENT"
+                );
 
 
 
@@ -1579,6 +1609,12 @@ public class OutrightReplacementsApi
                     .outright_replacement_warranties
 
                     .Include(w =>
+                        w.customer_transaction)
+
+                            .ThenInclude(ct =>
+                                ct.customer)
+
+                    .Include(w =>
                         w.outright_replacement_warranty_items)
 
                     .FirstOrDefaultAsync(w =>
@@ -1656,6 +1692,25 @@ public class OutrightReplacementsApi
             await _context.SaveChangesAsync();
 
             await transaction.CommitAsync();
+
+            await _notificationService
+                    .SendToCustomerAsync(
+
+
+                        warranty.customer_transaction.customer_id,
+
+                        "Replacement Completed",
+
+                        $"Your replacement request for transaction {warranty.customer_transaction.transaction_code} has been successfully completed. Thank you for your patience throughout the process. We hope the replacement item meets your expectations. If you have any concerns, please don't hesitate to contact our customer support team.",
+
+                        "OUTRIGHT_REPLACEMENT",
+
+                        warranty.customer_transaction.id,
+
+                        "OUTRIGHT_REPLACEMENT"
+                    );
+
+
 
 
 

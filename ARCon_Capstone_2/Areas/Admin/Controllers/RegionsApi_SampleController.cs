@@ -16,6 +16,7 @@ namespace ARCon_Capstone_2.Areas_Admin_Controllers
     {
         private readonly ARCon_Capstone_2_DbContext _context;
 
+
         public RegionsApi_SampleController(ARCon_Capstone_2_DbContext context)
         {
             _context = context;

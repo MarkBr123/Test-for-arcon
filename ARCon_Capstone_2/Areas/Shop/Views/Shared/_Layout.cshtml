@@ -90,18 +90,24 @@
 
             @if (userId != null && userType == "CUSTOMER")
             {
-                <!-- 🔔 Notifications -->
                 <a class="nav-link position-relative"
                    href="#"
                    data-bs-toggle="modal"
                    data-bs-target="#notificationModal"
                    id="notificationButton">
-                    🔔
+
+                    <i class="bi bi-bell-fill fs-5"></i>
+
                     <span id="notificationCount"
-                          class="position-absolute start-100 translate-middle badge rounded-pill bg-danger top-0"
-                          style="display:none;">
+                          class="badge bg-danger position-absolute"
+                          style="
+                        top:-5px;
+                        right:-10px;
+                        display:none;
+                    ">
                         0
                     </span>
+
                 </a>
             }
 
@@ -193,33 +199,79 @@
 
 
     <!-- Notification Modal -->
-    <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-md">
-            <div class="modal-content">
+    <div class="modal fade"
+         id="notificationModal"
+         tabindex="-1"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-scrollable notification-modal">
+
+            <div class="modal-content notification-content">
 
                 <!-- Header -->
-                <div class="modal-header">
-                    <h5 class="modal-title">Notifications</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <div class="modal-header notification-header">
+
+                    <div>
+
+                        <h5 class="modal-title mb-0">
+                            Notifications
+                        </h5>
+
+                        <small class="text-muted">
+                            Recent updates from AIRCONI
+                        </small>
+
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+
                 </div>
 
                 <!-- Body -->
                 <div class="modal-body p-0">
-                    <!-- Empty state (show when no notifications) -->
-                <div class="text-muted py-4 text-center">
-                    No notifications yet
-                </div>
+
+                    <div id="notificationContainer">
+
+                        <div class="notification-empty">
+
+                            <i class="bi bi-bell-slash"></i>
+
+                            <div>
+                                No notifications yet
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
                 <!-- Footer -->
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="#" class="btn btn-primary">View all</a>
+
+                    <button class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">
+
+                        Close
+
+                    </button>
+
+                    <a href="#"
+                       class="btn btn-primary">
+
+                        View All
+
+                    </a>
+
                 </div>
 
             </div>
+
         </div>
+
     </div>
 
 
@@ -346,7 +398,9 @@
 
 
 
-<!-- MY PROFILE MODAL -->
+<!-- ===================================== -->
+<!-- AIRCONI PROFILE MODAL -->
+<!-- ===================================== -->
 
 <div class="modal fade"
      id="profileModal"
@@ -355,22 +409,34 @@
 
     <div class="modal-dialog
                 modal-xl
-                modal-dialog-scrollable">
+                modal-dialog-scrollable
+                airconi-profile-modal">
 
-        <div class="modal-content">
+        <div class="modal-content airconi-profile-content">
 
             <!-- HEADER -->
 
-            <div class="modal-header">
+            <div class="modal-header airconi-profile-header">
 
-                <h5 class="modal-title">
+                <div>
 
-                    My Profile
+                    <h4 class="mb-0">
 
-                </h5>
+                        My Profile
+
+                    </h4>
+
+                    <small>
+
+                        Manage your account information,
+                        password, and addresses.
+
+                    </small>
+
+                </div>
 
                 <button type="button"
-                        class="btn-close"
+                        class="btn-close btn-close-white"
                         data-bs-dismiss="modal">
                 </button>
 
@@ -378,22 +444,26 @@
 
             <!-- BODY -->
 
-            <div class="modal-body profile-modal-body">
+            <div class="modal-body airconi-profile-body">
 
                 <div class="profile-layout">
 
-                    <!-- LEFT SIDE -->
+                    <!-- ===================================== -->
+                    <!-- LEFT COLUMN -->
+                    <!-- ===================================== -->
 
                     <div class="profile-left-column">
 
-                        <!-- PROFILE -->
+                        <!-- PERSONAL INFO -->
 
                         <div class="profile-section-card">
 
                             <div class="section-header">
 
                                 <h5>
+
                                     Personal Information
+
                                 </h5>
 
                                 <button class="btn btn-primary"
@@ -417,7 +487,6 @@
                                            class="form-control"
                                            id="profileFirstName"
                                            readonly>
-
 
                                 </div>
 
@@ -450,7 +519,7 @@
                                 <div>
 
                                     <label>
-                                        Email
+                                        * Email Address
                                     </label>
 
                                     <input type="email"
@@ -462,10 +531,8 @@
                                 <div>
 
                                     <label>
-                                        Contact Number
+                                        * Contact Number
                                     </label>
-
-                                    <!-- CONTACT NUMBER -->
 
                                     <input type="text"
                                            class="form-control"
@@ -490,20 +557,35 @@
 
                         </div>
 
+
+
                         <!-- PASSWORD -->
 
                         <div class="profile-section-card">
 
                             <div class="section-header">
 
-                                <h5>
-                                    Change Password
-                                </h5>
+                                <div>
+
+                                    <h5 class="mb-1">
+
+                                        Change Password
+
+                                    </h5>
+
+                                    <small class="password-requirements">
+
+                                        Password must contain uppercase, lowercase,
+                                        number, and symbol.
+
+                                    </small>
+
+                                </div>
 
                                 <button class="btn btn-danger"
                                         id="changePasswordBtn">
 
-                                    Change Password
+                                    Update Password
 
                                 </button>
 
@@ -511,10 +593,14 @@
 
                             <div class="profile-grid">
 
+                                <!-- CURRENT -->
+
                                 <div>
 
                                     <label>
+
                                         Current Password
+
                                     </label>
 
                                     <div class="password-wrapper">
@@ -527,7 +613,7 @@
                                                 class="password-toggle"
                                                 data-target="currentPassword">
 
-                                            👁️
+                                            <i class="bi bi-eye"></i>
 
                                         </button>
 
@@ -535,10 +621,16 @@
 
                                 </div>
 
+
+
+                                <!-- NEW -->
+
                                 <div>
 
                                     <label>
+
                                         New Password
+
                                     </label>
 
                                     <div class="password-wrapper">
@@ -551,7 +643,7 @@
                                                 class="password-toggle"
                                                 data-target="newPassword">
 
-                                            👁️
+                                            <i class="bi bi-eye"></i>
 
                                         </button>
 
@@ -559,10 +651,16 @@
 
                                 </div>
 
+
+
+                                <!-- CONFIRM -->
+
                                 <div>
 
                                     <label>
+
                                         Confirm Password
+
                                     </label>
 
                                     <div class="password-wrapper">
@@ -575,7 +673,7 @@
                                                 class="password-toggle"
                                                 data-target="confirmPassword">
 
-                                            👁️
+                                            <i class="bi bi-eye"></i>
 
                                         </button>
 
@@ -589,7 +687,11 @@
 
                     </div>
 
-                    <!-- RIGHT SIDE -->
+
+
+                    <!-- ===================================== -->
+                    <!-- RIGHT COLUMN -->
+                    <!-- ===================================== -->
 
                     <div class="profile-right-column">
 
@@ -598,19 +700,26 @@
                             <div class="section-header">
 
                                 <h5>
+
                                     Address Book
+
                                 </h5>
 
                                 <button class="btn btn-success"
                                         id="addAddressBtn">
 
-                                    + Add Address
+                                    <i class="bi bi-plus-circle"></i>
+
+                                    Add Address
 
                                 </button>
 
                             </div>
 
                             <div id="addressContainer">
+
+                                <!-- Addresses loaded here -->
+
                             </div>
 
                         </div>
@@ -661,6 +770,12 @@
 
             </div>
 
+            <div class="bg-light border rounded px-3 py-2 mb-3">
+                <small class="text-danger fw-semibold">
+                    (*) Fields marked with an asterisk (*) are required.
+                </small>
+            </div>
+
             <!-- BODY -->
 
             <div class="modal-body">
@@ -672,7 +787,7 @@
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            House / Unit
+                            * House / Unit
                         </label>
 
                         <input type="text"
@@ -686,7 +801,7 @@
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            Street Name
+                            * Street Name
                         </label>
 
                         <input type="text"
@@ -700,7 +815,7 @@
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            ZIP Code
+                            * ZIP Code
                         </label>
 
                         <input type="text"
@@ -714,7 +829,7 @@
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            Landmark
+                            * Landmark
                         </label>
 
                         <input type="text"
@@ -728,7 +843,7 @@
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            Region
+                            * Region
                         </label>
 
                         <select class="form-select"
@@ -747,7 +862,7 @@
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            Province
+                            * Province
                         </label>
 
                         <select class="form-select"
@@ -767,7 +882,7 @@
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            Municipality
+                            * Municipality
                         </label>
 
                         <select class="form-select"
@@ -787,7 +902,7 @@
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            Barangay
+                            * Barangay
                         </label>
 
                         <select class="form-select"

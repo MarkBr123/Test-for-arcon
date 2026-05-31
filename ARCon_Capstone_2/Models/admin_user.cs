@@ -146,10 +146,26 @@ public partial class admin_user
     [InverseProperty("updated_byNavigation")]
     public virtual ICollection<work_schedule> work_scheduleupdated_byNavigations { get; set; } = new List<work_schedule>();
 
-    /*[ForeignKey("user_id")]
-    [InverseProperty("users")]*/
-
     public ICollection<user_role> user_roles { get; set; } = new List<user_role>();
+
+
+    /// Notification
+    /// 
+    [InverseProperty("sender_admin_user")]
+    public virtual ICollection<airconi_notification>
+    sent_notifications_admin { get; set; } = new List<airconi_notification>();
+
+
+
+    [InverseProperty("recipient_admin_user")]
+    public virtual ICollection<airconi_notification>
+        received_notifications_admin {  get; set; } = new List<airconi_notification>();
+
+
+
+    [InverseProperty("created_by_admin")]
+    public virtual ICollection<airconi_notification>
+        created_notifications_admin { get; set; } = new List<airconi_notification>();
 
 
 }

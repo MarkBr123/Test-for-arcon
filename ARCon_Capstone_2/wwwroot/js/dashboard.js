@@ -1,339 +1,823 @@
-﻿
+﻿// =====================================
+// DASHBOARD LOAD
+// =====================================
+
 document.addEventListener(
     "DOMContentLoaded",
-
     async () => {
 
-        await loadCustomerTransactionCounts();
-        await loadInventoryStatusCounts();
-        await loadServiceBookingStatusCounts();
+        await loadTransactionAnalytics();
+        await loadInventoryAnalytics();
+        await loadServiceBookingAnalytics();
     }
 );
 
 
-
 // =====================================
-// CUSTOMER TRANSACTION COUNTS
+// TRANSACTION ANALYTICS
 // =====================================
 
-async function loadCustomerTransactionCounts() {
+
+///// CHART for transaction //////
+
+function renderTransactionCharts(data) {
+
+    // ==========================
+    // TRANSACTIONS PER MONTH
+    // ==========================
+
+    const transactionLabels =
+        data.transactionsPerMonth.map(x =>
+            `${x.month}/${x.year}`
+        );
+
+    const transactionValues =
+        data.transactionsPerMonth.map(x =>
+            x.transactionCount
+        );
+
+    new Chart(
+        document.getElementById(
+            "transactionsPerMonthChart"
+        ),
+        {
+            type: "line",
+
+            data: {
+                labels: transactionLabels,
+
+                datasets: [
+                    {
+                        label: "Transactions",
+                        data: transactionValues,
+                        tension: 0.3
+                    }
+                ]
+            }
+        }
+    );
+
+
+
+    // ==========================
+    // REVENUE PER MONTH
+    // ==========================
+
+    const revenueLabels =
+        data.revenuePerMonth.map(x =>
+            `${x.month}/${x.year}`
+        );
+
+    const revenueValues =
+        data.revenuePerMonth.map(x =>
+            x.revenue
+        );
+
+    new Chart(
+        document.getElementById(
+            "revenuePerMonthChart"
+        ),
+        {
+            type: "bar",
+
+            data: {
+                labels: revenueLabels,
+
+                datasets: [
+                    {
+                        label: "Revenue",
+                        data: revenueValues
+                    }
+                ]
+            }
+        }
+    );
+
+
+
+    // ==========================
+    // PAYMENT METHODS
+    // ==========================
+
+        const paymentLabels =
+            data.paymentMethods.map(x =>
+                x.paymentMethod
+            );
+
+        const paymentValues =
+            data.paymentMethods.map(x =>
+                x.count
+            );
+
+    new Chart(
+        document.getElementById("paymentMethodChart"),
+        {
+            type: "doughnut",
+
+            data: {
+                labels: paymentLabels,
+
+                datasets: [
+                    {
+                        data: paymentValues
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: "70%"
+            }
+        }
+    );
+
+
+
+    // ==========================
+    // STATUS DISTRIBUTION
+    // ==========================
+
+    const statusLabels =
+        data.statusDistribution.map(x =>
+            x.status
+        );
+
+    const statusValues =
+        data.statusDistribution.map(x =>
+            x.count
+        );
+
+    new Chart(
+        document.getElementById(
+            "statusDistributionChart"
+        ),
+        {
+            type: "bar",
+
+            data: {
+                labels: statusLabels,
+
+                datasets: [
+                    {
+                        label: "Transactions",
+                        data: statusValues
+                    }
+                ]
+            },
+
+            options: {
+                indexAxis: "y"
+            }
+        }
+    );
+}
+
+
+
+
+
+
+
+//// Service Booking Chart  ////
+
+
+function renderServiceBookingCharts(data) {
+
+    // ==========================
+    // BOOKINGS PER MONTH
+    // ==========================
+
+    const bookingLabels =
+        data.serviceBookingPerMonth.map(x =>
+            `${x.month}/${x.year}`
+        );
+
+    const bookingValues =
+        data.serviceBookingPerMonth.map(x =>
+            x.serviceBookingCount
+        );
+
+    new Chart(
+        document.getElementById(
+            "serviceBookingPerMonthChart"
+        ),
+        {
+            type: "line",
+            data: {
+                labels: bookingLabels,
+                datasets: [{
+                    label: "Bookings",
+                    data: bookingValues
+                }]
+            }
+        }
+    );
+
+
+
+    // ==========================
+    // REVENUE PER MONTH
+    // ==========================
+
+    const monthNames = [
+        "Jan", "Feb", "Mar", "Apr",
+        "May", "Jun", "Jul", "Aug",
+        "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    const revenueLabels =
+        data.serviceRevenuePerMonth.map(x =>
+            `${monthNames[x.month - 1]} ${x.year}`
+        );
+
+    const revenueValues =
+        data.serviceRevenuePerMonth.map(x =>
+            x.revenue
+        );
+
+    new Chart(
+        document.getElementById(
+            "serviceRevenuePerMonthChart"
+        ),
+        {
+            type: "bar",
+            data: {
+                labels: revenueLabels,
+                datasets: [{
+                    label: "Revenue",
+                    data: revenueValues
+                }]
+            }
+        }
+    );
+
+
+
+    // ==========================
+    // PAYMENT METHODS
+    // ==========================
+
+    const paymentLabels =
+        data.paymentMethods.map(x =>
+            x.paymentMethod
+        );
+
+    const paymentValues =
+        data.paymentMethods.map(x =>
+            x.count
+        );
+
+    new Chart(
+        document.getElementById(
+            "servicePaymentMethodChart"
+        ),
+        {
+            type: "doughnut",
+            data: {
+                labels: paymentLabels,
+                datasets: [{
+                    data: paymentValues
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: "70%"
+            }
+        }
+    );
+
+
+
+    // ==========================
+    // STATUS DISTRIBUTION
+    // ==========================
+
+    const statusLabels =
+        data.statusDistribution.map(x =>
+            x.status
+        );
+
+    const statusValues =
+        data.statusDistribution.map(x =>
+            x.count
+        );
+
+    new Chart(
+        document.getElementById(
+            "serviceStatusDistributionChart"
+        ),
+        {
+            type: "bar",
+            data: {
+                labels: statusLabels,
+                datasets: [{
+                    label: "Bookings",
+                    data: statusValues
+                }]
+            },
+            options: {
+                indexAxis: "y"
+            }
+        }
+    );
+}
+
+
+/////// INVENTORY AND PRODUCT CHART   /////////
+
+
+function renderInventoryCharts(data) {
+
+    // ==========================
+    // STATUS DISTRIBUTION
+    // ==========================
+
+    const statusLabels =
+        data.statusDistribution.map(x =>
+            x.status.replaceAll("_", " ")
+        );
+
+    const statusValues =
+        data.statusDistribution.map(x =>
+            x.count
+        );
+
+    const inventoryStatusCanvas =
+        document.getElementById(
+            "inventoryStatusChart"
+        );
+
+    if (
+        Chart.getChart(
+            inventoryStatusCanvas
+        )
+    ) {
+        Chart.getChart(
+            inventoryStatusCanvas
+        ).destroy();
+    }
+
+    new Chart(
+        inventoryStatusCanvas,
+        {
+            type: "doughnut",
+
+            data: {
+                labels: statusLabels,
+
+                datasets: [
+                    {
+                        label: "Inventory Units",
+                        data: statusValues
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: "70%",
+
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                }
+            }
+        }
+    );
+
+
+
+    // ==========================
+    // TOP 20 PRODUCTS
+    // ==========================
+
+    const productLabels =
+        data.topProducts.map(x =>
+            `${x.productModel} (${x.sku})`
+        );
+
+    const productValues =
+        data.topProducts.map(x =>
+            x.soldCount
+        );
+
+
+
+    // Make chart taller
+    const topProductsCanvas =
+        document.getElementById(
+            "topProductsChart"
+        );
+
+    const container =
+        topProductsCanvas.parentElement;
+
+    container.style.height =
+        `${Math.max(
+            500,
+            productLabels.length * 40
+        )}px`;
+
+
+
+    if (
+        Chart.getChart(
+            topProductsCanvas
+        )
+    ) {
+        Chart.getChart(
+            topProductsCanvas
+        ).destroy();
+    }
+
+
+
+    new Chart(
+        topProductsCanvas,
+        {
+            type: "bar",
+
+            data: {
+                labels: productLabels,
+
+                datasets: [
+                    {
+                        label: "Units Sold",
+                        data: productValues
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                indexAxis: "y",
+
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+
+                    title: {
+                        display: true,
+                        text:
+                            "Top Best Selling Products"
+                    }
+                },
+
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+    );
+
+
+
+    // ==========================
+    // NEWEST PRODUCTS
+    // ==========================
+
+    const newestProductsList =
+        document.getElementById(
+            "newestProductsList"
+        );
+
+    if (newestProductsList) {
+
+        newestProductsList.innerHTML = "";
+
+        data.newestProducts.forEach(product => {
+
+            const date =
+                new Date(
+                    product.created_at
+                );
+
+            newestProductsList.innerHTML += `
+                <div class="dashboard-detail-row">
+
+                    <div class="dashboard-detail-left">
+
+                        <i class="bi bi-box-seam text-primary"></i>
+
+                        <div>
+
+                            <div>
+                                ${product.productName}
+                            </div>
+
+                            <small class="text-muted">
+                                ${product.sku}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-detail-value">
+
+                        ${date.toLocaleDateString()}
+
+                    </div>
+
+                </div>
+            `;
+        });
+    }
+}
+
+
+
+async function loadTransactionAnalytics() {
 
     try {
 
         const response =
             await fetch(
-                "/api/dashboard/dashboard/customer-transaction-counts"
+                "/api/dashboard/transaction-analytics"
             );
-
-
 
         const data =
             await response.json();
 
 
 
-        // TOTAL
+        // ==========================
+        // KPI CARDS
+        // ==========================
 
         document.getElementById(
             "totalTransactions"
         ).innerText =
-            data.total ?? 0;
+            data.summary.totalTransactions ?? 0;
 
 
-
-        // PENDING CONFIRMATION
 
         document.getElementById(
-            "pendingConfirmation"
+            "totalRevenue"
         ).innerText =
-            data.pendingConfirmation ?? 0;
+            "₱ " +
+            Number(
+                data.summary.totalRevenue ?? 0
+            ).toLocaleString();
 
 
-
-        // CONFIRMED
 
         document.getElementById(
-            "confirmedTransactions"
+            "averageOrderValue"
         ).innerText =
-            data.confirmed ?? 0;
+            "₱ " +
+            Number(
+                data.summary.averageOrderValue ?? 0
+            ).toLocaleString();
 
 
 
-        // PROCESSED
+        // ==========================
+        // CHART DATA
+        // ==========================
 
-        document.getElementById(
-            "processedTransactions"
-        ).innerText =
-            data.processed ?? 0;
+        window.transactionAnalytics = data;
+        renderTransactionCharts(data);
+        console.log(
+            "Transaction Analytics Loaded",
+            data
+        );
 
-
-
-        // PENDING REPROCESS
-
-        document.getElementById(
-            "pendingReprocess"
-        ).innerText =
-            data.pendingReprocess ?? 0;
-
-
-
-        // COMPLETED
-
-        document.getElementById(
-            "completedTransactions"
-        ).innerText =
-            data.completed ?? 0;
-
-
-
-        // REJECTED
-
-        document.getElementById(
-            "rejectedTransactions"
-        ).innerText =
-            data.rejected ?? 0;
-
-
-
-        // REJECTED FOR REFUND
-
-        document.getElementById(
-            "rejectedRefundTransactions"
-        ).innerText =
-            data.rejectedForRefund ?? 0;
-
-
-
-        // CANCELLED
-
-        document.getElementById(
-            "cancelledTransactions"
-        ).innerText =
-            data.cancelled ?? 0;
-
-
-
-        // CANCELLED FOR REFUND
-
-        document.getElementById(
-            "cancelledRefundTransactions"
-        ).innerText =
-            data.cancelledForRefund ?? 0;
     }
     catch (err) {
 
         console.error(
-            "Dashboard load failed:",
+            "Analytics load failed:",
             err
         );
     }
 }
 
 
+
+
 // =====================================
-// INVENTORY STATUS COUNTS
+// INVENTORY ANALYTICS
 // =====================================
 
-async function loadInventoryStatusCounts() {
+async function loadInventoryAnalytics() {
 
     try {
 
         const response =
             await fetch(
-                "/api/dashboard/inventory-status-counts"
+                "/api/dashboard/inventory-analytics"
             );
-
-
 
         const data =
             await response.json();
 
 
 
-        // TOTAL
+        // ==========================
+        // KPI CARDS
+        // ==========================
 
         document.getElementById(
-            "totalInventory"
+            "totalSkus"
         ).innerText =
-            data.total ?? 0;
+            data.summary.totalSkus ?? 0;
 
 
-
-        // GOOD STOCK
 
         document.getElementById(
-            "goodStock"
+            "totalUnits"
         ).innerText =
-            data.goodStock ?? 0;
+            data.summary.totalUnits ?? 0;
 
 
-
-        // RESERVED
 
         document.getElementById(
-            "reservedForDelivery"
+            "activeProducts"
         ).innerText =
-            data.reservedForDelivery ?? 0;
-
-
-
-        // SOLD
+            data.summary.activeProducts ?? 0;
 
         document.getElementById(
-            "soldInventory"
+            "archivedProducts"
         ).innerText =
-            data.sold ?? 0;
+            data.summary.archivedProducts ?? 0;
 
 
 
-        // AS REPLACEMENT
 
         document.getElementById(
-            "asReplacement"
+            "discountedProducts"
         ).innerText =
-            data.asReplacement ?? 0;
+            data.summary.discountedProducts ?? 0;
 
 
-
-        // RETURNED TO SUPPLIER
 
         document.getElementById(
-            "returnedToSupplier"
+            "lowStockProducts"
         ).innerText =
-            data.returnedToSupplier ?? 0;
+            data.summary.lowStockProducts ?? 0;
+
+
+
+        document.getElementById(
+            "outOfStockProducts"
+        ).innerText =
+            data.summary.outOfStockProducts ?? 0;
+
+
+
+        document.getElementById(
+            "unitsSold"
+        ).innerText =
+            data.summary.unitsSold ?? 0;
+
+
+
+        // ==========================
+        // CHARTS
+        // ==========================
+
+        renderInventoryCharts(data);
+
+
+
+        // ==========================
+        // NEWEST PRODUCTS
+        // ==========================
+
+        const newestProductsList =
+            document.getElementById(
+                "newestProductsList"
+            );
+
+        newestProductsList.innerHTML = "";
+
+
+
+        data.newestProducts.forEach(product => {
+
+            const date =
+                new Date(product.created_at);
+
+            newestProductsList.innerHTML += `
+        <div class="dashboard-detail-row">
+
+            <div class="dashboard-detail-left">
+
+                <i class="bi bi-box-seam text-primary"></i>
+
+                <div>
+
+                    <div>
+                        <strong>
+                            ${product.productName}
+                        </strong>
+                    </div>
+
+                    <small class="text-muted">
+
+                        ${product.manufacturerName}
+                        •
+                        ${product.sku}
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-detail-value">
+
+                ${date.toLocaleDateString()}
+
+            </div>
+
+        </div>
+    `;
+        });
     }
     catch (err) {
 
         console.error(
-            "Inventory dashboard load failed:",
+            "Inventory analytics load failed:",
             err
         );
     }
 }
 
+
+
+
 // =====================================
-// SERVICE BOOKING STATUS COUNTS
+// SERVICE BOOKING ANALYTICS
 // =====================================
 
-async function loadServiceBookingStatusCounts() {
+async function loadServiceBookingAnalytics() {
 
     try {
 
         const response =
             await fetch(
-                "/api/dashboard/service-booking-status-counts"
+                "/api/dashboard/service-booking-analytics"
             );
-
-
 
         const data =
             await response.json();
 
 
 
-        // TOTAL
+        // ==========================
+        // KPI CARDS
+        // ==========================
 
         document.getElementById(
             "serviceTotal"
         ).innerText =
-            data.total ?? 0;
+            data.summary.totalServiceBooking ?? 0;
 
 
-
-        // PENDING
 
         document.getElementById(
-            "servicePending"
+            "serviceTotalRevenue"
         ).innerText =
-            data.pending ?? 0;
+            "₱ " +
+            Number(
+                data.summary.totalServiceRevenue ?? 0
+            ).toLocaleString();
 
 
-
-        // CONFIRMED
 
         document.getElementById(
-            "serviceConfirmed"
+            "averageServiceValue"
         ).innerText =
-            data.confirmed ?? 0;
+            "₱ " +
+            Number(
+                data.summary.averageServiceValue ?? 0
+            ).toLocaleString();
 
 
 
-        // PROCESSING
+        // ==========================
+        // CHARTS
+        // ==========================
 
-        document.getElementById(
-            "serviceProcessing"
-        ).innerText =
-            data.processing ?? 0;
+        renderServiceBookingCharts(data);
 
-
-
-        // COMPLETED
-
-        document.getElementById(
-            "serviceCompleted"
-        ).innerText =
-            data.completed ?? 0;
-
-
-
-        // PARTIALLY COMPLETED
-
-        document.getElementById(
-            "servicePartiallyCompleted"
-        ).innerText =
-            data.partiallyCompleted ?? 0;
-
-
-
-        // WARRANTY APPROVED
-
-        document.getElementById(
-            "serviceWarrantyApproved"
-        ).innerText =
-            data.warrantyApproved ?? 0;
-
-
-
-        // FAILED
-
-        document.getElementById(
-            "serviceFailed"
-        ).innerText =
-            data.failed ?? 0;
-
-
-
-        // FAILED FOR REFUND
-
-        document.getElementById(
-            "serviceFailedRefund"
-        ).innerText =
-            data.failedForRefund ?? 0;
-
-
-
-        // CANCELLED
-
-        document.getElementById(
-            "serviceCancelled"
-        ).innerText =
-            data.cancelled ?? 0;
-
-
-
-        // REJECTED
-
-        document.getElementById(
-            "serviceRejected"
-        ).innerText =
-            data.rejected ?? 0;
     }
     catch (err) {
 
         console.error(
-            "Service dashboard load failed:",
+            "Service analytics load failed:",
             err
         );
     }
 }
-

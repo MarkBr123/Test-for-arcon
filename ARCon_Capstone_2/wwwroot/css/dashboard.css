@@ -2,6 +2,12 @@
 /* SUMMARY CARD */
 /* ===================================== */
 
+.payment-chart-container {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+}
+
 .dashboard-summary-card {
     display: flex;
     justify-content: space-between;
@@ -481,15 +487,23 @@
 /* RESPONSIVE */
 /* ===================================== */
 
+@media (max-width: 1200px) {
+
+    .inventory-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
 
-    .dashboard-hero {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
+    .inventory-kpi-grid {
+        grid-template-columns: 1fr;
     }
+}
 
-    .dashboard-hero-title {
-        font-size: 28px;
-    }
+.inventory-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
 }

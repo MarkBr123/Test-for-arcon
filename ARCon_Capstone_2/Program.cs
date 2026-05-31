@@ -44,6 +44,10 @@ builder.Services.AddSingleton(provider =>
     return new Cloudinary(account);
 });
 
+builder.Services.AddScoped<
+    INotificationService,
+    NotificationService>();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

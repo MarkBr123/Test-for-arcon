@@ -83,10 +83,17 @@
 
                 <!-- SECTION: BASIC CLASSIFICATION -->
                 <h6 class="text-muted mb-2">Basic Classification</h6>
+
+                <div class="bg-light border rounded px-3 py-2 mb-3">
+                    <small class="text-danger fw-semibold">
+                        (*) Fields marked with an asterisk (*) are required.
+                    </small>
+                </div>
+
                 <div class="row g-3">
 
                     <div class="col-md-6">
-                        <label class="form-label">Manufacturer</label>
+                        <label class="form-label">*Manufacturer</label>
                         <select id="manufacturerId" class="form-select">
                             <option value="">Select manufacturer</option>
                             @foreach (var m in ViewBag.Manufacturers)
@@ -98,7 +105,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Form Factor</label>
+                        <label class="form-label">*Form Factor</label>
                         <select id="formFactorId" class="form-select">
                             <option value="">Select form factor</option>
                             @foreach (var f in ViewBag.FormFactors)
@@ -118,13 +125,13 @@
                 <div class="row g-3">
 
                     <div class="col-md-6">
-                        <label class="form-label">Original Price</label>
+                        <label class="form-label">*Original Price</label>
                         <input id="price" type="number" class="form-control" placeholder="₱0.00" />
                         <small class="text-muted">Base selling price before discount</small>
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Discount Type</label>
+                        <label class="form-label">*Discount Type</label>
                         <select id="discountType" class="form-select" onchange="onDiscountChange()">
                             <option value="NONE">No Discount</option>
                             <option value="PERCENTAGE">Percentage (%)</option>
@@ -148,18 +155,18 @@
                 <div class="row g-3">
 
                     <div class="col-md-6">
-                        <label class="form-label">Product Model</label>
+                        <label class="form-label">*Product Model</label>
                         <input id="productModel" class="form-control" placeholder="e.g. AR09TYHYEWKNT" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Product Series</label>
+                        <label class="form-label">*Product Series</label>
                         <input id="productSeries" class="form-control" placeholder="e.g. Pro Series" />
                     </div>
 
 
                     <div class="col-md-6">
-                        <label class="form-label">Part Number A</label>
+                        <label class="form-label">*Part Number A</label>
                         <input id="partNumberA" class="form-control" placeholder="Primary part number" />
                     </div>
 
@@ -169,7 +176,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Reorder Level</label>
+                        <label class="form-label">*Reorder Level</label>
                         <input type="number" min="0"
                                class="form-control"
                                id="reorderLevel"
@@ -185,17 +192,17 @@
                 <div class="row g-3">
 
                     <div class="col-md-6">
-                        <label class="form-label">Manufacturer Warranty (Years)</label>
+                        <label class="form-label">*Manufacturer Warranty (Years)</label>
                         <input id="manufacturerWarrantyYears" type="number" class="form-control" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Outright Replacement (Days)</label>
+                        <label class="form-label">*Outright Replacement (Days)</label>
                         <input id="outrightReplacementDays" type="number" class="form-control" />
                     </div>
 
                     <div class="col-md-4">
-                        <label class="form-label">Gross Weight A (kg)</label>
+                        <label class="form-label">*Gross Weight A (kg)</label>
                         <input id="grossWeightA" type="number" step="0.01" class="form-control" />
                     </div>
 
@@ -204,17 +211,13 @@
                         <input id="grossWeightB" type="number" step="0.01" class="form-control" />
                     </div>
 
-                    <!--<div class="col-md-4">
-                        <label class="form-label">Total Gross Weight (kg)</label>
-                        <input id="totalGrossWeight" type="number" step="0.01" class="form-control" />
-                        </div>-->
 
                 </div>
 
                 <hr class="my-4" />
 
                 <!-- SECTION: MEDIA -->
-                <h6 class="text-muted mb-2">Media</h6>
+                <h6 class="text-muted mb-2">*Media</h6>
                 <div class="row g-3">
 
                     <div class="col-md-12">
@@ -311,6 +314,12 @@
 
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">Step 3: Specifications</h5>
+            </div>
+
+            <div class="bg-light border rounded px-3 py-2 mb-3">
+                <small class="text-danger fw-semibold">
+                    (*) Fields marked with an asterisk (*) are required.
+                </small>
             </div>
 
             <div class="modal-body">
