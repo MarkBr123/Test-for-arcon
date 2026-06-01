@@ -15,24 +15,30 @@ function isLoggedIn() {
 }
 
 // ================= OPEN / CLOSE =================
+// ================= OPEN CHAT MODAL =================
+async function openChatSidebar() {
+    chatSidebar.style.display = "flex";
+
+    handleAuthState();
+
+    if (isLoggedIn()) {
+        await initConversation();
+        await loadMessages();
+        startAutoRefresh();
+
+        if (conversationId) {
+            await markAsRead(conversationId);
+        }
+    }
+}
+
 chatBtn.addEventListener("click", async () => {
     const isOpen = chatSidebar.style.display === "flex";
-    chatSidebar.style.display = isOpen ? "none" : "flex";
 
-    if (!isOpen) {
-        handleAuthState();
-
-        if (isLoggedIn()) {
-            await initConversation();
-            await loadMessages();
-            startAutoRefresh();
-        }
+    if (isOpen) {
+        closeChatSidebar();
     } else {
-        stopAutoRefresh(); //  stop when closing
-    }
-
-    if (conversationId) {
-        await markAsRead(conversationId);
+        await openChatSidebar();
     }
 });
 
