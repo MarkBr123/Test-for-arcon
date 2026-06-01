@@ -2179,8 +2179,8 @@ cart-btn:hover .cart-btn i {
     }
 }
 
-<<<<<<< Updated upstream
 @media (max-width: 768px) {
+
     .contact-banner {
         padding: 30px 6%;
     }
@@ -2690,3 +2690,57 @@ cart-btn:hover .cart-btn i {
     .chat-sidebar.open {
         right: 0;
     }*/
+
+/* ==========================
+   SERVICE 2x2 MOBILE FIX
+========================== */
+@media (max-width:768px) {
+
+    .service-grid-2col {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 12px;
+        width: 100%;
+    }
+
+    .service-col {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .service-card-horizontal {
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+        min-height: 250px;
+        padding: 18px;
+        gap: 12px;
+    }
+
+    .card-icon-small {
+        width: 72px;
+        height: 72px;
+        margin: auto;
+    }
+
+        .card-icon-small img {
+            width: 50px;
+            height: 50px;
+        }
+
+    .card-content h3 {
+        font-size: 16px;
+    }
+
+    .card-content p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .card-link {
+        font-size: 13px;
+    }
+}
