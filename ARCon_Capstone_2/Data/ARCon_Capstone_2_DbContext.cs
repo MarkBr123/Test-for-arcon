@@ -83,7 +83,7 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     public virtual DbSet<service_aircon_type> service_aircon_types { get; set; }
 
-    
+
 
     public virtual DbSet<service_booking_item> service_booking_items { get; set; }
 
@@ -116,12 +116,12 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
 
     //Manually Added
     public virtual DbSet<barangay> barangay { get; set; }
-    public virtual DbSet<municipality> municipality{ get; set; }
+    public virtual DbSet<municipality> municipality { get; set; }
 
     public virtual DbSet<province> provinces { get; set; }
     public virtual DbSet<region> regions { get; set; }
 
-    public virtual DbSet<lalamove_template> lalamove_templates{ get; set; }
+    public virtual DbSet<lalamove_template> lalamove_templates { get; set; }
 
     public virtual DbSet<delivery> deliveries { get; set; }
     public virtual DbSet<delivery_item> delivery_items { get; set; }
@@ -146,7 +146,7 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
     public virtual DbSet<service_warranty_attachment> service_warranty_attachments { get; set; }
 
     public virtual DbSet<outright_replacement_warranty> outright_replacement_warranties { get; set; }
-    public virtual DbSet<outright_replacement_warranty_item> outright_replacement_warranty_items{ get; set; }
+    public virtual DbSet<outright_replacement_warranty_item> outright_replacement_warranty_items { get; set; }
     public virtual DbSet<outright_replacement_warranty_attachment> outright_replacement_warranty_attachments { get; set; }
 
     //end manually added
@@ -161,15 +161,23 @@ public partial class ARCon_Capstone_2_DbContext : DbContext
             "Host=dpg-d7oethosfn5c739bjk10-a.singapore-postgres.render.com;Port=5432;Database=arcon_db;Username=arcon_db_user;Password=NTa14fwUh7O4wq5eKCBxJb3sSLbKQ1Vz;SSL Mode=Require;"
          );*/
 
-    
+    /* 
+     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+     {
+         if (!optionsBuilder.IsConfigured)
+         {
+             optionsBuilder.UseNpgsql("Host=dpg-d7oethosfn5c739bjk10-a.singapore-postgres.render.com;Port=5432;Database=arcon_db;Username=arcon_db_user;Password=NTa14fwUh7O4wq5eKCBxJb3sSLbKQ1Vz;SSL Mode=Require;Trust Server Certificate=true");
+         }
+     }*/
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Host=dpg-d7oethosfn5c739bjk10-a.singapore-postgres.render.com;Port=5432;Database=arcon_db;Username=arcon_db_user;Password=NTa14fwUh7O4wq5eKCBxJb3sSLbKQ1Vz;SSL Mode=Require;Trust Server Certificate=true");
+            optionsBuilder.UseNpgsql("Host=dpg-d8dek799rddc739sb960-a.singapore-postgres.render.com;Port=5432;Database=arcon_db_tqoz;Username=arcon_db_tqoz_user;Password=CADKjSLwzgJUi003pO4U3yGLOiDls7wv;SSL Mode=Require;Trust Server Certificate=true");
         }
     }
-
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
