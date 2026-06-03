@@ -2,6 +2,13 @@
     "DOMContentLoaded",
     () => {
 
+        // Notifications
+        async () => {
+
+            await loadNotificationCount();
+        }
+
+
         /* OPEN PROFILE MODAL */
 
         document.getElementById(
@@ -1192,3 +1199,214 @@ document.addEventListener(
             .forEach(b => b.remove());
     }
 );
+
+
+//////////////// CUSTOMER NOTIFICATIONS  ////////////////
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        await loadNotificationCount();
+
+        document
+            .getElementById(
+                "notificationButton"
+            )
+            ?.addEventListener(
+                "click",
+                loadNotifications
+            );
+    }
+);
+
+
+
+// =====================================
+// NOTIFICATION COUNT
+// =====================================
+
+async function loadNotificationCount() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/customer-notifications/unread-count"
+            );
+
+        const data =
+            await response.json();
+
+        console.log(
+            "Notification Count:",
+            data.count
+        );
+
+        const badge =
+            document.getElementById(
+                "notificationCount"
+            );
+
+        if (!badge)
+            return;
+
+
+
+        if (data.count > 0) {
+
+            badge.innerText =
+                data.count;
+
+            badge.style.display =
+                "inline-block";
+        }
+        else {
+
+            badge.style.display =
+                "none";
+        }
+    }
+    catch (err) {
+
+        console.error(
+            "Failed to load notification count:",
+            err
+        );
+    }
+}
+
+
+
+// =====================================
+// LOAD NOTIFICATIONS
+// =====================================
+
+async function loadNotifications() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/customer-notifications/my-notifications"
+            );
+
+        const notifications =
+            await response.json();
+
+        const body =
+            document.querySelector(
+                "#notificationModal .modal-body"
+            );
+
+        if (!body)
+            return;
+
+
+
+        if (
+            notifications.length === 0
+        ) {
+
+            body.innerHTML = `
+                <div class="notification-empty">
+
+                    <i class="bi bi-bell-slash"></i>
+
+                    <div>
+                        No notifications yet
+                    </div>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+
+        body.innerHTML = "";
+
+
+
+        notifications.forEach(n => {
+
+            body.innerHTML += `
+
+                <div class="
+                        notification-item
+                        ${!n.is_read ? "unread" : ""}
+                    "
+                    onclick="
+                        openNotification(
+                            ${n.id}
+                        )
+                    ">
+
+                    <div class="notification-icon">
+
+                        <i class="bi bi-bell-fill"></i>
+
+                    </div>
+
+                    <div class="notification-details">
+
+                        <div class="notification-title">
+
+                            ${n.title}
+
+                        </div>
+
+                        <div class="notification-message">
+
+                            ${n.message}
+
+                        </div>
+
+                        <div class="notification-time">
+
+                            ${new Date(
+                n.created_at
+            ).toLocaleString()}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+        });
+    }
+    catch (err) {
+
+        console.error(
+            "Failed to load notifications:",
+            err
+        );
+    }
+}
+
+async function openNotification(
+    notificationId
+) {
+
+    try {
+
+        await fetch(
+            `/api/customer-notifications/${notificationId}/mark-read`,
+            {
+                method: "PUT"
+            }
+        );
+
+        window.location.href =
+            "/Shop/Orders/MyPurchases";
+    }
+    catch (err) {
+
+        console.error(
+            err
+        );
+    }
+}

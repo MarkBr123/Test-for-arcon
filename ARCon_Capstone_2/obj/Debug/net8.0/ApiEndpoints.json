@@ -631,9 +631,35 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DashboardApiController",
-    "Method": "GetCustomerTransactionCounts",
-    "RelativePath": "api/dashboard/dashboard/customer-transaction-counts",
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_NotificationApiController",
+    "Method": "MarkRead",
+    "RelativePath": "api/customer-notifications/{id}/mark-read",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_NotificationApiController",
+    "Method": "GetMyNotifications",
+    "RelativePath": "api/customer-notifications/my-notifications",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ARCon_Capstone_2.Areas.Shop.Controllers.Shop_NotificationApiController",
+    "Method": "GetUnreadCount",
+    "RelativePath": "api/customer-notifications/unread-count",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -642,8 +668,8 @@
   },
   {
     "ContainingType": "DashboardApiController",
-    "Method": "GetInventoryStatusCounts",
-    "RelativePath": "api/dashboard/inventory-status-counts",
+    "Method": "GetInventoryAnalytics",
+    "RelativePath": "api/dashboard/inventory-analytics",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -652,8 +678,18 @@
   },
   {
     "ContainingType": "DashboardApiController",
-    "Method": "GetServiceBookingStatusCounts",
-    "RelativePath": "api/dashboard/service-booking-status-counts",
+    "Method": "GetServiceBooking",
+    "RelativePath": "api/dashboard/service-booking-analytics",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DashboardApiController",
+    "Method": "GetTransactionAnalytics",
+    "RelativePath": "api/dashboard/transaction-analytics",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

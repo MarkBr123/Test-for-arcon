@@ -25,10 +25,12 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers;
 public class ServiceTransactionApiController : ControllerBase
 {
     public readonly ARCon_Capstone_2_DbContext _context;
+    private readonly INotificationService _notificationService;
 
-    public ServiceTransactionApiController(ARCon_Capstone_2_DbContext context)
+    public ServiceTransactionApiController(ARCon_Capstone_2_DbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
 
 
@@ -317,6 +319,24 @@ public class ServiceTransactionApiController : ControllerBase
 
         await _context.SaveChangesAsync();
 
+        await _notificationService
+            .SendToCustomerAsync(
+
+                booking.customer_id,
+
+                "Booking Confirmed",
+
+                $"Good news! Your booking {booking.booking_ref_code} has been confirmed. Our team is now processing your request and will keep you updated on its progress.",
+
+                "SERVICE_BOOKING",
+
+                booking.id,
+
+                "SERVICE_BOOKING"
+            );
+
+
+
         return Ok(new
         {
             message = "Booking confirmed successfully",
@@ -350,6 +370,22 @@ public class ServiceTransactionApiController : ControllerBase
         booking.updated_at = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
+
+        await _notificationService
+                .SendToCustomerAsync(
+
+                    booking.customer_id,
+
+                    "Booking Rejected",
+
+                    $"Unfortunately, your booking {booking.booking_ref_code} was not approved. If you have any questions or would like assistance with a new booking, please feel free to contact our customer support team.",
+
+                    "SERVICE_BOOKING",
+
+                    booking.id,
+
+                    "SERVICE_BOOKING"
+                );
 
         return Ok(new
         {
@@ -387,6 +423,22 @@ public class ServiceTransactionApiController : ControllerBase
         booking.updated_at = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
+
+        await _notificationService
+            .SendToCustomerAsync(
+
+                booking.customer_id,
+
+                "Booking Cancelled",
+
+                $"Your booking {booking.booking_ref_code} has been cancelled. We apologize for any inconvenience this may cause. If you need assistance or would like to schedule a new booking, our customer support team will be happy to help.",
+
+                "SERVICE_BOOKING",
+
+                booking.id,
+
+                "SERVICE_BOOKING"
+            );
 
         return Ok(new
         {
@@ -631,6 +683,22 @@ public class ServiceTransactionApiController : ControllerBase
 
             await tx.CommitAsync();
 
+            await _notificationService
+                 .SendToCustomerAsync(
+
+                     transaction.service_booking.customer_id,
+
+                     "Service Request In Progress",
+
+                     $"Good news! Your booking {transaction.service_booking.booking_ref_code} has been confirmed and is now being processed. Our team is preparing to handle your service request and will keep you updated on its progress.",
+
+                     "SERVICE_BOOKING",
+
+                     transaction.id,
+
+                     "SERVICE_BOOKING"
+                 );
+
             return Ok(new
             {
                 message = "Service transaction created successfully.",
@@ -654,6 +722,10 @@ public class ServiceTransactionApiController : ControllerBase
             });
         }
     }
+
+
+
+
 
     //// Get The Service_Transaction with status = FOR_TECH_ASSIGNMENT
     [HttpGet("tech-assign-services")]
@@ -1363,7 +1435,21 @@ public class ServiceTransactionApiController : ControllerBase
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
 
-            //(Optional) Trigger notifications here
+            await _notificationService
+                .SendToCustomerAsync(
+
+                    booking.customer_id,
+
+                    "Service Request Cancelled",
+
+                    $"Your booking {booking.booking_ref_code} has been cancelled. We apologize for any inconvenience. If you would like to reschedule or need further assistance, please contact our customer support team.",
+
+                    "SERVICE_BOOKING",
+
+                    booking.id,
+
+                    "SERVICE_BOOKING"
+                );
 
             return Ok(new
             {
@@ -1391,6 +1477,7 @@ public class ServiceTransactionApiController : ControllerBase
         try
         {
             var st = await _context.service_transactions
+                .Include(x => x.service_booking)
                 .FirstOrDefaultAsync(x => x.id == id);
 
             if (st == null)
@@ -1425,6 +1512,24 @@ public class ServiceTransactionApiController : ControllerBase
             st.updated_at = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
+
+            await _notificationService
+                    .SendToCustomerAsync(
+
+                    
+                        st.service_booking.customer_id,
+
+                        "Service In Progress",
+
+                        $"Good news! Your booking {st.service_booking.booking_ref_code} is currently being serviced. Our team is working to complete your request as efficiently as possible. We'll notify you as soon as the service is finished.",
+
+                        "SERVICE_BOOKING",
+
+                        st.service_booking.id,
+
+                        "SERVICE_BOOKING"
+                    );
+
 
             return Ok(new
             {
@@ -1568,6 +1673,22 @@ public class ServiceTransactionApiController : ControllerBase
 
                 await _context.SaveChangesAsync();
 
+                await _notificationService
+                   .SendToCustomerAsync(
+
+                       st.service_booking.customer_id,
+
+                       "Service Unsuccessful",
+
+                       $"We regret to inform you that we were unable to complete the service for booking {st.service_booking.booking_ref_code}. Please contact our customer support team for more information and assistance regarding the next steps.",
+
+                       "SERVICE_BOOKING",
+
+                       st.service_booking.id,
+
+                       "SERVICE_BOOKING"
+                   );
+
                 return Ok(new
                 {
                     message =
@@ -1659,6 +1780,26 @@ public class ServiceTransactionApiController : ControllerBase
 
 
                 await _context.SaveChangesAsync();
+
+                await _notificationService
+                   .SendToCustomerAsync(
+
+                       st.service_booking.customer_id,
+
+                       "Service Unsuccessful",
+
+                       $"We regret to inform you that we were unable to complete the service for booking {st.service_booking.booking_ref_code}. Please contact our customer support team for more information and assistance regarding the next steps.",
+
+                       "SERVICE_BOOKING",
+
+                       st.service_booking.id,
+
+                       "SERVICE_BOOKING"
+                   );
+
+
+
+
 
                 return Ok(new
                 {
@@ -1857,6 +1998,25 @@ public class ServiceTransactionApiController : ControllerBase
 
 
                 await _context.SaveChangesAsync();
+
+                await _notificationService
+                    .SendToCustomerAsync(
+
+
+                        st.service_booking.customer_id,
+
+                        "Service Partially Completed",
+
+                        $"Your service request for booking {st.service_booking.booking_ref_code} has been partially completed. Some work has been successfully performed, but additional service may still be required. Please contact our customer support team if you have any questions or need further assistance.",
+
+                        "SERVICE_BOOKING",
+
+                        st.service_booking.id,
+
+                        "SERVICE_BOOKING"
+                    );
+
+
 
                 return Ok(new
                 {
@@ -2102,6 +2262,25 @@ public class ServiceTransactionApiController : ControllerBase
             await _context.SaveChangesAsync();
 
             await transaction.CommitAsync();
+
+            await _notificationService
+                    .SendToCustomerAsync(
+
+
+                        st.service_booking.customer_id,
+
+                        "Service Completed",
+
+                        $"Your service request for booking {st.service_booking.booking_ref_code} has been successfully completed. Thank you for trusting us with your service needs. We appreciate your support and look forward to serving you again in the future.",
+
+                        "SERVICE_BOOKING",
+
+                        st.service_booking.id,
+
+                        "SERVICE_BOOKING"
+                    );
+
+
 
 
 

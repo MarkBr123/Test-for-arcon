@@ -14,9 +14,11 @@ namespace ARCon_Capstone_2.Areas.Admin.Controllers;
 public class DeliveryApiController : ControllerBase
 {
     private readonly ARCon_Capstone_2_DbContext _context;
-    public DeliveryApiController(ARCon_Capstone_2_DbContext context)
+    private readonly INotificationService _notificationService;
+    public DeliveryApiController(ARCon_Capstone_2_DbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
 
     [HttpGet("transaction/{transactionId}/items")]
@@ -235,10 +237,25 @@ public class DeliveryApiController : ControllerBase
 
             //update transaction as Processed
             transaction.status = "PROCESSED";
-           
 
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
+
+            await _notificationService
+                  .SendToCustomerAsync(
+
+                      transaction.customer_id,
+
+                      "Delivery Order has been processed",
+
+                      $"Your order {transaction.transaction_code} has been processed for delivery and is now ready to be shipped!",
+
+                      "CUSTOMER_TRANSACTION",
+
+                      transaction.id,
+
+                      "CUSTOMER_TRANSACTION"
+                  );
 
             return Ok(new
             {
@@ -499,6 +516,22 @@ public class DeliveryApiController : ControllerBase
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
 
+            await _notificationService
+                .SendToCustomerAsync(
+
+                    delivery.customer_transaction.customer_id,
+
+                    "Delivery Cancelled",
+
+                    $"We were unable to proceed with the delivery of your order {delivery.customer_transaction.transaction_code}. Please contact our customer support team for more information and assistance regarding the next steps.",
+
+                    "CUSTOMER_TRANSACTION",
+
+                    delivery.customer_transaction.id,
+
+                    "CUSTOMER_TRANSACTION"
+                );
+
             return Ok(new
             {
                 message = "Delivery cancelled successfully."
@@ -534,6 +567,25 @@ public class DeliveryApiController : ControllerBase
 
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
+
+
+            await _notificationService
+                 .SendToCustomerAsync(
+
+                     delivery.customer_transaction.customer_id,
+
+                     "Your order has been shipped out!",
+
+                    $"Good news! Your order {delivery.customer_transaction.transaction_code} has been successfully shipped and is currently in transit. " +
+                    $"Please prepare the payment amount of ₱{delivery.customer_transaction.grand_total:N2} for settlement upon delivery. Kindly ensure that someone is available to receive the package. " +
+                    $"For delivery updates, concerns, or additional assistance, please contact our customer support team.",
+
+                     "CUSTOMER_TRANSACTION",
+
+                     delivery.customer_transaction.id,
+
+                     "CUSTOMER_TRANSACTION"
+                 );
 
             return Ok(new
             {
@@ -716,6 +768,24 @@ public class DeliveryApiController : ControllerBase
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
 
+            await _notificationService
+                .SendToCustomerAsync(
+
+                    delivery.customer_transaction.customer_id,
+
+                    "Order Delivered",
+
+                    $"Your order {delivery.customer_transaction.transaction_code} has been successfully delivered. " +
+                    $"Thank you for shopping with us! We kindly ask you to check your items and ensure everything is complete and in good condition. " +
+                    $"If you have any concerns, our customer support team is here to help.",
+
+                    "CUSTOMER_TRANSACTION",
+
+                    delivery.customer_transaction.id,
+
+                    "CUSTOMER_TRANSACTION"
+                );
+
             return Ok(new
             {
                 message = "Delivery completed and payment collected."
@@ -782,6 +852,22 @@ public class DeliveryApiController : ControllerBase
 
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
+
+            await _notificationService
+                    .SendToCustomerAsync(
+
+                        delivery.customer_transaction.customer_id,
+
+                        "Delivery Attempt Unsuccessful",
+
+                        $"We were unable to complete the delivery of your order {delivery.customer_transaction.transaction_code}. Please contact our customer support team to arrange a new delivery schedule or discuss available options.",
+
+                        "CUSTOMER_TRANSACTION",
+
+                        delivery.customer_transaction.id,
+
+                        "CUSTOMER_TRANSACTION"
+                    );
 
             return Ok(new
             {

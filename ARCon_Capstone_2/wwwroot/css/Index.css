@@ -1669,57 +1669,48 @@ cart-btn:hover .cart-btn i {
 }
 
 
-@media (max-width: 768px) {
-
-    .services {
-        padding: 30px 5%;
-    }
+/* SERVICES MOBILE FIX */
+@media (max-width:768px) {
 
     .services-hero {
+        display: flex;
         flex-direction: column;
-        text-align: center;
+        height: auto; /* REMOVE fixed height */
+        min-height: unset;
         padding: 24px 18px;
-        gap: 22px;
-        border-radius: 20px;
-        margin-bottom: 40px;
-        height: 500px
+        gap: 16px;
+        align-items: center;
+        justify-content: flex-start;
     }
 
     .services-hero-content {
         width: 100%;
-        max-width: 100%;
+        flex: none; /* prevent stretching */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
     }
 
-        .services-hero-content h1 {
-            font-size: 2rem;
-            line-height: 1.25;
-            margin-bottom: 12px;
-        }
-
         .services-hero-content p {
-            font-size: 0.95rem;
-            line-height: 1.7;
+            margin-bottom: 0;
         }
 
     .services-hero-image {
         width: 100%;
-        position: relative;
-        top: 180px;
-        right: 309px;
+        position: static; /* remove top/right */
+        top: auto;
+        right: auto;
+        margin-top: 0;
     }
 
     .hero-image-placeholder {
         width: 100%;
-        max-width: 100%;
         height: 240px;
-        border-radius: 18px;
+        margin: 0;
     }
-
-        .hero-image-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
 }
 
 /* FAQ Section for Homepage */
@@ -2185,5 +2176,571 @@ cart-btn:hover .cart-btn i {
 
     .contact-banner-container {
         gap: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .contact-banner {
+        padding: 30px 6%;
+    }
+
+    .contact-banner-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* FIX: 2 columns */
+        gap: 24px;
+        text-align: left;
+    }
+
+    /* Left section takes full width */
+    .banner-left {
+        grid-column: 1 / -1; /* full width on top */
+        text-align: center;
+    }
+
+        .banner-left h2 {
+            font-size: 22px;
+        }
+
+        .banner-left p {
+            font-size: 14px;
+            margin: 0 auto 16px;
+        }
+
+    .image-and-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .banner-image {
+        max-width: 200px;
+        margin: 0 auto 12px;
+    }
+
+    .banner-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .banner-buttons a {
+            min-width: 130px;
+            padding: 10px 16px;
+            font-size: 13px;
+        }
+
+    /* Middle columns side by side */
+    .banner-middle {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .banner-column h3,
+    .banner-right h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .banner-column a {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    /* Right section */
+    .banner-right {
+        padding-left: 0;
+    }
+
+    .social-icons {
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+        .social-icons a {
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+        }
+
+    .contact-details p {
+        font-size: 13px;
+        gap: 8px;
+        justify-content: flex-start;
+    }
+
+    .contact-btn {
+        width: 100%;
+        text-align: center;
+        padding: 11px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-banner-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .banner-left {
+        grid-column: 1 / -1;
+    }
+
+    .contact-details p {
+        font-size: 12px;
+        word-break: break-word;
+    }
+}
+/*notifcation modal (Shop)*/
+
+/* =====================================
+   NOTIFICATION MODAL
+===================================== */
+
+.notification-modal {
+    max-width: 750px;
+}
+
+.notification-content {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,.15);
+}
+
+.notification-header {
+    background: #fff;
+    border-bottom: 1px solid #ececec;
+    padding: 1rem 1.25rem;
+}
+
+    .notification-header h5 {
+        font-weight: 700;
+    }
+
+
+
+/* =====================================
+   BODY
+===================================== */
+
+#notificationContainer {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+
+
+/* =====================================
+   NOTIFICATION ITEM
+===================================== */
+
+.notification-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f2f2f2;
+    transition: background .2s ease;
+}
+
+    .notification-item:hover {
+        background: #f8f9fa;
+        cursor: pointer;
+    }
+
+    .notification-item.unread {
+        background: #eef6ff;
+    }
+
+.notification-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0d6efd;
+    color: white;
+    flex-shrink: 0;
+}
+
+.notification-details {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.notification-message {
+    color: #6c757d;
+    font-size: .9rem;
+}
+
+.notification-time {
+    font-size: .75rem;
+    color: #adb5bd;
+    margin-top: 6px;
+}
+
+
+
+/* =====================================
+   EMPTY STATE
+===================================== */
+
+.notification-empty {
+    padding: 80px 20px;
+    text-align: center;
+    color: #adb5bd;
+}
+
+    .notification-empty i {
+        font-size: 3rem;
+        display: block;
+        margin-bottom: 12px;
+    }
+
+
+/*My Profile Modal*/
+
+/* =====================================
+   AIRCONI PROFILE MODAL
+===================================== */
+
+.airconi-profile-modal {
+    max-width: 1400px;
+}
+
+.airconi-profile-content {
+    border: none;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .12);
+}
+
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.airconi-profile-header {
+    background: linear-gradient( 135deg, #0d6efd, #0a58ca );
+    color: white;
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+}
+
+    .airconi-profile-header h4 {
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .airconi-profile-header small {
+        color: rgba(255,255,255,.85);
+        font-size: .9rem;
+    }
+
+
+
+/* =====================================
+   BODY
+===================================== */
+
+.airconi-profile-body {
+    background: #f5f7fb;
+    padding: 1.5rem;
+}
+
+
+
+/* =====================================
+   LAYOUT
+===================================== */
+
+.profile-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+.profile-left-column,
+.profile-right-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 992px) {
+    .profile-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+/* =====================================
+   CARDS
+===================================== */
+
+.profile-section-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #e9edf5;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,.04);
+    transition: all .2s ease;
+}
+
+    .profile-section-card:hover {
+        box-shadow: 0 10px 25px rgba(0,0,0,.06);
+    }
+
+
+
+/* =====================================
+   SECTION HEADER
+===================================== */
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid #edf1f7;
+}
+
+    .section-header h5 {
+        margin: 0;
+        font-weight: 700;
+        color: #212529;
+    }
+
+
+
+/* =====================================
+   GRID
+===================================== */
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(240px, 1fr) );
+    gap: 1rem;
+}
+
+
+
+    /* =====================================
+   LABELS
+===================================== */
+
+    .profile-grid label {
+        display: block;
+        margin-bottom: .4rem;
+        font-size: .85rem;
+        font-weight: 600;
+        color: #6c757d;
+    }
+
+
+
+    /* =====================================
+   INPUTS
+===================================== */
+
+    .profile-grid .form-control {
+        min-height: 48px;
+        border-radius: 12px;
+        border: 1px solid #dbe2ea;
+        transition: all .2s ease;
+    }
+
+        .profile-grid .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+        }
+
+        .profile-grid .form-control[readonly] {
+            background: #f8f9fb;
+            color: #495057;
+        }
+
+
+
+/* =====================================
+   PASSWORD
+===================================== */
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0;
+}
+
+    .password-toggle:hover {
+        color: #0d6efd;
+    }
+
+
+
+/* =====================================
+   ADDRESS CONTAINER
+===================================== */
+
+#addressContainer {
+    max-height: 650px;
+    overflow-y: auto;
+    padding-right: .5rem;
+}
+
+
+
+    /* =====================================
+   SCROLLBAR
+===================================== */
+
+    #addressContainer::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #addressContainer::-webkit-scrollbar-track {
+        background: #f1f3f5;
+        border-radius: 20px;
+    }
+
+    #addressContainer::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 20px;
+    }
+
+        #addressContainer::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+#saveProfileBtn,
+#changePasswordBtn,
+#addAddressBtn {
+    border-radius: 10px;
+    padding: .6rem 1.2rem;
+    font-weight: 600;
+}
+
+
+
+/* =====================================
+   ACCOUNT INFO CARD
+===================================== */
+
+.profile-right-column
+.profile-section-card:last-child {
+    margin-bottom: 0;
+}
+
+
+
+/* =====================================
+   MODAL ANIMATION
+===================================== */
+
+.airconi-profile-content {
+    animation: profileFadeIn .25s ease;
+}
+
+@keyframes profileFadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/*.chat-sidebar {
+    position: fixed;
+    right: -400px;
+    transition: 0.3s;
+}
+
+    .chat-sidebar.open {
+        right: 0;
+    }*/
+
+/* ==========================
+   SERVICE 2x2 MOBILE FIX
+========================== */
+@media (max-width:768px) {
+
+    .service-grid-2col {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 12px;
+        width: 100%;
+    }
+
+    .service-col {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .service-card-horizontal {
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+        min-height: 250px;
+        padding: 18px;
+        gap: 12px;
+    }
+
+    .card-icon-small {
+        width: 72px;
+        height: 72px;
+        margin: auto;
+    }
+
+        .card-icon-small img {
+            width: 50px;
+            height: 50px;
+        }
+
+    .card-content h3 {
+        font-size: 16px;
+    }
+
+    .card-content p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .card-link {
+        font-size: 13px;
     }
 }

@@ -225,16 +225,22 @@
                             This outlines the service transaction process as agreed upon by the customer and Airconi.
                         </h6>
 
+                        <div class="bg-light border rounded px-3 py-2 mb-3">
+                            <small class="text-danger fw-semibold">
+                                (*) Fields marked with an asterisk (*) are required.
+                            </small>
+                        </div>
+
                         <!-- 🔸 TECHNICIAN + DIFFICULTY -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">No. of Technicians</label>
+                                <label class="form-label">* No. of Technicians</label>
                                 <input type="number" id="procTechnicians" class="form-control" min="1" step="1" required>
                                 <div class="invalid-feedback">Enter a valid whole number (at least 1).</div>
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Difficulty Rate (1.0 - 5.0)</label>
+                                <label class="form-label">* Difficulty Rate (1.0 - 5.0)</label>
                                 <input type="number" id="procDifficulty" class="form-control"
                                        min="1" max="5" step="0.1">
                             </div>
@@ -247,7 +253,7 @@
                         </h6>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Scheduled Date</label>
+                                <label class="form-label">* Scheduled Date</label>
                                 <input type="date" id="procDate" class="form-control" required>
                                 <div class="invalid-feedback">
                                     Please select a valid date (must not be in the past).
@@ -255,7 +261,7 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Scheduled Time</label>
+                                <label class="form-label">* Scheduled Time</label>
                                 <input type="time" id="procTime" class="form-control" required>
                                 <div class="invalid-feedback">
                                     Please select a valid time.
@@ -267,20 +273,20 @@
                         <div class="mb-2 fw-semibold text-muted">Estimated Completion</div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Completion Date</label>
+                                <label class="form-label">* Completion Date</label>
                                 <input type="date" id="procEstDate" class="form-control">
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Completion Time</label>
+                                <label class="form-label">* Completion Time</label>
                                 <input type="time" id="procEstTime" class="form-control">
                             </div>
                         </div>
 
                         <!-- 🔸 COST -->
                         <div class="mb-3">
-                            <label class="form-label">Reservice Fee</label>
-                            <<input type="number" id="procFee" class="form-control" min="0" step="0.01" required>
+                            <label class="form-label">* Reservice Fee (Fee is required and must be 0 or higher)</label>
+                            <input type="number" id="procFee" class="form-control" min="0" step="0.01" required>
                             <div class="invalid-feedback">
                                 Fee is required and must be 0 or higher.
                             </div>

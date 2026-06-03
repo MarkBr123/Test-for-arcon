@@ -301,19 +301,52 @@
             <!-- TOP NAVBAR -->
             <nav class="navbar top-navbar d-flex justify-content-end gap-3 px-3">
 
-                <!-- Notifications -->
-                <div class="dropdown">
-                    <button class="btn btn-light position-relative" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">3</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Orders</a></li>
-                        <li><a class="dropdown-item" href="#">Inventory</a></li>
-                        <li><a class="dropdown-item" href="#">Service Request</a></li>
-                        <li><a class="dropdown-item" href="#">Chats</a></li>
-                    </ul>
-                </div>
+                @* =====================================
+                       NOTIFICATIONS DROPDOWN
+                    =====================================
+
+                    <div class="dropdown">
+                        <button class="btn btn-light position-relative"
+                                data-bs-toggle="dropdown">
+
+                            <i class="bi bi-bell"></i>
+
+                            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                                3
+                            </span>
+
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Orders
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Inventory
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Service Request
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Chats
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    ===================================== *@
 
                 <!-- User -->
                 <div class="dropdown">

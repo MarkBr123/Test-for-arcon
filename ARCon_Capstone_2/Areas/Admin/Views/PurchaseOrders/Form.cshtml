@@ -33,6 +33,12 @@
         </small>
     </div>
 
+    <div class="bg-light border rounded px-3 py-2 mb-3">
+        <small class="text-danger fw-semibold">
+            (*) Fields marked with an asterisk (*) are required.
+        </small>
+    </div>
+
     <!-- PURCHASE ORDER DETAILS -->
     <div class="card mb-3">
         <div class="card-header fw-semibold">
@@ -42,14 +48,14 @@
         <div class="card-body row g-3">
 
             <div class="col-md-4">
-                <label class="form-label">Supplier</label>
+                <label class="form-label">* Supplier</label>
                 <select id="supplierSelect" class="form-select">
                     <option value="">Select supplier</option>
                 </select>
             </div>
 
             <div class="col-md-4">
-                <label class="form-label">Payment Type</label>
+                <label class="form-label">* Payment Type</label>
                 <select id="paymentType" class="form-select">
                     <option value="">Select payment type</option>
                     <option value="CASH">Cash</option>
@@ -59,21 +65,21 @@
             </div>
 
             <div class="col-md-4">
-                <label class="form-label">Deliver to Branch</label>
+                <label class="form-label">* Deliver to Branch</label>
                 <select id="branchSelect" class="form-select">
                     <option value="">Select branch</option>
                 </select>
             </div>
 
             <div class="col-md-4">
-                <label class="form-label">Expected Delivery</label>
+                <label class="form-label">* Expected Delivery</label>
                 <input type="date"
                        id="expectedDelivery"
                        class="form-control">
             </div>
 
             <div class="col-md-4">
-                <label class="form-label">Freight Cost</label>
+                <label class="form-label">* Freight Cost</label>
                 <input type="number"
                        id="freightCost"
                        class="form-control"
@@ -95,7 +101,7 @@
     <!-- PURCHASE ORDER ARTICLES -->
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <span class="fw-semibold">Purchase Order Articles</span>
+            <span class="fw-semibold">* Purchase Order Articles (Required one or more SKUs)</span>
 
             <button type="button"
                     id="addPoArticleBtn"

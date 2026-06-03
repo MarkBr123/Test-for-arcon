@@ -24,11 +24,15 @@ public class Shop_CheckoutApiController: ControllerBase
     public readonly ARCon_Capstone_2_DbContext _context;
     private readonly IConfiguration _configuration;
     private readonly PayMongoService _payMongoService;
-    public Shop_CheckoutApiController(ARCon_Capstone_2_DbContext context, IConfiguration configuration, PayMongoService payMongoService )
+    private readonly INotificationService _notificationService;
+
+
+    public Shop_CheckoutApiController(ARCon_Capstone_2_DbContext context, IConfiguration configuration, PayMongoService payMongoService, INotificationService notificationService)
     {
         _context = context;
         _configuration = configuration;
         _payMongoService = payMongoService;
+        _notificationService = notificationService;
     }
 
 
@@ -652,6 +656,7 @@ public class Shop_CheckoutApiController: ControllerBase
 
             await dbTransaction.CommitAsync();
 
+
             return Ok(new
             {
                 success = true,
@@ -714,277 +719,6 @@ public class Shop_CheckoutApiController: ControllerBase
             }
         });
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /////This post sends request to lalamove API (/v3/QUOTATION), RequestBody is made from Lalamove_template table: JSON (NOT WORKING: Market Error)
-    /*
-    [HttpPost("get-shipping-quote")]
-    public async Task<IActionResult> GetShippingQuote()
-    {
-        try
-        {
-            var config = _configuration.GetSection("Lalamove");
-            var baseUrl = config["BaseUrl"];
-            var apiKey = config["ApiKey"];
-            var secret = config["Secret"];
-
-            // 🔥 1️⃣ Milliseconds timestamp (must match Postman)
-            var timestamp = DateTimeOffset.UtcNow
-                .ToUnixTimeMilliseconds()
-                .ToString();
-
-            // 🔥 2️⃣ Load JSON template from DB (TEXT column)
-            var jsonBody = await _context.lalamove_templates
-                .Where(t => t.template_name == "SEDAN_TEMPLATE")
-                .Select(t => t.request_body)
-                .FirstOrDefaultAsync();
-
-            if (string.IsNullOrEmpty(jsonBody))
-                return BadRequest("Template not found.");
-
-            // 🔥 OPTIONAL: Replace dynamic placeholders if needed
-            // jsonBody = jsonBody.Replace("{{pickup_lat}}", branchLat);
-
-            // 🔥 3️⃣ Build raw signature EXACTLY like Postman
-            var rawSignature =
-                timestamp + "\r\n" +
-                "POST" + "\r\n" +
-                "/v3/quotations" + "\r\n" +
-                "\r\n" +              // 🔥 IMPORTANT: blank line
-                jsonBody;
-
-            using var hmac = new HMACSHA256(
-                Encoding.UTF8.GetBytes(secret)
-            );
-
-            var hash = hmac.ComputeHash(
-                Encoding.UTF8.GetBytes(rawSignature)
-            );
-
-            var signature = BitConverter
-                .ToString(hash)
-                .Replace("-", "")
-                .ToLower();
-
-            // 🔥 4️⃣ Create HTTP request
-            using var client = new HttpClient();
-
-            var request = new HttpRequestMessage(
-                HttpMethod.Post,
-                baseUrl + "/v3/quotations"
-            );
-
-            request.Headers.TryAddWithoutValidation(
-                "Authorization",
-                $"hmac {apiKey}:{timestamp}:{signature}"
-            );
-
-            request.Headers.TryAddWithoutValidation(
-                "X-LLM-Market",
-                "PH"
-            );
-
-            request.Headers.TryAddWithoutValidation(
-                "X-LLM-Timestamp",
-                timestamp
-            );
-
-            request.Content = new StringContent(
-                jsonBody,
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            // 🔥 DEBUG
-            System.Diagnostics.Debug.WriteLine("RAW SIGNATURE:");
-            System.Diagnostics.Debug.WriteLine(rawSignature);
-
-            System.IO.File.WriteAllText("csharp_signature.txt", rawSignature);
-            System.IO.File.WriteAllText("csharp_body.txt", jsonBody);
-
-            var response = await client.SendAsync(request);
-            var responseBody = await response.Content.ReadAsStringAsync();
-
-            return StatusCode((int)response.StatusCode, responseBody);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-
-    }
-    */
-
-
-
-
-
-    /// <summary>
-    /// This post sends request to lalamove API (/v3/QUOTATION), RequestBody is made from classes (NOT WORKING: Market Error)
-    /// </summary>
-  /*
-    [HttpPost("get-shipping-quote")]
-    public async Task<IActionResult> GetShippingQuote()
-    {
-        try
-        {
-            var config = _configuration.GetSection("Lalamove");
-            var baseUrl = config["BaseUrl"];
-            var apiKey = "pk_test_80b592e9af7489f22029ea591d89e1a1";
-            var secret = "sk_test_9eFa1lpcb6gNw28lcUv2yz7/c5+PtQcx0NHUgCflbCoFiG9OAtaBloEB2MGlM/bd";
-
-            var timestamp = DateTimeOffset.UtcNow
-                .ToUnixTimeMilliseconds()
-                .ToString();
-
-            // ✅ Build strongly ordered object
-            var requestObj = new LalamoveRequest
-            {
-                data = new LalamoveData
-                {
-                    serviceType = "SEDAN",
-                    specialRequests = new[] { "PURCHASE_SERVICE_1" },
-                    language = "en_PH",
-                    stops = new[]
-                    {
-                    new Stop
-                    {
-                        coordinates = new Coordinates
-                        {
-                            lat = "14.707697",
-                            lng = "121.069319"
-                        },
-                        address = "Innocentre, 72 Tat Chee Ave, Kowloon Tong"
-                    },
-                    new Stop
-                    {
-                        coordinates = new Coordinates
-                        {
-                            lat = "14.763525",
-                            lng = "120.946117"
-                        },
-                        address = "Canton Rd, Tsim Sha Tsui"
-                    }
-                },
-                    isRouteOptimized = false,
-                    item = new Item
-                    {
-                        quantity = "12",
-                        weight = "30Kg",
-                        categories = new[] { "APPLIANCES" },
-                        handlingInstructions = new[] { "KEEP_UPRIGHT" }
-                    }
-                }
-            };
-
-
-            var jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = null,
-                WriteIndented = false
-            };
-
-            var jsonBody = JsonSerializer.Serialize(requestObj, jsonOptions);
-
-            // ✅ Correct signature format (NO PH HERE)
-            var rawSignature =
-                timestamp + "\r\n" +
-                "POST" + "\r\n" +
-                "/v3/quotations" + "\r\n" +
-                "\r\n" +                 // IMPORTANT BLANK LINE
-                jsonBody;
-
-            using var hmac = new HMACSHA256(
-                Encoding.UTF8.GetBytes(secret)
-            );
-
-            var hash = hmac.ComputeHash(
-                Encoding.UTF8.GetBytes(rawSignature)
-            );
-
-            var signature = BitConverter
-                .ToString(hash)
-                .Replace("-", "")
-                .ToLower();
-            var handler = new HttpClientHandler();
-
-            handler.AutomaticDecompression =
-                System.Net.DecompressionMethods.GZip |
-                System.Net.DecompressionMethods.Deflate;
-
-            using var client = new HttpClient(handler);
-
-            // Disable distributed tracing for this request
-            System.Diagnostics.Activity.Current = null;
-
-            var request = new HttpRequestMessage(
-                HttpMethod.Post,
-                baseUrl + "/v3/quotations"
-            );
-
-            request.Headers.Add("Authorization",
-                $"hmac {apiKey}:{timestamp}:{signature}");
-
-            request.Headers.Add("X-LLM-Market", "PH");
-            request.Headers.Add("X-LLM-Timestamp", timestamp);
-
-            request.Content = new StringContent(
-                jsonBody,
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await client.SendAsync(request);
-            var responseBody = await response.Content.ReadAsStringAsync();
-            // DEBUG
-            System.Diagnostics.Debug.WriteLine("RAW SIGNATURE:");
-            System.Diagnostics.Debug.WriteLine(rawSignature);
-            System.Diagnostics.Debug.WriteLine("FULL URL: " + request.RequestUri.ToString());
-            System.Diagnostics.Debug.WriteLine("ABSOLUTE PATH: " + request.RequestUri.AbsolutePath);
-
-
-            foreach (var header in request.Headers)
-            {
-                System.Diagnostics.Debug.WriteLine(header.Key + ": " + string.Join(",", header.Value));
-            }
-
-            foreach (var header in request.Content.Headers)
-            {
-                System.Diagnostics.Debug.WriteLine("CONTENT " + header.Key + ": " + string.Join(",", header.Value));
-            }
-
-            return StatusCode((int)response.StatusCode, responseBody);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
-  */
-
-
-
-
 
 
 
