@@ -102,13 +102,6 @@ public class AdminUsersApiController : ControllerBase
             });
         }
         await _context.SaveChangesAsync();
-
-        // TEMPORARY: email later
-        //await _emailService.SendAsync(
-        //    user.email_address,
-        //    "Your Account Is Ready",
-        //    $"Username: {user.user_name}\nPassword: {tempPassword}"
-        //);
         return Ok();
     }
 
