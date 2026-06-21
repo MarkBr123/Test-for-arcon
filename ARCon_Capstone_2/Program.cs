@@ -22,7 +22,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddDbContext<ARCon_Capstone_2_DbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Host=dpg-d8dek799rddc739sb960-a.singapore-postgres.render.com;Port=5432;Database=arcon_db_tqoz;Username=arcon_db_tqoz_user;Password=CADKjSLwzgJUi003pO4U3yGLOiDls7wv;SSL Mode=Require;Trust Server Certificate=true"
+        ?? "Host=dpg-d8dek799rddc739sb960-a.singapore-postgres.render.com;Port=5432;Database=arcon_db_tqoz;Username=arcon_db_tqoz_user;Password=LKASXX12Ui003pO4U3yGLOiDls7wv;SSL Mode=Require;Trust Server Certificate=true"
     )
 );
 
